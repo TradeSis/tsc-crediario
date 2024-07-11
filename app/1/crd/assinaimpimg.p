@@ -118,7 +118,13 @@ assign vret-CET =      trim(string(round(decimal(contrato.cet),2),">,>>9.99")).
 assign vret-CETAnual = trim(string(round(decimal(vret-CETAnual),2),">,>>9.99")).
 assign vret-taxa     = trim(string(round(decimal(contrato.txjuro),2),">,>>9.99")).
 assign vret-valoriof   = trim(string(round(decimal(contrato.vliof),2),">>,>>9.99")).
-assign vret-valorfinanciado   = trim(string(round(decimal(contrato.vlf_principal + contrato.vliof + contrato.vlseguro),2),">>>,>>9.99")).
+if contrato.modcod = "CRE"
+then do :
+    assign vret-valorfinanciado   = trim(string(round(decimal(contrato.vlf_principal + contrato.vliof),2),">>>,>>9.99")).
+end.    
+else do:
+    assign vret-valorfinanciado   = trim(string(round(decimal(contrato.vlf_principal + contrato.vliof + contrato.vlseguro),2),">>>,>>9.99")).
+end.
 
 
 varquivo = vdir + string(contrato.contnum) .
