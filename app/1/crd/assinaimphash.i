@@ -70,11 +70,14 @@ put unformatted "DT Financ: " string(contrato.dtinicial,"99/99/99") skip
     "         Valor IOF: " + string(dec(vret-ValorIOF),">>>>>>>9.99")
                                   + " " + 
       string((dec(vret-ValorIOF) / dec(vret-ValorFinanciado)) * 100,">>9.99%")
-                                format "x(40)" skip
-    "   Outras Despesas: " + string(contrato.vlseguro,">>>>>>>9.99")   + " " +
-       string((contrato.vlseguro / dec(vret-ValorFinanciado)) * 100,">>9.99%")  
-                                    format "x(40)"  skip
-    
+                                format "x(40)" skip.
+if contrato.modcod <> "CRE"
+then 
+  put unformatted                                
+    "   Outras Despesas: " + string((contrato.vlseguro + contrato.vltaxa),">>>>>>>9.99")   + " " +
+       string(((contrato.vlseguro + contrato.vltaxa) / dec(vret-ValorFinanciado)) * 100,">>9.99%")  
+                                    format "x(40)"  skip.
+put unformatted    
     "    Valor da Venda: " + string(vvenda,">>>>>>>9.99")  + " " +
        string((vvenda / dec(vret-ValorFinanciado)) * 100,">>9.99%")  
                                     format "x(40)"  skip
