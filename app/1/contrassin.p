@@ -81,6 +81,41 @@ end.
 
 hsaida  = TEMP-TABLE ttcontrassin:handle.
 
-
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
-put unformatted string(vlcSaida).
+
+/* export LONG VAR*/
+DEF VAR vMEMPTR AS MEMPTR  NO-UNDO.
+DEF VAR vloop   AS INT     NO-UNDO.
+if length(vlcsaida) > 30000
+then do:
+    COPY-LOB FROM vlcsaida TO vMEMPTR.
+    DO vLOOP = 1 TO LENGTH(vlcsaida): 
+        put unformatted GET-STRING(vMEMPTR, vLOOP, 1). 
+    END.
+end.
+else do:
+    put unformatted string(vlcSaida).
+end.    
+/**
+if opsys = "UNIX"
+then do:
+    def var varquivo as char.
+    def var ppid as char.
+    INPUT THROUGH "echo $PPID".
+    DO ON ENDKEY UNDO, LEAVE:
+    IMPORT unformatted ppid.
+    END.
+    INPUT CLOSE.
+    
+    varquivo  = "/ws/works/contrassin" + string(today,"999999") + replace(string(time,"HH:MM:SS"),":","") + trim(ppid) + ".json".
+              
+    lokJson = hsaida:WRITE-JSON("FILE", varquivo, TRUE).
+              
+    os-command value("cat " + varquivo).
+    os-command value("rm -f " + varquivo)
+end.
+else do:
+    lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE). 
+    put unformatted string(vlcSaida).
+end.
+**/

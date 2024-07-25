@@ -21,7 +21,7 @@ $produtos = $contrato["produtos"];
 $assinatura = buscaAssinatura($numeroContrato);
 
 if (URL !== "localhost") {
-    $barramento = chamaAPI( "172.19.130.11:5555",
+    $barramento = chamaAPI( IPBARRAMENTO,
                     "/gateway/lebes-repo-img-biometria/1.0/registration-face/".
                             $assinatura["etbcod"]."/".
                             $assinatura["dtinclu"]."/".
@@ -78,7 +78,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                 <div id="ts-tabs">
                     <div class="tab whiteborder" id="tab-nfe">Dados Contrato</div>
                     <div class="tab" id="tab-parcela">Parcelas</div>
-                <!--  *****Produtos comentados até possuir dados reais
+                <!--  *****Produtos comentados atï¿½ possuir dados reais
                     <div class="tab" id="tab-produ">Produtos</div> -->
                     <div class="tab" id="tab-assinatura">Assinatura</div>
 
@@ -183,7 +183,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                         </div>
                     </div>
 
-                <!--  *****Produtos comentados até possuir dados reais
+                <!--  *****Produtos comentados atï¿½ possuir dados reais
                     <div class="tabContent">
                         <h5>Produtos</h5>
                         <div class="table table-responsive">
