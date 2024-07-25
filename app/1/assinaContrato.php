@@ -45,7 +45,7 @@ if (isset($jsonEntrada["dadosEntrada"][0]["numeroContrato"])) {
     fwrite($arquivo,$identificacao."-idBiometria->".$jsonAssinatura["idBiometria"]."\n");
     fwrite($arquivo,$identificacao."-cpf->".$jsonAssinatura["cpfCNPJ"]."\n");
     fwrite($arquivo,$identificacao."-HML->".$hml."\n");
-    $barramento = chamaAPI( "172.19.130.11:5555",
+    $barramento = chamaAPI( IPBARRAMENTO,
                 "/gateway/lebes-repo-img-biometria/1.0/registration-face/".
                         $jsonAssinatura["etbcod"]."/".
                         $jsonAssinatura["dtinclu"]."/".
