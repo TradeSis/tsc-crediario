@@ -33,6 +33,14 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
+      case "termos":
+        include 'termos.php';
+      break;
+
+      case "mnemos":
+        include 'mnemos.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -44,6 +52,9 @@ if ($metodo=="GET"){
 
  if ($metodo=="PUT"){
     switch ($funcao) {
+      case "termos":
+        include 'termos_inserir.php';
+        break;
       
       default:
         $jsonSaida = json_decode(json_encode(
@@ -55,9 +66,22 @@ if ($metodo=="GET"){
   }
   
   if ($metodo=="POST"){
+    if ($funcao == "termos" && $parametro == "efetivar") {
+      $funcao = "termos/efetivar";
+      $parametro = null;
+    }
+
     switch ($funcao) {
       case "assinaContrato":
         include 'assinaContrato.php';
+        break;
+    
+      case "termos":
+        include 'termos_alterar.php';
+        break;
+
+      case "termos/efetivar":
+        include 'termos_efetivar.php';
         break;
     
       default:
