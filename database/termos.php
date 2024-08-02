@@ -76,6 +76,14 @@ if (isset($_GET['operacao'])) {
 		return $termos;
 
 	}
+    
+    if ($operacao == "buscaTermosJSON") {
+
+		$termos = chamaAPI(null, '/crediario/buscaTermos', $_POST["jsonEntrada"], 'POST');
+		echo json_encode($termos);
+		return $termos;
+
+	}
 
 	header('Location: ../clientes/termos.php');	
 	

@@ -48,7 +48,7 @@ then do:
 end.
 
 do on error undo:
-    find termos where termos.IDtermo = ttentrada.IDtermo exclusive no-error.
+    find termos where termos.IDtermo = ttentrada.IDtermo exclusive.
     copy-lob from termos.rascunho to termos.termo.
    
 end.

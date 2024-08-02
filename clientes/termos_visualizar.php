@@ -10,28 +10,8 @@ $mnemos = buscaMnemos();
 
 <head>
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
-    <style>
-        .custom-textarea {
-            font-family: 'Courier New', Courier, monospace !important;
-            font-size: 16px !important;
-            width: 58ch !important;
-            height: auto;
-            white-space: pre-wrap !important;
-            overflow-wrap: break-word !important;
-        }
-
-        .centered-textarea-container {
-            display: flex;
-            justify-content: center;
-            padding: 5px;
-        }
-
-        .scrollable-table-container {
-            max-height: 650px;
-            min-width: 45ch;
-            overflow-y: auto;
-        }
-    </style>
+    <link href="termos.css" rel="stylesheet" type="text/css">
+ 
 </head>
 
 <body class="ts-noScroll">
@@ -41,46 +21,51 @@ $mnemos = buscaMnemos();
             <div class="col-md-7">
                 <div class="container justify-content-center card">
                     <form class="mb-4" action="../database/termos.php?operacao=alterar" method="post">
-                        <div class="row mt-2">
-                            <div class="col-md-5">
-                                <label>ID</label>
-                                <input type="text" class="form-control" name="IDtermo"
-                                    value="<?php echo $termo['IDtermo'] ?>" readonly>
+                        <div class="row mt-3">
+                            <div class="col-md-5 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label class="mr-2">ID: </label>
+                                </div>
+                                <input type="text" class="form-control ts-input" name="IDtermo" value="<?php echo $termo['IDtermo'] ?>" readonly>
                             </div>
-                            <div class="col-md-5">
-                                <label>Nome</label>
-                                <input type="text" class="form-control" name="termoNome"
-                                    value="<?php echo $termo['termoNome'] ?>">
+                            <div class="col-md-5 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label class="mr-2">Nome: </label>
+                                </div>
+                                <input type="text" class="form-control ts-input" name="termoNome" value="<?php echo $termo['termoNome'] ?>">
                             </div>
-                            <div class="col-md-2">
-                                <label>Copias</label>
-                                <input type="text" class="form-control" name="termoCopias"
-                                    value="<?php echo $termo['termoCopias'] ?>">
+                            <div class="col-md-2 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label class="mr-2">Copias: </label>
+                                </div>
+                                <input type="text" class="form-control ts-input" name="termoCopias" value="<?php echo $termo['termoCopias'] ?>">
                             </div>
                         </div>
-                        <div class="mt-3" id="ts-tabs">
+                        <div class="mt-2" id="ts-tabs">
                             <div class="tab whiteborder" id="tab-termo">Termo</div>
                             <div class="tab" id="tab-rascunho">Rascunho</div>
 
                             <div class="line"></div>
 
                             <div class="tabContent">
+                                <div class="text-center mt-3">
+                                    <br>
+                                </div>
                                 <div class="centered-textarea-container">
-                                    <textarea class="custom-textarea" rows="20" cols="56" name="termo" readonly>
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="termo" readonly>
                                     <?php echo $termo['termo'] ?>
                                     </textarea>
                                 </div>
                             </div>
                             <div class="tabContent">
-                                <div class="centered-textarea-container">
-                                    <textarea class="custom-textarea" rows="20" cols="56" name="rascunho">
-                                    <?php echo $termo['rascunho'] ?>
-                                    </textarea>
-                                </div>
-
-                                <div class="text-end">
+                                <div class="text-center">
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#efetivarModal" class="btn btn-info">Efetivar</button>
                                     <button type="submit" class="btn btn-success"><i class="bi bi-sd-card-fill"></i>&#32;Salvar</button>
+                                </div>
+                                <div class="centered-textarea-container">
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="rascunho">
+                                    <?php echo $termo['rascunho'] ?>
+                                    </textarea>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +76,7 @@ $mnemos = buscaMnemos();
                 <div class="container justify-content-center">
                     <div class="container-fluid mb-2">
                         <div class="table mt-2 ts-tableFiltros text-center scrollable-table-container ts-noScroll">
-                            <table class="table table-hover table-sm align-middle">
+                            <table class="table table-striped table-hover table-sm align-middle">
                                 <thead class="ts-headertabelafixo">
                                     <tr>
                                         <th>Mnemo</th>

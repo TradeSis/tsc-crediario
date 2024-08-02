@@ -1,7 +1,8 @@
 
 /* helio 17022022 - 263458 - Revisão da regra de novações  */
 
-def input  parameter vlcentrada as longchar.
+def input param vlcentrada as longchar.
+def input param vtmp       as char.
 
 def var vlcsaida   as longchar.
 def var vsaida as char.
@@ -15,11 +16,14 @@ def var vvalorTotalSeguroPrestamistaEntrada as dec.
 def var vvalorParcelaSeguroPrestamista as dec.
 def var vvalorTotal as dec.
 def var vvalorAcrescimo as dec.
-def var vvalorEntrada as dec.   
+def var vdtPriVen as char.
+def var vdtUltVen as char.
+def var vvalorEntrada as dec. 
+
 
 def var pcobcod as int.
 
-{/admcom/progr/api/jsontermos.i NEW}
+{crediario/database/jsontermos.i NEW}
 
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY").
 
@@ -63,7 +67,23 @@ vdataTransacao        = date(vmes,vdia,vano).
 vdataTransacaoExtenso = string(vdia,"99") + " de " + vmesext[vmes] + " de " + string(vano).
 
 
-find first ttcliente no-error.
+find clien where clicod = int(ttpedidoCartaoLebes.codigoCliente) no-lock no-error. /* helio-gabriel busca clien */
+
+vdtPriVen = ?.
+vdtUltVen = ?.
+vvalorEntrada = ?.
+
+FIND FIRST ttparcelas NO-LOCK NO-ERROR. 
+IF avail ttparcelas THEN
+    vdtPriVen = ttparcelas.dataVencimento. /* helio-gabriel primeiro vencimento */
+
+FIND LAST ttparcelas NO-LOCK NO-ERROR.
+IF avail ttparcelas THEN
+    vdtUltVen = ttparcelas.dataVencimento. /* helio-gabriel ultimo vencimento */
+
+FOR EACH ttrecebimentos NO-LOCK:
+    vvalorEntrada = vvalorEntrada + DEC(ttrecebimentos.valorPago). /* helio-gabriel calculo valorentrada */
+END.
 
 
 find first ttcartaoLebes no-error.
@@ -71,13 +91,14 @@ if avail ttcartaoLebes
 then do:
   
     vvalorIOF = dec(ttCartaoLebes.valorIOF).   
-    vvalorEntrada = dec(ttCartaoLebes.valorEntrada).
     vvalorAcrescimo = dec(ttCartaoLebes.valorAcrescimo).    
     vprincipal = vvalorTotal - vvalorAcrescimo.
     vprincipalPerc = vprincipal / (vvalorTotal) * 100.
     viofPerc = vvalorIOF / (vvalorTotal - vvalorEntrada) * 100.
 
-    vvalorSeguroPrestamista = dec(ttCartaoLebes.valorSeguroPrestamista).
+    find first ttseguroprestamista no-error.
+    if avail ttcartaoLebes
+    then vvalorSeguroPrestamista = dec(ttseguroprestamista.valorSeguroPrestamista).
     if vvalorSeguroPrestamista = ? then vvalorSeguroPrestamista = 0.
     
     for each ttparcelas no-lock break by int(ttparcelas.seqParcela).

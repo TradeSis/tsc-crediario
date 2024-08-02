@@ -76,6 +76,10 @@ if ($metodo=="GET"){
         include 'assinaContrato.php';
         break;
     
+      case "buscaTermos":
+        include 'buscaTermos.php';
+        break;
+
       case "termos":
         include 'termos_alterar.php';
         break;

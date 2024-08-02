@@ -52,7 +52,7 @@ then do:
 end.
 
 do on error undo:
-    find termos where termos.IDtermo = ttentrada.IDtermo exclusive no-error.
+    find termos where termos.IDtermo = ttentrada.IDtermo exclusive.
     termos.termoNome = ttentrada.termoNome. 
     termos.termoCopias = ttentrada.termoCopias. 
 

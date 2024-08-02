@@ -10,29 +10,7 @@ $termos = buscaTermos();
 <head>
 
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
-
-    <style>
-        .custom-textarea {
-            font-family: 'Courier New', Courier, monospace !important;
-            font-size: 16px !important;
-            width: 58ch !important;
-            height: auto;
-            white-space: pre-wrap !important;
-            overflow-wrap: break-word !important;
-        }
-
-        .centered-textarea-container {
-            display: flex;
-            justify-content: center;
-            padding: 5px;
-        }
-
-        .scrollable-table-container {
-            max-height: 600px;
-            min-width: 45ch;
-            overflow-y: auto;
-        }
-    </style>
+    <link href="termos.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -46,11 +24,16 @@ $termos = buscaTermos();
             <div class="col-md-10 card p-0">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-10 col-lg-10">
+                        <div class="col-5">
                             <h3>Termos</h3>
                         </div>
     
-                        <div class="col-2 col-lg-2">
+                        <div class="col-5">
+                            <div class="input-group">
+                                <a href="termos_testar.php" class="ms-4 btn btn-info" role="button">Testar</a>
+                            </div>
+                        </div>
+                        <div class="col-2">
                             <div class="input-group">
                                 <button type="button" class="ms-4 btn btn-success" data-bs-toggle="modal"
                                     data-bs-target="#inserirTermosModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
