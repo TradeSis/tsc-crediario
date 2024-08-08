@@ -6,10 +6,10 @@
 $LOG_CAMINHO = defineCaminhoLog();
 if (isset($LOG_CAMINHO)) {
   $LOG_NIVEL = defineNivelLog();
-  $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "buscaTermos";
+  $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "buscaRascunho";
   if (isset($LOG_NIVEL)) {
     if ($LOG_NIVEL >= 1) {
-      $arquivo = fopen(defineCaminhoLog() . "apilebes_buscaTermos" . date("dmY") . ".log", "a");
+      $arquivo = fopen(defineCaminhoLog() . "apilebes_buscaRascunho" . date("dmY") . ".log", "a");
     }
   }
 }
@@ -88,8 +88,8 @@ if (!isset($jsonEntrada["dadosEntrada"])) {
   // var_dump($jsonEntrada);
 }
 
-//fwrite($arquivo, $identificacao . "-FORMATADO->" . $conteudoEntrada . "\n");
-$retorno = $progr->executarprogress("crediario/app/1/buscatermos", $conteudoEntrada);
+fwrite($arquivo, $identificacao . "-FORMATADO->" . $conteudoEntrada . "\n");
+$retorno = $progr->executarprogress("crediario/app/1/buscarascunho", $conteudoEntrada);
 fwrite($arquivo, $identificacao . "-RETORNO->" . $retorno . "\n");
 $termos = json_decode($retorno, true);
 if (isset($termos["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro

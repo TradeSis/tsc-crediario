@@ -80,6 +80,10 @@ if ($metodo=="GET"){
         include 'buscaTermos.php';
         break;
 
+      case "buscaRascunho":
+        include 'buscaRascunho.php';
+        break;
+
       case "termos":
         include 'termos_alterar.php';
         break;

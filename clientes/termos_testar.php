@@ -52,7 +52,8 @@ include_once '../header.php';
 
                                 <div class="tabContent">
                                     <div class="text-center">
-                                        <button type="button" id="buscar" class="btn btn-warning">Buscar</button>
+                                        <button type="button" id="buscar" class="btn btn-success">Buscar Termo</button>
+                                        <button type="button" id="buscarRascunho" class="btn btn-warning">Buscar Rascunho</button>
                                     </div>
                                     <div class="centered-textarea-container">
                                         <textarea class="custom-textarea" rows="18" cols="56" name="json" id="json"></textarea>
@@ -86,18 +87,16 @@ include_once '../header.php';
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->
 
     <script>
-        $(document).on('click', '#buscar', function() {
-            var jsonEntrada = $('#json').val();
-            buscaTermoJSON(jsonEntrada);
-        });
+        var rascunho = false;
 
         $(document).on('change', '#codigoSelect', function() {
             var codigo = $(this).val();
-            var conteudo = $(this).find(':selected').data('conteudo');
+            var conteudo = atob($(this).find(':selected').data('conteudo'));
             updateRetorno(codigo, conteudo);
         });
 
-        function buscaTermoJSON(jsonEntrada) {
+        $(document).on('click', '#buscar', function() {
+            var jsonEntrada = $('#json').val();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -106,7 +105,6 @@ include_once '../header.php';
                     jsonEntrada: jsonEntrada
                 },
                 success: function(data) {
-                    console.log(data);
                     criaSelect(data);
                     
                     document.getElementById('tab-termo').removeAttribute('hidden');
@@ -115,16 +113,38 @@ include_once '../header.php';
                     showTabsContent(1); 
                 }
             });
-        }
+        });
+
+        $(document).on('click', '#buscarRascunho', function() {
+            rascunho = true;
+            var jsonEntrada = $('#json').val();
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '../database/termos.php?operacao=buscaRascunhoJSON',
+                data: {
+                    jsonEntrada: jsonEntrada
+                },
+                success: function(data) {
+                    criaSelect(data);
+                    
+                    document.getElementById('tab-termo').removeAttribute('hidden');
+                    document.getElementById('tab-retorno').removeAttribute('hidden');
+                    document.getElementById('codigoSelect').removeAttribute('hidden');
+                    showTabsContent(1); 
+                }
+            });
+        });
+
 
         function criaSelect(data) {
             var select = $('#codigoSelect');
             select.empty();
             data.forEach(function(item) {
                 select.append($('<option>', {
-                    value: item.codigo,
-                    text: item.codigo,
-                    'data-conteudo': item.conteudo
+                    value: item.tipo,
+                    text: item.tipo,
+                    'data-conteudo': atob(item.termoBase64)
                 }));
             });
             var option = select.find('option:first');
@@ -140,7 +160,11 @@ include_once '../header.php';
                     IDtermo: codigo
                 },
                 success: function(data) {
-                    $('#termo').val(data.termo);
+                    if (rascunho) {
+                        $('#termo').val(data.rascunho);
+                    } else {
+                        $('#termo').val(data.termo);
+                    }
                 }
             });
 
