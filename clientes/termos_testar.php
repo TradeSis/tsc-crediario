@@ -28,7 +28,7 @@ include_once '../header.php';
 
                         <div class="col-5">
                             <div class="input-group">
-                                <a href="termos.php" class="ms-4 btn btn-info" role="button">Termos</a>
+                                <a href="termos.php" class="ms-4 btn btn-info" role="button">Retornar</a>
                             </div>
                         </div>
                         <div class="col-2">
@@ -39,8 +39,13 @@ include_once '../header.php';
                     <div class="row justify-content-center mt-2">
                         <div class="container justify-content-center">
                             <div class="centered-textarea-container">
-                                <div class="col-4">
-                                    <select id="codigoSelect" class="form-select ts-input" hidden></select>
+                                <div class="row">
+                                    <div class="col mt-2">
+                                        <select id="codigoSelect" class="form-select ts-input" hidden></select>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" id="novoTeste" class="btn btn-success" hidden>Novo Teste</button>
+                                    </div>
                                 </div>
                             </div>
                             <div id="ts-tabs">
@@ -89,12 +94,6 @@ include_once '../header.php';
     <script>
         var rascunho = false;
 
-        $(document).on('change', '#codigoSelect', function() {
-            var codigo = $(this).val();
-            var conteudo = atob($(this).find(':selected').data('conteudo'));
-            updateRetorno(codigo, conteudo);
-        });
-
         $(document).on('click', '#buscar', function() {
             var jsonEntrada = $('#json').val();
             $.ajax({
@@ -110,6 +109,9 @@ include_once '../header.php';
                     document.getElementById('tab-termo').removeAttribute('hidden');
                     document.getElementById('tab-retorno').removeAttribute('hidden');
                     document.getElementById('codigoSelect').removeAttribute('hidden');
+                    document.getElementById('novoTeste').removeAttribute('hidden');
+                    document.getElementById('buscar').setAttribute('hidden', true);
+                    document.getElementById('buscarRascunho').setAttribute('hidden', true);
                     showTabsContent(1); 
                 }
             });
@@ -131,11 +133,30 @@ include_once '../header.php';
                     document.getElementById('tab-termo').removeAttribute('hidden');
                     document.getElementById('tab-retorno').removeAttribute('hidden');
                     document.getElementById('codigoSelect').removeAttribute('hidden');
+                    document.getElementById('novoTeste').removeAttribute('hidden');
+                    document.getElementById('buscar').setAttribute('hidden', true);
+                    document.getElementById('buscarRascunho').setAttribute('hidden', true);
                     showTabsContent(1); 
                 }
             });
         });
 
+        $(document).on('click', '#novoTeste', function() {
+            $('#json').val("");
+            showTabsContent(0); 
+            document.getElementById('buscar').removeAttribute('hidden');
+            document.getElementById('buscarRascunho').removeAttribute('hidden');
+            document.getElementById('novoTeste').setAttribute('hidden', true);
+            document.getElementById('tab-termo').setAttribute('hidden', true);
+            document.getElementById('tab-retorno').setAttribute('hidden', true);
+            document.getElementById('codigoSelect').setAttribute('hidden', true);
+        });
+
+        $(document).on('change', '#codigoSelect', function() {
+            var codigo = $(this).val();
+            var conteudo = $(this).find(':selected').data('conteudo');
+            updateRetorno(codigo, conteudo);
+        });
 
         function criaSelect(data) {
             var select = $('#codigoSelect');
@@ -156,6 +177,9 @@ include_once '../header.php';
                 type: 'POST',
                 dataType: 'json',
                 url: '../database/termos.php?operacao=buscaTermos',
+                beforeSend: function() {
+                    $("#termo").val("Carregando termo...");
+                },
                 data: {
                     IDtermo: codigo
                 },
