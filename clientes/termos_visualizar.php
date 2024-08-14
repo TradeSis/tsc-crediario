@@ -44,6 +44,9 @@ $mnemos = buscaMnemos();
                         <div class="mt-2" id="ts-tabs">
                             <div class="tab whiteborder" id="tab-termo">Termo</div>
                             <div class="tab" id="tab-rascunho">Rascunho</div>
+                            <div class="tab" id="tab-json">JSON</div>
+                            <div class="tab" id="tab-termoJSON" hidden>Termo Preenchido</div>
+                            <div class="tab" id="tab-rascunhoJSON" hidden>Rascunho Preenchido</div>
 
                             <div class="line"></div>
 
@@ -66,6 +69,30 @@ $mnemos = buscaMnemos();
                                     <textarea class="custom-textarea" rows="18" cols="56" name="rascunho">
                                     <?php echo $termo['rascunho'] ?>
                                     </textarea>
+                                </div>
+                            </div>
+                            <div class="tabContent">
+                                <div class="text-center">
+                                    <button type="button" id="buscar" class="btn btn-success">Buscar Termo</button>
+                                </div>
+                                <div class="centered-textarea-container">
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="json" id="json"></textarea>
+                                </div>
+                            </div>
+                            <div class="tabContent">
+                                <div class="text-center mt-3">
+                                    <br>
+                                </div>
+                                <div class="centered-textarea-container">
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="termoJSON" id="termoJSON" readonly></textarea>
+                                </div>
+                            </div>
+                            <div class="tabContent">
+                                <div class="text-center mt-3">
+                                    <br>
+                                </div>
+                                <div class="centered-textarea-container">
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="rascunhoJSON" id="rascunhoJSON" readonly></textarea>
                                 </div>
                             </div>
                         </div>
@@ -136,6 +163,55 @@ $mnemos = buscaMnemos();
             this.value = normalizedValue.replace(/[^a-zA-Z0-9\s\-{}\[\].,:/|\\$_()%*]/g, '');
         });
 
+        $(document).on('click', '#buscar', function() {
+            var jsonEntrada = $('#json').val();
+            var termoID = '<?php echo $termo['IDtermo'] ?>';
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '../database/termos.php?operacao=buscaTermosJSON',
+                beforeSend: function() {
+                    $("#termoJSON").val("Carregando termo...");
+                },
+                data: {
+                    jsonEntrada: jsonEntrada
+                },
+                
+                success: function(data) {
+                    var termo = data.find(termo => termo.tipo === termoID);
+
+                    if (termo?.termoBase64) {
+                        $('#termoJSON').val(atob(termo.termoBase64));
+                    }
+                    
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '../database/termos.php?operacao=buscaRascunhoJSON',
+                beforeSend: function() {
+                    $("#rascunhoJSON").val("Carregando termo...");
+                },
+                data: {
+                    jsonEntrada: jsonEntrada
+                },
+                success: function(data) {
+                    var termo = data.find(termo => termo.tipo === termoID);
+
+                    if (termo?.termoBase64) {
+                        $('#rascunhoJSON').val(atob(termo.termoBase64));
+                    }
+    
+                }
+            });
+            
+            document.getElementById('tab-termoJSON').removeAttribute('hidden');
+            document.getElementById('tab-rascunhoJSON').removeAttribute('hidden');
+            showTabsContent(3);
+        });
+
         window.onload = function () {
             tabContent = document.getElementsByClassName('tabContent');
             tab = document.getElementsByClassName('tab');
@@ -146,10 +222,17 @@ $mnemos = buscaMnemos();
             if (id === 'termo') {
                 showTabsContent(0);
             }
-            if (id === 'app') {
+            if (id === 'rascunho') {
                 showTabsContent(1);
-            } else {
-                showTabsContent(0);
+            }
+            if (id === 'json') {
+                showTabsContent(2);
+            }
+            if (id === 'termoJSON') {
+                showTabsContent(3);
+            }
+            if (id === 'rascunhoJSON') {
+                showTabsContent(4);
             }
         }
 

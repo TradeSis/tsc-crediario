@@ -29,9 +29,6 @@ $termos = buscaTermos();
                         </div>
     
                         <div class="col-5">
-                            <div class="input-group">
-                                <a href="termos_testar.php" class="ms-4 btn btn-info" role="button">Testar</a>
-                            </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
