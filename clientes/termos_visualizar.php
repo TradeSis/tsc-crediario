@@ -163,7 +163,6 @@ $mnemos = buscaMnemos();
                     url: '../database/termos.php?operacao=alterar', 
                     data: $(this).serialize(),
                     success: function(response) {
-                        alert('Salvo!'); 
                         buscaTermos(); 
                         $("#rascunhoJSON").val("");
                     }
@@ -180,7 +179,6 @@ $mnemos = buscaMnemos();
                     },
                     success: function(response) {
                         $('#efetivarModal').modal('hide'); 
-                        alert('Efetivado com sucesso!'); 
                         buscaTermos(); 
                         $("#termoJSON").val("");
                     }

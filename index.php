@@ -81,6 +81,12 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
                         <?php }
                         if ($nivelMenu >= 2) { ?>
                             <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "boletagem") {echo " active ";} ?>" 
+                                href="?tab=boletagem" role="tab">Boletagem</a>
+                            </li>
+                        <?php }
+                        if ($nivelMenu >= 2) { ?>
+                            <li class="nav-item mr-1">
                                 <a class="nav-link <?php if ($tab == "termos") {echo " active ";} ?>" 
                                 href="?tab=termos" role="tab">Termos</a>
                             </li>
@@ -116,6 +122,9 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
                         <option value="<?php echo URLROOT ?>/crediario/?tab=inauguracao" 
                         <?php if ($getTab == "inauguracao") {echo " selected ";} ?>>Cadastro Cliente</option>
 
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=boletagem" 
+                        <?php if ($getTab == "boletagem") {echo " selected ";} ?>>Boletagem</option>
+
                         <option value="<?php echo URLROOT ?>/crediario/?tab=termos" 
                         <?php if ($getTab == "termos") {echo " selected ";} ?>>Termos</option>
 
@@ -150,6 +159,10 @@ $nivelMenu = $nivelMenuLogin['nivelMenu'];
 
             if ($tab == "inauguracao") {
                 $src = "clientes/cliente_cadastro.php";
+            }
+
+            if ($tab == "boletagem") {
+                $src = "boletagem/";
             }
 
             if ($tab == "termos") {
