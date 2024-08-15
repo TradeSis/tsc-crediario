@@ -20,7 +20,7 @@ $mnemos = buscaMnemos();
         <div class="row justify-content-center mt-2">
             <div class="col-md-7">
                 <div class="container justify-content-center card">
-                    <form class="mb-4" id="termoForm">
+                    <form id="termoForm">
                         <div class="row mt-3">
                             <div class="col-md-5 d-flex align-items-center">
                                 <div class="form-group">
@@ -40,8 +40,12 @@ $mnemos = buscaMnemos();
                                 </div>
                                 <input type="text" class="form-control ts-input" name="termoCopias" value="<?php echo $termo['termoCopias'] ?>">
                             </div>
+                            <div class="text-end mt-3">
+                                <button type="submit" class="btn btn-success"><i class="bi bi-sd-card-fill"></i>&#32;Salvar</button>
+                            </div>
                         </div>
-                        <div class="mt-2" id="ts-tabs">
+                    </form>
+                        <div id="ts-tabs">
                             <div class="tab whiteborder" id="tab-termo">Termo</div>
                             <div class="tab" id="tab-rascunho">Rascunho</div>
                             <div class="tab" id="tab-json">Teste</div>
@@ -55,13 +59,13 @@ $mnemos = buscaMnemos();
                                     <br>
                                 </div>
                                 <div class="centered-textarea-container">
-                                    <textarea class="custom-textarea" rows="18" cols="56" name="termo" id="termo" readonly></textarea>
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="termo" id="termo" style="background-color: lightgray;" readonly></textarea>
                                 </div>
                             </div>
                             <div class="tabContent">
                                 <div class="text-center">
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#efetivarModal" class="btn btn-info">Efetivar</button>
-                                    <button type="submit" class="btn btn-success"><i class="bi bi-sd-card-fill"></i>&#32;Salvar</button>
+                                    <button type="submit" class="btn btn-success" id="salvarRascunho"><i class="bi bi-sd-card-fill"></i>&#32;Salvar</button>
                                 </div>
                                 <div class="centered-textarea-container">
                                     <textarea class="custom-textarea" rows="18" cols="56" name="rascunho" id="rascunho"></textarea>
@@ -81,7 +85,7 @@ $mnemos = buscaMnemos();
                                     <button type="button" id="buscarTermo" class="btn btn-warning">Atualizar</button>
                                 </div>
                                 <div class="centered-textarea-container">
-                                    <textarea class="custom-textarea" rows="18" cols="56" name="termoJSON" id="termoJSON" readonly></textarea>
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="termoJSON" id="termoJSON" style="background-color: lightgray;" readonly></textarea>
                                 </div>
                             </div>
                             <div class="tabContent">
@@ -89,11 +93,10 @@ $mnemos = buscaMnemos();
                                     <button type="button" id="buscarRascunho" class="btn btn-warning">Atualizar</button>
                                 </div>
                                 <div class="centered-textarea-container">
-                                    <textarea class="custom-textarea" rows="18" cols="56" name="rascunhoJSON" id="rascunhoJSON" readonly></textarea>
+                                    <textarea class="custom-textarea" rows="18" cols="56" name="rascunhoJSON" id="rascunhoJSON" style="background-color: lightgray;" readonly></textarea>
                                 </div>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
             <div class="col-md-4">
@@ -163,6 +166,25 @@ $mnemos = buscaMnemos();
                     url: '../database/termos.php?operacao=alterar', 
                     data: $(this).serialize(),
                     success: function(response) {
+                        window.location.reload();
+                    }
+                });
+            });
+
+            $('#salvarRascunho').on('click', function(event) {
+                event.preventDefault(); 
+                var rascunho = $('#rascunho').val();
+                var termoID = $('input[name="IDtermo"]').val(); 
+
+                $.ajax({
+                    type: 'POST',
+                    url: '../database/termos.php?operacao=rascunho', 
+                    data: {
+                        IDtermo: termoID, 
+                        rascunho: rascunho, 
+                        acao: 'rascunho' 
+                    },
+                    success: function(response) {
                         buscaTermos(); 
                         $("#rascunhoJSON").val("");
                     }
@@ -173,9 +195,10 @@ $mnemos = buscaMnemos();
                 event.preventDefault(); 
                 $.ajax({
                     type: 'POST',
-                    url: '../database/termos.php?operacao=efetivar', 
+                    url: '../database/termos.php?operacao=rascunho', 
                     data: {
-                        IDtermo: termoID 
+                        IDtermo: termoID, 
+                        acao: 'efetivar' 
                     },
                     success: function(response) {
                         $('#efetivarModal').modal('hide'); 
@@ -199,7 +222,6 @@ $mnemos = buscaMnemos();
                     IDtermo: termoID 
                 },
                 success: function(data) {
-                    console.log(data);
                     $("#termo").val(data.termo); 
                     $("#rascunho").val(data.rascunho); 
                 }
@@ -234,6 +256,8 @@ $mnemos = buscaMnemos();
     
                         if (termo?.termoBase64) {
                             $('#termoJSON').val(atob(termo.termoBase64));
+                        } else {
+                            $("#termoJSON").val("ERRO: Termo Indisponível.");
                         }
                     } else {
                         $("#termoJSON").val("ERRO: JSON invalido.");
@@ -255,11 +279,14 @@ $mnemos = buscaMnemos();
                     jsonEntrada: jsonEntrada
                 },
                 success: function(data) {
+                    console.log(data);
                     if(data != null){
                         var termo = data.find(termo => termo.tipo === termoID);
     
                         if (termo?.termoBase64) {
                             $('#rascunhoJSON').val(atob(termo.termoBase64));
+                        } else {
+                            $("#rascunhoJSON").val("ERRO: Rascunho Indisponível.");
                         }
                     } else {
                         $("#rascunhoJSON").val("ERRO: JSON invalido.");

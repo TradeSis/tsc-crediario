@@ -47,23 +47,22 @@ if (isset($_GET['operacao'])) {
     $apiEntrada = array(
       'IDtermo' => $_POST['IDtermo'],
       'termoNome' => $_POST['termoNome'],
-      'termoCopias' => $_POST['termoCopias'],
-      'termo' => $_POST['termo'],
-      'rascunho' => $_POST['rascunho'] 
+      'termoCopias' => $_POST['termoCopias']
     );
   
 	
 		$termos = chamaAPI(null, '/crediario/termos', json_encode($apiEntrada), 'POST');
 
 	}
-	if ($operacao=="efetivar") {
+	if ($operacao=="rascunho") {
 
     $apiEntrada = array(
+      'acao' => $_POST['acao'],
+      'rascunho' => $_POST['rascunho'],
       'IDtermo' => $_POST['IDtermo']
     );
-  
 	
-		$termos = chamaAPI(null, '/crediario/termos/efetivar', json_encode($apiEntrada), 'POST');
+		$termos = chamaAPI(null, '/crediario/termos/rascunho', json_encode($apiEntrada), 'POST');
 
 
 	}

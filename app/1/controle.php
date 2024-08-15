@@ -66,8 +66,8 @@ if ($metodo=="GET"){
   }
   
   if ($metodo=="POST"){
-    if ($funcao == "termos" && $parametro == "efetivar") {
-      $funcao = "termos/efetivar";
+    if ($funcao == "termos" && $parametro == "rascunho") {
+      $funcao = "termos/rascunho";
       $parametro = null;
     }
 
@@ -88,8 +88,8 @@ if ($metodo=="GET"){
         include 'termos_alterar.php';
         break;
 
-      case "termos/efetivar":
-        include 'termos_efetivar.php';
+      case "termos/rascunho":
+        include 'termos_rascunho.php';
         break;
     
       default:

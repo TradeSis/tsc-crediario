@@ -6,7 +6,7 @@
 $LOG_CAMINHO = defineCaminhoLog();
 if (isset($LOG_CAMINHO)) {
     $LOG_NIVEL = defineNivelLog();
-    $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "ttermos_efetivar";
+    $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "ttermos_rascunho";
     if (isset($LOG_NIVEL)) {
         if ($LOG_NIVEL >= 1) {
             $arquivo = fopen(defineCaminhoLog() . "apilebes_ttermos" . date("dmY") . ".log", "a");
@@ -29,7 +29,7 @@ if (isset($jsonEntrada['IDtermo'])) {
 
         $progr = new chamaprogress();
 
-        $retorno = $progr->executarprogress("crediario/app/1/termos_efetivar",json_encode($jsonEntrada));
+        $retorno = $progr->executarprogress("crediario/app/1/termos_rascunho",json_encode($jsonEntrada));
         fwrite($arquivo,$identificacao."-RETORNO->".$retorno."\n");
         $conteudoSaida = json_decode($retorno,true);
         if (isset($conteudoSaida["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro

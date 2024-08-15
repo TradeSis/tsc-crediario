@@ -133,7 +133,13 @@ then do:
     end.
 
     find termos where termos.idtermo = "CARNE" no-lock.
-    COPY-LOB termos.rascunho TO textFile.
+    if termos.rascunho = ?
+    then do:
+        COPY-LOB from termos.termo to textFile.
+    end.
+    else do:
+        COPY-LOB from termos.rascunho to textFile.
+    end.
 
     do vcopias = 1 to termos.termoCopias:
         vid = vid + 1.
@@ -158,7 +164,14 @@ then do:
         find termos where termos.idtermo = "CONTRATO-DREBES" no-lock.
     end.
 
-    COPY-LOB termos.rascunho TO textFile.
+    if termos.rascunho = ?
+    then do:
+        COPY-LOB from termos.termo to textFile.
+    end.
+    else do:
+        COPY-LOB from termos.rascunho to textFile.
+    end.
+    
     do vcopias = 1 to termos.termoCopias:
 
         vid = vid + 1.
@@ -184,7 +197,13 @@ then do:
             find termos where termos.idtermo = "ADESAO-SEGURO-PRESTAMISTA-MOVEIS" no-lock.
         end.
 
-        COPY-LOB termos.rascunho TO textFile.
+        if termos.rascunho = ?
+        then do:
+            COPY-LOB from termos.termo to textFile.
+        end.
+        else do:
+            COPY-LOB from termos.rascunho to textFile.
+        end.
 
         do vcopias = 1 to termos.termoCopias:
             vid = vid + 1.

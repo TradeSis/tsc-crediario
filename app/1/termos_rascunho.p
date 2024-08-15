@@ -8,12 +8,15 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "termos"   /* JSON ENTRADA */
-    field IDtermo       like termos.IDtermo.
+    field IDtermo       like termos.IDtermo
+    FIELD rascunho      as CHAR
+    FIELD acao          as CHAR.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
     field descricaoStatus      as char.
 
+def var vtexto as longchar no-undo.
 
 hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
@@ -49,13 +52,22 @@ end.
 
 do on error undo:
     find termos where termos.IDtermo = ttentrada.IDtermo exclusive.
-    copy-lob from termos.rascunho to termos.termo.
+    
+    if ttentrada.acao = "efetivar"
+    then do:
+        copy-lob from termos.rascunho to termos.termo.
+    end.
+    if ttentrada.acao = "rascunho"
+    then do:
+        vtexto = ttentrada.rascunho.
+        copy-lob from vtexto to termos.rascunho.
+    end.
    
 end.
 
 create ttsaida.
 ttsaida.tstatus = 200.
-ttsaida.descricaoStatus = "termo efetivado com sucesso".
+ttsaida.descricaoStatus = "termo alterado com sucesso".
 
 hsaida  = temp-table ttsaida:handle.
 

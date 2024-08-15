@@ -10,8 +10,7 @@ def var hsaida   as handle.             /* HANDLE SAIDA */
 def temp-table ttentrada no-undo serialize-name "termos"   /* JSON ENTRADA */
     field IDtermo       like termos.IDtermo
     field termoNome     like termos.termoNome
-    field termoCopias   like termos.termoCopias
-    field rascunho      as char.
+    field termoCopias   like termos.termoCopias.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -55,9 +54,6 @@ do on error undo:
     find termos where termos.IDtermo = ttentrada.IDtermo exclusive.
     termos.termoNome = ttentrada.termoNome. 
     termos.termoCopias = ttentrada.termoCopias. 
-
-    vtexto = ttentrada.rascunho.
-    copy-lob from vtexto to termos.rascunho.
    
 end.
 
