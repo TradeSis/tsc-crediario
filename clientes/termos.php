@@ -92,9 +92,6 @@ $termos = buscaTermos();
                                     <input type="text" class="form-control" name="termoCopias">
                                 </div>
                             </div>
-                            <div class="centered-textarea-container mt-3">
-                                <textarea class="custom-textarea" rows="18" cols="56" name="termo"></textarea>
-                            </div>
                     </div><!--body-->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success" id="btn-formInserir">Cadastrar</button>
@@ -111,14 +108,6 @@ $termos = buscaTermos();
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->
 
     <script>
-        document.querySelector('textarea[name="termo"]').addEventListener('input', function (e) {
-            let normalizedValue = this.value.normalize('NFD');
-
-            normalizedValue = normalizedValue.replace(/[\u0300-\u036f]/g, '');
-
-            this.value = normalizedValue.replace(/[^a-zA-Z0-9\s\-{}\[\].,:/|\\$_()%*]/g, '');
-        });
-
         $(document).ready(function () {
             $("#form-inserirTermos").submit(function (event) {
                 event.preventDefault();

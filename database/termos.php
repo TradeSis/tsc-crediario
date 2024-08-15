@@ -55,7 +55,6 @@ if (isset($_GET['operacao'])) {
 	
 		$termos = chamaAPI(null, '/crediario/termos', json_encode($apiEntrada), 'POST');
 
-		header('Location: ../clientes/termos_visualizar.php?id=rascunho&&IDtermo='. $_POST['IDtermo']);	
 	}
 	if ($operacao=="efetivar") {
 
@@ -66,7 +65,6 @@ if (isset($_GET['operacao'])) {
 	
 		$termos = chamaAPI(null, '/crediario/termos/efetivar', json_encode($apiEntrada), 'POST');
 
-		header('Location: ../clientes/termos_visualizar.php?id=rascunho&&IDtermo='. $_POST['IDtermo']);	
 
 	}
     
