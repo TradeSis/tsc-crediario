@@ -9,12 +9,16 @@ def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
     field contnum  like contrassin.contnum
-    field dtproc like contrassin.dtproc.
+    field dtproc like contrassin.dtproc
+    field etbcod like contrassin.etbcod
+    field dtini like contrassin.dtinclu
+    field dtfim like contrassin.dtinclu.
 
 def temp-table ttcontrassin  no-undo serialize-name "contrassin"  /* JSON SAIDA */
     like contrassin
     field cpfCNPJ   as char
-    field nomeCliente   as char.
+    field nomeCliente   as char
+    field vltotal   as char.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -30,7 +34,13 @@ find first ttentrada no-error.
 IF ttentrada.contnum = ? 
 THEN DO:
     for each contrassin where 
-        contrassin.dtproc = ttentrada.dtproc 
+        contrassin.dtproc = ttentrada.dtproc AND
+        (if ttentrada.etbcod = ? 
+        then true else contrassin.etbcod = ttentrada.etbcod) AND
+        (if ttentrada.dtini = ? 
+        then true else contrassin.dtinclu >= ttentrada.dtini) AND
+        (if ttentrada.dtfim = ? 
+        then true else contrassin.dtinclu <= ttentrada.dtfim) 
         no-lock.
 
         create ttcontrassin.
@@ -42,7 +52,13 @@ END.
 IF ttentrada.contnum <> ?
 THEN DO:
     find contrassin where 
-        contrassin.contnum = ttentrada.contnum 
+        contrassin.contnum = ttentrada.contnum AND
+        (if ttentrada.etbcod = ? 
+        then true else contrassin.etbcod = ttentrada.etbcod) AND
+        (if ttentrada.dtini = ? 
+        then true else contrassin.dtinclu >= ttentrada.dtini) AND
+        (if ttentrada.dtfim = ? 
+        then true else contrassin.dtinclu <= ttentrada.dtfim) 
         NO-LOCK no-error.
         
         if avail contrassin
@@ -76,6 +92,11 @@ for each ttcontrassin.
     then do:
         ttcontrassin.cpfCNPJ = clien.ciccgc.
         ttcontrassin.nomeCliente = clien.clinom.
+    end.
+    find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
+    if avail contrato
+    then do:
+        ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
     end.
 end.
 
