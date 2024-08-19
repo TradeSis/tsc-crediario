@@ -21,33 +21,8 @@
                 <?php } ?>
               </div>
             </div>
-            <div class="row">
-              <div class="col">
-                <label class="labelForm">dtini</label>
-                <?php if ($dtini != null) { ?>
-                <input type="date" class="data select form-control" id="dtini"
-                  value="<?php echo $dtini ?>" name="dtini" autocomplete="off">
-                <?php } else { ?>
-                <input type="date" class="data select form-control" id="dtini" name="dtini"
-                  autocomplete="off">
-                <?php } ?>
-              </div>
-              <div class="col">
-                <label class="labelForm">dtfim</label>
-                <?php if ($dtfim != null) { ?>
-                <input type="date" class="data select form-control" id="dtfim"
-                  value="<?php echo $dtfim ?>" name="dtfim" autocomplete="off">
-                <?php } else { ?>
-                <input type="date" class="data select form-control" id="dtfim" name="dtfim"
-                  autocomplete="off">
-                <?php } ?>
-              </div>
-            </div>
             </div>
             <div class="modal-footer border-0">
-              <div class="col-sm text-start">
-                <button type="button" class="btn btn-primary" onClick="limparPeriodo()">Limpar</button>
-              </div>
               <div class="col-sm text-end">
                 <button type="button" class="btn btn-success" id="filtrarButton" data-dismiss="modal">Filtrar</button>
               </div>
