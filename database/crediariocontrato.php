@@ -21,14 +21,18 @@ function buscaContratos($numeroContrato)
 	}
 	return $contrato;
 }
-function buscaAssinatura($contnum = null)
+function buscaAssinatura($contnum=null,$dtproc=null,$etbcod=null,$dtini=null,$dtfim=null)
 {
 	$assinatura = array();
 	$retorno = array();
 	$apiEntrada =
 		array(
 			"dadosEntrada" => array(
-				array('contnum' => $contnum)
+				array('contnum' => $contnum,
+					  'dtproc' => $dtproc,
+					  'etbcod' => $etbcod,
+					  'dtini' => $dtini,
+					  'dtfim' => $dtfim)
 			)
 		);
 	$retorno = chamaAPI(null, '/crediario/assinatura', json_encode($apiEntrada), 'GET');
@@ -49,16 +53,31 @@ if (isset ($_GET['operacao'])) {
 
 		$contnum = $_POST["contnum"];
 		$dtproc = $_POST["dtproc"];
+		$etbcod = $_POST["etbcod"];
+		$dtini = $_POST["dtini"];
+		$dtfim = $_POST["dtfim"];
 		if ($contnum == "") {
 			$contnum = null;
 		}
 		if ($dtproc == "") {
 			$dtproc = null;
 		}
+		if ($etbcod == "") {
+			$etbcod = null;
+		}
+		if ($dtini == "") {
+			$dtini = null;
+		}
+		if ($dtfim == "") {
+			$dtfim = null;
+		}
 		$apiEntrada = 
 		array("dadosEntrada" => array(
 			array('contnum' => $contnum,
-				'dtproc' => $dtproc)
+				'dtproc' => $dtproc,
+				'etbcod' => $etbcod,
+				'dtini' => $dtini,
+				'dtfim' => $dtfim)
 		));
 		$_SESSION['filtro_contrassin'] = $apiEntrada['dadosEntrada'][0];
 		$assinatura = chamaAPI(null, '/crediario/assinatura', json_encode($apiEntrada), 'GET');
