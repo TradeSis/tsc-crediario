@@ -113,11 +113,11 @@ end.
     ttcontrato.situacao         = "".
     ttcontrato.modalidade       = contrato.modcod.
     ttcontrato.etbcod           = contrato.etbcod.
-
+    ttcontrato.etbnom           = string(contrato.etbcod).
     find estab where estab.etbcod = contrato.etbcod no-lock no-error.
     if avail estab
     then do:
-        ttcontrato.etbnom       = estab.etbnom.
+        ttcontrato.etbnom       = string(contrato.etbcod) + " - " + estab.munic.
     end.
 
     vvalorAberto = 0.

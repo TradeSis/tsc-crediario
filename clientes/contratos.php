@@ -97,7 +97,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     readonly>
                                 <label>Estabelecimento</label>
                                 <input type="text" class="form-control"
-                                    value="<?php echo $contrato['etbcod'] ?> - <?php echo $contrato['etbnom'] ?>" readonly>
+                                    value="<?php echo $contrato['etbnom'] ?>" readonly>
                             </div>
                             <div class="col">
                                 <label>Data Inicial</label>
