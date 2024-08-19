@@ -227,14 +227,14 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                             <div class="col">
                                 <div class="col-md">
                                     <label>etbcod</label>
-                                    <input type="text" class="form-control" value="<?php echo $assinatura['etbcod'] ?>"
+                                    <input type="text" class="form-control" value="<?php echo isset($assinatura['etbcod']) ? $assinatura['etbcod'] : '' ?>"
                                         readonly>
                                 </div>
                                 <label>Data de Inclusão</label>
                                 <input type="text" class="form-control"
-                                    value="<?php echo date('d/m/Y', strtotime($assinatura['dtinclu'])) ?>" readonly>
+                                    value="<?php echo isset($assinatura['dtinclu']) ? date('d/m/Y', strtotime($assinatura['dtinclu'])) : '' ?>" readonly>
                                 <label>idBiometria</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['idBiometria'] ?>"
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['idBiometria']) ? $assinatura['idBiometria'] : ''?>"
                                     readonly>
                             </div>
                             <div class="col text-center">
@@ -245,52 +245,54 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                         <div class="row mt-2">
                             <div class="col-md">
                                 <label>clicod</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['clicod'] ?>"
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['clicod']) ? $assinatura['clicod'] : '' ?>"
                                     readonly>
                             </div>
                             <div class="col-md">
                                 <label>Cpf/Cnpj</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['cpfCNPJ'] ?>" readonly>
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['cpfCNPJ']) ? $assinatura['cpfCNPJ'] : '' ?>" readonly>
                             </div>
                             <div class="col-md">
                                 <label>Data de Processamento</label>
                                 <input type="text" class="form-control"
-                                    value="<?php echo $assinatura['dtproc'] !== null ? date('d/m/Y', strtotime($assinatura['dtproc'])) : null ?>"
+                                    value="<?php echo isset($assinatura['dtproc']) && $assinatura['dtproc'] !== null ? date('d/m/Y', strtotime($assinatura['dtproc'])) : '' ?>"
                                     readonly>
                             </div>
                             <div class="col-md">
                                 <label>hrproc</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['hrproc'] ?>"
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['hrproc']) ? $assinatura['hrproc'] : '' ?>"
                                     readonly>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col-md">
                                 <label>etbcod</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['etbcod'] ?>"
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['etbcod']) ? $assinatura['etbcod'] : '' ?>"
                                     readonly>
                             </div>
                             <div class="col-md">
                                 <label>cxacod</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['cxacod'] ?>"
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['cxacod']) ? $assinatura['cxacod'] : '' ?>"
                                     readonly>
                             </div>
                             <div class="col-md">
                                 <label>ctmcod</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['ctmcod'] ?>"
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['ctmcod']) ? $assinatura['ctmcod'] : '' ?>"
                                     readonly>
                             </div>
                             <div class="col-md">
                                 <label>nsu</label>
-                                <input type="text" class="form-control" value="<?php echo $assinatura['nsu'] ?>" readonly>
+                                <input type="text" class="form-control" value="<?php echo isset($assinatura['nsu']) ? $assinatura['nsu'] : '' ?>" readonly>
                             </div>
                         </div>
+                        <?php if(isset($assinatura['urlPdf'])) { ?>
                             <div class="mt-2" style="text-align:right">
                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalPDF" data-pdf="<?php echo $assinatura['urlPdf'] ?>">Contrato PDF</button>
                             </div>
                             <div class="mt-2" style="text-align:right">
                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalPDF" data-pdf="<?php echo $assinatura['urlPdfAss'] ?>">Contrato Assinado</button>
                             </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
