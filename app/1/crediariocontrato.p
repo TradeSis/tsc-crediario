@@ -23,6 +23,8 @@ def temp-table ttcontrato  no-undo serialize-name "contrato"
     field codigoCliente   as int    
     field nomeCliente       as char
     field numeroContrato   as int
+    field etbcod        AS int
+    field etbnom       as char
     field dtemissao   as date format "99/99/9999"
     field dtProxVencimento   as date format "99/99/9999"
     field valorTotal   as char
@@ -110,6 +112,13 @@ end.
     ttcontrato.valorEntrada     = trim(string(contrato.vlentra,"->>>>>>>>>>>>>>>>>>9.99")).
     ttcontrato.situacao         = "".
     ttcontrato.modalidade       = contrato.modcod.
+    ttcontrato.etbcod           = contrato.etbcod.
+
+    find estab where estab.etbcod = contrato.etbcod no-lock no-error.
+    if avail estab
+    then do:
+        ttcontrato.etbnom       = estab.etbnom.
+    end.
 
     vvalorAberto = 0.
     vvalorVencido = 0.

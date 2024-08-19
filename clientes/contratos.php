@@ -95,9 +95,9 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                 <input type="text" class="form-control"
                                     value="<?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>"
                                     readonly>
-                                <label>Loja</label>
+                                <label>Estabelecimento</label>
                                 <input type="text" class="form-control"
-                                    value="FILIAL <?php //echo $contrato['loja']            ?>" readonly>
+                                    value="<?php echo $contrato['etbcod'] ?> - <?php echo $contrato['etbnom'] ?>" readonly>
                             </div>
                             <div class="col">
                                 <label>Data Inicial</label>
