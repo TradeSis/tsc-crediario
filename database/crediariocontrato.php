@@ -106,6 +106,33 @@ if (isset ($_GET['operacao'])) {
 		echo json_encode($assinaturaProc);
 		return $assinaturaProc;
 	}
+
+	if ($operacao == "buscarFiliais") {
+
+        $etbcod = $_POST['etbcod'];
+
+        if ($etbcod == "") {
+            $etbcod = null;
+        }
+
+        $apiEntrada =
+            array(
+                "dadosEntrada" => array(
+                    array(
+                        'etbcod' => $etbcod
+                    )
+                )
+            );
+
+        $filiais = chamaAPI(null, '/crediario/contrassinestab', json_encode($apiEntrada), 'GET');
+
+        if (isset($filiais["contrassinestab"])) {
+            $filiais = $filiais["contrassinestab"];
+        }
+        echo json_encode($filiais);
+        return $filiais;
+
+    }
 }
 
 ?>

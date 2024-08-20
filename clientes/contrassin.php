@@ -1,7 +1,5 @@
 <?php
 include_once '../header.php';
-include_once '../database/filacredito.php';
-
 
 $dtproc = null;
 $etbcod = null;
@@ -15,24 +13,6 @@ if (isset($_SESSION['filtro_contrassin'])) {
   $dtfim = $filtroEntrada['dtfim'];
 }
 
-$IP = $_SERVER['REMOTE_ADDR'];
-$vfilial = explode(".", $IP);
-if ($vfilial[0] == 172 || $vfilial[0] == 192) {
-    if ($vfilial[1] == 17 || $vfilial[1] == 23 || $vfilial[1] == 168) {
-        $etbcod = $vfilial[2];
-        $filiais = buscaFiliais($etbcod);
-        $filiais = $filiais[0];
-    }
-} else {
-    if ($IP == "10.146.0.15" && URLROOT == "/tslebes" && $_SERVER['SERVER_ADDR'] == "10.145.0.60") { // Simulacao da 188 no servidor winjump
-        $etbcod = 188;
-        $filiais = buscaFiliais($etbcod);
-        $filiais = $filiais[0];
-    } else {
-        $filiais = buscaFiliais();
-    }
-
-}
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -95,24 +75,15 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
                     </tr>
                     <tr class="ts-headerTabelaLinhaBaixo">
                         <th>
-                            <form action="" method="post">
-                            <select class="form-select ts-input ts-selectFiltrosHeaderTabela" name="etbcod" id="etbcod">
-                            <option value="<?php echo null ?>">
-                                <?php echo "Todos" ?> 
-                            </option>
-                            <?php
-                            foreach ($filiais as $filial) {
-                            ?>
-                                <option <?php
-                                        if ($filial['id'] == $etbcod) {
-                                        echo "selected";
-                                        }
-                                        ?> value="<?php echo $filial['id'] ?>">
-                                <?php echo $filial['value'] ?>
-                                </option>
-                            <?php } ?>
-                            </select>
-                            </form>
+                            <div class="input-group">
+                                    <button class="btn ts-input btn-outline-secondary" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-arrow-repeat"></i></button>
+                                    <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 input-etbcod" placeholder="Buscar Filial"
+                                    value="<?php echo $etbcod !== null ? $etbcod : null ?>" name="etbcod" id="etbcod" required>
+                                    <select class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 d-none select-etbcod" name="etbcod" id="etbcod" disabled>
+                                        <option value=null>Selecione</option>
+                                    </select>
+                                </div>
+                            </div>
                         </th>
                         <th></th>
                         <th></th>
@@ -135,6 +106,7 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
 
      <!--------- FILTRO PERIODO --------->
     <?php include_once 'modal_periodo.php' ?>
+    <?php include_once 'zoomEstab.php'; ?>
 
     <!-- LOCAL PARA COLOCAR OS JS -->
 
@@ -293,6 +265,45 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
 
             return dia + '/' + mes + '/' + ano;
         }
+
+        // DATA\SELECT - etbcod
+        $("#button-etbcod").click(function() {
+            $(".input-etbcod").toggleClass("d-none");
+            $(".select-etbcod").toggleClass("d-none");
+
+            var elemento = document.getElementById("etbcod");
+            var classe = elemento.getAttribute("class");
+            //alert(classe.lastIndexOf("d-none"))
+            if (classe[69] == "d") {
+                $("#button-etbcod").prop("title", "Data Digitável");
+                $(".input-etbcod").prop("disabled", true);
+                $(".select-etbcod").prop("disabled", false);
+                $(".input-etbcod").prop("required", false);
+                $(".select-etbcod").prop("required", true);
+            } else {
+                $("#button-etbcod").prop("title", "Data Fixa");
+                $(".input-etbcod").prop("disabled", false);
+                $(".select-etbcod").prop("disabled", true);
+                $(".input-etbcod").prop("required", true);
+                $(".select-etbcod").prop("required", false);
+            }
+        });
+
+        
+        $(".select-etbcod").click(function(event) {
+            event.preventDefault(); 
+            $("#zoomEstabModal").modal('show');
+        });
+
+        $(document).on('click', '.ts-click', function () {
+            var etbcod = $(this).attr("data-etbcod");
+            var etbnom = $(this).attr("data-etbnom");
+            var newText = etbcod + " - " + etbnom;
+            $(".select-etbcod option:first").text(newText).val(etbcod);
+            buscar($("#contnum").val(), $("#dtproc").val(),etbcod, $("#dtini").val(), $("#dtfim").val());
+            $('#etbcod').val(etbcod);
+            $('#zoomEstabModal').modal('hide');
+        });
     </script>
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->
 
