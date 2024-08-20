@@ -21,18 +21,14 @@ function buscaContratos($numeroContrato)
 	}
 	return $contrato;
 }
-function buscaAssinatura($contnum=null,$dtproc=null,$etbcod=null,$dtini=null,$dtfim=null)
+function buscaAssinatura($contnum=null)
 {
 	$assinatura = array();
 	$retorno = array();
 	$apiEntrada =
 		array(
 			"dadosEntrada" => array(
-				array('contnum' => $contnum,
-					  'dtproc' => $dtproc,
-					  'etbcod' => $etbcod,
-					  'dtini' => $dtini,
-					  'dtfim' => $dtfim)
+				array('contnum' => $contnum)
 			)
 		);
 	$retorno = chamaAPI(null, '/crediario/assinatura', json_encode($apiEntrada), 'GET');

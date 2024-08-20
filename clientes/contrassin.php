@@ -145,6 +145,7 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
 
         function naoproc() {
             buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            $('#dtproc').val("");
         }
 
         function limparPeriodo() {
@@ -259,8 +260,12 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
                 }
                 var row = [],
                     cols = rows[i].querySelectorAll("td, th");
-                for (var j = 0; j < cols.length - 1; j++) {
-                    row.push(cols[j].innerText);
+                for (var j = 0; j < cols.length - 2; j++) { 
+                    let cellText = cols[j].innerText.trim();
+                    if (j === 8) {
+                        cellText = cellText.replace('.', '').replace(',', '.');
+                    }
+                    row.push(cellText);
                 }
                 csv.push(row.join(";"));
             }

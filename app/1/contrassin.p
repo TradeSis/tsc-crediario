@@ -18,7 +18,8 @@ def temp-table ttcontrassin  no-undo serialize-name "contrassin"  /* JSON SAIDA 
     like contrassin
     field cpfCNPJ   as char
     field nomeCliente   as char
-    field vltotal   as char.
+    field vltotal   as char
+    field idneurotech   as char.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -52,13 +53,7 @@ END.
 IF ttentrada.contnum <> ?
 THEN DO:
     find contrassin where 
-        contrassin.contnum = ttentrada.contnum AND
-        (if ttentrada.etbcod = ? 
-        then true else contrassin.etbcod = ttentrada.etbcod) AND
-        (if ttentrada.dtini = ? 
-        then true else contrassin.dtinclu >= ttentrada.dtini) AND
-        (if ttentrada.dtfim = ? 
-        then true else contrassin.dtinclu <= ttentrada.dtfim) 
+        contrassin.contnum = ttentrada.contnum 
         NO-LOCK no-error.
         
         if avail contrassin
