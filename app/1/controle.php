@@ -33,6 +33,10 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
+      case "finan":
+        include 'finan.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
