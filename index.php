@@ -48,18 +48,12 @@ if (
                         ?>
                         <?php if ($_SESSION['nivelMenu'] >= 2) {
                             if ($tab == '') {
-                                $tab = 'historico';
+                                $tab = 'revitalizacao';
                             } ?>
                             <li class="nav-item mr-1">
                                 <a class="nav-link 
-                                <?php if ($tab == "historico") {echo " active ";} ?>" 
-                                href="?tab=historico" role="tab">Histórico</a>
-                            </li>
-                        <?php }
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
-                            <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "contratos") {echo " active ";} ?>"
-                                href="?tab=contratos" role="tab">Contratos</a>
+                                <?php if ($tab == "revitalizacao") {echo " active ";} ?>" 
+                                href="?tab=revitalizacao" role="tab">Revitalização</a>
                             </li>
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
@@ -100,13 +94,8 @@ if (
                     <select class="form-select mt-2 ts-selectSubMenuAplicativos" id="subtabCrediario">
 
                         <?php if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=historico" 
-                        <?php if ($getTab == "historico") {echo " selected ";} ?>>Histórico</option>
-                        <?php }
-
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=contratos" 
-                        <?php if ($getTab == "contratos") {echo " selected ";} ?>>Contratos</option>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=revitalizacao" 
+                        <?php if ($getTab == "revitalizacao") {echo " selected ";} ?>>Revitalização</option>
                         <?php }
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
@@ -141,11 +130,8 @@ if (
             <?php
             $src = "";
 
-            if ($tab == "historico") {
-                $src = "clientes/historico_parametros.php";
-            }
-            if ($tab == "contratos") {
-                $src = "clientes/contratos_parametros.php";
+            if ($tab == "revitalizacao") {
+                $src = "clientes/revitalizacao.php";
             }
             if ($tab == "seguros") {
                 $src = "consultas/seguros_parametros.php";

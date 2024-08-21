@@ -22,7 +22,11 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"
 def temp-table ttcontrato  no-undo serialize-name "contrato"
     field codigoCliente   as int    
     field nomeCliente       as char
+    field cpfCNPJ       as char
     field numeroContrato   as int
+    field idAdesaoHubSeg   as char
+    field banco   as int
+    field nro_parcelas   as int
     field etbcod        AS int
     field etbnom       as char
     field dtemissao   as date format "99/99/9999"
@@ -103,7 +107,11 @@ end.
     create ttcontrato.
     ttcontrato.codigoCliente    = contrato.clicod.
     ttcontrato.nomeCliente      = clien.clinom.
+    ttcontrato.cpfCNPJ       = clien.ciccgc.
     ttcontrato.numeroContrato   = contrato.contnum.
+    ttcontrato.idAdesaoHubSeg   = contrato.idAdesaoHubSeg.
+    ttcontrato.banco   = contrato.banco.
+    ttcontrato.nro_parcelas   = contrato.nro_parcelas.
     ttcontrato.dtemissao        = contrato.dtinicial.
     ttcontrato.dtProxVencimento = ?.
     ttcontrato.valorTotal       = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).

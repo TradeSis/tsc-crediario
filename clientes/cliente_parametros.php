@@ -23,10 +23,10 @@ include_once '../header.php';
         <div class="row justify-content-center">
             <div class="col-md-6 card p-0">
                 <div class="card-header">
-                    <h3>Histórico Cliente</h3>
+                    <h3>Posição do Cliente</h3>
                 </div>
                 <div class="container">
-                    <form action="historico_cliente.php?parametros" method="POST">
+                    <form action="posicao_cliente.php?parametros" method="POST">
                         <div class="form-group">
                             <label>Código Cliente</label>
                             <input type="number" class="form-control" name="codigoCliente">
@@ -34,7 +34,7 @@ include_once '../header.php';
                             <input type="number" class="form-control" name="cpfCNPJ">
                         </div>
                         <div class="card-footer bg-transparent" style="text-align:right">
-                            <button type="submit" class="btn btn-sm btn-success">Consultar Histórico</button>
+                            <button type="submit" class="btn btn-sm btn-success">Consultar</button>
                         </div>
                     </form>
                 </div>

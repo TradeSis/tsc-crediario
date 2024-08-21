@@ -38,29 +38,37 @@ $contratos = $historico["contratos"];
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-sm-10">
-                        <h4>Cod. <?php echo $cliente['codigoCliente'] ?> - <?php echo $cliente['nomeCliente'] ?></h4>
+                    <div class="col-sm-2">
                     </div>
-                    <div class="col-sm" style="text-align:right">
-                        <a href="historico_parametros.php" role="button" class="btn btn-primary btn-sm">Voltar</a>
+                    <div class="col-sm-8 text-center">
+                        <h4>Historico do Cliente <?php echo $cliente['nomeCliente'] ?></h4>
+                    </div>
+                    <div class="col-sm-2" style="text-align:right">
+                        <a href="cliente_parametros.php" role="button" class="btn btn-primary btn-sm">Voltar</a>
                     </div>
                 </div>
             </div>
 
 
             <div class="container-fluid">
-                <h5>Dados Cliente</h5>
-                <div class="row">
-                    <div class="col">
-                        <label>Código Cliente</label>
-                        <input type="text" class="form-control"
-                            value=" <?php echo $cliente['codigoCliente'] ?> - <?php echo $cliente['nomeCliente'] ?>"
-                            readonly>
-
+                <div class="row mt-2">
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Conta&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['codigoCliente'] ?> - <?php echo $cliente['nomeCliente'] ?>" readonly>
                     </div>
-                    <div class="col">
-                        <label>CPF/CNPJ</label>
-                        <input type="text" class="form-control" value="<?php echo $cliente['cpfCNPJ'] ?>" readonly>
+                    <div class="col-2 d-flex align-items-center">
+                        <div class="form-group">
+                            <label>CPF/CNPJ&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['cpfCNPJ'] ?>" readonly>
+                    </div>
+                    <div class="col-2 d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Dt&nbsp;Cadastro&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo date('d/m/Y', strtotime($cliente['dataCadastro'])) ?>" readonly>
                     </div>
                 </div>
                 <hr>

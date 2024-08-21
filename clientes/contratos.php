@@ -60,11 +60,13 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8 text-center">
                         <!-- TITULO -->
                         <h4>Contrato <?php echo $contrato['numeroContrato'] ?></h4>
                     </div>
-                    <div class="col-sm" style="text-align:right">
+                    <div class="col-sm-2" style="text-align:right">
                         <?php if (isset($_GET['origem']) && $_GET['origem'] === 'cliente') { ?>
                             <a href="historico_cliente.php?codigoCliente=<?php echo $contrato['codigoCliente'] ?>" role="button"
                                 class="btn btn-primary btn-sm">Voltar</a>
@@ -75,6 +77,67 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                 </div>
             </div>
             <div class="container-fluid mt-3">
+                <!-- ROW1 DADOS CONTRATO -->
+                <div class="row mt-2">
+                    <div class="col-2 d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Contrato&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['numeroContrato'] ?>" readonly>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Cliente&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>" readonly>
+                    </div>
+                    <div class="col-2 d-flex align-items-center">
+                        <div class="form-group">
+                            <label>CPF/CNPJ&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['cpfCNPJ'] ?>" readonly>
+                    </div>
+                    <div class="col-2 d-flex align-items-center">
+                        <div class="form-group">
+                            <label>idAdesaoHubSeg&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['idAdesaoHubSeg'] ?>" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Data&nbsp;Inicial&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo date('d/m/Y', strtotime($contrato['dtemissao'])) ?>" readonly>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Loja&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['etbnom'] ?>" readonly>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Banco&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['banco'] ?>" readonly>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Cod.&nbsp;Modalidade&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['modalidade'] ?>" readonly>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Qtd.&nbsp;Parcelas&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['nro_parcelas'] ?>" readonly>
+                    </div>
+                </div>
+                <!-- ROW1 fim -->
+                <hr>
                 <div id="ts-tabs">
                     <div class="tab whiteborder" id="tab-nfe">Dados Contrato</div>
                     <div class="tab" id="tab-parcela">Parcelas</div>
