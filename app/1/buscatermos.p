@@ -161,12 +161,16 @@ then do:
         create tttermos.
         tttermos.sequencial = string(vid).
         tttermos.tipo = termos.idtermo.
-        tttermos.termoBase64 = string(textFile).
+        tttermos.termo = string(textFile).
         tttermos.quantidadeVias = string(termos.termoCopias).
         tttermos.formato = "TXT".
 
         run trocamnemos.
-        run encodebase64.
+        if ttpedidoCartaoLebes.formatoTermo = "BASE64"
+        then do:
+            tttermos.formato = "BASE64".
+            run encodebase64.
+        end.
     end.
 
     find termos where termos.idtermo = "CARNE" no-lock.
@@ -184,13 +188,17 @@ then do:
         create tttermos.
         tttermos.sequencial = string(vid).
         tttermos.tipo = termos.idtermo.
-        tttermos.termoBase64 = string(textFile).
+        tttermos.termo = string(textFile).
         tttermos.quantidadeVias = string(termos.termoCopias).
         tttermos.formato = "TXT".
 
 
         run trocamnemos.
-        run encodebase64.
+        if ttpedidoCartaoLebes.formatoTermo = "BASE64"
+        then do:
+            tttermos.formato = "BASE64".
+            run encodebase64.
+        end.
     end.
 
     if ttcartaolebes.contratoFinanceira = "S"
@@ -216,12 +224,16 @@ then do:
         create tttermos.
         tttermos.sequencial = string(vid).
         tttermos.tipo = termos.idtermo.
-        tttermos.termoBase64 = string(textFile).
+        tttermos.termo = string(textFile).
         tttermos.quantidadeVias = string(termos.termoCopias).
         tttermos.formato = "TXT".
 
         run trocamnemos.
-        run encodebase64.
+        if ttpedidoCartaoLebes.formatoTermo = "BASE64"
+        then do:
+            tttermos.formato = "BASE64".
+            run encodebase64.
+        end.
     end.
 
     if vvalorSeguroPrestamista > 0
@@ -248,12 +260,16 @@ then do:
             create tttermos.
             tttermos.sequencial = string(vid).
             tttermos.tipo = termos.idtermo.
-            tttermos.termoBase64 = string(textFile).
+            tttermos.termo = string(textFile).
             tttermos.quantidadeVias = string(termos.termoCopias).
             tttermos.formato = "TXT".
 
             run trocamnemos.
-            run encodebase64.
+            if ttpedidoCartaoLebes.formatoTermo = "BASE64"
+            then do:
+                tttermos.formato = "BASE64".
+                run encodebase64.
+            end.
 
         end. 
 

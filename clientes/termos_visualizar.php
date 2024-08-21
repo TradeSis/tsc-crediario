@@ -254,8 +254,12 @@ $mnemos = buscaMnemos();
                     if(data != null){
                         var termo = data.find(termo => termo.tipo === termoID);
     
-                        if (termo?.termoBase64) {
-                            $('#termoJSON').val(atob(termo.termoBase64));
+                        if (termo?.termo) {
+                            if(termo.formato == "BASE64"){
+                                $('#termoJSON').val(atob(termo.termo));
+                            } else {
+                                $('#termoJSON').val(termo.termo);
+                            }
                         } else {
                             $("#termoJSON").val("ERRO: Termo Indisponível.");
                         }
@@ -283,8 +287,12 @@ $mnemos = buscaMnemos();
                     if(data != null){
                         var termo = data.find(termo => termo.tipo === termoID);
     
-                        if (termo?.termoBase64) {
-                            $('#rascunhoJSON').val(atob(termo.termoBase64));
+                        if (termo?.termo) {
+                            if(termo.formato == "BASE64"){
+                                $('#rascunhoJSON').val(atob(termo.termo));
+                            } else {
+                                $('#rascunhoJSON').val(termo.termo);
+                            }
                         } else {
                             $("#rascunhoJSON").val("ERRO: Rascunho Indisponível.");
                         }
