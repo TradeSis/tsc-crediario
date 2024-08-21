@@ -34,8 +34,9 @@ if (isset($_SESSION['filtro_contrassin'])) {
         </div>
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
-            <div class="col-5 col-lg-5">
+            <div class="col-5 col-lg-5" id="filtroh6">
                 <h2 class="ts-tituloPrincipal">Assinatura</h2>
+                <h6 style="font-size: 10px;font-style:italic;text-align:left;"></h6>
             </div>
 
             <div class="col-3 col-lg-3">
@@ -76,13 +77,9 @@ if (isset($_SESSION['filtro_contrassin'])) {
                     <tr class="ts-headerTabelaLinhaBaixo">
                         <th>
                             <div class="input-group">
-                                    <button class="btn ts-input btn-outline-secondary" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-arrow-repeat"></i></button>
-                                    <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 input-etbcod" placeholder="Buscar Filial"
-                                    value="<?php echo $etbcod !== null ? $etbcod : null ?>" name="etbcod" id="etbcod" required>
-                                    <select class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 d-none select-etbcod" name="etbcod" id="etbcod" disabled>
-                                        <option value=null>Selecione</option>
-                                    </select>
-                                </div>
+                                <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 input-etbcod" placeholder="Digite Filial [ENTER]"
+                                value="<?php echo $etbcod !== null ? $etbcod : null ?>" name="etbcod" id="etbcod" required>
+                                <button class="btn ts-input btn-outline-secondary" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
                             </div>
                         </th>
                         <th></th>
@@ -116,7 +113,13 @@ if (isset($_SESSION['filtro_contrassin'])) {
         buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
 
         function naoproc() {
-            buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            var dtproc = $("#dtproc");
+                
+            if (dtproc.is(":disabled")) {
+                buscar(null, null, $("#etbcod").val(), null, null);
+            } else {
+                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            }
             $('#dtproc').val("");
         }
 
@@ -130,6 +133,20 @@ if (isset($_SESSION['filtro_contrassin'])) {
 
         function buscar(contnum, dtproc, etbcod, dtini, dtfim) {
             //alert (buscar);
+            var h6Element = $("#filtroh6 h6");
+            var text = "";
+            if (dtproc !== null && dtproc !== '') {
+                text += "Data de Processamento = " + formatarData(dtproc);
+            } 
+            if (dtini !== null && dtini !== '') {
+                text += "Periodo de " + formatarData(dtini);
+            }
+            if (dtfim !== null && dtfim !== '') {
+                if (text) text += " até ";
+                text += formatarData(dtfim);
+            }
+
+            h6Element.html(text);
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
@@ -183,10 +200,18 @@ if (isset($_SESSION['filtro_contrassin'])) {
         });
         $(document).ready(function() {
             $("#filtrarButton").click(function() {
-
-                buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                var dtproc = $("#dtproc");
+                
+                if (dtproc.is(":disabled")) {
+                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                    $('#dtproc').val("");
+                } 
+                else {
+                    buscar($("#contnum").val(), $("#dtproc").val(), $("#etbcod").val(), null, null);
+                    $('#dtini').val("");
+                    $('#dtfim').val("");
+                } 
                 $('#periodoModal').modal('hide');
-
             });
         });    
         document.addEventListener("keypress", function (e) {
@@ -266,40 +291,42 @@ if (isset($_SESSION['filtro_contrassin'])) {
             return dia + '/' + mes + '/' + ano;
         }
 
-        // DATA\SELECT - etbcod
-        $("#button-etbcod").click(function() {
-            $(".input-etbcod").toggleClass("d-none");
-            $(".select-etbcod").toggleClass("d-none");
+        // DATA\SELECT - DTI
+        $("#button-dti").click(function() {
+            $(".input-dtproc").toggleClass("d-none");
+            $(".input-dtini").toggleClass("d-none");
+            $(".input-dtfim").toggleClass("d-none");
 
-            var elemento = document.getElementById("etbcod");
+            var elemento = document.getElementById("dtproc");
             var classe = elemento.getAttribute("class");
             //alert(classe.lastIndexOf("d-none"))
-            if (classe[69] == "d") {
-                $("#button-etbcod").prop("title", "Data Digitável");
-                $(".input-etbcod").prop("disabled", true);
-                $(".select-etbcod").prop("disabled", false);
-                $(".input-etbcod").prop("required", false);
-                $(".select-etbcod").prop("required", true);
+            if (classe[26] == "d") {
+                $("#button-dti").prop("title", "Data Processamento");
+                $(".input-dtproc").prop("disabled", true);
+                $(".input-dtini").prop("disabled", false);
+                $(".input-dtfim").prop("disabled", false);
+                $(".input-dtproc").prop("required", false);
+                $(".input-dtini").prop("required", true);
+                $(".input-dtfim").prop("required", true);
             } else {
-                $("#button-etbcod").prop("title", "Data Fixa");
-                $(".input-etbcod").prop("disabled", false);
-                $(".select-etbcod").prop("disabled", true);
-                $(".input-etbcod").prop("required", true);
-                $(".select-etbcod").prop("required", false);
+                $("#button-dti").prop("title", "Data por Periodo");
+                $(".input-dtproc").prop("disabled", false);
+                $(".input-dtini").prop("disabled", true);
+                $(".input-dtfim").prop("disabled", true);
+                $(".input-dtproc").prop("required", true);
+                $(".input-dtini").prop("required", false);
+                $(".input-dtfim").prop("required", false);
             }
         });
 
         
-        $(".select-etbcod").click(function(event) {
+        $("#button-etbcod").click(function(event) {
             event.preventDefault(); 
             $("#zoomEstabModal").modal('show');
         });
 
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
-            var etbnom = $(this).attr("data-etbnom");
-            var newText = etbcod + " - " + etbnom;
-            $(".select-etbcod option:first").text(newText).val(etbcod);
             buscar($("#contnum").val(), $("#dtproc").val(),etbcod, $("#dtini").val(), $("#dtfim").val());
             $('#etbcod').val(etbcod);
             $('#zoomEstabModal').modal('hide');
