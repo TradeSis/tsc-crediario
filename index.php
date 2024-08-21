@@ -53,7 +53,7 @@ if (
                             <li class="nav-item mr-1">
                                 <a class="nav-link 
                                 <?php if ($tab == "revitalizacao") {echo " active ";} ?>" 
-                                href="?tab=revitalizacao" role="tab">Revitalização</a>
+                                href="?tab=revitalizacao" role="tab">Cliente</a>
                             </li>
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
@@ -95,7 +95,7 @@ if (
 
                         <?php if ($_SESSION['nivelMenu'] >= 2) { ?>
                         <option value="<?php echo URLROOT ?>/crediario/?tab=revitalizacao" 
-                        <?php if ($getTab == "revitalizacao") {echo " selected ";} ?>>Revitalização</option>
+                        <?php if ($getTab == "revitalizacao") {echo " selected ";} ?>>Cliente</option>
                         <?php }
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
