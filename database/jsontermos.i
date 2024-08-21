@@ -55,11 +55,14 @@ def var hSAIDA            as handle.
 
 DEFINE {1} shared TEMP-TABLE ttpedidoCartaoLebes NO-UNDO SERIALIZE-NAME "pedidoCartaoLebes"
     field id as char serialize-hidden
+    field   rascunho              as char
     FIELD   formatoTermo          as char 
     FIELD   tipoOperacao          as char 
     FIELD   codigoLoja          as char 
+    FIELD   numeroComponente     AS CHAR
     FIELD   dataTransacao          as char 
     FIELD   codigoCliente          as char 
+    FIELD    numeroNotaFiscal       AS CHAR
     FIELD   idBiometria as char 
     FIELD   neuroIdOperacao as char 
     FIELD   codigoProdutoFinanceiro as char 
@@ -95,7 +98,8 @@ DEFINE {1} shared TEMP-TABLE ttparcelas NO-UNDO SERIALIZE-NAME "parcelas"
     field idpai as char serialize-hidden
     field seqParcela as char 
     field valorParcela as char
-    field dataVencimento as char.
+    field dataVencimento as char
+    INDEX X seqparcela ASC.
 
 
 DEFINE {1} shared TEMP-TABLE ttseguroprestamista NO-UNDO SERIALIZE-NAME "seguroprestamista"
@@ -151,6 +155,17 @@ DEFINE DATASET dadosSaida FOR ttcobparam. /*, ttsaidaparcelas
 hentrada = DATASET dadosEntrada:HANDLE.
 hsaida   = DATASET dadosSaida:HANDLE.
 
+function freplace RETURNS char ( 
+        input pentrada as char,
+        input pmnemo as char,
+        input pcampo as char):
+DEF VAR psaida AS CHAR.        
+    if pcampo = ? then pcampo = "".
+    psaida = replace(pentrada,pmnemo,pcampo). 
+    if psaida = ? THEN psaida = "".
+    RETURN psaida.
+END FUNCTION.
+
 
 
 procedure trocamnemos.
@@ -158,92 +173,53 @@ procedure trocamnemos.
 
 if avail ttpedidoCartaoLebes
 then do:
-    if ttpedidoCartaoLebes.codigoLoja <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{codigoLoja~}",ttpedidoCartaoLebes.codigoLoja).
-    if vdataTransacao <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{dataTransacao~}",string(vdataTransacao,"99/99/9999")).
-    if vdataTransacaoExtenso <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{dataTransacao.extenso~}",vdataTransacaoExtenso).
-
-    /*if ttpedidoCartaoLebes.numeroComponente <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{numeroComponente~}",ttpedidoCartaoLebes.numeroComponente).*/ /* helio-gabriel sem campo componente*/
-    if ttpedidoCartaoLebes.codigoVendedor <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{codigoVendedor~}",ttpedidoCartaoLebes.codigoVendedor).
-    if ttpedidoCartaoLebes.valorTotal <> ?
-    then  tttermos.termoBase64 = replace(tttermos.termoBase64,"~{valorTotal~}",ttpedidoCartaoLebes.valorTotal).
-    if ttpedidoCartaoLebes.codigoCliente <>?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{codigoCliente~}",ttpedidoCartaoLebes.codigoCliente).
-    /*if ttpedidoCartaoLebes.numeroNotaFiscal <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{numeroNotaFiscal~}",ttpedidoCartaoLebes.numeroNotaFiscal).*/ /* helio-gabriel sem campo notafiscal*/
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{codigoLoja~}",ttpedidoCartaoLebes.codigoLoja).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{dataTransacao~}",string(vdataTransacao,"99/99/9999")).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{dataTransacao.extenso~}",vdataTransacaoExtenso).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{numeroComponente~}",ttpedidoCartaoLebes.numeroComponente).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{codigoVendedor~}",ttpedidoCartaoLebes.codigoVendedor).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{valorTotal~}",ttpedidoCartaoLebes.valorTotal).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{codigoCliente~}",ttpedidoCartaoLebes.codigoCliente).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{numeroNotaFiscal~}",ttpedidoCartaoLebes.numeroNotaFiscal).
 end.
 
 if avail clien
 then do:
-    if clien.ciccgc <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{cpfCnpjCliente~}",clien.ciccgc).
-
-    if clien.ciins <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{rg~}",clien.ciins). /* helio-gabriel confirmar se é o campo RG*/
-    if clien.clinom <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{nomeCliente~}",clien.clinom).
-    if clien.dtnasc <> ?
-    then do:
-        vdataNascimento = STRING(DAY(clien.dtnasc), "99") + "/" +
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{cpfCnpjCliente~}",clien.ciccgc).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{rg~}",clien.ciins). /* helio-gabriel confirmar se é o campo RG*/
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{nomeCliente~}",clien.clinom).
+    vdataNascimento = STRING(DAY(clien.dtnasc), "99") + "/" +
                           STRING(MONTH(clien.dtnasc), "99") + "/" +
                           STRING(YEAR(clien.dtnasc), "9999").
-        tttermos.termoBase64 = replace(tttermos.termoBase64,"~{dataNascimento~}",vdataNascimento).
-    end.
-    if clien.cep[1] <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.cep~}",clien.cep[1]).
-    if clien.endereco[1] <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.logradouro~}",clien.endereco[1]).
-    if clien.numero[1] <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.numero~}",string(clien.numero[2])).
-    if clien.compl[1] <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.complemento~}",clien.compl[1]).
-    if clien.bairro[1] <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.bairro~}",clien.bairro[1]).
-    if clien.cidade[1] <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.cidade~}",clien.cidade[1]).
-    if clien.ufecod[1] <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.estado~}",clien.ufecod[1]).
-    /*if clien.pais <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{endereco.pais~}",clien.pais). */ /* helio-gabriel nao encontrei campo pais*/
-    if clien.zona <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{email~}",clien.zona).
-    if clien.fone = ?
-    then clien.fone= "".
-    tttermos.termoBase64 = replace(tttermos.termoBase64,"~{telefone~}",clien.fone).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{dataNascimento~}",vdataNascimento).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.cep~}",clien.cep[1]).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.logradouro~}",clien.endereco[1]).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.numero~}",string(clien.numero[2])).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.complemento~}",clien.compl[1]). 
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.bairro~}",clien.bairro[1]).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.cidade~}",clien.cidade[1]).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.estado~}",clien.ufecod[1]).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{endereco.pais~}","BRASIL"). 
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{email~}",clien.zona).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{telefone~}",clien.fone).
 
 end. 
 
 if avail ttcartaolebes
 then do:
 
-    if vparcelas-lista <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{parcelas.lista~}",vparcelas-lista).
-    if vparcelas-valor <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{parcelas.valor~}",vparcelas-valor).
-    if ttcartaoLebes.qtdParcelas <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{qtdParcelas~}",ttcartaoLebes.qtdParcelas).
-    if ttcartaoLebes.valorAcrescimo <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{valorAcrescimo~}",ttcartaoLebes.valorAcrescimo).
-    if ttcartaoLebes.numeroContrato <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{numeroContrato~}",ttcartaoLebes.numeroContrato).
-    if ttcartaoLebes.cet <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{cet~}",ttcartaoLebes.cet).
-    if ttcartaoLebes.cetAno <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{cetAno~}",ttcartaoLebes.cetAno).
-    if ttcartaoLebes.taxaMes <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{taxaMes~}",ttcartaoLebes.taxaMes).
-    if ttcartaoLebes.valorIOF <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{valorIOF~}",ttcartaoLebes.valorIOF).
-    if viofPerc <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{iof.perc~}",trim(string(viofPerc,">>>>>>>>9.99"))).
-    if vprincipal <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{principal~}",trim(string(vprincipal,">>>>>>>>9.99"))).
-    if vprincipalPerc <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{principal.perc~}",trim(string(vprincipalPerc,">>>>>>>>9.99"))).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{parcelas.lista~}",vparcelas-lista).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{parcelas.valor~}",vparcelas-valor).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{qtdParcelas~}",ttcartaoLebes.qtdParcelas).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{valorAcrescimo~}",ttcartaoLebes.valorAcrescimo).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{numeroContrato~}",ttcartaoLebes.numeroContrato).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{cet~}",ttcartaoLebes.cet).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{cetAno~}",ttcartaoLebes.cetAno).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{taxaMes~}",ttcartaoLebes.taxaMes).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{valorIOF~}",ttcartaoLebes.valorIOF).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{iof.perc~}",trim(string(viofPerc,">>>>>>>>9.99"))).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{principal~}",trim(string(vprincipal,">>>>>>>>9.99"))).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{principal.perc~}",trim(string(vprincipalPerc,">>>>>>>>9.99"))).
     
    
 
@@ -252,44 +228,22 @@ end.
 if avail ttseguroprestamista
 then do:
     
-    if ttseguroprestamista.numeroApoliceSeguroPrestamista <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{numeroApoliceSeguroPrestamista~}",ttseguroprestamista.numeroApoliceSeguroPrestamista). 
-
-    if ttseguroprestamista.numeroSorteioSeguroPrestamista <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{numeroSorte~}",ttseguroprestamista.numeroSorteioSeguroPrestamista).    
-    
-    if vvalorSeguroPrestamista <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp18~}",trim(string(vvalorSeguroPrestamista,">>>>>>>>9.99"))).
-    if vvalorSeguroPrestamistaLiquido <> ?                                    
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp16~}",trim(string(vvalorSeguroPrestamistaLiquido,">>>>>>>>9.99"))). 
-    if vvalorSeguroPrestamistaIof <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp17~}",trim(string(vvalorSeguroPrestamistaIof,">>>>>>>>9.99"))).
-    if vvalorSeguroPrestamista29 <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp29~}",trim(string(vvalorSeguroPrestamista29,">>>>>>>>9.99"))).
-    if vvalorSeguroPrestamista30 <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp30~}",trim(string(vvalorSeguroPrestamista30,">>>>>>>>9.99"))). 
-    
-    
-    if vdatainivigencia12 <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp12~}",string(vdatainivigencia12,"99/99/9999")).
-    else tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp12~}","").
-    
-    if vdatafimvigencia13 <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp13~}",string(vdatafimvigencia13,"99/99/9999")).
-    else tttermos.termoBase64 = replace(tttermos.termoBase64,"~{sp13~}","").
-   
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{numeroBilheteSeguroPrestamista~}",ttseguroprestamista.numeroApoliceSeguroPrestamista). 
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{numeroSorte~}",ttseguroprestamista.numeroSorteioSeguroPrestamista).    
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{sp18~}",trim(string(vvalorSeguroPrestamista,">>>>>>>>9.99"))).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{sp16~}",trim(string(vvalorSeguroPrestamistaLiquido,">>>>>>>>9.99"))). 
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{sp17~}",trim(string(vvalorSeguroPrestamistaIof,">>>>>>>>9.99"))).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{sp29~}",trim(string(vvalorSeguroPrestamista29,">>>>>>>>9.99"))).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{sp30~}",trim(string(vvalorSeguroPrestamista30,">>>>>>>>9.99"))). 
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{sp12~}",string(vdatainivigencia12,"99/99/9999")).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{sp13~}",string(vdatafimvigencia13,"99/99/9999")).
 
 end.
 
-    if vdtPriVen <> ?
-        then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{dataPrimeiroVencimento~}",string(vdtPriVen,"99/99/9999")).
-    if vdtUltVen <> ?
-        then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{dataUltimoVencimento~}",string(vdtUltVen,"99/99/9999")). 
-    if vvalorEntrada <> ?
-        then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{valorEntrada~}",string(vvalorEntrada,">>>>>>>>9.99")). /* helio-gabriel valorentrada não trocou mnemo*/
-
-    if vprodutos-lista <> ?
-    then tttermos.termoBase64 = replace(tttermos.termoBase64,"~{produtos.lista~}",vprodutos-lista).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{dataPrimeiroVencimento~}",vdtPriVen).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{dataUltimoVencimento~}",vdtUltVen). 
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{valorEntrada~}",trim(string(vvalorEntrada,">>>>>>>>9.99"))).
+    tttermos.termoBase64 = freplace(tttermos.termoBase64,"~{produtos.lista~}",vprodutos-lista).
 
 end procedure.
 
@@ -303,5 +257,8 @@ tttermos.termoBase64 = base64-encode(vtexto).
 SET-SIZE(vtexto) = 0.
 
 end procedure.
+
+
+
 
 

@@ -38,7 +38,7 @@ $progr = new chamaprogress();
 if (!isset($jsonEntrada["dadosEntrada"])) {
   $jsonEntrada = (object) $jsonEntrada;
   $jsonEntradaCartaoLebes = isset($jsonEntrada->cartaoLebes[0]) ? (object) $jsonEntrada->cartaoLebes[0] : null;
-
+  
   $conteudoEntrada = json_encode(
     array(
       "dadosEntrada" => array(
@@ -47,6 +47,8 @@ if (!isset($jsonEntrada["dadosEntrada"])) {
             "formatoTermo" => $jsonEntrada->formatoTermo ?? null,
             "tipoOperacao" => $jsonEntrada->tipoOperacao ?? null,
             "codigoLoja" => $jsonEntrada->codigoLoja ?? null,
+            "numeroComponente" => $jsonEntrada->numeroComponente ?? null,
+            "numeroNotaFiscal" => $jsonEntrada->numeroNotaFiscal ?? null,
             "dataTransacao" => $jsonEntrada->dataTransacao ?? null,
             "codigoCliente" => $jsonEntrada->codigoCliente ?? null,
             "idBiometria" => $jsonEntrada->idBiometria ?? null,
@@ -88,7 +90,7 @@ if (!isset($jsonEntrada["dadosEntrada"])) {
   // var_dump($jsonEntrada);
 }
 
-//fwrite($arquivo, $identificacao . "-FORMATADO->" . $conteudoEntrada . "\n");
+fwrite($arquivo, $identificacao . "-FORMATADO->" . $conteudoEntrada . "\n");
 $retorno = $progr->executarprogress("crediario/app/1/buscatermos", $conteudoEntrada);
 fwrite($arquivo, $identificacao . "-RETORNO->" . $retorno . "\n");
 $termos = json_decode($retorno, true);
@@ -107,7 +109,7 @@ $jsonSaida = $termos;
 //LOG
 if (isset($LOG_NIVEL)) {
   if ($LOG_NIVEL >= 2) {
-    fwrite($arquivo, $identificacao . "-SAIDA->" . json_encode($jsonSaida) . "\n\n");
+   // fwrite($arquivo, $identificacao . "-SAIDA->" . json_encode($jsonSaida) . "\n\n");
   }
 }
 //LOG

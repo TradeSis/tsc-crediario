@@ -44,9 +44,12 @@ if (!isset($jsonEntrada["dadosEntrada"])) {
       "dadosEntrada" => array(
         "pedidoCartaoLebes" => array(
           array(
+            "rascunho" => "RASCUNHO", // CHAMARA O MESMO PROGRAMA PROGRESS BUSCA TERMOS - AQUI INDICA QUE É PARA PEGAR O CAMPO RASCUNHO
             "formatoTermo" => $jsonEntrada->formatoTermo ?? null,
             "tipoOperacao" => $jsonEntrada->tipoOperacao ?? null,
             "codigoLoja" => $jsonEntrada->codigoLoja ?? null,
+            "numeroComponente" => $jsonEntrada->numeroComponente ?? null,
+            "numeroNotaFiscal" => $jsonEntrada->numeroNotaFiscal ?? null,
             "dataTransacao" => $jsonEntrada->dataTransacao ?? null,
             "codigoCliente" => $jsonEntrada->codigoCliente ?? null,
             "idBiometria" => $jsonEntrada->idBiometria ?? null,
@@ -89,7 +92,8 @@ if (!isset($jsonEntrada["dadosEntrada"])) {
 }
 
 fwrite($arquivo, $identificacao . "-FORMATADO->" . $conteudoEntrada . "\n");
-$retorno = $progr->executarprogress("crediario/app/1/buscarascunho", $conteudoEntrada);
+// CHAMARA O MESMO PROGRAMA PROGRESS BUSCA TERMOS
+$retorno = $progr->executarprogress("crediario/app/1/buscatermos", $conteudoEntrada);
 fwrite($arquivo, $identificacao . "-RETORNO->" . $retorno . "\n");
 $termos = json_decode($retorno, true);
 if (isset($termos["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
@@ -107,7 +111,7 @@ $jsonSaida = $termos;
 //LOG
 if (isset($LOG_NIVEL)) {
   if ($LOG_NIVEL >= 2) {
-    fwrite($arquivo, $identificacao . "-SAIDA->" . json_encode($jsonSaida) . "\n\n");
+   // fwrite($arquivo, $identificacao . "-SAIDA->" . json_encode($jsonSaida) . "\n\n");
   }
 }
 //LOG

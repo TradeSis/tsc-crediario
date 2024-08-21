@@ -19,7 +19,7 @@ def var vvalorAcrescimo as dec.
 def var vdtPriVen as char.
 def var vdtUltVen as char.
 def var vvalorEntrada as dec. 
-
+DEF VAR vrascunho AS LOG.
 
 def var pcobcod as int.
 
@@ -58,6 +58,10 @@ find first ttpedidoCartaoLebes no-error.
 if not avail ttpedidoCartaoLebes
 then return.
 
+vrascunho = no.
+if ttpedidoCartaoLebes.rascunho = "RASCUNHO"
+then vrascunho = yes.
+
 vvalorTotal = dec(ttpedidoCartaoLebes.valorTotal).
 vdia = int(entry(3,ttpedidoCartaoLebes.dataTransacao,"-")).
 vmes = int(entry(2,ttpedidoCartaoLebes.dataTransacao,"-")).
@@ -71,18 +75,26 @@ find clien where clicod = int(ttpedidoCartaoLebes.codigoCliente) no-lock no-erro
 
 vdtPriVen = ?.
 vdtUltVen = ?.
-vvalorEntrada = ?.
+vvalorEntrada = 0.
 
 FIND FIRST ttparcelas NO-LOCK NO-ERROR. 
-IF avail ttparcelas THEN
-    vdtPriVen = ttparcelas.dataVencimento. /* helio-gabriel primeiro vencimento */
-
+IF avail ttparcelas THEN DO:
+    vdia = int(entry(3,ttparcelas.dataVencimento,"-")).
+    vmes = int(entry(2,ttparcelas.dataVencimento,"-")).
+    vano = int(entry(1,ttparcelas.dataVencimento,"-")).
+    vdtPriVen = STRING(date(vmes,vdia,vano),"99/99/9999").
+END.
 FIND LAST ttparcelas NO-LOCK NO-ERROR.
-IF avail ttparcelas THEN
-    vdtUltVen = ttparcelas.dataVencimento. /* helio-gabriel ultimo vencimento */
+IF avail ttparcelas THEN DO:
+    vdia = int(entry(3,ttparcelas.dataVencimento,"-")).
+    vmes = int(entry(2,ttparcelas.dataVencimento,"-")).
+    vano = int(entry(1,ttparcelas.dataVencimento,"-")).
+    vdtUltVen = STRING(date(vmes,vdia,vano),"99/99/9999").
+END.
 
 FOR EACH ttrecebimentos NO-LOCK:
-    vvalorEntrada = vvalorEntrada + DEC(ttrecebimentos.valorPago). /* helio-gabriel calculo valorentrada */
+    if ttrecebimentos.formaPagamento = "93" /* crediario */ THEN NEXT.
+    vvalorEntrada = vvalorEntrada + DEC(ttrecebimentos.valorPago). 
 END.
 
 
@@ -95,6 +107,7 @@ then do:
     vprincipal = vvalorTotal - vvalorAcrescimo.
     vprincipalPerc = vprincipal / (vvalorTotal) * 100.
     viofPerc = vvalorIOF / (vvalorTotal - vvalorEntrada) * 100.
+    IF viofPerc =  ? then viofPerc = 0.
 
     find first ttseguroprestamista no-error.
     if avail ttcartaoLebes
@@ -103,7 +116,7 @@ then do:
     
     for each ttparcelas no-lock break by int(ttparcelas.seqParcela).
         if first-of(int(ttparcelas.seqParcela))
-        then vparcelas-valor = " R$ " + trim(string(dec(ttparcelas.valorParcela),">>>>>>>>9.99")).
+        then vparcelas-valor = trim(string(dec(ttparcelas.valorParcela),">>>>>>>>9.99")).
 
         vdia = int(entry(3,ttparcelas.dataVencimento,"-")).
         vmes = int(entry(2,ttparcelas.dataVencimento,"-")).
@@ -131,9 +144,39 @@ then do:
                     +
                 chr(10).
     end.
+    
+    vid = 0.
+
+    find termos where termos.idtermo = "TERMO-TESTE" no-lock no-error.
+    if avail termos 
+    then do:
+        vid = 1.
+        if termos.rascunho = ? or vrascunho = no 
+        then do:
+            COPY-LOB from termos.termo to textFile.
+        end.
+        else do:
+            COPY-LOB from termos.rascunho to textFile.
+        end.
+        create tttermos.
+        tttermos.sequencial = string(vid).
+        tttermos.tipo = termos.idtermo.
+        tttermos.termoBase64 = string(textFile).
+        tttermos.quantidadeVias = string(termos.termoCopias).
+        tttermos.formato = "TXT".
+
+        run trocamnemos.
+        run encodebase64.
+    end.
 
     find termos where termos.idtermo = "CARNE" no-lock.
-    COPY-LOB termos.termo TO textFile.
+    if termos.rascunho = ? or vrascunho = no 
+    then do:
+        COPY-LOB from termos.termo to textFile.
+    end.
+    else do:
+        COPY-LOB from termos.rascunho to textFile.
+    end.
 
     do vcopias = 1 to termos.termoCopias:
         vid = vid + 1.
@@ -158,7 +201,14 @@ then do:
         find termos where termos.idtermo = "CONTRATO-DREBES" no-lock.
     end.
 
-    COPY-LOB termos.termo TO textFile.
+    if termos.rascunho = ? or vrascunho = no 
+    then do:
+        COPY-LOB from termos.termo to textFile.
+    end.
+    else do:
+        COPY-LOB from termos.rascunho to textFile.
+    end.
+    
     do vcopias = 1 to termos.termoCopias:
 
         vid = vid + 1.
@@ -184,7 +234,13 @@ then do:
             find termos where termos.idtermo = "ADESAO-SEGURO-PRESTAMISTA-MOVEIS" no-lock.
         end.
 
-        COPY-LOB termos.termo TO textFile.
+        if termos.rascunho = ? or vrascunho = no 
+        then do:
+            COPY-LOB from termos.termo to textFile.
+        end.
+        else do:
+            COPY-LOB from termos.rascunho to textFile.
+        end.
 
         do vcopias = 1 to termos.termoCopias:
             vid = vid + 1.
@@ -198,6 +254,7 @@ then do:
 
             run trocamnemos.
             run encodebase64.
+
         end. 
 
     end.
@@ -221,3 +278,4 @@ else do:
     put unformatted string(vlcSaida).
 end.    
 	
+
