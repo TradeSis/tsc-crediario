@@ -32,6 +32,13 @@ def temp-table ttcontrato  no-undo serialize-name "contrato"
     field dtemissao   as date format "99/99/9999"
     field dtProxVencimento   as date format "99/99/9999"
     field valorTotal   as char
+    field valorLiquido   as char
+    field valorPrincipal   as char
+    field valorAcrescimo   as char
+    field valorSeguro   as char
+    field IOF   as char
+    field CET   as char
+    field taxaJuros   as char
     field valorAberto  as char
     field valorVencido  as char
     field valorEntrada as char
@@ -115,6 +122,13 @@ end.
     ttcontrato.dtemissao        = contrato.dtinicial.
     ttcontrato.dtProxVencimento = ?.
     ttcontrato.valorTotal       = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorLiquido       = trim(string(contrato.vltotal - contrato.vlentra,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorPrincipal       = trim(string(contrato.vlf_principal,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorAcrescimo       = trim(string(contrato.vlf_acrescimo,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorSeguro       = trim(string(contrato.vlseguro,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.IOF       = trim(string(contrato.vliof,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.CET       = trim(string(contrato.cet,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.taxaJuros       = trim(string(contrato.txjuros,"->>>>>>>>>>>>>>>>>>9.99")).
     ttcontrato.valorAberto      = "".
     ttcontrato.valorVencido     = "".
     ttcontrato.valorEntrada     = trim(string(contrato.vlentra,"->>>>>>>>>>>>>>>>>>9.99")).

@@ -91,18 +91,13 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>" readonly>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
+                    <div class="col-3 d-flex align-items-center">
                         <div class="form-group">
                             <label>CPF/CNPJ&nbsp;:&nbsp;</label>
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $contrato['cpfCNPJ'] ?>" readonly>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
-                        <div class="form-group">
-                            <label>idAdesaoHubSeg&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['idAdesaoHubSeg'] ?>" readonly>
-                    </div>
+                    
                 </div>
                 <div class="row mt-2">
                     <div class="col d-flex align-items-center">
@@ -113,9 +108,23 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
+                            <label>Situação&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['situacao'] ?>" readonly>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
                             <label>Loja&nbsp;:&nbsp;</label>
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $contrato['etbnom'] ?>" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>Cod.&nbsp;Modalidade&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['modalidade'] ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
@@ -125,15 +134,15 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
-                            <label>Cod.&nbsp;Modalidade&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['modalidade'] ?>" readonly>
-                    </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
                             <label>Qtd.&nbsp;Parcelas&nbsp;:&nbsp;</label>
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $contrato['nro_parcelas'] ?>" readonly>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <div class="form-group">
+                            <label>idAdesaoHubSeg&nbsp;:&nbsp;</label>
+                        </div>
+                        <input type="text" class="form-control ts-input" value="<?php echo $contrato['idAdesaoHubSeg'] ?>" readonly>
                     </div>
                 </div>
                 <!-- ROW1 fim -->
@@ -149,51 +158,63 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
 
                     <div class="tabContent">
                         <!-- *****************NOTAFISCAL***************** -->
-                        <div class="row">
-                            <div class="col">
-                                <label>Contrato</label>
-                                <input type="text" class="form-control" value="<?php echo $contrato['numeroContrato'] ?>"
+                        <div class="row mt-2">
+                            <div class="col d-flex align-items-center">
+                                <label>Vlr&nbsp;Total&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control ts-input" value="<?php echo number_format($contrato['valorTotal'], 2, ',', '') ?>"
                                     readonly>
-                                <label>Cliente</label>
-                                <input type="text" class="form-control"
-                                    value="<?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>"
-                                    readonly>
-                                <label>Estabelecimento</label>
-                                <input type="text" class="form-control"
-                                    value="<?php echo $contrato['etbnom'] ?>" readonly>
                             </div>
-                            <div class="col">
-                                <label>Data Inicial</label>
-                                <input type="text" class="form-control"
-                                    value="<?php echo date('d/m/Y', strtotime($contrato['dtemissao'])) ?>" readonly>
-                                <label>Situação</label>
-                                <input type="text" class="form-control" value="<?php echo $contrato['situacao'] ?>"
-                                    readonly>
-                                <label>Modalidade</label>
-                                <input type="text" class="form-control" value="<?php echo $contrato['modalidade'] ?>"
+                            <div class="col d-flex align-items-center">
+                                <label>Acrescimo&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input" value="<?php echo number_format($contrato['valorAcrescimo'], 2, ',', '') ?>"
                                     readonly>
                             </div>
                         </div>
-                        <div class="row">
-                            <h6>Valores</h6>
-                            <div class="col-md">
-                                <label>Total</label>
-                                <input type="text" class="form-control" value="<?php echo $contrato['valorTotal'] ?>"
+                        <div class="row mt-2">
+                            <div class="col d-flex align-items-center">
+                                <label>Vlr&nbsp;Entrada&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input" value="<?php echo number_format($contrato['valorEntrada'], 2, ',', '') ?>"
                                     readonly>
                             </div>
-                            <div class="col-md">
-                                <label>Aberto</label>
-                                <input type="text" class="form-control" value="<?php echo $contrato['valorAberto'] ?>"
+                            <div class="col d-flex align-items-center">
+                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seguro&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input" value="<?php echo number_format($contrato['valorSeguro'], 2, ',', '') ?>"
                                     readonly>
                             </div>
-                            <div class="col-md">
-                                <label>Vencido</label>
-                                <input type="text" class="form-control" value="<?php echo $contrato['valorVencido'] ?>"
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col d-flex align-items-center">
+                                <label>Vlr&nbsp;Liquido&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input"
+                                    value="<?php echo number_format($contrato['valorLiquido'], 2, ',', '') ?>" readonly>
+                            </div>
+                            <div class="col d-flex align-items-center">
+                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IOF&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input" value="<?php echo number_format($contrato['IOF'], 2, ',', '') ?>"
                                     readonly>
                             </div>
-                            <div class="col-md">
-                                <label>Entrada</label>
-                                <input type="text" class="form-control" value="<?php echo $contrato['valorEntrada'] ?>"
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col d-flex align-items-center">
+                                <label>Em&nbsp;Aberto&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input"
+                                    value="<?php echo number_format($contrato['valorAberto'], 2, ',', '') ?>" readonly>
+                            </div>
+                            <div class="col d-flex align-items-center">
+                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CET&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input" value="<?php echo number_format($contrato['CET'], 2, ',', '') ?>"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col d-flex align-items-center">
+                                <label>Principal&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control ts-input"
+                                    value="<?php echo number_format($contrato['valorPrincipal'], 2, ',', '') ?>" readonly>
+                            </div>
+                            <div class="col d-flex align-items-center">
+                                <label>&nbsp;&nbsp;Tx.&nbsp;Juros&nbsp;:&nbsp;</label>
+                                <input type="text" class="form-control ts-input" value="<?php echo number_format($contrato['taxaJuros'], 2, ',', '') ?>"
                                     readonly>
                             </div>
                         </div>
@@ -226,7 +247,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                             <?php echo date('d/m/Y', strtotime($parcela['dtVencimento'])) ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php echo $parcela['vlrParcela'] ?>
+                                            <?php echo number_format($parcela['vlrParcela'], 2, ',', '') ?>
                                         </td>
                                         <td class="text-center">
                                             <?php echo $parcela['situacao'] ?>
@@ -237,7 +258,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                             } ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php echo $parcela['vlrPago'] ?>
+                                            <?php echo number_format($parcela['vlrPago'], 2, ',', '') ?>
                                         </td>
                                     </tr>
                                 <?php } ?>

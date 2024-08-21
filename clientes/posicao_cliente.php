@@ -61,13 +61,13 @@ $codigoCliente = $cliente["codigoCliente"];
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $cliente['codigoCliente'] ?> - <?php echo $cliente['nomeCliente'] ?>" readonly>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
+                    <div class="col-3 d-flex align-items-center">
                         <div class="form-group">
                             <label>CPF/CNPJ&nbsp;:&nbsp;</label>
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $cliente['cpfCNPJ'] ?>" readonly>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
+                    <div class="col-3 d-flex align-items-center">
                         <div class="form-group">
                             <label>Dt&nbsp;Cadastro&nbsp;:&nbsp;</label>
                         </div>
@@ -84,25 +84,25 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>CR&nbsp;Crédito&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vvlrLimite'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vvlrLimite'], 2, ',', '') ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
                             <label>Aberto&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vcomprometido'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vcomprometido'], 2, ',', '') ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
                             <label>Principal&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vcomprometido-principal'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vcomprometido-principal'], 2, ',', '') ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
                             <label>Disponível&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vsaldoLimite'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vsaldoLimite'], 2, ',', '') ?>" readonly>
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -110,25 +110,25 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>EP&nbsp;Crédito&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vvlrLimiteEP'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vvlrLimiteEP'], 2, ',', '') ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
                             <label>Aberto&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vcomprometidoEP'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vcomprometidoEP'], 2, ',', '') ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
                             <label>Principal&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vcomprometido-principalEP'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vcomprometido-principalEP'], 2, ',', '') ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
                             <label>Disponível&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vsaldoLimiteEP'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vsaldoLimiteEP'], 2, ',', '') ?>" readonly>
                     </div>
                 </div>
                 <!-- ROW2 fim -->
@@ -141,7 +141,7 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>Ultima&nbsp;Compra&nbsp;&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vDTULTCPA'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo date('d/m/Y', strtotime($cliente['vDTULTCPA'])) ?>" readonly>
                     </div>
                     <div class="col-4 d-flex align-items-center">
                         <div class="form-group">
@@ -167,7 +167,7 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>Ultima&nbsp;Novção&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vDTULTNOV'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo date('d/m/Y', strtotime($cliente['vDTULTNOV'])) ?>" readonly>
                     </div>
                 </div>
                 <!-- ROW3 fim -->
@@ -189,7 +189,7 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>Media&nbsp;Por&nbsp;Contrato&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vMEDIACONT'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vMEDIACONT'], 2, ',', '') ?>" readonly>
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -206,7 +206,7 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>Maior&nbsp;Acum.&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vMAIORACUM'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vMAIORACUM'], 2, ',', '') ?>" readonly>
                     </div>
                     <div class="col d-flex align-items-center">
                         <div class="form-group">
@@ -229,7 +229,7 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>Prest.&nbsp;Media&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vPARCMEDIA'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vPARCMEDIA'], 2, ',', '') ?>" readonly>
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -245,13 +245,13 @@ $codigoCliente = $cliente["codigoCliente"];
                         <div class="form-group">
                             <label>Próximo&nbsp;Mês&nbsp;:&nbsp;</label>
                         </div>
-                        <input type="text" class="form-control ts-input" value="<?php echo $cliente['vproximo-mes'] ?>" readonly>
+                        <input type="text" class="form-control ts-input" value="<?php echo number_format($cliente['vproximo-mes'], 2, ',', '') ?>" readonly>
                     </div>
                 </div>
                 <!-- ROW4 fim -->
                 <div class="text-center mt-2 mb-2" style="background-color: red;">
                     <h4>ATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Vencidas:&nbsp;<?php echo $cliente['vVLRPARCVENC'] ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo $cliente['vcheque_devolvido'] ?></h4>
+                    Vencidas:&nbsp;<?php echo number_format($cliente['vVLRPARCVENC'], 2, ',', '') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format($cliente['vcheque_devolvido'], 2, ',', '') ?></h4>
                 </div>
             </div>
             <div class="card-footer text-center">

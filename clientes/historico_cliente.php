@@ -60,13 +60,13 @@ if (isset($historico["contratos"])) {
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $cliente['codigoCliente'] ?> - <?php echo $cliente['nomeCliente'] ?>" readonly>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
+                    <div class="col-3 d-flex align-items-center">
                         <div class="form-group">
                             <label>CPF/CNPJ&nbsp;:&nbsp;</label>
                         </div>
                         <input type="text" class="form-control ts-input" value="<?php echo $cliente['cpfCNPJ'] ?>" readonly>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
+                    <div class="col-3 d-flex align-items-center">
                         <div class="form-group">
                             <label>Dt&nbsp;Cadastro&nbsp;:&nbsp;</label>
                         </div>
@@ -116,13 +116,13 @@ if (isset($historico["contratos"])) {
                                     } ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo $contrato['valorTotal'] ?>
+                                    <?php echo number_format($contrato['valorTotal'], 2, ',', '') ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo $contrato['valorEntrada'] ?>
+                                    <?php echo number_format($contrato['valorEntrada'], 2, ',', '') ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo $contrato['valorAberto'] ?>
+                                    <?php echo number_format($contrato['valorAberto'], 2, ',', '') ?>
                                 </td>
                                 <td class="text-center">
                                     <?php echo $contrato['situacao'] ?>
