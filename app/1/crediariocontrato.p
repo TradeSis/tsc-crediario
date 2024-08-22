@@ -22,10 +22,23 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"
 def temp-table ttcontrato  no-undo serialize-name "contrato"
     field codigoCliente   as int    
     field nomeCliente       as char
+    field cpfCNPJ       as char
     field numeroContrato   as int
+    field idAdesaoHubSeg   as char
+    field banco   as int
+    field nro_parcelas   as int
+    field etbcod        AS int
+    field etbnom       as char
     field dtemissao   as date format "99/99/9999"
     field dtProxVencimento   as date format "99/99/9999"
     field valorTotal   as char
+    field valorLiquido   as char
+    field valorPrincipal   as char
+    field valorAcrescimo   as char
+    field valorSeguro   as char
+    field IOF   as char
+    field CET   as char
+    field taxaJuros   as char
     field valorAberto  as char
     field valorVencido  as char
     field valorEntrada as char
@@ -101,15 +114,33 @@ end.
     create ttcontrato.
     ttcontrato.codigoCliente    = contrato.clicod.
     ttcontrato.nomeCliente      = clien.clinom.
+    ttcontrato.cpfCNPJ       = clien.ciccgc.
     ttcontrato.numeroContrato   = contrato.contnum.
+    ttcontrato.idAdesaoHubSeg   = contrato.idAdesaoHubSeg.
+    ttcontrato.banco   = contrato.banco.
+    ttcontrato.nro_parcelas   = contrato.nro_parcelas.
     ttcontrato.dtemissao        = contrato.dtinicial.
     ttcontrato.dtProxVencimento = ?.
     ttcontrato.valorTotal       = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorLiquido       = trim(string(contrato.vltotal - contrato.vlentra,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorPrincipal       = trim(string(contrato.vlf_principal,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorAcrescimo       = trim(string(contrato.vlf_acrescimo,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.valorSeguro       = trim(string(contrato.vlseguro,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.IOF       = trim(string(contrato.vliof,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.CET       = trim(string(contrato.cet,"->>>>>>>>>>>>>>>>>>9.99")).
+    ttcontrato.taxaJuros       = trim(string(contrato.txjuros,"->>>>>>>>>>>>>>>>>>9.99")).
     ttcontrato.valorAberto      = "".
     ttcontrato.valorVencido     = "".
     ttcontrato.valorEntrada     = trim(string(contrato.vlentra,"->>>>>>>>>>>>>>>>>>9.99")).
     ttcontrato.situacao         = "".
     ttcontrato.modalidade       = contrato.modcod.
+    ttcontrato.etbcod           = contrato.etbcod.
+    ttcontrato.etbnom           = string(contrato.etbcod).
+    find estab where estab.etbcod = contrato.etbcod no-lock no-error.
+    if avail estab
+    then do:
+        ttcontrato.etbnom       = string(contrato.etbcod) + " - " + estab.munic.
+    end.
 
     vvalorAberto = 0.
     vvalorVencido = 0.
