@@ -27,9 +27,13 @@ $codigoCliente = $cliente["codigoCliente"];
 <html lang="pt-BR">
 
 <head>
+    
     <style>
         .modal-fullscreen {
             max-width: 100vw !important;
+        }
+        input[readonly] {
+            background-color: transparent !important; 
         }
     </style>
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
@@ -81,15 +85,17 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">Dt&nbsp;Cadastro&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo date('d/m/Y', strtotime($cliente['dataCadastro'])) ?>" readonly>
+                                    value="<?php echo $cliente['dataCadastro'] !== null ? date('d/m/Y', strtotime($cliente['dataCadastro'])) : '' ?>" readonly>
                             </div>
                         </div>
                         <!-- ROW1 fim -->
-                        <div class="text-center mt-2 mb-2" style="background-color: lightblue;">
-                            <h2>CRÉDITO&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;VENCIMENTO
-                                LIMITE&nbsp;:&nbsp;<?php echo date('d/m/Y', strtotime($cliente['vvctoLimite'])) ?>
-                            </h2>
-                        </div>
+                    </div>
+                    <div class="card-header text-center">
+                        <span class="ts-tituloPrincipalModal">CRÉDITO&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;VENCIMENTO
+                            LIMITE&nbsp;:&nbsp;<?php echo $cliente['vvctoLimite'] !== null ? date('d/m/Y', strtotime($cliente['vvctoLimite'])) : '' ?>
+                        </span>
+                    </div>
+                    <div class="container-fluid" style="background-color: #F1F2F4;">
                         <!-- ROW2 CREDITO -->
                         <div class="row mt-2">
                             <div class="col d-flex align-items-center">
@@ -156,10 +162,12 @@ $codigoCliente = $cliente["codigoCliente"];
                             </div>
                         </div>
                         <!-- ROW2 fim -->
-                        <div class="text-center mt-2 mb-2" style="background-color: lightblue;">
-                            <h2>COMPRAS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRESTAÇÕES
-                            </h2>
-                        </div>
+                    </div>
+                    <div class="card-header text-center">
+                        <span class="ts-tituloPrincipalModal">COMPRAS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRESTAÇÕES
+                        </span>
+                    </div>
+                    <div class="container-fluid" style="background-color: #F1F2F4;">
                         <!-- ROW3 COMPRAS -->
                         <div class="row mt-2">
                             <div class="col-4 d-flex align-items-center">
@@ -167,7 +175,7 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">Ultima&nbsp;Compra&nbsp;&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo date('d/m/Y', strtotime($cliente['vDTULTCPA'])) ?>" readonly>
+                                    value="<?php echo $cliente['vDTULTCPA'] !== null ? date('d/m/Y', strtotime($cliente['vDTULTCPA'])) : '' ?>" readonly>
                             </div>
                             <div class="col-4 d-flex align-items-center">
                                 <div class="form-group">
@@ -197,14 +205,16 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">Ultima&nbsp;Novção&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo date('d/m/Y', strtotime($cliente['vDTULTNOV'])) ?>" readonly>
+                                    value="<?php echo $cliente['vDTULTNOV'] !== null ? date('d/m/Y', strtotime($cliente['vDTULTNOV'])) : '' ?>" readonly>
                             </div>
                         </div>
                         <!-- ROW3 fim -->
-                        <div class="text-center mt-2 mb-2" style="background-color: lightblue;">
-                            <h2>ATRASO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARCELAS
-                            </h2>
-                        </div>
+                    </div>
+                    <div class="card-header text-center">
+                        <span class="ts-tituloPrincipalModal">ATRASO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARCELAS
+                        </span>
+                    </div>
+                    <div class="container-fluid" style="background-color: #F1F2F4;">
                         <!-- ROW4 ATRASO PARCELAS -->
                         <div class="row mt-2">
                             <div class="col-4 d-flex align-items-center">
@@ -242,7 +252,7 @@ $codigoCliente = $cliente["codigoCliente"];
                             </div>
                             <div class="col-3 d-flex align-items-center">
                                 <div class="form-group">
-                                    <label class="form-label ts-label">Maior&nbsp;Acum.&nbsp;:&nbsp;</label>
+                                    <label class="form-label ts-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maior&nbsp;Acum.&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo number_format($cliente['vMAIORACUM'], 2, ',', '') ?>" readonly>
@@ -270,7 +280,7 @@ $codigoCliente = $cliente["codigoCliente"];
                             </div>
                             <div class="col-3 d-flex align-items-center">
                                 <div class="form-group">
-                                    <label class="form-label ts-label">Prest.&nbsp;Media&nbsp;:&nbsp;</label>
+                                    <label class="form-label ts-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prest.&nbsp;Media&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo number_format($cliente['vPARCMEDIA'], 2, ',', '') ?>" readonly>
@@ -289,18 +299,18 @@ $codigoCliente = $cliente["codigoCliente"];
                             </div>
                             <div class="col-3 d-flex align-items-center">
                                 <div class="form-group">
-                                    <label class="form-label ts-label">Próximo&nbsp;Mês&nbsp;:&nbsp;</label>
+                                    <label class="form-label ts-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Próximo&nbsp;Mês&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo number_format($cliente['vproximo-mes'], 2, ',', '') ?>" readonly>
                             </div>
                         </div>
                         <!-- ROW4 fim -->
-                        <div class="text-center mt-2 mb-2" style="background-color: red;">
-                            <h4>ATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                Vencidas:&nbsp;<?php echo number_format($cliente['vVLRPARCVENC'], 2, ',', '') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format($cliente['vcheque_devolvido'], 2, ',', '') ?>
-                            </h4>
-                        </div>
+                    </div>
+                    <div class="card-header text-center">
+                        <span class="ts-tituloPrincipalModal">ATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo $cliente['vDTMAIORATRASO'] !== null ? date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) : '' ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Vencidas:&nbsp;<?php echo number_format($cliente['vVLRPARCVENC'], 2, ',', '') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format($cliente['vcheque_devolvido'], 2, ',', '') ?>
+                        </span>
                     </div>
                     <div class="card-footer text-center">
                         <a href="historico_cliente.php?codigoCliente=<?php echo $cliente['codigoCliente'] ?>"

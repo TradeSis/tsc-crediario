@@ -49,6 +49,14 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
 
 <head>
 
+    <style>
+        .modal-fullscreen {
+            max-width: 100vw !important;
+        }
+        input[readonly] {
+            background-color: transparent !important; 
+        }  
+    </style>
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
 
 </head>
@@ -60,183 +68,41 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
 
         <!-- Modal -->
         <div class="modal" id="modalContratoVisualizar" tabindex="-1" aria-hidden="true" style="margin: 5px;">
-            <div class="col-12 col-md-3 float-end ts-divLateralModalDemanda">
-                <div class="col ">
-                    <div class="modal-header p-2 pe-3 mt-2 ">
-                        <div class="col-md-6 d-flex">
-                        </div>
-                        <div class="col-md-2 border-start d-flex me-2 mb-2">
-                            <?php if (isset($_GET['origem']) && $_GET['origem'] === 'cliente') { ?>
-                                <a href="historico_cliente.php?codigoCliente=<?php echo $contrato['codigoCliente'] ?>"
-                                    onclick="history.back()" role="button" class="btn-close"></a>
-                            <?php } else { ?>
-                                <a href="#" onclick="history.back()" role="button" class="btn-close"></a>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>Vlr&nbsp;Total&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['valorTotal'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>Vlr&nbsp;Entrada&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['valorEntrada'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>Vlr&nbsp;Liquido&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['valorLiquido'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>Em&nbsp;Aberto&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['valorAberto'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>Principal&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['valorPrincipal'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>Acrescimo&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['valorAcrescimo'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seguro&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['valorSeguro'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IOF&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['IOF'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CET&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['CET'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-1"></div>
-                        <div class="col d-flex align-items-center">
-                            <label>&nbsp;&nbsp;Tx.&nbsp;Juros&nbsp;:&nbsp;</label>
-                            <input type="text" class="form-control ts-inputSemBorda"
-                                value="<?php echo number_format($contrato['taxaJuros'], 2, ',', '') ?>" readonly>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen"> <!-- Modal 1 -->
                 <div class="modal-content" style="background-color: #F1F2F4;">
 
                     <div class="card-header">
-                        <div class="text-center">
-                            <span class="ts-tituloPrincipalModal">Contrato
-                                <?php echo $contrato['numeroContrato'] ?></span>
+                        <div class="row">
+                            <div class="col-5">
+                            </div>
+                            <div class="col-6">
+                                <span class="ts-tituloPrincipalModal">Consulta Contrato</span>
+                            </div>
+                            <div class="col-1 border-start d-flex">
+                                <?php if (isset($_GET['origem']) && $_GET['origem'] === 'cliente') { ?>
+                                    <a href="historico_cliente.php?codigoCliente=<?php echo $contrato['codigoCliente'] ?>"
+                                        onclick="history.back()" role="button" class="btn-close"></a>
+                                <?php } else { ?>
+                                    <a href="#" onclick="history.back()" role="button" class="btn-close"></a>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
-                    <div class="container">
-                        <div class="row mt-2">
-                            <div class="col-2 d-flex align-items-center">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-3 d-flex align-items-center">
                                 <div class="form-group">
-                                    <label>Contrato&nbsp;:&nbsp;</label>
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contrato&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo $contrato['numeroContrato'] ?>" readonly>
                             </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Cliente&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>"
-                                    readonly>
-                            </div>
                             <div class="col-3 d-flex align-items-center">
                                 <div class="form-group">
-                                    <label>CPF/CNPJ&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['cpfCNPJ'] ?>" readonly>
-                            </div>
-
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Data&nbsp;Inicial&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo date('d/m/Y', strtotime($contrato['dtemissao'])) ?>" readonly>
-                            </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Situação&nbsp;:&nbsp;</label>
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Situação&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo $contrato['situacao'] ?>" readonly>
-                            </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Loja&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['etbnom'] ?>" readonly>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Cod.&nbsp;Modalidade&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['modalidade'] ?>" readonly>
-                            </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Banco&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['banco'] ?>" readonly>
-                            </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Qtd.&nbsp;Parcelas&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['nro_parcelas'] ?>" readonly>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
@@ -246,201 +112,362 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     value="<?php echo $contrato['idAdesaoHubSeg'] ?>" readonly>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>"
+                                    readonly>
+                            </div>
+                            <div class="col-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPF/CNPJ&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $contrato['cpfCNPJ'] ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>Data&nbsp;de&nbsp;Emissão&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo date('d/m/Y', strtotime($contrato['dtemissao'])) ?>" readonly>
+                            </div>
+                            
+                            <div class="col d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loja&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $contrato['etbnom'] ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Banco&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $contrato['banco'] ?>" readonly>
+                            </div>
+                            <div class="col-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>Cod.&nbsp;Modalidade&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $contrato['modalidade'] ?>" readonly>
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qtd.&nbsp;Parcelas&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $contrato['nro_parcelas'] ?>" readonly>
+                            </div>
+                        </div>
                     </div>
+                    <hr>
 
-
-                    <div class="row mt-1">
-                        <div id="ts-tabs">
-                            <div class="tab whiteborder" id="tab-parcela">Parcelas</div>
-                            <!--  *****Produtos comentados at� possuir dados reais
-                    <div class="tab" id="tab-produ">Produtos</div> -->
-                            <div class="tab" id="tab-assinatura">Assinatura</div>
-
-                            <div class="line"></div>
-
-                            <div class="tabContent">
-                                <!-- *****************Parcelas Contrato***************** -->
-                                <div class="table table-responsive">
-                                    <table class="table table-sm table-hover table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">Contrato</th>
-                                                <th class="text-center">Parc</th>
-                                                <th class="text-center">Dt Venc</th>
-                                                <th class="text-center">Parc</th>
-                                                <th class="text-center">Sit</th>
-                                                <th class="text-center">Dt Pag</th>
-                                                <th class="text-center">Pag</th>
-                                            </tr>
-                                        </thead>
-                                        <?php foreach ($parcelas as $parcela) { ?>
-                                            <tr>
-                                                <td class="text-center">
-                                                    <?php echo $parcela['numeroContrato'] ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?php echo $parcela['parcela'] ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?php echo date('d/m/Y', strtotime($parcela['dtVencimento'])) ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?php echo number_format($parcela['vlrParcela'], 2, ',', '') ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?php echo $parcela['situacao'] ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?php if ($parcela['dtPagamento'] !== null) {
-                                                        echo date('d/m/Y', strtotime($parcela['dtPagamento']));
-                                                    } ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <?php echo number_format($parcela['vlrPago'], 2, ',', '') ?>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-
-                                    </table>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vlr&nbsp;Total&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorTotal'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;Vlr&nbsp;Entrada&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorEntrada'], 2, ',', '') ?>"
+                                        readonly>
                                 </div>
                             </div>
 
-                            <!--  *****Produtos comentados at� possuir dados reais
-                    <div class="tabContent">
-                        <h5>Produtos</h5>
-                        <div class="table table-responsive">
-                            <table class="table table-sm table-hover table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">Código</th>
-                                        <th class="text-center">Nome</th>
-                                        <th class="text-center">Preço</th>
-                                        <th class="text-center">Quantidade</th>
-                                        <th class="text-center">Valor Total</th>
-                                    </tr>
-                                </thead>
-                                <?php foreach ($produtos as $produto) { ?>
-                                    <tr>
-                                        <td class="text-center">
-                                            <?php echo $produto['codigoProduto'] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php echo $produto['nomeProduto'] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php echo number_format($produto['precoVenda'], 2, ',', '.') ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php echo $produto['quantidade'] ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php echo number_format($produto['valorTotal'], 2, ',', '.') ?>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-
-                            </table>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;Vlr&nbsp;Liquido&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorLiquido'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Principal&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorPrincipal'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;Acrescimo&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorAcrescimo'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seguro&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorSeguro'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IOF&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['IOF'], 2, ',', '') ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CET&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['CET'], 2, ',', '') ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;Tx.&nbsp;Juros&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['taxaJuros'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>Vlr&nbsp;Vencido&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorVencido'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;Em&nbsp;Aberto&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo number_format($contrato['valorAberto'], 2, ',', '') ?>"
+                                        readonly>
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
+                        <div class="col-9 border-start">
+                            <div id="ts-tabs">
+                                <div class="tab whiteborder" id="tab-parcela">Parcelas</div>
+                                <!--  *****Produtos comentados at� possuir dados reais
+                                <div class="tab" id="tab-produ">Produtos</div> -->
+                                <div class="tab" id="tab-assinatura">Assinatura</div>
+
+                                <div class="line"></div>
+
+                                <div class="tabContent">
+                                    <!-- *****************Parcelas Contrato***************** -->
+                                    <div class="table table-responsive">
+                                        <table class="table table-sm table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Contrato</th>
+                                                    <th class="text-center">Parc</th>
+                                                    <th class="text-center">Dt Venc</th>
+                                                    <th class="text-center">Parc</th>
+                                                    <th class="text-center">Sit</th>
+                                                    <th class="text-center">Dt Pag</th>
+                                                    <th class="text-center">Pag</th>
+                                                </tr>
+                                            </thead>
+                                            <?php foreach ($parcelas as $parcela) { ?>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <?php echo $parcela['numeroContrato'] ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $parcela['parcela'] ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo date('d/m/Y', strtotime($parcela['dtVencimento'])) ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo number_format($parcela['vlrParcela'], 2, ',', '') ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $parcela['situacao'] ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php if ($parcela['dtPagamento'] !== null) {
+                                                            echo date('d/m/Y', strtotime($parcela['dtPagamento']));
+                                                        } ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo number_format($parcela['vlrPago'], 2, ',', '') ?>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!--  *****Produtos comentados at� possuir dados reais
+                                <div class="tabContent">
+                                <h5>Produtos</h5>
+                                <div class="table table-responsive">
+                                <table class="table table-sm table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Código</th>
+                                            <th class="text-center">Nome</th>
+                                            <th class="text-center">Preço</th>
+                                            <th class="text-center">Quantidade</th>
+                                            <th class="text-center">Valor Total</th>
+                                        </tr>
+                                    </thead>
+                                    <?php foreach ($produtos as $produto) { ?>
+                                        <tr>
+                                            <td class="text-center">
+                                                <?php echo $produto['codigoProduto'] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo $produto['nomeProduto'] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($produto['precoVenda'], 2, ',', '.') ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo $produto['quantidade'] ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($produto['valorTotal'], 2, ',', '.') ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+
+                                </table>
+                                </div>
+                                </div> -->
 
 
-                            <div class="tabContent">
-                                <div class="row">
-                                    <div class="col">
+                                <div class="tabContent">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="col-md">
+                                                <label>etbcod</label>
+                                                <input type="text" class="form-control"
+                                                    value="<?php echo isset($assinatura['etbcod']) ? $assinatura['etbcod'] : '' ?>"
+                                                    readonly>
+                                            </div>
+                                            <label>Data de Inclusão</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['dtinclu']) ? date('d/m/Y', strtotime($assinatura['dtinclu'])) : '' ?>"
+                                                readonly>
+                                            <label>idBiometria</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['idBiometria']) ? $assinatura['idBiometria'] : '' ?>"
+                                                readonly>
+                                        </div>
+                                        <div class="col text-center">
+                                            <img src="<?php echo 'data:image/png;base64,' . $foto ?>" class="img-fluid"
+                                                alt="Image Preview" style="max-width: 150px; max-height: 150px;">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md">
+                                            <label>clicod</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['clicod']) ? $assinatura['clicod'] : '' ?>"
+                                                readonly>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>Cpf/Cnpj</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['cpfCNPJ']) ? $assinatura['cpfCNPJ'] : '' ?>"
+                                                readonly>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>Data de Processamento</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['dtproc']) && $assinatura['dtproc'] !== null ? date('d/m/Y', strtotime($assinatura['dtproc'])) : '' ?>"
+                                                readonly>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>hrproc</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['hrproc']) ? $assinatura['hrproc'] : '' ?>"
+                                                readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
                                         <div class="col-md">
                                             <label>etbcod</label>
                                             <input type="text" class="form-control"
                                                 value="<?php echo isset($assinatura['etbcod']) ? $assinatura['etbcod'] : '' ?>"
                                                 readonly>
                                         </div>
-                                        <label>Data de Inclusão</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['dtinclu']) ? date('d/m/Y', strtotime($assinatura['dtinclu'])) : '' ?>"
-                                            readonly>
-                                        <label>idBiometria</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['idBiometria']) ? $assinatura['idBiometria'] : '' ?>"
-                                            readonly>
+                                        <div class="col-md">
+                                            <label>cxacod</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['cxacod']) ? $assinatura['cxacod'] : '' ?>"
+                                                readonly>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>ctmcod</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['ctmcod']) ? $assinatura['ctmcod'] : '' ?>"
+                                                readonly>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>nsu</label>
+                                            <input type="text" class="form-control"
+                                                value="<?php echo isset($assinatura['nsu']) ? $assinatura['nsu'] : '' ?>"
+                                                readonly>
+                                        </div>
                                     </div>
-                                    <div class="col text-center">
-                                        <img src="<?php echo 'data:image/png;base64,' . $foto ?>" class="img-fluid"
-                                            alt="Image Preview" style="max-width: 150px; max-height: 150px;">
-                                    </div>
+                                    <?php if (isset($assinatura['urlPdf'])) { ?>
+                                        <div class="mt-2" style="text-align:right">
+                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalPDF"
+                                                data-pdf="<?php echo $assinatura['urlPdf'] ?>">Contrato
+                                                PDF</button>
+                                        </div>
+                                        <div class="mt-2" style="text-align:right">
+                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modalPDF"
+                                                data-pdf="<?php echo $assinatura['urlPdfAss'] ?>">Contrato
+                                                Assinado</button>
+                                        </div>
+                                    <?php } ?>
                                 </div>
-                                <div class="row mt-2">
-                                    <div class="col-md">
-                                        <label>clicod</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['clicod']) ? $assinatura['clicod'] : '' ?>"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md">
-                                        <label>Cpf/Cnpj</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['cpfCNPJ']) ? $assinatura['cpfCNPJ'] : '' ?>"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md">
-                                        <label>Data de Processamento</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['dtproc']) && $assinatura['dtproc'] !== null ? date('d/m/Y', strtotime($assinatura['dtproc'])) : '' ?>"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md">
-                                        <label>hrproc</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['hrproc']) ? $assinatura['hrproc'] : '' ?>"
-                                            readonly>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-md">
-                                        <label>etbcod</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['etbcod']) ? $assinatura['etbcod'] : '' ?>"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md">
-                                        <label>cxacod</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['cxacod']) ? $assinatura['cxacod'] : '' ?>"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md">
-                                        <label>ctmcod</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['ctmcod']) ? $assinatura['ctmcod'] : '' ?>"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md">
-                                        <label>nsu</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo isset($assinatura['nsu']) ? $assinatura['nsu'] : '' ?>"
-                                            readonly>
-                                    </div>
-                                </div>
-                                <?php if (isset($assinatura['urlPdf'])) { ?>
-                                    <div class="mt-2" style="text-align:right">
-                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#modalPDF"
-                                            data-pdf="<?php echo $assinatura['urlPdf'] ?>">Contrato
-                                            PDF</button>
-                                    </div>
-                                    <div class="mt-2" style="text-align:right">
-                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#modalPDF"
-                                            data-pdf="<?php echo $assinatura['urlPdfAss'] ?>">Contrato
-                                            Assinado</button>
-                                    </div>
-                                <?php } ?>
                             </div>
                         </div>
+
                     </div>
                 </div>
-            </div><!-- Modal 1 -->
+            </div>
+        </div><!-- Modal 1 -->
 
 
-        </div>
+    </div>
 
 
     </div><!--container-fluid-->
