@@ -6,7 +6,13 @@
 include_once '../header.php';
 include_once '../database/crediariocliente.php';
 
-$codigoCliente = $_GET['codigoCliente'];
+if (isset($_GET['parametros'])) {
+    $codigoCliente = $_POST['codigoCliente'];
+    $cpfCNPJ = $_POST['cpfCNPJ'];
+}
+if (isset($_GET['codigoCliente'])) {
+    $codigoCliente = $_GET['codigoCliente'];
+}
 
 if (empty($cpfCNPJ)) {
     $cpfCNPJ = null;

@@ -19,13 +19,13 @@ include_once(__DIR__ . '/../header.php');
             <!-- Coluna 1 -->
             <div class="col">
                 <div class="list-group">
-                    <a href="cliente_parametros.php" class="list-group-item">
+                    <a href="cliente_parametros.php?posicao" class="list-group-item">
                         <div class="row g-0">
                             <div class="col-1 text-center " style="width: 50px;">
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
                             </div>
                             <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Posicao do Cliente</div>
+                                <div class="fw-bold">Posição do Cliente</div>
                             </div>
                         </div>
                     </a>
@@ -34,33 +34,18 @@ include_once(__DIR__ . '/../header.php');
             <!-- Coluna 2 -->
             <div class="col">
                 <div class="list-group">
-                    <a href="contratos_parametros.php" class="list-group-item">
+                    <a href="cliente_parametros.php?historico" class="list-group-item">
                         <div class="row g-0">
                             <div class="col-1 text-center " style="width: 50px;">
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
                             </div>
                             <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Consulta Contrato</div>
+                                <div class="fw-bold">Histórico do Cliente</div>
                             </div>
                         </div>
                     </a>
                 </div>
             </div>
-            <!-- Coluna 3 -->
-            <!-- <div class="col">
-                <div class="list-group">
-                    <a href="contratos_parametros.php" class="list-group-item">
-                        <div class="row g-0">
-                            <div class="col-1 text-center " style="width: 50px;">
-                                <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
-                            </div>
-                            <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Boletagem</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div> -->
         </div>
 
 

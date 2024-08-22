@@ -23,10 +23,10 @@ include_once '../header.php';
         <div class="row justify-content-center">
             <div class="col-md-6 card p-0">
                 <div class="card-header">
-                    <h3>Posição do Cliente</h3>
+                    <h3><?php echo isset($_GET['posicao']) ? 'Posição do Cliente' : 'Histórico do Cliente'; ?></h3>
                 </div>
                 <div class="container">
-                    <form action="posicao_cliente.php?parametros" method="POST">
+                    <form action="<?php echo isset($_GET['posicao']) ? 'posicao_cliente.php?parametros' : 'historico_cliente.php?parametros'; ?>" method="POST">
                         <div class="form-group">
                             <label>Código Cliente</label>
                             <input type="number" class="form-control" name="codigoCliente">
