@@ -4,7 +4,7 @@ def output param    ppdf     as char.
 def var vdir as char.
 def var vurl as char.
 def var ppdf1 as char.
-vdir = "/assinaturas/".
+vdir = "/dados/assinaturas/".
 
 def var vhostname as char.
 if opsys = "UNIX"
@@ -14,8 +14,8 @@ then do:
     input close.
 end.
 if vhostname = "sv-ca-pwebdbprd"
-then vurl = "https://biometriaprd.lebes.com.br/assinaturas/".
-else vurl = "https://biometriahml.lebes.com.br/assinaturas/".
+then vurl = "http://assinaturasprd.lebes.com.br/".
+else vurl = "http://assinaturashml.lebes.com.br/".
 
 
 
