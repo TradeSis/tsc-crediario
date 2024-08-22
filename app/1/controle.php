@@ -41,6 +41,10 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
+      case "contrassinestab":
+        include 'contrassinestab.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
