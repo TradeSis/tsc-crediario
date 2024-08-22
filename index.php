@@ -80,7 +80,7 @@ if (
                                 href="?tab=inauguracao" role="tab">Cadastro Cliente</a>
                             </li>
                         <?php }
-                        if ($nivelMenu >= 2) { ?>
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
                                 <a class="nav-link <?php if ($tab == "boletagem") {echo " active ";} ?>" 
                                 href="?tab=boletagem" role="tab">Boletagem</a>
