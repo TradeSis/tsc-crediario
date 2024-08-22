@@ -15,7 +15,7 @@ function buscaHistoricoCliente($codigoCliente,$cpfCNPJ,$situacao)
 		));
 	
 
-	$retorno = chamaAPI(null, '/crediario/cliente', json_encode($apiEntrada), 'GET');
+	$retorno = chamaAPI(null, '/crediario/cliente/historico', json_encode($apiEntrada), 'GET');
 
    
 	if (isset($retorno["conteudoSaida"])) {
@@ -25,6 +25,28 @@ function buscaHistoricoCliente($codigoCliente,$cpfCNPJ,$situacao)
 	}
 
 	return $historico;
+}
+function buscaPosicaoCliente($codigoCliente,$cpfCNPJ)
+{
+	$cliente = array();
+	$retorno = array();
+	$apiEntrada = 
+		array("cliente" => array(
+			array('codigoCliente' => $codigoCliente,
+				  'cpfCNPJ' => $cpfCNPJ)
+		));
+	
+
+	$retorno = chamaAPI(null, '/crediario/cliente', json_encode($apiEntrada), 'GET');
+
+   
+	if (isset($retorno["cliente"])) {
+		if (isset($retorno["cliente"])) {
+        	$cliente = $retorno["cliente"][0]; // TRATAMENTO DO RETORNO
+		}
+	}
+
+	return $cliente;
 }
 
 //LOG

@@ -5,9 +5,17 @@
 //echo "parametro=".$parametro."\n";
 
 if ($metodo=="GET"){
+  if ($funcao == "cliente" && $parametro == "historico") {
+    $funcao = "cliente/historico";
+    $parametro = null;
+  }
+
     switch ($funcao) {
       case "cliente":
         include 'crediariocliente.php';
+      break;
+      case "cliente/historico":
+        include 'historicocliente.php';
       break;
       case "contrato":
         include 'crediariocontrato.php';
