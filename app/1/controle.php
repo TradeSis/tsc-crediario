@@ -33,12 +33,17 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
+
       case "parametrizacao":
         include 'boletagparam.php';
       break;
 
       case "boletos":
         include 'boletagparcela.php';
+
+      case "contrassinestab":
+        include 'contrassinestab.php';
+
       break;
 
       default:
