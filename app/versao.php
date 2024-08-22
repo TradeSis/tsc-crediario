@@ -7,7 +7,7 @@ include  __DIR__ . "/../conexao.php";
 
 if ($versao==""){$versao="1";}
 
-if ($metodo=="GET"||$metodo=="POST") {
+if ($metodo=="GET"||$metodo=="PUT"||$metodo=="POST") {
 
       switch ($versao) {
          case "1":

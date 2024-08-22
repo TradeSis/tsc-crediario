@@ -33,6 +33,14 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
+      case "parametrizacao":
+        include 'boletagparam.php';
+      break;
+
+      case "boletos":
+        include 'boletagparcela.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -44,7 +52,10 @@ if ($metodo=="GET"){
 
  if ($metodo=="PUT"){
     switch ($funcao) {
-      
+      case "parametrizacao":
+        include 'boletagparam_inserir.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -59,7 +70,10 @@ if ($metodo=="GET"){
       case "assinaContrato":
         include 'assinaContrato.php';
         break;
-    
+
+      case "parametrizacao":
+        include 'boletagparam_alterar.php';
+      break;
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
