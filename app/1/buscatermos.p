@@ -126,7 +126,7 @@ then do:
         
         vparcelas-lista = vparcelas-lista + 
             ttparcelas.seqParcela + 
-            " Venc: " + string(vdataVencimento,"99/99/9999") + 
+            "           Venc: " + string(vdataVencimento,"99/99/9999") + 
             " R$ " + trim(string(dec(ttparcelas.valorParcela),">>>>>>>>9.99")) + "     " +
                     chr(10).
     end.
@@ -144,6 +144,14 @@ then do:
                     +
                 chr(10).
     end.
+    vcontratos-lista = "".
+    for each  ttcontratosrenegociados:
+        vcontratos-Lista = vcontratos-lista + 
+        ttcontratosrenegociados.contratoRenegociado
+                +
+            chr(10).
+
+    end.   
     
     vid = 0.
 
@@ -207,26 +215,32 @@ then do:
         then do:
             find termos where termos.idtermo = "CONTRATO-FINANCEIRA-CDC" no-lock.
         end.
-        if ttpedidoCartaoLebes.tipoOperacao = "EP"
+        else
+        if ttpedidoCartaoLebes.tipoOperacao = "EMPRESTIMO"
         then do:
             find termos where termos.idtermo = "CONTRATO-FINANCEIRA-EP" no-lock.
         end.
-        /* 
+        else 
         if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
         then do:
             find termos where termos.idtermo = "CONTRATO-FINANCEIRA-NOVACAO" no-lock.
-        end. */
+        end. 
     end.   
     else do:
         if ttpedidoCartaoLebes.tipoOperacao = "CDC"
         then do:
             find termos where termos.idtermo = "CONTRATO-DREBES-CDC" no-lock.
         end.
-        /* 
+        else
+        if ttpedidoCartaoLebes.tipoOperacao = "EMPRESTIMO"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-DREBES-EP" no-lock.
+        end.
+        else
         if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
         then do:
             find termos where termos.idtermo = "CONTRATO-DREBES-NOVACAO" no-lock.
-        end. */
+        end. 
     end.
 
     if termos.rascunho = ? or vrascunho = no 
@@ -258,45 +272,26 @@ then do:
 
     if vvalorSeguroPrestamista > 0
     then do:
-        if vcatcod = 41
-        then do:
-            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MODA" no-lock.
-        end.   
-        else do:
-            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MOVEIS" no-lock.
-        end.
-
-        if termos.rascunho = ? or vrascunho = no 
-        then do:
-            COPY-LOB from termos.termo to textFile.
-        end.
-        else do:
-            COPY-LOB from termos.rascunho to textFile.
-        end.
-
-        do vcopias = 1 to termos.termoCopias:
-            vid = vid + 1.
-
-            create tttermos.
-            tttermos.sequencial = string(vid).
-            tttermos.tipo = termos.idtermo.
-            tttermos.termo = string(textFile).
-            tttermos.quantidadeVias = string(termos.termoCopias).
-            tttermos.formato = "TXT".
-
-            run trocamnemos.
-            if ttpedidoCartaoLebes.formatoTermo = "BASE64"
-            then do:
-                tttermos.formato = "BASE64".
-                run encodebase64.
-            end.
-
-        end. 
-        
-        if ttpedidoCartaoLebes.tipoOperacao = "EP"
+        if ttpedidoCartaoLebes.tipoOperacao = "EMPRESTIMO"
         then do:
             find termos where termos.idtermo = "APOLICE-PRESTAMISTA-EP" no-lock.
         end.  
+        else
+        if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
+        then do:
+            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-NOVACAO" no-lock.
+        end.  
+        else 
+        if ttpedidoCartaoLebes.tipoOperacao = "CDC"
+        then do:
+            if vcatcod = 41
+            then do:
+                find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MODA" no-lock.
+            end.   
+            else  do:
+                find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MOVEIS" no-lock.
+            end.
+        end.
 
         if termos.rascunho = ? or vrascunho = no 
         then do:
@@ -346,4 +341,5 @@ else do:
     put unformatted string(vlcSaida).
 end.    
 	
+
 
