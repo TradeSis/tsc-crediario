@@ -173,7 +173,7 @@ then do:
         end.
     end.
 
-    find termos where termos.idtermo = "CARNE" no-lock.
+    find termos where termos.idtermo = "CARNE-PARCELAS-CONTRATO" no-lock.
     if termos.rascunho = ? or vrascunho = no 
     then do:
         COPY-LOB from termos.termo to textFile.
@@ -203,10 +203,30 @@ then do:
 
     if ttcartaolebes.contratoFinanceira = "S"
     then do:
-        find termos where termos.idtermo = "CONTRATO-FINANCEIRA" no-lock.
+        if ttpedidoCartaoLebes.tipoOperacao = "CDC"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-FINANCEIRA-CDC" no-lock.
+        end.
+        if ttpedidoCartaoLebes.tipoOperacao = "EP"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-FINANCEIRA-EP" no-lock.
+        end.
+        /* 
+        if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-FINANCEIRA-NOVACAO" no-lock.
+        end. */
     end.   
     else do:
-        find termos where termos.idtermo = "CONTRATO-DREBES" no-lock.
+        if ttpedidoCartaoLebes.tipoOperacao = "CDC"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-DREBES-CDC" no-lock.
+        end.
+        /* 
+        if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-DREBES-NOVACAO" no-lock.
+        end. */
     end.
 
     if termos.rascunho = ? or vrascunho = no 
@@ -240,11 +260,43 @@ then do:
     then do:
         if vcatcod = 41
         then do:
-            find termos where termos.idtermo = "ADESAO-SEGURO-PRESTAMISTA-MODA" no-lock.
+            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MODA" no-lock.
         end.   
         else do:
-            find termos where termos.idtermo = "ADESAO-SEGURO-PRESTAMISTA-MOVEIS" no-lock.
+            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MOVEIS" no-lock.
         end.
+
+        if termos.rascunho = ? or vrascunho = no 
+        then do:
+            COPY-LOB from termos.termo to textFile.
+        end.
+        else do:
+            COPY-LOB from termos.rascunho to textFile.
+        end.
+
+        do vcopias = 1 to termos.termoCopias:
+            vid = vid + 1.
+
+            create tttermos.
+            tttermos.sequencial = string(vid).
+            tttermos.tipo = termos.idtermo.
+            tttermos.termo = string(textFile).
+            tttermos.quantidadeVias = string(termos.termoCopias).
+            tttermos.formato = "TXT".
+
+            run trocamnemos.
+            if ttpedidoCartaoLebes.formatoTermo = "BASE64"
+            then do:
+                tttermos.formato = "BASE64".
+                run encodebase64.
+            end.
+
+        end. 
+        
+        if ttpedidoCartaoLebes.tipoOperacao = "EP"
+        then do:
+            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-EP" no-lock.
+        end.  
 
         if termos.rascunho = ? or vrascunho = no 
         then do:
