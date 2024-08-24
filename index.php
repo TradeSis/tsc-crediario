@@ -48,18 +48,18 @@ if (
                         ?>
                         <?php if ($_SESSION['nivelMenu'] >= 2) {
                             if ($tab == '') {
-                                $tab = 'cliente';
+                                $tab = 'clientes';
                             } ?>
                             <li class="nav-item mr-1">
                                 <a class="nav-link 
-                                <?php if ($tab == "cliente") {echo " active ";} ?>" 
-                                href="?tab=cliente" role="tab">Cliente</a>
+                                <?php if ($tab == "clientes") {echo " active ";} ?>" 
+                                href="?tab=clientes" role="tab">Clientes</a>
                             </li>
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "contrato") {echo " active ";} ?>" 
-                                href="?tab=contrato" role="tab">Contrato</a>
+                                <a class="nav-link <?php if ($tab == "contratos") {echo " active ";} ?>" 
+                                href="?tab=contratos" role="tab">Contratos</a>
                             </li>
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
@@ -72,12 +72,6 @@ if (
                             <li class="nav-item mr-1">
                                 <a class="nav-link <?php if ($tab == "filacredito") {echo " active ";} ?>" 
                                 href="?tab=filacredito" role="tab">Fila Crédito</a>
-                            </li>
-                        <?php }
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
-                            <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "inauguracao") {echo " active ";} ?>" 
-                                href="?tab=inauguracao" role="tab">Cadastro Cliente</a>
                             </li>
                         <?php }
                          if ($_SESSION['nivelMenu'] >= 2) { ?>
@@ -101,13 +95,13 @@ if (
                     <select class="form-select mt-2 ts-selectSubMenuAplicativos" id="subtabCrediario">
 
                         <?php if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=cliente" 
-                        <?php if ($getTab == "cliente") {echo " selected ";} ?>>Cliente</option>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=clientes" 
+                        <?php if ($getTab == "clientes") {echo " selected ";} ?>>Clientes</option>
                         <?php }
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=contrato" 
-                        <?php if ($getTab == "contrato") {echo " selected ";} ?>>Contrato</option>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=contratos" 
+                        <?php if ($getTab == "contratos") {echo " selected ";} ?>>Contratos</option>
                         <?php }
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
@@ -121,13 +115,9 @@ if (
                         <?php }
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=inauguracao" 
-                        <?php if ($getTab == "inauguracao") {echo " selected ";} ?>>Cadastro Cliente</option>
-                        <?php } ?>
-
                         <option value="<?php echo URLROOT ?>/crediario/?tab=boletagem" 
                         <?php if ($getTab == "boletagem") {echo " selected ";} ?>>Boletagem</option>
-
+                        <?php }   ?>
                     </select>
                 </div>
 
@@ -140,11 +130,11 @@ if (
             <?php
             $src = "";
 
-            if ($tab == "cliente") {
+            if ($tab == "clientes") {
                 $src = "clientes/cliente_menu.php";
             }
 
-            if ($tab == "contrato") {
+            if ($tab == "contratos") {
                 $src = "clientes/contrato_menu.php";
             }
             if ($tab == "seguros") {
