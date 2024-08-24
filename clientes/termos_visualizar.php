@@ -228,7 +228,7 @@ $mnemos = buscaMnemos();
             });
         }
 
-        document.querySelector('textarea[name="termo"]').addEventListener('input', function (e) {
+        document.querySelector('textarea[name="rascunho"]').addEventListener('input', function (e) {
             let normalizedValue = this.value.normalize('NFD');
 
             normalizedValue = normalizedValue.replace(/[\u0300-\u036f]/g, '');

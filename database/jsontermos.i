@@ -10,6 +10,7 @@ def var vvalorIOF as dec.
 def var vprincipal as dec.
 def var vprincipalPerc as dec.
 def var vprodutos-Lista as char.
+def var vcontratos-Lista as char.
 def var vcatcod as int init 0.
 
 def var textFile AS longchar NO-UNDO.
@@ -244,6 +245,7 @@ end.
     tttermos.termo = freplace(tttermos.termo,"~{dataUltimoVencimento~}",vdtUltVen). 
     tttermos.termo = freplace(tttermos.termo,"~{valorEntrada~}",trim(string(vvalorEntrada,">>>>>>>>9.99"))).
     tttermos.termo = freplace(tttermos.termo,"~{produtos.lista~}",vprodutos-lista).
+    tttermos.termo = freplace(tttermos.termo,"~{contratos.lista~}",vcontratos-lista).
 
 end procedure.
 
@@ -257,6 +259,7 @@ tttermos.termo = base64-encode(vtexto).
 SET-SIZE(vtexto) = 0.
 
 end procedure.
+
 
 
 

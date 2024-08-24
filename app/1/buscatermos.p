@@ -126,7 +126,7 @@ then do:
         
         vparcelas-lista = vparcelas-lista + 
             ttparcelas.seqParcela + 
-            " Venc: " + string(vdataVencimento,"99/99/9999") + 
+            "           Venc: " + string(vdataVencimento,"99/99/9999") + 
             " R$ " + trim(string(dec(ttparcelas.valorParcela),">>>>>>>>9.99")) + "     " +
                     chr(10).
     end.
@@ -144,6 +144,14 @@ then do:
                     +
                 chr(10).
     end.
+    vcontratos-lista = "".
+    for each  ttcontratosrenegociados:
+        vcontratos-Lista = vcontratos-lista + 
+        ttcontratosrenegociados.contratoRenegociado
+                +
+            chr(10).
+
+    end.   
     
     vid = 0.
 
@@ -173,7 +181,7 @@ then do:
         end.
     end.
 
-    find termos where termos.idtermo = "CARNE" no-lock.
+    find termos where termos.idtermo = "CARNE-PARCELAS-CONTRATO" no-lock.
     if termos.rascunho = ? or vrascunho = no 
     then do:
         COPY-LOB from termos.termo to textFile.
@@ -203,10 +211,36 @@ then do:
 
     if ttcartaolebes.contratoFinanceira = "S"
     then do:
-        find termos where termos.idtermo = "CONTRATO-FINANCEIRA" no-lock.
+        if ttpedidoCartaoLebes.tipoOperacao = "CDC"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-FINANCEIRA-CDC" no-lock.
+        end.
+        else
+        if ttpedidoCartaoLebes.tipoOperacao = "EMPRESTIMO"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-FINANCEIRA-EP" no-lock.
+        end.
+        else 
+        if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-FINANCEIRA-NOVACAO" no-lock.
+        end. 
     end.   
     else do:
-        find termos where termos.idtermo = "CONTRATO-DREBES" no-lock.
+        if ttpedidoCartaoLebes.tipoOperacao = "CDC"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-DREBES-CDC" no-lock.
+        end.
+        else
+        if ttpedidoCartaoLebes.tipoOperacao = "EMPRESTIMO"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-DREBES-EP" no-lock.
+        end.
+        else
+        if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
+        then do:
+            find termos where termos.idtermo = "CONTRATO-DREBES-NOVACAO" no-lock.
+        end. 
     end.
 
     if termos.rascunho = ? or vrascunho = no 
@@ -238,12 +272,25 @@ then do:
 
     if vvalorSeguroPrestamista > 0
     then do:
-        if vcatcod = 41
+        if ttpedidoCartaoLebes.tipoOperacao = "EMPRESTIMO"
         then do:
-            find termos where termos.idtermo = "ADESAO-SEGURO-PRESTAMISTA-MODA" no-lock.
-        end.   
-        else do:
-            find termos where termos.idtermo = "ADESAO-SEGURO-PRESTAMISTA-MOVEIS" no-lock.
+            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-EP" no-lock.
+        end.  
+        else
+        if ttpedidoCartaoLebes.tipoOperacao = "NOVACAO"
+        then do:
+            find termos where termos.idtermo = "APOLICE-PRESTAMISTA-NOVACAO" no-lock.
+        end.  
+        else 
+        if ttpedidoCartaoLebes.tipoOperacao = "CDC"
+        then do:
+            if vcatcod = 41
+            then do:
+                find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MODA" no-lock.
+            end.   
+            else  do:
+                find termos where termos.idtermo = "APOLICE-PRESTAMISTA-MOVEIS" no-lock.
+            end.
         end.
 
         if termos.rascunho = ? or vrascunho = no 
@@ -294,4 +341,5 @@ else do:
     put unformatted string(vlcSaida).
 end.    
 	
+
 
