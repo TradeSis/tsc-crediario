@@ -7,7 +7,7 @@ def var lokjson as log.                 /* LOGICAL DE APOIO */
 def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
-def temp-table ttentrada no-undo serialize-name "boletagparam"   /* JSON ENTRADA */
+def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
     FIELD dtIniVig                like boletagparam.dtIniVig
     FIELD listaModalidades        like boletagparam.listaModalidades
     FIELD QtdParcMin              like boletagparam.QtdParcMin
