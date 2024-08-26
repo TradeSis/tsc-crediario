@@ -103,7 +103,7 @@ $mnemos = buscaMnemos();
                 <div class="container justify-content-center">
                     <div class="container-fluid mb-2">
                         <div class="table mt-2 ts-tableFiltros text-center scrollable-table-container ts-noScroll">
-                            <table class="table table-striped table-hover table-sm align-middle">
+                            <table class="table table-striped table-hover table-sm align-middle text-start">
                                 <thead class="ts-headertabelafixo">
                                     <tr>
                                         <th>Mnemo</th>
