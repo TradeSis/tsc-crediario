@@ -30,12 +30,12 @@ $termos = buscaTermos();
     
                         <div class="col-5">
                         </div>
-                        <div class="col-2">
+                        <!-- <div class="col-2">
                             <div class="input-group">
                                 <button type="button" class="ms-4 btn btn-success" data-bs-toggle="modal"
                                     data-bs-target="#inserirTermosModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="container-fluid mb-2">
