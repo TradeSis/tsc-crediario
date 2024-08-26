@@ -59,8 +59,8 @@ then do:
     return.
 end.
 
-find boletagparam where boletagparam.dtIniVig = ttentrada.dtIniVig AND
-                        boletagparam.listamodalidades = ttentrada.listamodalidades
+find boletagparam where boletagparam.listamodalidades = ttentrada.listamodalidades AND
+                        boletagparam.dtIniVig = ttentrada.dtIniVig 
                         no-lock no-error.
 IF NOT avail boletagparam
 then do:

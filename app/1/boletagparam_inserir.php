@@ -10,8 +10,6 @@ $arquivo = fopen($arqlog,"a");
 $identificacao=$log_datahora_ini.$acao;
 fwrite($arquivo,$identificacao."-ENTRADA->".json_encode($jsonEntrada)."\n");
 
-if (isset($jsonEntrada['dtIniVig'])) {
-
     try {
 
         $progr = new chamaprogress();
@@ -34,14 +32,6 @@ if (isset($jsonEntrada['dtIniVig'])) {
         // ACAO EM CASO DE ERRO (CATCH), que mesmo assim precise
     }
     //TRY-CATCH
-
-
-} else {
-    $jsonSaida = array(
-        "status" => 400,
-        "retorno" => "Faltaram parametros"
-    );
-}
 
 
 //LOG

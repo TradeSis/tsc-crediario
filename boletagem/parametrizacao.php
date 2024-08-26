@@ -156,7 +156,7 @@ include_once(__DIR__ . '/../header.php');
                             <div class="row">
                                 <div class="form-group col">
                                     <label>dtIniVig</label>
-                                    <input type="date" class="form-control" name="dtIniVig">
+                                    <input type="date" class="form-control" name="dtIniVig" required>
                                 </div>
                                 <div class="form-group col-6">
                                     <label>listaModalidades</label>
@@ -254,7 +254,7 @@ include_once(__DIR__ . '/../header.php');
                                 </div>
                                 <div class="form-group col-6">
                                     <label>listaModalidades</label>
-                                    <select class="form-control" name="listaModalidades[]" id="listaModalidades" multiple style="height: 90px; overflow-y: hidden;">
+                                    <select class="form-control ts-displayDisable" name="listaModalidades[]" id="listaModalidades" multiple style="height: 90px; overflow-y: hidden;">
                                         <option value="CRE">CRE</option>
                                         <option value="CP0">CP0</option>
                                         <option value="CP1">CP1</option>
