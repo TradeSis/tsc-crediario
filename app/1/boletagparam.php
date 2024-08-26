@@ -7,28 +7,27 @@ $arquivo = fopen($arqlog,"a");
 $identificacao=$log_datahora_ini.$acao;
 fwrite($arquivo,$identificacao."-ENTRADA->".json_encode($jsonEntrada)."\n");
 
-$contas = array();
+$dados = array();
 
   $progr = new chamaprogress();
   
   $retorno = $progr->executarprogress("crediario/app/1/boletagparam",json_encode($jsonEntrada));
-  fwrite($arquivo,$identificacao."-RETORNO->".$retorno."\n");
 
-  $contas = json_decode($retorno,true);
-  if (isset($contas["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
-      $contas = $contas["conteudoSaida"][0];
-  } else {
-    
-     if (!isset($contas["boletagparam"][1]) && ($jsonEntrada['dtIniVig'] != null)) {  // Verifica se tem mais de 1 registro
-      $contas = $contas["boletagparam"][0]; // Retorno sem array
+  //$jsonSaida = json_decode($retorno,true);
+  $dados = json_decode($retorno,true);
+  if (isset($dados["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
+      $dados = $dados["conteudoSaida"][0];
+  } else { 
+     if (($jsonEntrada['dadosEntrada'][0]['dtIniVig'] != null)) {  // Verifica se tem mais de 1 registro
+      $dados = $dados["boletagparam"][0]; // Retorno sem array
     } else {
-      $contas = $contas["boletagparam"];  
+      $dados = $dados["boletagparam"]; 
     }
 
   }
 
 
-$jsonSaida = $contas;
+$jsonSaida = $dados;
 
 
 //LOG

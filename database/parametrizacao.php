@@ -1,6 +1,8 @@
 <?php
 // Lucas 05082024  
 
+use function PHPSTORM_META\elementType;
+
 include_once __DIR__ . "/../conexao.php";
 
 
@@ -76,10 +78,16 @@ if (isset($_GET['operacao'])) {
 			'dtIniVig' => $dtIniVig,
 			'listaModalidades' => $listaModalidades
 		)));
+	
 		$parametros = chamaAPI(null, '/crediario/parametrizacao', json_encode($apiEntrada), 'GET');
-
+	
 		echo json_encode($parametros);
 		return $parametros;
+		
+
+		
 	}
+
+
 
 }
