@@ -16,7 +16,7 @@ if (isset($_GET['operacao'])) {
 				$modalidade = implode(",", $_POST['listaModalidades']);
 		}
 
-		$apiEntrada = array(
+		$apiEntrada = array("dadosEntrada" => array(array(
 			'dtIniVig' => $_POST['dtIniVig'],
 			'listaModalidades' => $modalidade,
 			'QtdParcMin' => $_POST['QtdParcMin'],
@@ -30,7 +30,7 @@ if (isset($_GET['operacao'])) {
 			'valorParcelMin' => $_POST['valorParcelMin'],
 			'valorParcelaMax' => $_POST['valorParcelaMax'],
 			'listaPlanos' => $_POST['listaPlanos']
-		);
+		)));
 		
 		$parametros = chamaAPI(null, '/crediario/parametrizacao', json_encode($apiEntrada), 'PUT');
 		echo json_encode($parametros);
@@ -45,7 +45,7 @@ if (isset($_GET['operacao'])) {
 				$modalidade = implode(",", $_POST['listaModalidades']);
 		}
 
-		$apiEntrada = array(
+		$apiEntrada = array("dadosEntrada" => array(array(
 			'dtIniVig' => $_POST['dtIniVig'],
 			'listaModalidades' => $modalidade,
 			'QtdParcMin' => intval($_POST['QtdParcMin']),
@@ -59,7 +59,7 @@ if (isset($_GET['operacao'])) {
 			'valorParcelMin' => intval($_POST['valorParcelMin']),
 			'valorParcelaMax' => intval($_POST['valorParcelaMax']),
 			'listaPlanos' => $_POST['listaPlanos']
-		);
+		)));
 	
 		$parametros = chamaAPI(null, '/crediario/parametrizacao', json_encode($apiEntrada), 'POST');
 
@@ -72,10 +72,10 @@ if (isset($_GET['operacao'])) {
 		$dtIniVig = isset($_POST["dtIniVig"]) && $_POST["dtIniVig"] !== "" ? $_POST["dtIniVig"] : null;
 		$listaModalidades = isset($_POST["listaModalidades"]) && $_POST["listaModalidades"] !== "" ? $_POST["listaModalidades"] : null;
 		
-		$apiEntrada = array(
+		$apiEntrada = array("dadosEntrada" => array(array(
 			'dtIniVig' => $dtIniVig,
 			'listaModalidades' => $listaModalidades
-		);
+		)));
 		$parametros = chamaAPI(null, '/crediario/parametrizacao', json_encode($apiEntrada), 'GET');
 
 		echo json_encode($parametros);
