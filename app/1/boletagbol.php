@@ -1,7 +1,7 @@
 <?php
 
 $log_datahora_ini = date("dmYHis");
-$acao="boletagparcela"; 
+$acao="boletagbol"; 
 $arqlog = defineCaminhoLog()."apilebes_".$acao."_".date("dmY").".log";
 $arquivo = fopen($arqlog,"a");
 $identificacao=$log_datahora_ini.$acao;
@@ -11,7 +11,7 @@ $contas = array();
 
   $progr = new chamaprogress();
   
-  $retorno = $progr->executarprogress("crediario/app/1/boletagparcela",json_encode($jsonEntrada));
+  $retorno = $progr->executarprogress("crediario/app/1/boletagbol",json_encode($jsonEntrada));
   fwrite($arquivo,$identificacao."-RETORNO->".$retorno."\n");
 
   $contas = json_decode($retorno,true);
@@ -19,11 +19,8 @@ $contas = array();
       $contas = $contas["conteudoSaida"][0];
   } else {
     
-     if (!isset($contas["boletagparcela"][0]) && ($jsonEntrada['DtEmissao'] != null)) {  // Verifica se tem mais de 1 registro
-      $contas = $contas["boletagparcela"][0]; // Retorno sem array
-    } else {
-      $contas = $contas["boletagparcela"];  
-    }
+    $contas = $contas["conteudoSaida"];  
+    $contas = $contas["boletagbol"];  
 
   }
 

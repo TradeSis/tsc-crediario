@@ -47,7 +47,8 @@ if ($metodo=="GET"){
       break;
 
       case "boletos":
-        include 'boletagparcela.php';
+        include 'boletagbol.php';
+      break;
 
       case "contrassinestab":
         include 'contrassinestab.php';
