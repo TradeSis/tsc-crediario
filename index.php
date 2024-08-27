@@ -73,7 +73,14 @@ if (
                                 <a class="nav-link <?php if ($tab == "filacredito") {echo " active ";} ?>" 
                                 href="?tab=filacredito" role="tab">Fila Crédito</a>
                             </li>
-                        <?php } ?>
+                        <?php }
+                         if ($_SESSION['nivelMenu'] >= 2) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "boletos") {echo " active ";} ?>" 
+                                href="?tab=boletos" role="tab">Boletos</a>
+                            </li>
+                        <?php }
+                           ?>
                     </ul>
 
                 </div>
@@ -106,8 +113,10 @@ if (
                         <option value="<?php echo URLROOT ?>/crediario/?tab=filacredito" 
                         <?php if ($getTab == "filacredito") {echo " selected ";} ?>>Fila Crédito</option>
                         <?php }
-                        ?>
-
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
+                        <?php if ($getTab == "boletos") {echo " selected ";} ?>>Boletos</option>
+                        <?php }   ?>
                     </select>
                 </div>
 
@@ -136,6 +145,10 @@ if (
 
             if ($tab == "inauguracao") {
                 $src = "clientes/cliente_cadastro.php";
+            }
+
+            if ($tab == "boletos") {
+                $src = "boletagem/";
             }
 
             if ($src !== "") {
