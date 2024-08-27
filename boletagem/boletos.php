@@ -42,17 +42,27 @@ if (isset($_SESSION['filtro_boletos'])) {
         </div>
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
-            <div class="col-4 col-lg-4" id="filtroh6">
+            <div class="col-3 col-lg-3" id="filtroh6">
                 <h2 class="ts-tituloPrincipal">Boletos</h2>
                 <h6 style="font-size: 10px;font-style:italic;text-align:left;"></h6>
             </div>
 
-            <div class="col-4 col-lg-4">
+            <div class="col-5 col-lg-5">
                 <div class="input-group">
-                    <a class="mx-3 mt-1 ts-tituloPrincipal">De</a>
-                    <input type="date" class="form-control ts-input" value="<?php echo $dtini != null ? $dtini : null?>" id="dtini" autocomplete="off" required>
-                    <a class="mx-3 mt-1 ts-tituloPrincipal">Até</a>
-                    <input type="date" class="form-control ts-input" value="<?php echo $dtfim != null ? $dtfim : null?>" id="dtfim" autocomplete="off" required>
+                    <div class="form-group col">
+                        <div class="row">
+                        <div class="col">
+                            <label>Emissão De</label>
+                        </div>
+                        <div class="col">
+                            <label>Até</label>
+                        </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="date" class="form-control" value="<?php echo $dtini != null ? $dtini : null?>" name="dtini" id="dtini">
+                            <input type="date" class="form-control" value="<?php echo $dtfim != null ? $dtfim : null?>" name="dtfim" id="dtfim">
+                        </div>
+                    </div>
                     <button class="ms-4 btn btn-sm btn-primary" type="button" id="filtrarButton">Filtrar</button>
                     <button id="exportCsvButton" class="ms-4 btn btn-success">CSV</button>
                 </div>
@@ -145,6 +155,9 @@ if (isset($_SESSION['filtro_boletos'])) {
         };
 
         function buscar(CliFor,cpfcnpj,bolcod,bancod,NossoNumero,dtini, dtfim) {
+            if (dtini == '' || dtfim == '') {
+                alert("Informe um período")
+            } else {
             //alert (buscar);
             var h6Element = $("#filtroh6 h6");
             var text = "";
@@ -211,6 +224,7 @@ if (isset($_SESSION['filtro_boletos'])) {
                      texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlCobrado);
                  }
              });
+            }
          }
 
         $("#buscar").click(function () {
