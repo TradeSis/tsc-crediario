@@ -23,7 +23,7 @@ if (isset($LOG_NIVEL)) {
 }
 //LOG
 
-$finan = array();
+$dados = array();
 
 
 $progr = new chamaprogress();
@@ -31,17 +31,21 @@ $progr = new chamaprogress();
 
 $retorno = $progr->executarprogress("crediario/app/1/finan", json_encode($jsonEntrada));
 fwrite($arquivo, $identificacao . "-RETORNO->" . $retorno . "\n");
-$finan = json_decode($retorno, true);
-if (isset($finan["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
-    $finan = $finan["conteudoSaida"][0];
+$dados = json_decode($retorno, true);
+if (isset($dados["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
+    $dados = $dados["conteudoSaida"][0];
 } else {
-
-    $finan = $finan["finan"];
+    if((!isset($jsonEntrada['dadosEntrada'][0])) && ($jsonEntrada['dadosEntrada'][0]['fincod'] != null)){
+        $dados = $dados['finan'][0];
+    }else{
+        $dados = $dados["finan"];
+    }
+    //$dados = $dados["finan"];
 
 }
 
 
-$jsonSaida = $finan;
+$jsonSaida = $dados;
 
 
 //LOG

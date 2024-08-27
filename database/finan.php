@@ -19,8 +19,12 @@ if (isset($_GET['operacao'])) {
 		
 		$apiEntrada = 
 		array(
-			'fincod' => $fincod,
-			'pagina' => $pagina
+			"dadosEntrada" => array(
+				array(
+					'fincod' => $fincod,
+					'pagina' => $pagina
+				)
+			)
 		);
 		$finan = chamaAPI(null, '/crediario/finan', json_encode($apiEntrada), 'GET');
 

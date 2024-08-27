@@ -113,12 +113,12 @@
         });
     }
     $("#btnBuscarPlano").click(function () {
-        buscarPlan($("#buscaPlano").val(), pagina);
+        buscarPlan($("#buscaPlano").val(), 0);
     })
 
     document.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
-            buscarPlan($("#buscaPlano").val(), pagina);
+            buscarPlan($("#buscaPlano").val(), 0);
         }
     });
 
