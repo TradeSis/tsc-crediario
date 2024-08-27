@@ -105,10 +105,11 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         </div>
     </div>
 
-     <!--------- FILTRO PERIODO --------->
+    <!--------- FILTRO PERIODO --------->
     <?php include_once 'modal_periodo.php' ?>
-    <?php //include 'zoomEstab.php'; ?>
-    <?php include ROOT . '/cadastros/cadastros/zoomEstab.php'; ?>
+
+    <!--------- MODAIS DE ZOOM --------->
+    <?php include ROOT . '/cadastros/zoom/estab.php'; ?>
 
     <!-- LOCAL PARA COLOCAR OS JS -->
 
