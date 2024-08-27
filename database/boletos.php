@@ -32,7 +32,7 @@ if (isset($_GET['operacao'])) {
 		$dtini = isset($_POST["dtini"]) && $_POST["dtini"] !== "" ? $_POST["dtini"] : null;
 		$dtfim = isset($_POST["dtfim"]) && $_POST["dtfim"] !== "" ? $_POST["dtfim"] : null;
 		
-		$apiEntrada = array(
+		$apiEntrada = array("dadosEntrada" => array(array(
 			'CliFor' => $CliFor,
 			'cpfcnpj' => $cpfcnpj,
 			'bolcod' => $bolcod,
