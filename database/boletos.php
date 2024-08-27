@@ -51,8 +51,8 @@ if (isset($_GET['operacao'])) {
 	if ($operacao == "buscarBoletagem") {
 
 		$acao = "boletagem";
+		$dtbol = isset($_POST["dtbol"]) && $_POST["dtbol"] !== "" ? $_POST["dtbol"] : null;
 		$contnum = isset($_POST["contnum"]) && $_POST["contnum"] !== "" ? $_POST["contnum"] : null;
-		$dtproc = isset($_POST["dtproc"]) && $_POST["dtproc"] !== "" ? $_POST["dtproc"] : null;
 		$etbcod = isset($_POST["etbcod"]) && $_POST["etbcod"] !== "" ? $_POST["etbcod"] : null;
 		$dtini = isset($_POST["dtini"]) && $_POST["dtini"] !== "" ? $_POST["dtini"] : null;
 		$dtfim = isset($_POST["dtfim"]) && $_POST["dtfim"] !== "" ? $_POST["dtfim"] : null;
@@ -62,14 +62,15 @@ if (isset($_GET['operacao'])) {
 		array("dadosEntrada" => array(
 			array(
 				'acao' => $acao,
+				'boletavel' => $_POST["boletavel"],
+				'dtbol' => $dtbol,
 				'contnum' => $contnum,
-				'dtproc' => $dtproc,
 				'etbcod' => $etbcod,
 				'dtini' => $dtini,
 				'dtfim' => $dtfim
 			)
 		));
-
+		$_SESSION['filtro_boletagem'] = $apiEntrada['dadosEntrada'][0];
 		$boletagem = chamaAPI(null, '/crediario/assinatura', json_encode($apiEntrada), 'GET');
 		if (isset ($boletagem["contrassin"])) {
 			if (isset ($boletagem["contrassin"])) {
@@ -78,6 +79,28 @@ if (isset($_GET['operacao'])) {
 		}
 		echo json_encode($boletagem);
 		return $boletagem;
+	}
+
+	if ($operacao == "emitirboleto") {
+		$contnum = isset($_POST["contnum"]) ? $_POST["contnum"] : null;
+
+        if ($contnum == "") {
+			$contnum = null;
+		}
+
+		$apiEntrada = 
+		array("dadosEntrada" => array(
+			array('numeroContrato' => $contnum)
+		));
+		/* gabriel - aguardando 
+		$boletoemit = chamaAPI(null, '/crediario/emitirBoleto', json_encode($apiEntrada), 'POST'); */
+		if (isset ($boletoemit["conteudoSaida"])) {
+			if (isset ($boletoemit["conteudoSaida"])) {
+				$boletoemit = $boletoemit["conteudoSaida"][0]; // TRATAMENTO DO RETORNO
+			}
+		}
+		echo json_encode($boletoemit);
+		return $boletoemit;
 	}
 
 }

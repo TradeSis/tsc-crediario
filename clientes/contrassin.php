@@ -68,7 +68,7 @@ if (isset($_SESSION['filtro_contrassin'])) {
                         <th>Nome</th>
                         <th>Cpf/Cnpj</th>
                         <th class="col-3">ID Biometria</th>
-                        <th>Data</th>
+                        <th>Emissão</th>
                         <th>dtproc</th>
                         <th>Valor</th>
                         <th>idNeurotech</th>
@@ -192,7 +192,7 @@ if (isset($_SESSION['filtro_contrassin'])) {
             });
         }
 
-        $("#buscar").click(function () {
+        document.getElementById("buscar").addEventListener("click",function () {
             buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
         })
         $("#etbcod").change(function() {
