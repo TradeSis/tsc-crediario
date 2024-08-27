@@ -126,7 +126,19 @@ hsaida  = dataset conteudoSaida:handle.
 
 
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
-put unformatted string(vlcSaida).
+/* export LONG VAR*/
+DEF VAR vMEMPTR AS MEMPTR  NO-UNDO.
+DEF VAR vloop   AS INT     NO-UNDO.
+if length(vlcsaida) > 30000
+then do:
+    COPY-LOB FROM vlcsaida TO vMEMPTR.
+    DO vLOOP = 1 TO LENGTH(vlcsaida): 
+        put unformatted GET-STRING(vMEMPTR, vLOOP, 1). 
+    END.
+end.
+else do:
+    put unformatted string(vlcSaida).
+end.    
 
 
 
