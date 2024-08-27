@@ -1,7 +1,24 @@
 <?php
-// Lucas 07082024  
 
 include_once(__DIR__ . '/../header.php');
+
+$CliFor = null;
+$cpfcnpj = null;
+$bolcod = null;
+$bancod = null;
+$NossoNumero = null;
+$dtini = null;
+$dtfim = null;
+if (isset($_SESSION['filtro_boletos'])) {
+  $filtroEntrada = $_SESSION['filtro_boletos'];
+  $CliFor = $filtroEntrada['CliFor'];
+  $cpfcnpj = $filtroEntrada['cpfcnpj'];
+  $bolcod = $filtroEntrada['bolcod'];
+  $bancod = $filtroEntrada['bancod'];
+  $NossoNumero = $filtroEntrada['NossoNumero'];
+  $dtini = $filtroEntrada['dtini'];
+  $dtfim = $filtroEntrada['dtfim'];
+}
 
 ?>
 
@@ -25,24 +42,24 @@ include_once(__DIR__ . '/../header.php');
         </div>
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
-            <div class="col-7">
+            <div class="col-5 col-lg-5" id="filtroh6">
                 <h2 class="ts-tituloPrincipal">Boletos</h2>
+                <h6 style="font-size: 10px;font-style:italic;text-align:left;"></h6>
             </div>
 
-            <div class="col-5 text-end">
-                <div class="row">
-                    <div class="col">
-                        <input type="date" class="form-control ts-input" id="DtEmissaoInicial" autocomplete="off" required>
-                    </div>
-                    <div class="col-1 pt-1">
-                        até
-                    </div>
-                    <div class="col">
-                        <input type="date" class="form-control ts-input" id="DtEmissaoFinal" autocomplete="off" required>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-sm btn-primary" type="button" id="filtrardata">Filtrar</button>
-                    </div>
+            <div class="col-3 col-lg-3">
+                <div class="input-group">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#periodoModal"><i class="bi bi-calendar3"></i></button>
+                    <button id="exportCsvButton" class="ms-4 btn btn-success">CSV</button>
+                </div>
+            </div>
+
+            <div class="col-4 col-lg-4">
+                <div class="input-group">
+                    <input type="text" class="form-control ts-input" id="bolcod" placeholder="Buscar Numero do Boleto">
+                    <button class="btn btn-primary rounded" type="button" id="buscar"><i
+                            class="bi bi-search"></i></button>
                 </div>
             </div>
 
@@ -51,18 +68,45 @@ include_once(__DIR__ . '/../header.php');
         <div class="table mt-2 ts-divTabela ts-tableFiltros">
             <table class="table table-sm table-hover">
                 <thead class="ts-headertabelafixo">
-                    <tr>
-                        <th>CPF</th>
+                    <tr class="ts-headerTabelaLinhaCima">
+                        <th>Numero</th>
+                        <th>Cliente</th>
+                        <th>Cpf/Cnpj</th>
                         <th>Documento</th>
                         <th>Banco</th>
                         <th>Nosso Numero</th>
-                        <th>Data Emissão</th>
-                        <th>Data Vencimento</th>
+                        <th>Dt Emissão</th>
+                        <th>Dt Vencimento</th>
                         <th>Valor Cobrado</th>
-                        <th>Data Pagamento</th>
-                        <th>Data Baixa</th>
+                        <th>Dt Pagamento</th>
+                        <th>Dt Baixa</th>
                         <th></th>
                     </tr>
+                    <tr class="ts-headerTabelaLinhaBaixo">
+                        <th></th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cliente [ENTER]"
+                            value="<?php echo $CliFor !== null ? $CliFor : null ?>" name="CliFor" id="CliFor" required>
+                        </th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cpf/Cnpj [ENTER]"
+                            value="<?php echo $cpfcnpj !== null ? $cpfcnpj : null ?>" name="cpfcnpj" id="cpfcnpj" required>
+                        </th>
+                        <th></th>
+                        <th class="col-1">
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Banco [ENTER]"
+                            value="<?php echo $bancod !== null ? $bancod : null ?>" name="bancod" id="bancod" required>
+                        </th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Nosso Numero [ENTER]"
+                            value="<?php echo $NossoNumero !== null ? $NossoNumero : null ?>" name="NossoNumero" id="NossoNumero" required>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                 </thead>
 
                 <tbody id='dados' class="fonteCorpo">
@@ -72,102 +116,50 @@ include_once(__DIR__ . '/../header.php');
         </div>
         <h6 class="fixed-bottom" id="textocontador" style="color: #13216A;"></h6>
 
-        <!--------- VISUALIZAR --------->
-        <div class="modal" id="alterarModal" tabindex="-1" aria-labelledby="alterarModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="tituloVisualizar"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+
+    <!--------- FILTRO PERIODO --------->
+    <div class="modal" id="periodoModal" tabindex="-1"
+        aria-labelledby="periodoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filtro Periodo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form method="post">
+                <div class="row">
+                <div class="form-group col">
+                    <div class="row">
+                    <div class="col">
+                        <label>Emissão De</label>
                     </div>
-                    <div class="modal-body pt-0">
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>Numero do Contrato</label>
-                                <input type="text" class="form-control" name="contnum" id="contnum" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Numero da Parcela</label>
-                                <input type="text" class="form-control" name="titpar" id="titpar" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>nosso Numero Atual</label>
-                                <input type="text" class="form-control" name="NossoNumero" id="NossoNumero" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Codigo do Banco</label>
-                                <input type="text" class="form-control" name="bancod" id="bancod" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>Documento</label>
-                                <input type="text" class="form-control" name="Documento" id="Documento" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Data Vencimento</label>
-                                <input type="text" class="form-control" name="DtVencimento" id="DtVencimento" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>Valor Cobrado</label>
-                                <input type="text" class="form-control" name="VlCobrado" id="VlCobrado" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Data Emissao</label>
-                                <input type="text" class="form-control" name="DtEmissao" id="DtEmissao" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>Linha Digitavel</label>
-                                <input type="text" class="form-control" name="LinhaDigitavel" id="LinhaDigitavel" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Codigo de Barras</label>
-                                <input type="text" class="form-control" name="CodigoBarras" id="CodigoBarras" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>Data Pagamento</label>
-                                <input type="text" class="form-control" name="DtPagamento" id="DtPagamento" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Codigo do Cliente/Fornecedor</label>
-                                <input type="text" class="form-control" name="CliFor" id="CliFor" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label>Data Envio</label>
-                                <input type="text" class="form-control" name="DtEnvio" id="DtEnvio" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Hora Envio</label>
-                                <input type="text" class="form-control" name="hrEnvio" id="hrEnvio" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Data Baixa</label>
-                                <input type="text" class="form-control" name="DtBaixa" id="DtBaixa" readonly>
-                            </div>
-                            <div class="form-group col">
-                                <label>Hora Baixa</label>
-                                <input type="text" class="form-control" name="hrBaixa" id="hrBaixa" readonly>
-                            </div>
-                        </div>
-                    </div><!--body-->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <div class="col">
+                        <label>Até</label>
+                    </div>
+                    </div>
+                    <div class="input-group mb-2">
+                        <input type="date" class="form-control" value="<?php echo $dtini != null ? $dtini : null?>" name="dtini" id="dtini">
+                        <input type="date" class="form-control" value="<?php echo $dtfim != null ? $dtfim : null?>" name="dtfim" id="dtfim">
                     </div>
                 </div>
-            </div>
+                </div>
+                </div>
+                <div class="modal-footer border-0">
+                <div class="col-sm text-start">
+                    <button type="button" class="btn btn-primary" onClick="limparPeriodo()">Limpar</button>
+                </div>
+                <div class="col-sm text-end">
+                    <button type="button" class="btn btn-success" id="filtrarButton" data-dismiss="modal">Filtrar</button>
+                </div>
+                </div>
+            </form>
+            
         </div>
-
+        </div>
     </div>
+
     <!-- LOCAL PARA COLOCAR OS JS -->
 
     <?php include_once ROOT . "/vendor/footer_js.php"; ?>
@@ -176,148 +168,105 @@ include_once(__DIR__ . '/../header.php');
     <script src="<?php echo URLROOT ?>/sistema/js/filtroTabela.js"></script>
 
     <script>
+        buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
+
         $(document).ready(function() {
             var texto = $("#textocontador");
             texto.html('total: ' + 0);
         });
+        
+        function limparPeriodo() {
+            buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(),$("#NossoNumero").val(), null, null);
+            $('#dtini').val("");
+            $('#dtfim').val("");
+            $('#periodoModal').modal('hide');
+        };
 
-        function buscar(DtEmissaoInicial, DtEmissaoFinal) {
-
-            if (DtEmissaoInicial == '' || DtEmissaoFinal == '') {
-                alert("Informe um período")
-            } else {
-
-                $.ajax({
-                    type: 'POST',
-                    dataType: 'html',
-                    url: '<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=buscar',
-                    beforeSend: function() {
-                        $("#dados").html("Carregando...");
-                    },
-                    data: {
-                        DtEmissaoInicial: DtEmissaoInicial,
-                        DtEmissaoFinal: DtEmissaoFinal
-                    },
-                    success: function(msg) {
-                        var contadorItem = 0;
-                        var contadorVlCobrado = 0;
-                        var json = JSON.parse(msg);
-                        var linha = "";
-                        for (var $i = 0; $i < json.length; $i++) {
-                            var object = json[$i];
-                           
-                            contadorItem += 1;
-                            contadorVlCobrado += object.VlCobrado;
-                            linha += "<tr>";
-
-                            var VlCobradoFormatado = object.VlCobrado.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-
-                            linha += "<td>" + object.CliFor + "</td>";
-                            linha += "<td>" + object.Documento + "</td>";
-                            linha += "<td>" + object.bancod + "</td>";
-                            linha += "<td>" + object.NossoNumero + "</td>";
-                            linha += "<td>" + formatDate(object.DtEmissao) + "</td>";
-                            linha += "<td>" + formatDate(object.DtVencimento) + "</td>";
-                            linha += "<td>" + VlCobradoFormatado + "</td>"; 
-                            linha += "<td>" + formatDate(object.DtPagamento) + "</td>";
-                            linha += "<td>" + formatDate(object.DtBaixa) + "</td>";
-
-                            linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#alterar' ";
-                            linha = linha + " data-contnum='" + object.contnum + "' ";
-                            linha = linha + " data-titpar='" + object.titpar + "' ";
-                            linha = linha + " data-NossoNumero='" + object.NossoNumero + "' ";
-                            linha = linha + " data-bancod='" + object.bancod + "' ";
-                            linha = linha + " data-Documento='" + object.Documento + "' ";
-                            linha = linha + " data-DtVencimento='" + object.DtVencimento + "' ";
-                            linha = linha + " data-VlCobrado='" + object.VlCobrado + "' ";
-                            linha = linha + " data-DtEmissao='" + object.DtEmissao + "' ";
-                            linha = linha + " data-LinhaDigitavel='" + object.LinhaDigitavel + "' ";
-                            linha = linha + " data-CodigoBarras='" + object.CodigoBarras + "' ";
-                            linha = linha + " data-DtPagamento='" + object.DtPagamento + "' ";
-                            linha = linha + " data-CliFor='" + object.CliFor + "' ";
-                            linha = linha + " data-DtEnvio='" + object.DtEnvio + "' ";
-                            linha = linha + " data-hrEnvio='" + object.hrEnvio + "' ";
-                            linha = linha + " data-DtBaixa='" + object.DtBaixa + "' ";
-                            linha = linha + " data-hrBaixa='" + object.hrBaixa + "' ";
-                            linha = linha + " ><i class='bi bi-eye-fill'></i></button>";
-
-                            linha += "</td>";
-
-                            linha += "</tr>";
-                        }
-
-                        $("#dados").html(linha);
-
-                        var texto = $("#textocontador");
-                        var VlCobrado = contadorVlCobrado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                        texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlCobrado);
-                    }
-                });
+        function buscar(CliFor,cpfcnpj,bolcod,bancod,NossoNumero,dtini, dtfim) {
+            //alert (buscar);
+            var h6Element = $("#filtroh6 h6");
+            var text = "";
+            if (dtini !== null && dtini !== '') {
+                text += "Periodo de " + formatDate(dtini);
             }
-        }
-
-
-        $("#filtrardata").click(function() {
-            buscar($("#DtEmissaoInicial").val(), $("#DtEmissaoFinal").val());
-        });
-
-
-        $(document).on('click', 'button[data-bs-target="#alterar"]', function() {
-            var contnum = $(this).attr("data-contnum");
-            var titpar = $(this).attr("data-titpar");
-            var NossoNumero = $(this).attr("data-NossoNumero");
-            var bancod = $(this).attr("data-bancod");
-
-            var Documento = $(this).attr("data-Documento");
-            var texto = $("#tituloVisualizar");
-            texto.html('Visualizar Documento: ' + Documento);
-
-            var DtVencimento = $(this).attr("data-DtVencimento");
-            var VlCobrado = $(this).attr("data-VlCobrado");
-            var DtEmissao = $(this).attr("data-DtEmissao");
-            var LinhaDigitavel = $(this).attr("data-LinhaDigitavel");
-            var CodigoBarras = $(this).attr("data-CodigoBarras");
-            var DtPagamento = $(this).attr("data-DtPagamento");
-            var CliFor = $(this).attr("data-CliFor");
-            var DtEnvio = $(this).attr("data-DtEnvio");
-            var hrEnvio = $(this).attr("data-hrEnvio");
-            var DtBaixa = $(this).attr("data-DtBaixa");
-            var hrBaixa = $(this).attr("data-hrBaixa");
-
-            $('#contnum').val(contnum);
-            $('#titpar').val(titpar);
-            $('#NossoNumero').val(NossoNumero);
-            $('#bancod').val(bancod);
-            $('#Documento').val(Documento);
-            $('#DtVencimento').val(formatDate(DtVencimento));
-            $('#VlCobrado').val(VlCobrado);
-            $('#DtEmissao').val(formatDate(DtEmissao));
-            $('#LinhaDigitavel').val(LinhaDigitavel);
-            $('#CodigoBarras').val(CodigoBarras);
-            $('#DtPagamento').val(formatDate(DtPagamento));
-            $('#CliFor').val(CliFor);
-            $('#DtEnvio').val(formatDate(DtEnvio));
-            $('#hrEnvio').val(hrEnvio);
-            $('#DtBaixa').val(formatDate(DtBaixa));
-            $('#hrBaixa').val(hrBaixa);
-
-            $('#alterarModal').modal('show');
-
-        });
-
-        // modifica efeito de seleção do select modalidade
-        window.onmousedown = function(e) {
-            var el = e.target;
-            if (el.tagName.toLowerCase() == 'option' && el.parentNode.hasAttribute('multiple')) {
-                e.preventDefault();
-
-                if (el.hasAttribute('selected')) el.removeAttribute('selected');
-                else el.setAttribute('selected', '');
-
-                var select = el.parentNode.cloneNode(true);
-                el.parentNode.parentNode.replaceChild(select, el.parentNode);
+            if (dtfim !== null && dtfim !== '') {
+                if (text) text += " até ";
+                text += formatDate(dtfim);
             }
-        }
+
+            h6Element.html(text);
+            $.ajax({
+                 type: 'POST',
+                 dataType: 'html',
+                 url: '<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=buscar',
+                 beforeSend: function() {
+                     $("#dados").html("Carregando...");
+                 },
+                 data: {
+                    CliFor: CliFor,
+                    cpfcnpj: cpfcnpj,
+                    bolcod: bolcod,
+                    bancod: bancod,
+                    NossoNumero: NossoNumero,
+                    dtini: dtini,
+                    dtfim: dtfim
+                 },
+                 success: function(msg) {
+                     var contadorItem = 0;
+                     var contadorVlCobrado = 0;
+                     var json = JSON.parse(msg);
+                     var linha = "";
+                     for (var $i = 0; $i < json.length; $i++) {
+                         var object = json[$i];
+                        
+                         contadorItem += 1;
+                         contadorVlCobrado += object.VlCobrado;
+                         linha += "<tr>";
+
+                         linha += "<td>" + object.bolcod + "</td>";
+                         linha += "<td>" + object.CliFor + "</td>";
+                         linha += "<td>" + object.cpfcnpj + "</td>";
+                         linha += "<td>" + object.Documento + "</td>";
+                         linha += "<td>" + object.bancod + "</td>";
+                         linha += "<td>" + object.NossoNumero + "</td>";
+                         linha += "<td>" + (object.DtEmissao ? formatDate(object.DtEmissao) : "--") + "</td>";
+                         linha += "<td>" + (object.DtVencimento ? formatDate(object.DtVencimento) : "--") + "</td>";
+                         linha += "<td>" + parseFloat(object.VlCobrado).toFixed(2).replace('.', ',') + "</td>"; 
+                         linha += "<td>" + (object.DtPagamento ? formatDate(object.DtPagamento) : "--") + "</td>";
+                         linha += "<td>" + (object.DtBaixa ? formatDate(object.DtBaixa) : "--") + "</td>";
+
+                         linha = linha + "<td>" + "<a class='btn btn-primary btn-sm' href='visualizar_boleto.php?bolcod=" + object.bolcod + "' role='button'><i class='bi bi-eye-fill'></i></a>";
+
+                         linha += "</td>";
+
+                         linha += "</tr>";
+                     }
+
+                     $("#dados").html(linha);
+
+                     var texto = $("#textocontador");
+                     var VlCobrado = contadorVlCobrado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                     texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlCobrado);
+                 }
+             });
+         }
+
+        $("#buscar").click(function () {
+            buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
+        })
+        $(document).ready(function() {
+            $("#filtrarButton").click(function() {
+
+                buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
+                $('#periodoModal').modal('hide');
+                
+            });
+        });  
+        document.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
+            }
+        });
 
         // FORMATAR DATAS
         function formatDate(dateString) {
@@ -329,6 +278,39 @@ include_once(__DIR__ . '/../header.php');
                 return day + "/" + month + "/" + year;
             }
             return "";
+        }
+
+        document.getElementById("exportCsvButton").addEventListener("click", function () {
+            exportTableToCSV('boletos.csv');
+        });
+
+        function exportTableToCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("table tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].classList.contains("ts-headerTabelaLinhaBaixo")) {
+                    continue;
+                }
+                var row = [],
+                    cols = rows[i].querySelectorAll("td, th");
+                for (var j = 0; j < cols.length - 1; j++) { 
+                    let cellText = cols[j].innerText.trim();
+                    if (j === 9) {
+                        cellText = cellText.replace('.', '').replace(',', '.');
+                    }
+                    row.push(cellText);
+                }
+                csv.push(row.join(";"));
+            }
+            var csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+            var downloadLink = document.createElement("a");
+            downloadLink.download = filename;
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
         }
     </script>
 

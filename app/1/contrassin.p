@@ -8,6 +8,7 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
+    field acao  as char
     field contnum  like contrassin.contnum
     field dtproc like contrassin.dtproc
     field etbcod like contrassin.etbcod
@@ -32,36 +33,76 @@ hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
 find first ttentrada no-error.
 
-IF ttentrada.contnum = ? 
-THEN DO:
-    for each contrassin where 
-        contrassin.dtproc = ttentrada.dtproc AND
-        (if ttentrada.etbcod = ? 
-        then true else contrassin.etbcod = ttentrada.etbcod) AND
-        (if ttentrada.dtini = ? 
-        then true else contrassin.dtinclu >= ttentrada.dtini) AND
-        (if ttentrada.dtfim = ? 
-        then true else contrassin.dtinclu <= ttentrada.dtfim) 
-        no-lock.
+if ttentrada.acao = "boletagem"
+then do:
+    IF ttentrada.contnum = ? 
+    THEN DO:
+        for each contrassin where 
+            contrassin.boletavel = yes AND
+            (if ttentrada.etbcod = ? 
+            then true else contrassin.etbcod = ttentrada.etbcod) AND
+            (if ttentrada.dtini = ? 
+            then true else contrassin.dtboletagem >= ttentrada.dtini) AND
+            (if ttentrada.dtfim = ? 
+            then true else contrassin.dtboletagem <= ttentrada.dtfim) 
+            no-lock.
 
-        create ttcontrassin.
-        BUFFER-COPY contrassin TO ttcontrassin.
-
-    end.
-END.
-
-IF ttentrada.contnum <> ?
-THEN DO:
-    find contrassin where 
-        contrassin.contnum = ttentrada.contnum 
-        NO-LOCK no-error.
-        
-        if avail contrassin
-        then do:
             create ttcontrassin.
             BUFFER-COPY contrassin TO ttcontrassin.
+
         end.
-END.
+    END.
+
+    IF ttentrada.contnum <> ?
+    THEN DO:
+        find contrassin where 
+            contrassin.boletavel = yes AND
+            contrassin.contnum = ttentrada.contnum 
+            NO-LOCK no-error.
+            
+            if avail contrassin
+            then do:
+                create ttcontrassin.
+                BUFFER-COPY contrassin TO ttcontrassin.
+            end.
+    END.
+    
+
+end.
+else do:
+
+    IF ttentrada.contnum = ? 
+    THEN DO:
+        for each contrassin where 
+            contrassin.dtproc = ttentrada.dtproc AND
+            (if ttentrada.etbcod = ? 
+            then true else contrassin.etbcod = ttentrada.etbcod) AND
+            (if ttentrada.dtini = ? 
+            then true else contrassin.dtinclu >= ttentrada.dtini) AND
+            (if ttentrada.dtfim = ? 
+            then true else contrassin.dtinclu <= ttentrada.dtfim) 
+            no-lock.
+
+            create ttcontrassin.
+            BUFFER-COPY contrassin TO ttcontrassin.
+
+        end.
+    END.
+
+    IF ttentrada.contnum <> ?
+    THEN DO:
+        find contrassin where 
+            contrassin.contnum = ttentrada.contnum 
+            NO-LOCK no-error.
+            
+            if avail contrassin
+            then do:
+                create ttcontrassin.
+                BUFFER-COPY contrassin TO ttcontrassin.
+            end.
+    END.
+
+end.    
     
 
   
@@ -72,7 +113,7 @@ if not avail ttcontrassin
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
-    ttsaida.descricaoStatus = "Pessoa nao encontrada".
+    ttsaida.descricaoStatus = "Assinatura nao encontrada".
 
     hsaida  = temp-table ttsaida:handle.
 
