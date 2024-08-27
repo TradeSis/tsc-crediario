@@ -52,7 +52,8 @@ def temp-table ttparcelas  no-undo serialize-name "parcelas"
     field vlrParcela        as char
     field situacao          as char
     field dtPagamento       as date format "99/99/9999"
-    field vlrPago           as char.
+    field vlrPago           as char
+    field bolcod           as int.
 
 def temp-table ttprodutos  no-undo serialize-name "produtos"
     field numeroContrato   as int
@@ -174,6 +175,13 @@ end.
             then ttcontrato.dtProxVencimento = titulo.titdtven.
             else ttcontrato.dtProxVencimento = min(ttcontrato.dtProxVencimento,titulo.titdtven).
         end.
+
+        find boletagparcela where boletagparcela.contnum = contrato.contnum and boletagparcela.titpar = titulo.titpar no-lock no-error.
+        if avail boletagparcela
+        then do:
+            ttparcelas.bolcod = boletagparcela.bolcod.
+        end.
+
     end.
     ttcontrato.valorAberto       = trim(string(vvalorAberto,"->>>>>>>>>>>>>>>>>>9.99")).
     ttcontrato.valorVencido      = trim(string(vvalorVencido,"->>>>>>>>>>>>>>>>>>9.99")).

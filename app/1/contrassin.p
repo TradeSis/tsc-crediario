@@ -9,6 +9,8 @@ def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
     field acao  as char
+    field boletavel like contrassin.boletavel
+    field dtbol like contrassin.dtboletagem
     field contnum  like contrassin.contnum
     field dtproc like contrassin.dtproc
     field etbcod like contrassin.etbcod
@@ -38,7 +40,9 @@ then do:
     IF ttentrada.contnum = ? 
     THEN DO:
         for each contrassin where 
-            contrassin.boletavel = yes AND
+            contrassin.boletavel = ttentrada.boletavel AND
+            (if ttentrada.dtbol = ? 
+            then true else contrassin.dtboletagem = ttentrada.dtbol) AND
             (if ttentrada.etbcod = ? 
             then true else contrassin.etbcod = ttentrada.etbcod) AND
             (if ttentrada.dtini = ? 

@@ -295,6 +295,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                     <th class="text-center">Sit</th>
                                                     <th class="text-center">Dt Pag</th>
                                                     <th class="text-center">Pag</th>
+                                                    <th class="text-center">N.Boleto</th>
                                                 </tr>
                                             </thead>
                                             <?php foreach ($parcelas as $parcela) { ?>
@@ -321,6 +322,11 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                     </td>
                                                     <td class="text-center">
                                                         <?php echo number_format($parcela['vlrPago'], 2, ',', '') ?>
+                                                    </td>
+                                                    <td class="text-center ts-click">
+                                                        <a href="../boletagem/visualizar_boleto.php?bolcod=<?php echo $parcela['bolcod'] ?>">
+                                                            <?php echo $parcela['bolcod'] ?>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -371,22 +377,38 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                 <div class="tabContent">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="col-md">
-                                                <label>etbcod</label>
-                                                <input type="text" class="form-control"
-                                                    value="<?php echo isset($assinatura['etbcod']) ? $assinatura['etbcod'] : '' ?>"
-                                                    readonly>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="col-md">
+                                                        <label>etbcod</label>
+                                                        <input type="text" class="form-control"
+                                                            value="<?php echo isset($assinatura['etbcod']) ? $assinatura['etbcod'] : '' ?>"
+                                                            readonly>
+                                                    </div>
+                                                    <label>Data de Inclusão</label>
+                                                    <input type="text" class="form-control"
+                                                        value="<?php echo isset($assinatura['dtinclu']) ? date('d/m/Y', strtotime($assinatura['dtinclu'])) : '' ?>"
+                                                        readonly>
+                                                   
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>Boletavel</label>
+                                                    <input type="text" class="form-control"
+                                                        value="<?php echo isset($assinatura['boletavel']) ? ($assinatura['boletavel'] ? 'sim' : 'não') : ''; ?>"
+                                                        readonly>
+                                                    <label>Data de Boletagem</label>
+                                                    <input type="text" class="form-control"
+                                                        value="<?php echo isset($assinatura['dtboletagem']) ? date('d/m/Y', strtotime($assinatura['dtboletagem'])) : '' ?>"
+                                                        readonly>
+                                                </div>
+                                                <div class="col">
+                                                    <label>idBiometria</label>
+                                                    <input type="text" class="form-control"
+                                                    value="<?php echo isset($assinatura['idBiometria']) ? $assinatura['idBiometria'] : '' ?>" readonly>
+                                                </div>
                                             </div>
-                                            <label>Data de Inclusão</label>
-                                            <input type="text" class="form-control"
-                                                value="<?php echo isset($assinatura['dtinclu']) ? date('d/m/Y', strtotime($assinatura['dtinclu'])) : '' ?>"
-                                                readonly>
-                                            <label>idBiometria</label>
-                                            <input type="text" class="form-control"
-                                                value="<?php echo isset($assinatura['idBiometria']) ? $assinatura['idBiometria'] : '' ?>"
-                                                readonly>
                                         </div>
-                                        <div class="col text-center">
+                                        <div class="col-6 text-center">
                                             <img src="<?php echo 'data:image/png;base64,' . $foto ?>" class="img-fluid"
                                                 alt="Image Preview" style="max-width: 150px; max-height: 150px;">
                                         </div>
