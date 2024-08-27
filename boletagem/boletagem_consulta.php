@@ -72,11 +72,9 @@ if (isset($_SESSION['filtro_boletagem'])) {
                         <th class="col-2">Filial</th>
                         <th>Contrato</th>
                         <th>Cliente</th>
-                        <th>Nome</th>
                         <th>Cpf/Cnpj</th>
                         <th class="col-2">ID Biometria</th>
                         <th>Emissão</th>
-                        <th>dtproc</th>
                         <th>Boletavel</th>
                         <th>Data</th>
                         <th>Valor</th>
@@ -91,7 +89,6 @@ if (isset($_SESSION['filtro_boletagem'])) {
                                 <button class="btn ts-input btn-outline-secondary" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
                             </div>
                         </th>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -233,11 +230,9 @@ if (isset($_SESSION['filtro_boletagem'])) {
                         linha = linha + "<td>" + object.etbcod + "</td>";
                         linha = linha + "<td>" + object.contnum + "</td>";
                         linha = linha + "<td>" + object.clicod + "</td>";
-                        linha = linha + "<td>" + object.nomeCliente + "</td>";
                         linha = linha + "<td>" + object.cpfCNPJ + "</td>";
                         linha = linha + "<td>" + object.idBiometria + "</td>";
                         linha = linha + "<td>" + (object.dtinclu ? formatarData(object.dtinclu) : "--") + "</td>";
-                        linha = linha + "<td>" + (object.dtproc ? formatarData(object.dtproc) : "--") + "</td>";
                         linha = linha + "<td>" + (object.boletavel ? "Sim" : "Não") + "</td>";
                         linha = linha + "<td>" + (object.dtboletagem ? formatarData(object.dtboletagem) : "--") + "</td>";
                         linha = linha + "<td>" + parseFloat(object.vltotal).toFixed(2).replace('.', ',') + "</td>";
