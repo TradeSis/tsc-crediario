@@ -41,8 +41,7 @@ then do:
     THEN DO:
         for each contrassin where 
             contrassin.boletavel = ttentrada.boletavel AND
-            (if ttentrada.dtbol = ? 
-            then true else contrassin.dtboletagem = ttentrada.dtbol) AND
+            contrassin.dtbol = ttentrada.dtbol AND
             (if ttentrada.etbcod = ? 
             then true else contrassin.etbcod = ttentrada.etbcod) AND
             (if ttentrada.dtini = ? 
