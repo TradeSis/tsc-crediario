@@ -55,19 +55,16 @@ then do:
 
         end.
     END.
-
-    IF ttentrada.contnum <> ?
-    THEN DO:
+    else do:
         find contrassin where 
-            contrassin.boletavel = yes AND
             contrassin.contnum = ttentrada.contnum 
             NO-LOCK no-error.
             
-            if avail contrassin
-            then do:
-                create ttcontrassin.
-                BUFFER-COPY contrassin TO ttcontrassin.
-            end.
+        if avail contrassin
+        then do:
+            create ttcontrassin.
+            BUFFER-COPY contrassin TO ttcontrassin.
+        end.
     END.
     
 
@@ -91,18 +88,16 @@ else do:
 
         end.
     END.
-
-    IF ttentrada.contnum <> ?
-    THEN DO:
+    else DO:
         find contrassin where 
             contrassin.contnum = ttentrada.contnum 
             NO-LOCK no-error.
             
-            if avail contrassin
-            then do:
-                create ttcontrassin.
-                BUFFER-COPY contrassin TO ttcontrassin.
-            end.
+        if avail contrassin
+        then do:
+            create ttcontrassin.
+            BUFFER-COPY contrassin TO ttcontrassin.
+        end.
     END.
 
 end.    
