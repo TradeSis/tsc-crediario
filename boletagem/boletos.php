@@ -59,8 +59,8 @@ if (isset($_SESSION['filtro_boletos'])) {
                         </div>
                         </div>
                         <div class="input-group">
-                            <input type="date" class="form-control" value="<?php echo $dtini != null ? $dtini : null?>" name="dtini" id="dtini">
-                            <input type="date" class="form-control" value="<?php echo $dtfim != null ? $dtfim : null?>" name="dtfim" id="dtfim">
+                            <input type="date" class="form-control" value="<?php echo $dtini != null ? $dtini : date('Y-m-d') ?>" name="dtini" id="dtini">
+                            <input type="date" class="form-control" value="<?php echo $dtfim != null ? $dtfim : date('Y-m-d') ?>" name="dtfim" id="dtfim">
                         </div>
                     </div>
                     <button class="ms-4 btn btn-sm btn-primary" type="button" id="filtrarButton">Filtrar</button>
@@ -147,13 +147,6 @@ if (isset($_SESSION['filtro_boletos'])) {
             texto.html('total: ' + 0);
         });
         
-        function limparPeriodo() {
-            buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(),$("#NossoNumero").val(), null, null);
-            $('#dtini').val("");
-            $('#dtfim').val("");
-            $('#periodoModal').modal('hide');
-        };
-
         function buscar(CliFor,cpfcnpj,bolcod,bancod,NossoNumero,dtini, dtfim) {
             if (dtini == '' || dtfim == '') {
                 alert("Informe um período")
@@ -232,10 +225,7 @@ if (isset($_SESSION['filtro_boletos'])) {
         })
         $(document).ready(function() {
             $("#filtrarButton").click(function() {
-
                 buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
-                $('#periodoModal').modal('hide');
-                
             });
         });  
         document.addEventListener("keypress", function (e) {
