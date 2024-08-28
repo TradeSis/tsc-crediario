@@ -140,8 +140,6 @@ if (isset($_SESSION['filtro_boletos'])) {
     <script src="<?php echo URLROOT ?>/sistema/js/filtroTabela.js"></script>
 
     <script>
-        buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
-
         $(document).ready(function() {
             var texto = $("#textocontador");
             texto.html('total: ' + 0);
