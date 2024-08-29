@@ -99,6 +99,8 @@ if (isset($_SESSION['filtro_contrassin'])) {
                 </tbody>
             </table>
         </div>
+        <h6 class="fixed-bottom" id="textocontador" style="color: #13216A;"></h6>
+
     </div>
 
      <!--------- FILTRO PERIODO --------->
@@ -111,6 +113,11 @@ if (isset($_SESSION['filtro_contrassin'])) {
 
     <script>
         buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+
+        $(document).ready(function() {
+            var texto = $("#textocontador");
+            texto.html('total: ' + 0);
+        });
 
         function naoproc() {
             var dtproc = $("#dtproc");
@@ -164,11 +171,15 @@ if (isset($_SESSION['filtro_contrassin'])) {
                 success: function (msg) {
                     //alert("segundo alert: " + msg);
                     //console.log(msg);
+                    var contadorItem = 0;
+                    var contadorVlTotal = 0;
                     var json = JSON.parse(msg);
-
                     var linha = "";
                     for (var $i = 0; $i < json.length; $i++) {
                         var object = json[$i];
+
+                        contadorItem += 1;
+                        contadorVlTotal += parseFloat(object.vltotal);
 
                         linha = linha + "<tr>";
                         linha = linha + "<td>" + object.etbcod + "</td>";
@@ -188,6 +199,10 @@ if (isset($_SESSION['filtro_contrassin'])) {
                         linha = linha + "</tr>";
                     }
                     $("#dados").html(linha);
+
+                    var texto = $("#textocontador");
+                    var VlTotal = contadorVlTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlTotal);
                 }
             });
         }
