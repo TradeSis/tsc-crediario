@@ -179,7 +179,7 @@ if (isset($_SESSION['filtro_contrassin'])) {
                         var object = json[$i];
 
                         contadorItem += 1;
-                        contadorVlTotal += object.vltotal;
+                        contadorVlTotal += parseFloat(object.vltotal);
 
                         linha = linha + "<tr>";
                         linha = linha + "<td>" + object.etbcod + "</td>";
@@ -202,7 +202,7 @@ if (isset($_SESSION['filtro_contrassin'])) {
 
                     var texto = $("#textocontador");
                     var VlTotal = contadorVlTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Total: ' + VlTotal);
+                    texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlTotal);
                 }
             });
         }
