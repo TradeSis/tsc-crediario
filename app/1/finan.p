@@ -33,29 +33,19 @@ varPagina = ttentrada.pagina + 10.
 IF ttentrada.fincod <> ?
 then do:
     find finan where finan.fincod = ttentrada.fincod no-lock no-error.
-    if not avail finan
+    if avail finan
     then do:
-        create ttsaida.
-        ttsaida.tstatus = 400.
-        ttsaida.retorno = "finan nao encontrado".
-
-        hsaida  = temp-table ttsaida:handle.
-
-        lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
-        message string(vlcSaida).
-        return.
+        create ttfinan.
+        ttfinan.fincod    = finan.fincod.
+        ttfinan.finnom    = finan.finnom.
+        ttfinan.finent    = finan.finent.
+        ttfinan.finnpc    = finan.finnpc.
+        ttfinan.finfat    = finan.finfat.
+        ttfinan.datexp    = finan.datexp.
+        ttfinan.txjurosmes    = finan.txjurosmes.
+        ttfinan.txjurosano    = finan.txjurosano.
+        ttfinan.DPriPag    = finan.DPriPag.
     end.
-
-    create ttfinan.
-    ttfinan.fincod    = finan.fincod.
-    ttfinan.finnom    = finan.finnom.
-    ttfinan.finent    = finan.finent.
-    ttfinan.finnpc    = finan.finnpc.
-    ttfinan.finfat    = finan.finfat.
-    ttfinan.datexp    = finan.datexp.
-    ttfinan.txjurosmes    = finan.txjurosmes.
-    ttfinan.txjurosano    = finan.txjurosano.
-    ttfinan.DPriPag    = finan.DPriPag.
 end. 
 ELSE DO:
     for each finan no-lock.
