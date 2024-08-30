@@ -35,13 +35,7 @@ $dados = json_decode($retorno, true);
 if (isset($dados["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
     $dados = $dados["conteudoSaida"][0];
 } else {
-    if((!isset($jsonEntrada['dadosEntrada'][0])) && ($jsonEntrada['dadosEntrada'][0]['fincod'] != null)){
-        $dados = $dados['finan'][0];
-    }else{
-        $dados = $dados["finan"];
-    }
-    //$dados = $dados["finan"];
-
+    $dados = $dados["finan"];
 }
 
 

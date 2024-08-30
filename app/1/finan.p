@@ -19,7 +19,6 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
     field tstatus        as int serialize-name "status"
     field retorno      as char.
 
-def VAR vfincod like ttentrada.fincod.
 DEF VAR contador AS INT.
 DEF VAR varPagina AS INT.
 
@@ -30,19 +29,24 @@ find first ttentrada no-error.
 contador = 0.
 varPagina = ttentrada.pagina + 10.
 
-vfincod = ?.
-if avail ttentrada
-then do:
-    vfincod = ttentrada.fincod.
-end.
 
-IF ttentrada.fincod <> ? OR (ttentrada.fincod = ?)
-THEN DO:
-    for each finan where
-        (if vfincod = ?
-         then true /* TODOS */
-         else finan.fincod = vfincod) 
-         no-lock.
+IF ttentrada.fincod <> ?
+then do:
+    find finan where finan.fincod = ttentrada.fincod no-lock.
+
+    create ttfinan.
+    ttfinan.fincod    = finan.fincod.
+    ttfinan.finnom    = finan.finnom.
+    ttfinan.finent    = finan.finent.
+    ttfinan.finnpc    = finan.finnpc.
+    ttfinan.finfat    = finan.finfat.
+    ttfinan.datexp    = finan.datexp.
+    ttfinan.txjurosmes    = finan.txjurosmes.
+    ttfinan.txjurosano    = finan.txjurosano.
+    ttfinan.DPriPag    = finan.DPriPag.
+end. 
+ELSE DO:
+    for each finan no-lock.
          
          contador = contador + 1.
         IF contador > ttentrada.pagina and contador <= varPagina THEN DO:
@@ -57,8 +61,6 @@ THEN DO:
             ttfinan.txjurosano    = finan.txjurosano.
             ttfinan.DPriPag    = finan.DPriPag.  
             
-            //ttfincod.etbnom   = removeacento(estab.etbnom).
-            //ttfincod.munic   = removeacento(estab.munic).
         end.
     end.
 END.

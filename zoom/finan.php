@@ -63,7 +63,7 @@
 
 
     $(document).on('click', 'button[data-bs-target="#zoomPlanosModal"]', function() {
-        buscarPlan($("#buscaPlano").val(), pagina);
+        buscarPlan(null, pagina);
     });
 
 
