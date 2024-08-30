@@ -59,15 +59,15 @@
 <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
 <script>
-    var pagina = 0;
+    var paginaZoomFinan = 0;
 
 
     $(document).on('click', 'button[data-bs-target="#zoomPlanosModal"]', function() {
-        buscarPlan(null, pagina);
+        buscarPlan(null, 0);
     });
 
 
-    function buscarPlan(buscaPlano, pagina) {
+    function buscarPlan(buscaPlano, paginaZoomFinan) {
         //alert (buscaPlano);
         $.ajax({
             type: 'POST',
@@ -78,7 +78,7 @@
             },
             data: {
                 fincod: buscaPlano,
-                pagina: pagina
+                pagina: paginaZoomFinan
             },
             async: false,
             success: function (msg) {
@@ -102,7 +102,7 @@
                     $("#dadosFinan").html(linha);
 
                     $("#prevPage_planos, #nextPage_planos").show();
-                    if (pagina == 0) {
+                    if (paginaZoomFinan == 0) {
                         $("#prevPage_planos").hide();
                     }
                     if (json.length < 10) {
@@ -123,15 +123,15 @@
     });
 
     $("#prevPage_planos").click(function () {
-        if (pagina > 0) {
-            pagina -= 10;
-            buscarPlan($("#buscaPlano").val(), pagina);
+        if (paginaZoomFinan > 0) {
+            paginaZoomFinan -= 10;
+            buscarPlan($("#buscaPlano").val(), paginaZoomFinan);
         }
     });
 
     $("#nextPage_planos").click(function () {
-        pagina += 10;
-        buscarPlan($("#buscaPlano").val(), pagina);
+        paginaZoomFinan += 10;
+        buscarPlan($("#buscaPlano").val(), paginaZoomFinan);
     });
 
 </script>
