@@ -13,6 +13,7 @@ if (isset($_SESSION['filtro_contrassin'])) {
   $dtfim = $filtroEntrada['dtfim'];
 }
 
+$contrassin = "Sim"; //usando no include de zoomEstab
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -58,6 +59,9 @@ if (isset($_SESSION['filtro_contrassin'])) {
 
         </div>
 
+        <!-- botão de modais que ficam escondidos -->
+        <button type="button" class="btn btn-success d-none" data-bs-toggle="modal" data-bs-target="#zoomEstabModal" id="abreEstabModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
+
         <div class="table mt-2 ts-divTabela ts-tableFiltros text-center">
             <table class="table table-sm table-hover">
                 <thead class="ts-headertabelafixo">
@@ -79,7 +83,7 @@ if (isset($_SESSION['filtro_contrassin'])) {
                             <div class="input-group">
                                 <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 input-etbcod" placeholder="Digite Filial [ENTER]"
                                 value="<?php echo $etbcod !== null ? $etbcod : null ?>" name="etbcod" id="etbcod" required>
-                                <button class="btn ts-input btn-outline-secondary" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
+                                <button class="btn ts-input btn-outline-secondary ts-acionaZoomEstab" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
                             </div>
                         </th>
                         <th></th>
@@ -103,9 +107,11 @@ if (isset($_SESSION['filtro_contrassin'])) {
 
     </div>
 
-     <!--------- FILTRO PERIODO --------->
+    <!--------- FILTRO PERIODO --------->
     <?php include_once 'modal_periodo.php' ?>
-    <?php include_once 'zoomEstab.php'; ?>
+
+    <!--------- MODAIS DE ZOOM --------->
+    <?php include ROOT . '/cadastros/zoom/estab.php'; ?>
 
     <!-- LOCAL PARA COLOCAR OS JS -->
 
@@ -335,9 +341,14 @@ if (isset($_SESSION['filtro_contrassin'])) {
         });
 
         
-        $("#button-etbcod").click(function(event) {
+        /* $("#button-etbcod").click(function(event) {
             event.preventDefault(); 
             $("#zoomEstabModal").modal('show');
+        }); */
+        // Ao clicar no input Filial simula um click no botão do modal "Estabelecimentos"
+        $(document).on('click', '.ts-acionaZoomEstab', function() {
+            const elemento = document.getElementById('abreEstabModal');
+            elemento.click()
         });
 
         $(document).on('click', '.ts-click', function () {

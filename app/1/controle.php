@@ -33,10 +33,6 @@ if ($metodo=="GET"){
         include 'filacredito.php';
       break;
 
-      case "estab":
-        include 'estab.php';
-      break;
-
       case "assinatura":
         include 'contrassin.php';
       break;
