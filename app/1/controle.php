@@ -49,6 +49,8 @@ if ($metodo=="GET"){
       case "contrassinestab":
         include 'contrassinestab.php';
 
+      case "finan":
+        include 'finan.php';
       break;
 
       default:
