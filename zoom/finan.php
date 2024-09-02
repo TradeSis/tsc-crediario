@@ -113,11 +113,13 @@
         });
     }
     $("#btnBuscarPlano").click(function () {
+        paginaZoomFinan = 0;
         buscarPlan($("#buscaPlano").val(), 0);
     })
 
     document.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
+            paginaZoomFinan = 0;
             buscarPlan($("#buscaPlano").val(), 0);
         }
     });

@@ -50,20 +50,22 @@ end.
 ELSE DO:
     for each finan no-lock.
          
-         contador = contador + 1.
-        IF contador > ttentrada.pagina and contador <= varPagina THEN DO:
-            create ttfinan.
-            ttfinan.fincod    = finan.fincod.
-            ttfinan.finnom    = finan.finnom.
-            ttfinan.finent    = finan.finent.
-            ttfinan.finnpc    = finan.finnpc.
-            ttfinan.finfat    = finan.finfat.
-            ttfinan.datexp    = finan.datexp.
-            ttfinan.txjurosmes    = finan.txjurosmes.
-            ttfinan.txjurosano    = finan.txjurosano.
-            ttfinan.DPriPag    = finan.DPriPag.  
+        contador = contador + 1.
+        
+        if contador <= ttentrada.pagina THEN NEXT.
+        if contador > varPagina         THEN LEAVE.
+
+        create ttfinan.
+        ttfinan.fincod    = finan.fincod.
+        ttfinan.finnom    = finan.finnom.
+        ttfinan.finent    = finan.finent.
+        ttfinan.finnpc    = finan.finnpc.
+        ttfinan.finfat    = finan.finfat.
+        ttfinan.datexp    = finan.datexp.
+        ttfinan.txjurosmes    = finan.txjurosmes.
+        ttfinan.txjurosano    = finan.txjurosano.
+        ttfinan.DPriPag    = finan.DPriPag.  
             
-        end.
     end.
 END.
 
