@@ -12,15 +12,10 @@ def var hsaida   as handle.             /* HANDLE SAIDA */
 def temp-table ttmnemos  no-undo serialize-name "mnemos"  /* JSON SAIDA */
     field mnemo as char format "x(25)"
     field nome   as char format "x(25)".
-    //index x is unique primary mnemo.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
     field retorno      as char.
-
-//hEntrada = temp-table ttentrada:HANDLE.
-//lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
-//find first ttentrada no-error.
 
 create ttmnemos. 
 ttmnemos.mnemo =  "<b>DADOS DO CLIENTE</b>". 
