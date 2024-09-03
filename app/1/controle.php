@@ -37,7 +37,6 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
-
       case "parametrizacao":
         include 'boletagparam.php';
       break;
@@ -51,7 +50,14 @@ if ($metodo=="GET"){
 
       case "finan":
         include 'finan.php';
+      case "termos":
+        include 'termos.php';
       break;
+
+      case "mnemos":
+        include 'mnemos.php';
+
+        break;
 
       default:
         $jsonSaida = json_decode(json_encode(
@@ -67,7 +73,9 @@ if ($metodo=="GET"){
       case "parametrizacao":
         include 'boletagparam_inserir.php';
       break;
-
+      case "termos":
+        include 'termos_inserir.php';
+        break;
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -78,6 +86,11 @@ if ($metodo=="GET"){
   }
   
   if ($metodo=="POST"){
+    if ($funcao == "termos" && $parametro == "rascunho") {
+      $funcao = "termos/rascunho";
+      $parametro = null;
+    }
+
     switch ($funcao) {
       case "assinaContrato":
         include 'assinaContrato.php';
@@ -86,6 +99,15 @@ if ($metodo=="GET"){
       case "parametrizacao":
         include 'boletagparam_alterar.php';
       break;
+    
+      case "termos":
+        include 'termos_alterar.php';
+        break;
+
+      case "termos/rascunho":
+        include 'termos_rascunho.php';
+        break;
+    
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
