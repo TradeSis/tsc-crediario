@@ -106,15 +106,27 @@ if (isset($_GET['operacao'])) {
 	}
     
     if ($operacao == "buscaTermosJSON") {
-
-		$termos = chamaAPI("http://localhost/bsweb/api", '/termos/buscaTermos', $_POST["jsonEntrada"], 'POST');
+		$url = 'http://10.2.0.83';
+		if ($hml==true) {
+			$url = 'http://10.145.0.233';
+		}
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			$url = 'http://localhost';
+		}
+		$termos = chamaAPI($url . "/bsweb/api", '/termos/buscaTermos', $_POST["jsonEntrada"], 'POST');
 		echo json_encode($termos);
 		return $termos;
 
 	}
     if ($operacao == "buscaRascunhoJSON") {
-
-		$termos = chamaAPI("http://localhost/bsweb/api", '/termos/buscaRascunho', $_POST["jsonEntrada"], 'POST');
+		$url = 'http://10.2.0.83';
+		if ($hml==true) {
+			$url = 'http://10.145.0.233';
+		}
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			$url = 'http://localhost';
+		}
+		$termos = chamaAPI($url . "/bsweb/api", '/termos/buscaRascunho', $_POST["jsonEntrada"], 'POST');
 		echo json_encode($termos);
 		return $termos;
 
