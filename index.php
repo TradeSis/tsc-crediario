@@ -80,6 +80,12 @@ if (
                                 href="?tab=boletos" role="tab">Boletos</a>
                             </li>
                         <?php }
+                         if ($_SESSION['nivelMenu'] >= 2) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "termos") {echo " active ";} ?>" 
+                                href="?tab=termos" role="tab">Termos</a>
+                            </li>
+                        <?php }
                            ?>
                     </ul>
 
@@ -114,9 +120,13 @@ if (
                         <?php if ($getTab == "filacredito") {echo " selected ";} ?>>Fila Crédito</option>
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
+                       <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
                         <?php if ($getTab == "boletos") {echo " selected ";} ?>>Boletos</option>
                         <?php }   ?>
+
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=termos" 
+                        <?php if ($getTab == "termos") {echo " selected ";} ?>>Termos</option>
+
                     </select>
                 </div>
 
@@ -149,6 +159,11 @@ if (
 
             if ($tab == "boletos") {
                 $src = "boletagem/";
+            }
+
+
+            if ($tab == "termos") {
+                $src = "clientes/termos.php";
             }
 
             if ($src !== "") {
