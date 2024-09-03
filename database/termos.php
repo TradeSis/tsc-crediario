@@ -1,5 +1,20 @@
 <?php
 include_once __DIR__ . "/../conexao.php";
+$hml = false;
+if ($_SERVER['SERVER_ADDR'] == "10.2.0.233" || $_SERVER['SERVER_ADDR'] == "10.2.0.44" ||
+    $_SERVER['SERVER_ADDR'] == "10.145.0.60") {
+    $hml = true;
+}
+       $url = 'http://10.2.0.83';
+                if ($hml==true) {
+                        $url = 'http://10.145.0.44';
+                }
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                        $url = 'http://localhost';
+                }
+
+
+
 
 function buscaTermos($IDtermo=null)
 {
@@ -106,26 +121,26 @@ if (isset($_GET['operacao'])) {
 	}
     
     if ($operacao == "buscaTermosJSON") {
-		$url = 'http://10.2.0.83';
-		if ($hml==true) {
-			$url = 'http://10.145.0.44';
-		}
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			$url = 'http://localhost';
-		}
+
+		$log_datahora_ini = date("dmYHis");
+$acao="segurosH";
+$arqlog = "/ws/tslog/apits_".date("dmY").".log";
+$arquivo = fopen($arqlog,"a");
+fwrite($arquivo,$log_datahora_ini."$acao"."-aplicacao->".json_encode($aplicacao)."\n");
+fwrite($arquivo,$log_datahora_ini."$acao"."-funcao->".json_encode($funcao)."\n");
+fwrite($arquivo,$log_datahora_ini."$acao"."-parametro->".json_encode($parametro)."\n");
+fwrite($arquivo,$log_datahora_ini."$acao"."-jsonEntrada->".json_encode($jsonEntrada)."\n");
+fwrite($arquivo,$log_datahora_ini."$acao"."-metodo->".json_encode($metodo)."\n");
+fwrite($arquivo,$log_datahora_ini."$acao"."-hml->".json_encode($hml)."\n");
+fwrite($arquivo,$log_datahora_ini."$acao"."-url->".json_encode($url)."\n");
+fclose($arquivo);
+
 		$termos = chamaAPI($url . "/bsweb/api", '/termos/buscaTermos', $_POST["jsonEntrada"], 'POST');
 		echo json_encode($termos);
 		return $termos;
 
 	}
     if ($operacao == "buscaRascunhoJSON") {
-		$url = 'http://10.2.0.83';
-		if ($hml==true) {
-			$url = 'http://10.145.0.44';
-		}
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			$url = 'http://localhost';
-		}
 		$termos = chamaAPI($url . "/bsweb/api", '/termos/buscaRascunho', $_POST["jsonEntrada"], 'POST');
 		echo json_encode($termos);
 		return $termos;
