@@ -107,14 +107,14 @@ if (isset($_GET['operacao'])) {
     
     if ($operacao == "buscaTermosJSON") {
 
-		$termos = chamaAPI(null, '/crediario/buscaTermos', $_POST["jsonEntrada"], 'POST');
+		$termos = chamaAPI("http://localhost/bsweb/api", '/termos/buscaTermos', $_POST["jsonEntrada"], 'POST');
 		echo json_encode($termos);
 		return $termos;
 
 	}
     if ($operacao == "buscaRascunhoJSON") {
 
-		$termos = chamaAPI(null, '/crediario/buscaRascunho', $_POST["jsonEntrada"], 'POST');
+		$termos = chamaAPI("http://localhost/bsweb/api", '/termos/buscaRascunho', $_POST["jsonEntrada"], 'POST');
 		echo json_encode($termos);
 		return $termos;
 
