@@ -8,7 +8,7 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 
-def temp-table ttentrada no-undo serialize-name "termos"   /* JSON ENTRADA */
+def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
     field IDtermo  like termos.IDtermo.
 
 /* {sistema/database/acentos.i} */

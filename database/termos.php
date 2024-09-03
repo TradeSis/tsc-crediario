@@ -6,9 +6,14 @@ function buscaTermos($IDtermo=null)
 	
 	$termos = array();
 	
-	$apiEntrada = array(
-		'IDtermo' => $IDtermo,
-	);
+	$apiEntrada =
+		array(
+			"dadosEntrada" => array(
+				array(
+					'IDtermo' => $IDtermo
+				)
+			)
+		);
 	
 	$termos = chamaAPI(null, '/crediario/termos', json_encode($apiEntrada), 'GET');
 	
@@ -31,12 +36,17 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao=="inserir") {
 
-    $apiEntrada = array(
-      'IDtermo' => $_POST['IDtermo'],
-      'termoNome' => $_POST['termoNome'],
-      'termoCopias' => $_POST['termoCopias'],
-      'termo' => $_POST['termo'] 
-    );
+	$apiEntrada =
+		array(
+			"dadosEntrada" => array(
+				array(
+					'IDtermo' => $_POST['IDtermo'],
+					'termoNome' => $_POST['termoNome'],
+					'termoCopias' => $_POST['termoCopias'],
+					'termo' => $_POST['termo'] 
+				)
+			)
+		);
   
 		$termos = chamaAPI(null, '/crediario/termos', json_encode($apiEntrada), 'PUT');
 		header('Location: ../clientes/termos.php');	
@@ -44,11 +54,16 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao=="alterar") {
 
-    $apiEntrada = array(
-      'IDtermo' => $_POST['IDtermo'],
-      'termoNome' => $_POST['termoNome'],
-      'termoCopias' => $_POST['termoCopias']
-    );
+	$apiEntrada =
+		array(
+			"dadosEntrada" => array(
+				array(
+					'IDtermo' => $_POST['IDtermo'],
+					'termoNome' => $_POST['termoNome'],
+					'termoCopias' => $_POST['termoCopias']
+				)
+			)
+		);
   
 	
 		$termos = chamaAPI(null, '/crediario/termos', json_encode($apiEntrada), 'POST');
@@ -56,11 +71,16 @@ if (isset($_GET['operacao'])) {
 	}
 	if ($operacao=="rascunho") {
 
-    $apiEntrada = array(
-      'acao' => $_POST['acao'],
-      'rascunho' => $_POST['rascunho'],
-      'IDtermo' => $_POST['IDtermo']
-    );
+	$apiEntrada =
+		array(
+			"dadosEntrada" => array(
+				array(
+					'acao' => $_POST['acao'],
+					'rascunho' => $_POST['rascunho'],
+					'IDtermo' => $_POST['IDtermo']
+				)
+			)
+		);
 	
 		$termos = chamaAPI(null, '/crediario/termos/rascunho', json_encode($apiEntrada), 'POST');
 
@@ -71,8 +91,13 @@ if (isset($_GET['operacao'])) {
 
 		$IDtermo = isset($_POST["IDtermo"])  && $_POST["IDtermo"] !== "" && $_POST["IDtermo"] !== "null" ? $_POST["IDtermo"]  : null;
 
-		$apiEntrada = array(
-			'IDtermo' => $IDtermo
+		$apiEntrada =
+		array(
+			"dadosEntrada" => array(
+				array(
+					'IDtermo' => $IDtermo
+				)
+			)
 		);
 		$termos = chamaAPI(null, '/crediario/termos', json_encode($apiEntrada), 'GET');
 		echo json_encode($termos);

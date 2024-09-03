@@ -7,7 +7,7 @@ def var lokjson as log.                 /* LOGICAL DE APOIO */
 def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
-def temp-table ttentrada no-undo serialize-name "termos"   /* JSON ENTRADA */
+def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
     field IDtermo       like termos.IDtermo
     field termoNome     like termos.termoNome
     field termoCopias   like termos.termoCopias.

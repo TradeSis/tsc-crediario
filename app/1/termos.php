@@ -35,7 +35,7 @@ if (isset($termos["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
     $termos = $termos["conteudoSaida"][0];
 } else {
 
-    if (!isset($termos["termos"][1]) && ($jsonEntrada['IDtermo'] != null)) {  // Verifica se tem mais de 1 registro
+    if (!isset($termos["termos"][1]) && ($jsonEntrada['dadosEntrada'][0]['IDtermo'] != null)) {  // Verifica se tem mais de 1 registro
         $termos = $termos["termos"][0]; // Retorno sem array
       } else {
         $termos = $termos["termos"];

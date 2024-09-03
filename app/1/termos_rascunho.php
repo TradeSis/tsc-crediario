@@ -23,7 +23,7 @@ if (isset($LOG_NIVEL)) {
 }
 //LOG
 
-if (isset($jsonEntrada['IDtermo'])) {
+if (isset($jsonEntrada['dadosEntrada'])) {
 
     try {
 
