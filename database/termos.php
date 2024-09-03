@@ -108,7 +108,7 @@ if (isset($_GET['operacao'])) {
     if ($operacao == "buscaTermosJSON") {
 		$url = 'http://10.2.0.83';
 		if ($hml==true) {
-			$url = 'http://10.145.0.233';
+			$url = 'http://10.145.0.44';
 		}
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			$url = 'http://localhost';
@@ -121,7 +121,7 @@ if (isset($_GET['operacao'])) {
     if ($operacao == "buscaRascunhoJSON") {
 		$url = 'http://10.2.0.83';
 		if ($hml==true) {
-			$url = 'http://10.145.0.233';
+			$url = 'http://10.145.0.44';
 		}
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			$url = 'http://localhost';
