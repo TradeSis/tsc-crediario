@@ -52,18 +52,6 @@ then do:
             if not avail contrato then next.
             create ttcontrassin.
             BUFFER-COPY contrassin TO ttcontrassin.
-                find clien where clien.clicod = ttcontrassin.clicod no-lock no-error.
-                if avail clien
-                then do:
-                    ttcontrassin.cpfCNPJ = clien.ciccgc.
-                    ttcontrassin.nomeCliente = clien.clinom.
-                end.
-                find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
-                if avail contrato
-                then do:
-                    ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
-                end.
-
         end.
         ELSE 
         for each contrassin where 
@@ -76,18 +64,6 @@ then do:
             if not avail contrato then next.
             create ttcontrassin.
             BUFFER-COPY contrassin TO ttcontrassin.
-                find clien where clien.clicod = ttcontrassin.clicod no-lock no-error.
-                if avail clien
-                then do:
-                    ttcontrassin.cpfCNPJ = clien.ciccgc.
-                    ttcontrassin.nomeCliente = clien.clinom.
-                end.
-                find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
-                if avail contrato
-                then do:
-                    ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
-                end.
-
         end.
     END.
 
@@ -101,18 +77,6 @@ then do:
             then do:
                 create ttcontrassin.
                 BUFFER-COPY contrassin TO ttcontrassin.
-                    find clien where clien.clicod = ttcontrassin.clicod no-lock no-error.
-                    if avail clien
-                    then do:
-                        ttcontrassin.cpfCNPJ = clien.ciccgc.
-                        ttcontrassin.nomeCliente = clien.clinom.
-                    end.
-                    find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
-                    if avail contrato
-                    then do:
-                        ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
-                    end.
-
             end.
     END.
     
@@ -134,18 +98,6 @@ else do:
             if not avail contrato then next.
             create ttcontrassin.
             BUFFER-COPY contrassin TO ttcontrassin.
-                find clien where clien.clicod = ttcontrassin.clicod no-lock no-error.
-                if avail clien
-                then do:
-                    ttcontrassin.cpfCNPJ = clien.ciccgc.
-                    ttcontrassin.nomeCliente = clien.clinom.
-                end.
-                find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
-                if avail contrato
-                then do:
-                    ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
-                end.
-
         end.
         ELSE
         for each contrassin where 
@@ -157,18 +109,6 @@ else do:
             if not avail contrato then next.
             create ttcontrassin.
             BUFFER-COPY contrassin TO ttcontrassin.
-                find clien where clien.clicod = ttcontrassin.clicod no-lock no-error.
-                if avail clien
-                then do:
-                    ttcontrassin.cpfCNPJ = clien.ciccgc.
-                    ttcontrassin.nomeCliente = clien.clinom.
-                end.
-                find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
-                if avail contrato
-                then do:
-                    ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
-                end.
-
         end.
     END.
 
@@ -184,18 +124,6 @@ else do:
                 if not avail contrato then next.
                 create ttcontrassin.
                 BUFFER-COPY contrassin TO ttcontrassin.
-                    find clien where clien.clicod = ttcontrassin.clicod no-lock no-error.
-                    if avail clien
-                    then do:
-                        ttcontrassin.cpfCNPJ = clien.ciccgc.
-                        ttcontrassin.nomeCliente = clien.clinom.
-                    end.
-                    find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
-                    if avail contrato
-                    then do:
-                        ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
-                    end.
-
             end.
     END.
 
@@ -210,7 +138,7 @@ if not avail ttcontrassin
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
-    ttsaida.descricaoStatus = "Assinatura nao encontrada".
+    ttsaida.descricaoStatus = "Registro nao encontrado".
 
     hsaida  = temp-table ttsaida:handle.
 
@@ -219,6 +147,20 @@ then do:
     return.
 end.
 
+for each ttcontrassin.
+    find clien where clien.clicod = ttcontrassin.clicod no-lock no-error.
+    if avail clien
+    then do:
+        ttcontrassin.cpfCNPJ = clien.ciccgc.
+        ttcontrassin.nomeCliente = clien.clinom.
+    end.
+    find contrato where contrato.contnum = ttcontrassin.contnum no-lock no-error.
+    if avail contrato
+    then do:
+        ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
+        ttcontrassin.idneurotech = contrato.idOperacaoMotor.
+    end.
+end.
 
 hsaida  = TEMP-TABLE ttcontrassin:handle.
 
