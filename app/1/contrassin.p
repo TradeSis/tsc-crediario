@@ -92,7 +92,7 @@ for each ttcontrassin.
     if avail contrato
     then do:
         ttcontrassin.vltotal = trim(string(contrato.vltotal,"->>>>>>>>>>>>>>>>>>9.99")).
-        ttcontrassin.idneurotech = contrato.idneurotech.
+        ttcontrassin.idneurotech = contrato.idOperacaoMotor.
     end.
 end.
 
