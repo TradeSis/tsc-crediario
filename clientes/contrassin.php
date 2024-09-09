@@ -278,7 +278,7 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                 }
                 var row = [],
                     cols = rows[i].querySelectorAll("td, th");
-                for (var j = 0; j < cols.length - 2; j++) { 
+                for (var j = 0; j < cols.length - 1; j++) { 
                     let cellText = cols[j].innerText.trim();
                     if (j === 8) {
                         cellText = cellText.replace('.', '').replace(',', '.');
