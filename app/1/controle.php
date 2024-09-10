@@ -41,6 +41,10 @@ if ($metodo=="GET"){
         include 'acoplanos.php';
       break;
 
+      case "acoplanparcel":
+        include 'acoplanparcel.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -81,6 +85,10 @@ if ($metodo=="GET"){
 
       case "acoplanos":
         include 'acoplanos_alterar.php';
+      break;
+
+      case "acoplanparcel":
+        include 'acoplanparcel_alterar.php';
       break;
     
       default:

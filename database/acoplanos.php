@@ -3,6 +3,24 @@
 
 include_once __DIR__ . "/../conexao.php";
 
+function buscaPlano($negcod = null, $placod = null)
+{
+	
+	$acordo = array();
+	$apiEntrada = 
+		array(
+			"dadosEntrada" => array(
+				array(
+					'negcod' => $negcod,
+					'placod' => $placod
+				)
+			)
+		);
+
+	$acordo = chamaAPI(null, '/crediario/acoplanos', json_encode($apiEntrada), 'GET');
+	return $acordo;
+}
+
 if (isset($_GET['operacao'])) {
 
 	$operacao = $_GET['operacao'];
@@ -15,7 +33,7 @@ if (isset($_GET['operacao'])) {
 				array(
 					'id_recid_neg' => $_POST['id_recid'],
             		//'negcod' => $_POST['negcod'],
-                    'placod' => $_POST['placod'],
+                    
                     'planom' => $_POST['planom'],
                     'calc_juro_titulo' => $_POST['calc_juro_titulo'],
                     'com_entrada' => $_POST['com_entrada'],

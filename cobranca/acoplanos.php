@@ -32,9 +32,9 @@ $acordo = buscaAcordoOnline($negcod);
             <div class="col-7 d-flex">
                 <!-- TITULO -->
                 <a href="aconegoc.php" style="text-decoration: none;">
-                    <h6 class="ts-tituloSecundaria">Acordo Online</h6>
+                    <h6 class="ts-tituloSecundaria">Parametrização Acordo Online</h6>
                 </a> &nbsp; / &nbsp;
-                <h2 class="ts-tituloPrincipal">Plano - <?php echo $_GET['negnom'] ?></h2>
+                <h2 class="ts-tituloPrincipal"><?php echo $_GET['negnom'] ?></h2>
 
             </div>
             <div class="col-3">
@@ -332,6 +332,8 @@ $acordo = buscaAcordoOnline($negcod);
                         linha = linha + "<td class='text-end'><button type='button' class='btn btn-warning btn-sm me-2' data-bs-toggle='modal' data-bs-target='#alterarModal'";
                         linha = linha + " data-placod='" + object.placod + "' ";
                         linha = linha + "><i class='bi bi-pencil-square'></i></button>";
+
+                        linha = linha + "<a class='btn btn-info btn-sm ms-1' href='acoplanparcel.php?negcod=" + object.negcod + "&placod=" + object.placod + "' role='button'><i class='bi bi-eye'></i></a> ";
 
                         linha = linha + "<button type='button' class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#excluirPlanoModal'";
                         linha = linha + " data-planom='" + object.planom + "' ";
