@@ -329,11 +329,11 @@ $acordo = buscaAcordoOnline($negcod);
                         linha = linha + "<td>" + object.perc_desconto + "</td>";
                         linha = linha + "<td>" + object.perc_acres + "</td>";
                         linha = linha + "<td>" + object.valor_acres + "</td>";
-                        linha = linha + "<td class='text-end'><button type='button' class='btn btn-warning btn-sm me-2' data-bs-toggle='modal' data-bs-target='#alterarModal'";
+                        linha = linha + "<td class='text-end'><button type='button' class='btn btn-warning btn-sm me-1' data-bs-toggle='modal' data-bs-target='#alterarModal'";
                         linha = linha + " data-placod='" + object.placod + "' ";
                         linha = linha + "><i class='bi bi-pencil-square'></i></button>";
 
-                        linha = linha + "<a class='btn btn-info btn-sm ms-1' href='acoplanparcel.php?negcod=" + object.negcod + "&placod=" + object.placod + "' role='button'><i class='bi bi-eye'></i></a> ";
+                        linha = linha + "<a class='btn btn-info btn-sm' href='acoplanparcel.php?negcod=" + object.negcod + "&placod=" + object.placod + "' role='button'><i class='bi bi-eye'></i></a> ";
 
                         linha = linha + "<button type='button' class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#excluirPlanoModal'";
                         linha = linha + " data-planom='" + object.planom + "' ";

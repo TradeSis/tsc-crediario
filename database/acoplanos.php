@@ -32,8 +32,6 @@ if (isset($_GET['operacao'])) {
 			"acoplanos" => array(
 				array(
 					'id_recid_neg' => $_POST['id_recid'],
-            		//'negcod' => $_POST['negcod'],
-                    
                     'planom' => $_POST['planom'],
                     'calc_juro_titulo' => $_POST['calc_juro_titulo'],
                     'com_entrada' => $_POST['com_entrada'],
