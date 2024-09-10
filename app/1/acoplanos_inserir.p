@@ -8,8 +8,7 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "acoplanos"   /* JSON ENTRADA */
-    field id_recid_neg as int64
-    field placod like acoplanos.placod
+    field id_recid_neg as INT64
     field planom like acoplanos.planom
     field calc_juro_titulo like acoplanos.calc_juro_titulo
     field com_entrada like acoplanos.com_entrada
@@ -28,8 +27,10 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
 
 def VAR par-rec as recid.
 def buffer bacoplanos for acoplanos.
-
-
+def var perc_parcel as dec.
+def var negcod as int.
+def var placod as int.
+def var titpar as int.
 
 hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
@@ -49,7 +50,10 @@ then do:
 end.
 
 par-rec = ttentrada.id_recid_neg.
-
+perc_parcel = ?.
+negcod = ?.
+placod = ?.
+titpar = ?.
 do on error undo:
     find aconegoc where recid(aconegoc) = par-rec no-lock.
     find last bacoplanos of aconegoc no-lock no-error.
@@ -68,7 +72,15 @@ do on error undo:
     acoplanos.permite_alt_vezes = ttentrada.permite_alt_vezes.
     acoplanos.valor_acres = ttentrada.valor_acres.
     acoplanos.valor_desc = ttentrada.valor_desc.
-
+    RUN LOG("***CRIOU PLANOS***").
+    
+    run crediario/app/1/paramparcelas.p (input "incluir",
+                                        recid(acoplanos),
+                                        input perc_parcel,
+                                        input negcod,
+                                        input placod,
+                                        input titpar).
+    
 end.
 
 
@@ -80,3 +92,15 @@ hsaida  = temp-table ttsaida:handle.
 
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
 put unformatted string(vlcSaida).
+
+
+procedure LOG.
+    DEF INPUT PARAM vmensagem AS CHAR.    
+    OUTPUT TO VALUE(vtmp + "/ACOPLANOS_INSERIR_" + string(today,"99999999") + ".log") APPEND.
+        PUT UNFORMATTED 
+            STRING (TIME,"HH:MM:SS")
+            " progress -> " vmensagem
+            SKIP.
+    OUTPUT CLOSE.
+    
+END PROCEDURE.

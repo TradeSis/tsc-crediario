@@ -24,7 +24,7 @@ include_once(__DIR__ . '/../header.php');
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
                             </div>
                             <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Parametros Acordo Online</div>
+                                <div class="fw-bold">Parametrização Acordo Online</div>
                             </div>
                         </div>
                     </a>
