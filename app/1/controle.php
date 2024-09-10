@@ -37,7 +37,6 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
-
       case "parametrizacao":
         include 'boletagparam.php';
       break;
@@ -53,6 +52,13 @@ if ($metodo=="GET"){
       case "contrassinestab":
         include 'contrassinestab.php';
 
+      case "aconegoc":
+        include 'aconegoc.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos.php';
+
       break;
 
       default:
@@ -66,9 +72,20 @@ if ($metodo=="GET"){
 
  if ($metodo=="PUT"){
     switch ($funcao) {
+
       case "parametrizacao":
         include 'boletagparam_inserir.php';
       break;
+
+
+      case "aconegoc":
+        include 'aconegoc_inserir.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos_inserir.php';
+      break;
+      
 
       default:
         $jsonSaida = json_decode(json_encode(
@@ -85,9 +102,19 @@ if ($metodo=="GET"){
         include 'assinaContrato.php';
         break;
 
+
       case "parametrizacao":
         include 'boletagparam_alterar.php';
       break;
+
+      case "aconegoc":
+        include 'aconegoc_alterar.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos_alterar.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -99,6 +126,14 @@ if ($metodo=="GET"){
   
   if ($metodo=="DELETE"){
     switch ($funcao) {
+      case "aconegoc":
+        include 'aconegoc_excluir.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos_excluir.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",

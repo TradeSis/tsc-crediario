@@ -80,7 +80,13 @@ if (
                                 href="?tab=boletos" role="tab">Boletos</a>
                             </li>
                         <?php }
-                           ?>
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "acordos") {echo " active ";} ?>" 
+                                href="?tab=acordos" role="tab">Acordos</a>
+                            </li>
+                        <?php } ?>
+
                     </ul>
 
                 </div>
@@ -114,9 +120,17 @@ if (
                         <?php if ($getTab == "filacredito") {echo " selected ";} ?>>Fila Crédito</option>
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
+
                         <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
                         <?php if ($getTab == "boletos") {echo " selected ";} ?>>Boletos</option>
-                        <?php }   ?>
+                        <?php }  
+
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=acordos" 
+                        <?php if ($getTab == "acordos") {echo " selected ";} ?>>Acordos</option>
+                        <?php } ?>
+
+
                     </select>
                 </div>
 
@@ -145,6 +159,9 @@ if (
 
             if ($tab == "inauguracao") {
                 $src = "clientes/cliente_cadastro.php";
+            }
+            if ($tab == "acordos") {
+                $src = "cobranca/";
             }
 
             if ($tab == "boletos") {
