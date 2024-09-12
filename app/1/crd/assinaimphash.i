@@ -120,7 +120,7 @@ end.
 put unformatted skip(1).
 run imprime-texto.
              
-put unformatted skip(1) "Eldorado do Sul, "  trim(string(day(v-pladat))) " de "
+put unformatted skip(1) space(30) "Eldorado do Sul, "  trim(string(day(v-pladat))) " de "
     vmescomp[month(v-pladat)] " de " string(year(v-pladat)) "."
     skip(2).
 /*
@@ -135,20 +135,27 @@ then do:
     space(30) clien.ciccgc skip   
     space(30) "PDV: " v-cxacod "  Filial: " v-etbcod skip
     space(30) "Assinado em " string(contrassin.dtinclu,"99/99/9999") + " " + string(contrassin.HrIncl,"HH:MM:SS") skip
-    space(30) "Metodos de autenticacao: Biometria Facial" skip(2)
-    space(30) "HASH CONTRATO ASSINADO: "   v-hash2
+    space(30) "Metodos de autenticacao: Biometria Facial" 
 
-    skip(2).
+    skip(1).
 end.
 
-put unformatted skip(2) fill("-",65) format "x(65)" skip
-    "CLIENTE"
+put unformatted space(30) fill("-",65) format "x(65)" skip
+    space(30) "CLIENTE"
     skip.
 
-put unformatted fill("-",65) format "x(65)" skip
-    "HASH CONTRATO ORIGINAL: " v-hash1
+put unformatted space(30) fill("-",65) format "x(65)" skip
+    space(30) "HASH CONTRATO ORIGINAL: " v-hash1
     skip.
-                    
+
+if vassina
+then do:
+    put unformatted
+    skip(1)
+    space(30) "HASH CONTRATO ASSINADO: "   v-hash2
+    skip.
+end.
+
 /***put unformatted chr(27) "a" chr(48).  /* justifica esquerda */
 ***/
 /* 
