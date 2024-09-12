@@ -113,7 +113,6 @@ if (
                         <option value="<?php echo URLROOT ?>/crediario/?tab=filacredito" 
                         <?php if ($getTab == "filacredito") {echo " selected ";} ?>>Fila Crédito</option>
                         <?php }
-
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                         <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
                         <?php if ($getTab == "boletos") {echo " selected ";} ?>>Boletos</option>
