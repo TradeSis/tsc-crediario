@@ -41,7 +41,7 @@ $com_entrada = ($plano['com_entrada'] == true ? "Sim" : "Não");
             <div class="col-7 d-flex">
                 <!-- TITULO -->
                 <a href="aconegoc.php?tpNegociacao=<?php echo $tpNegociacao ?>" style="text-decoration: none;">
-                    <h6 class="ts-tituloSecundaria">Parametrização Acordo Online</h6>
+                    <h6 class="ts-tituloSecundaria">Parametrização <?php echo $tpNegociacao ?></h6>
                 </a> &nbsp; / &nbsp;
                 <a href="acoplanos.php?tpNegociacao=<?php echo $tpNegociacao ?>&negcod=<?php echo $acordo['negcod'] ?>&negnom=<?php echo $acordo['negnom'] ?>" style="text-decoration: none;">
                     <h6 class="ts-tituloSecundaria"><?php echo $acordo['negnom'] ?></h6>
