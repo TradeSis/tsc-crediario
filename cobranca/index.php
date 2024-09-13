@@ -18,7 +18,7 @@ include_once(__DIR__ . '/../header.php');
             <!-- Coluna 1 -->
             <div class="col">
                 <div class="list-group">
-                    <a href="aconegoc.php" class="list-group-item">
+                    <a href="aconegoc.php?tpNegociacao=ACORDO ONLINE" class="list-group-item mb-4">
                         <div class="row g-0">
                             <div class="col-1 text-center " style="width: 50px;">
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
@@ -27,7 +27,20 @@ include_once(__DIR__ . '/../header.php');
                                 <div class="fw-bold">Parametrização Acordo Online</div>
                             </div>
                         </div>
-                    </a>
+                    </a>          
+                </div>
+
+                <div class="list-group">
+                    <a href="aconegoc.php?tpNegociacao=SERASA" class="list-group-item mb-4">
+                        <div class="row g-0">
+                            <div class="col-1 text-center " style="width: 50px;">
+                                <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
+                            </div>
+                            <div class="col ms-2 me-auto">
+                                <div class="fw-bold">Parametrização Serasa</div>
+                            </div>
+                        </div>
+                    </a>          
                 </div>
             </div>
             <!-- Coluna 2 -->

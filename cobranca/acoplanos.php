@@ -3,8 +3,13 @@
 include_once('../header.php');
 include_once('../database/aconegoc.php');
 
+$tpNegociacao = $_GET['tpNegociacao'];
 $negcod = $_GET['negcod'];
-$acordo = buscaAcordoOnline($negcod);
+$acordo = buscaAcordoOnline($tpNegociacao, $negcod);
+
+$dtini = ($acordo['dtini'] != null ? date('d/m/Y', strtotime($acordo['dtini'])) : "");
+$dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) : "");
+
 
 ?>
 
@@ -31,7 +36,7 @@ $acordo = buscaAcordoOnline($negcod);
         <div class="row mt-2"> <!-- LINHA SUPERIOR A TABLE -->
             <div class="col-7 d-flex">
                 <!-- TITULO -->
-                <a href="aconegoc.php" style="text-decoration: none;">
+                <a href="aconegoc.php?tpNegociacao=<?php echo $tpNegociacao ?>" style="text-decoration: none;">
                     <h6 class="ts-tituloSecundaria">Parametrização Acordo Online</h6>
                 </a> &nbsp; / &nbsp;
                 <h2 class="ts-tituloPrincipal"><?php echo $_GET['negnom'] ?></h2>
@@ -47,10 +52,18 @@ $acordo = buscaAcordoOnline($negcod);
         </div>
 
         <hr>
-        <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
+        <div class="row d-flex align-items-center justify-content-center">
 
-            <div class="col-10">
-                <!-- <h2 class="ts-tituloPrincipal">Acordo Online</h2> -->
+        
+            <div class="col-10 d-flex gap-2">
+                <div class="col-2">
+                    <label class="form-label ts-label">inicio</label>
+                    <input type="text" class="form-control ts-input" value="<?php echo $dtini ?>" disabled>
+                </div>
+                <div class="col-2">
+                    <label class="form-label ts-label">final</label>
+                    <input type="text" class="form-control ts-input" value="<?php echo $dtfim ?>" disabled>
+                </div>
             </div>
 
             <div class="col-2 text-end">
@@ -306,7 +319,7 @@ $acordo = buscaAcordoOnline($negcod);
                     negcod: '<?php echo $negcod ?>'
                 },
                 success: function(msg) {
-                    //alert(msg)
+                    var tpNegociacao = '<?php echo $tpNegociacao ?>';
                     var json = JSON.parse(msg);
                     //alert(JSON.stringify(json));
                     var contadorItem = 0;
@@ -333,7 +346,7 @@ $acordo = buscaAcordoOnline($negcod);
                         linha = linha + " data-placod='" + object.placod + "' ";
                         linha = linha + "><i class='bi bi-pencil-square'></i></button>";
 
-                        linha = linha + "<a class='btn btn-info btn-sm' href='acoplanparcel.php?negcod=" + object.negcod + "&placod=" + object.placod + "' role='button'><i class='bi bi-eye'></i></a> ";
+                        linha = linha + "<a class='btn btn-info btn-sm' href='acoplanparcel.php?tpNegociacao=" + tpNegociacao + "&negcod=" + object.negcod + "&placod=" + object.placod + "' role='button'><i class='bi bi-eye'></i></a> ";
 
                         linha = linha + "<button type='button' class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#excluirPlanoModal'";
                         linha = linha + " data-planom='" + object.planom + "' ";

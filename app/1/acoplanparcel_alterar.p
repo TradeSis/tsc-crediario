@@ -34,17 +34,10 @@ then do:
     message string(vlcSaida).
     return.
 end.
-RUN LOG("***INICIO***").
+
 
 find acoplanos where recid(acoplanos) = ttentrada.id_recid_plan no-lock.
-RUN LOG("REC ID PLANOS" + string(recid(acoplanos))).
 
-//find acoplanparcel of acoplanos no-lock.
-/*
-find acoplanparcel WHERE acoplanparcel.negcod = ttentrada.negcod AND
-                                 acoplanparcel.placod = ttentrada.placod AND
-                                 acoplanparcel.titpar = ttentrada.titpar   
-                                 no-lock. */
 run crediario/app/1/paramparcelas.p (input "alterar",
                                      recid(acoplanos),
                                      input ttentrada.perc_parcel,
@@ -64,13 +57,3 @@ hsaida  = temp-table ttsaida:handle.
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
 put unformatted string(vlcSaida).
 
-procedure LOG.
-    DEF INPUT PARAM vmensagem AS CHAR.    
-    OUTPUT TO VALUE(vtmp + "/ACOPLANOS_ALTERAR_PP_" + string(today,"99999999") + ".log") APPEND.
-        PUT UNFORMATTED 
-            STRING (TIME,"HH:MM:SS")
-            " progress -> " vmensagem
-            SKIP.
-    OUTPUT CLOSE.
-    
-END PROCEDURE.

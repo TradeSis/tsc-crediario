@@ -72,7 +72,6 @@ do on error undo:
     acoplanos.permite_alt_vezes = ttentrada.permite_alt_vezes.
     acoplanos.valor_acres = ttentrada.valor_acres.
     acoplanos.valor_desc = ttentrada.valor_desc.
-    RUN LOG("***CRIOU PLANOS***").
     
     run crediario/app/1/paramparcelas.p (input "incluir",
                                         recid(acoplanos),
@@ -93,14 +92,3 @@ hsaida  = temp-table ttsaida:handle.
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
 put unformatted string(vlcSaida).
 
-
-procedure LOG.
-    DEF INPUT PARAM vmensagem AS CHAR.    
-    OUTPUT TO VALUE(vtmp + "/ACOPLANOS_INSERIR_" + string(today,"99999999") + ".log") APPEND.
-        PUT UNFORMATTED 
-            STRING (TIME,"HH:MM:SS")
-            " progress -> " vmensagem
-            SKIP.
-    OUTPUT CLOSE.
-    
-END PROCEDURE.

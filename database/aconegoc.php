@@ -3,7 +3,7 @@
 
 include_once __DIR__ . "/../conexao.php";
 
-function buscaAcordoOnline($negcod = null)
+function buscaAcordoOnline($tpNegociacao, $negcod = null)
 {
 	
 	$acordo = array();
@@ -11,6 +11,7 @@ function buscaAcordoOnline($negcod = null)
 		array(
 			"dadosEntrada" => array(
 				array(
+					'tpNegociacao' => $tpNegociacao,
 					'negcod' => $negcod
 				)
 			)
@@ -52,7 +53,7 @@ if (isset($_GET['operacao'])) {
                     'ParcVencerQtd' => $_POST['ParcVencerQtd'],
                     'Arrasta' => $_POST['Arrasta'],
                     'PermiteTitProtesto' => $_POST['PermiteTitProtesto'],
-					'ptpnegociacao' => "ACORDO ONLINE"
+					'ptpnegociacao' => $_POST['tpNegociacao']
 				)
 			)
 		);
@@ -119,6 +120,7 @@ if (isset($_GET['operacao'])) {
 		array(
 			"dadosEntrada" => array(
 				array(
+					'tpNegociacao' => $_POST["tpNegociacao"],
 					'negcod' => $negcod
 				)
 			)
