@@ -2,6 +2,7 @@
 //Lucas 05092024 criado
 include_once(__DIR__ . '/../header.php');
 
+$tpNegociacao = $_GET['tpNegociacao'];
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -26,7 +27,7 @@ include_once(__DIR__ . '/../header.php');
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
             <div class="col-10">
-                <h2 class="ts-tituloPrincipal">Parametrização Acordo Online</h2>
+                <h2 class="ts-tituloPrincipal">Parametrização <?php echo $tpNegociacao ?></h2>
             </div>
 
             <div class="col-2 text-end">
@@ -46,13 +47,10 @@ include_once(__DIR__ . '/../header.php');
                     <div class="modal-body pt-0">
                         <form method="post" id="inserirAcordoForm">
                             <div class="row">
-                                <div class="col-2 d-none">
-                                    <label class="form-label ts-label">cod</label>
-                                    <input type="text" class="form-control ts-input" name="negcod">
-                                </div>
                                 <div class="col">
                                     <label class="form-label ts-label">Nome</label>
                                     <input type="text" class="form-control ts-input" name="negnom" required>
+                                    <input type="hidden" class="form-control ts-input" name="tpNegociacao" value="<?php echo $tpNegociacao ?>">
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -339,9 +337,11 @@ include_once(__DIR__ . '/../header.php');
                 type: 'POST',
                 dataType: 'html',
                 url: '../database/aconegoc.php?operacao=buscar',
-                data: {},
+                data: {
+                    tpNegociacao: '<?php echo $tpNegociacao ?>'
+                },
                 success: function(msg) {
-                    //alert(msg)
+                    var tpNegociacao = '<?php echo $tpNegociacao ?>';
                     var json = JSON.parse(msg);
                     //alert(JSON.stringify(json));
                     var contadorItem = 0;
@@ -360,7 +360,7 @@ include_once(__DIR__ . '/../header.php');
                         linha = linha + " data-negcod='" + object.negcod + "' ";
                         linha = linha + "><i class='bi bi-pencil-square'></i></button>";
 
-                        linha = linha + "<a class='btn btn-info btn-sm ms-1' href='acoplanos.php?negcod=" + object.negcod + "&negnom=" + object.negnom + "' role='button'><i class='bi bi-eye'></i></a> ";
+                        linha = linha + "<a class='btn btn-info btn-sm ms-1' href='acoplanos.php?tpNegociacao=" + tpNegociacao + "&negcod=" + object.negcod + "&negnom=" + object.negnom + "' role='button'><i class='bi bi-eye'></i></a> ";
 
                         linha = linha + "<button type='button' class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#excluirAcordoModal'";
                         linha = linha + " data-negnom='" + object.negnom + "' ";
@@ -389,6 +389,7 @@ include_once(__DIR__ . '/../header.php');
                 dataType: 'json',
                 url: '../database/aconegoc.php?operacao=buscar',
                 data: {
+                    tpNegociacao: '<?php echo $tpNegociacao ?>',
                     negcod: negcod
                 },
                 success: function(data) {

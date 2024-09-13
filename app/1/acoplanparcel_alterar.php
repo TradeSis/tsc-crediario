@@ -10,7 +10,7 @@ if (isset($LOG_CAMINHO)) {
     $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "acoplanparcel_alterar";
     if (isset($LOG_NIVEL)) {
         if ($LOG_NIVEL >= 1) {
-            $arquivo = fopen(defineCaminhoLog() . "crediario_alterar_PP_" . date("dmY") . ".log", "a");
+            $arquivo = fopen(defineCaminhoLog() . "crediario_alterar_" . date("dmY") . ".log", "a");
         }
     }
 }

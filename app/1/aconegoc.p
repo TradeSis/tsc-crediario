@@ -8,7 +8,8 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
-    field negcod like aconegoc.negcod.
+    field negcod like aconegoc.negcod
+    field tpNegociacao like aconegoc.tpNegociacao.
 
 def temp-table ttaconegoc  no-undo serialize-name "aconegoc"  /* JSON SAIDA */
     like aconegoc
@@ -35,18 +36,21 @@ then do:
     return.
 end.
 
-
-FOR EACH aconegoc WHERE
-    (IF ttentrada.negcod = ?
-    THEN TRUE 
-    else aconegoc.negcod = ttentrada.negcod)
-    no-lock.
-         
+IF ttentrada.negcod <> ?
+THEN DO:
+    FIND aconegoc WHERE aconegoc.tpNegociacao = ttentrada.tpNegociacao AND 
+                        aconegoc.negcod = ttentrada.negcod NO-LOCK.  
     create ttaconegoc.
     BUFFER-COPY aconegoc TO ttaconegoc.
     ttaconegoc.id_recid = RECID(aconegoc).
 END.
-
+ELSE DO:
+    FOR EACH aconegoc WHERE aconegoc.tpNegociacao = ttentrada.tpNegociacao:
+        create ttaconegoc.
+        BUFFER-COPY aconegoc TO ttaconegoc.
+        ttaconegoc.id_recid = RECID(aconegoc).
+    END.
+END.
 
 find first ttaconegoc no-error.
 if not avail ttaconegoc

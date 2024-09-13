@@ -5,13 +5,16 @@ include_once('../database/aconegoc.php');
 include_once('../database/acoplanos.php');
 include_once('../database/acoplanparcel.php');
 
+$tpNegociacao = $_GET['tpNegociacao'];
 $negcod = $_GET['negcod'];
 $placod = $_GET['placod'];
 
-$acordo = buscaAcordoOnline($negcod);
+$acordo = buscaAcordoOnline($tpNegociacao, $negcod);
 $plano = buscaPlano($negcod, $placod);
 $parcela = buscaParcelaAcordo($negcod, $placod);
 
+$calc_juro_titulo = ($plano['calc_juro_titulo'] == true ? "Sim" : "Não");
+$com_entrada = ($plano['com_entrada'] == true ? "Sim" : "Não");
 ?>
 
 <!doctype html>
@@ -37,10 +40,10 @@ $parcela = buscaParcelaAcordo($negcod, $placod);
         <div class="row mt-2"> <!-- LINHA SUPERIOR A TABLE -->
             <div class="col-7 d-flex">
                 <!-- TITULO -->
-                <a href="aconegoc.php" style="text-decoration: none;">
+                <a href="aconegoc.php?tpNegociacao=<?php echo $tpNegociacao ?>" style="text-decoration: none;">
                     <h6 class="ts-tituloSecundaria">Parametrização Acordo Online</h6>
                 </a> &nbsp; / &nbsp;
-                <a href="acoplanos.php?negcod=<?php echo $acordo['negcod'] ?>&negnom=<?php echo $acordo['negnom'] ?>" style="text-decoration: none;">
+                <a href="acoplanos.php?tpNegociacao=<?php echo $tpNegociacao ?>&negcod=<?php echo $acordo['negcod'] ?>&negnom=<?php echo $acordo['negnom'] ?>" style="text-decoration: none;">
                     <h6 class="ts-tituloSecundaria"><?php echo $acordo['negnom'] ?></h6>
                 </a> / &nbsp;
                 <h2 class="ts-tituloPrincipal"><?php echo $plano['planom'] ?></h2>
@@ -54,8 +57,39 @@ $parcela = buscaParcelaAcordo($negcod, $placod);
                 <a href="#" onclick="history.back()" role="button" class="btn btn-primary"><i class="bi bi-arrow-left-square"></i></i>&#32;Voltar</a>
             </div>
         </div>
-
         <hr>
+        <div class="row d-flex gap-2">
+
+            <div class="col-2">
+                <label class="form-label ts-label">Plan</label>
+                <input type="text" class="form-control ts-input" value="<?php echo $plano['placod'] ?>" disabled>
+            </div>
+            <div class="col">
+                <label class="form-label ts-label">Plano</label>
+                <input type="text" class="form-control ts-input" value="<?php echo $plano['planom'] ?>" disabled>
+            </div>
+            <div class="col-1">
+                <label class="form-label ts-label">J</label>
+                <input type="text" class="form-control ts-input" value="<?php echo $calc_juro_titulo ?>" disabled>
+            </div>
+            <div class="col-1">
+                <label class="form-label ts-label">Ent</label>
+                <input type="text" class="form-control ts-input" value="<?php echo $com_entrada ?>" disabled>
+            </div>
+            <div class="col-1">
+                <label class="form-label ts-label">Min</label>
+                <input type="text" class="form-control ts-input" value="<?php echo $plano['perc_min_entrada'] ?>" disabled>
+            </div>
+            <div class="col-1">
+                <label class="form-label ts-label">Max</label>
+                <input type="text" class="form-control ts-input" value="<?php echo $plano['dias_max_primeira'] ?>" disabled>
+            </div>
+            <div class="col-1">
+                <label class="form-label ts-label">Vezes</label>
+                <input type="text" class="form-control ts-input" value="<?php echo $plano['qtd_vezes'] ?>" disabled>
+            </div>
+
+        </div>
 
         <!--------- ALTERAR --------->
         <div class="modal" id="alterarModal" tabindex="-1" aria-labelledby="alterarModalLabel" aria-hidden="true">
@@ -81,7 +115,7 @@ $parcela = buscaParcelaAcordo($negcod, $placod);
                                     <input type="hidden" class="form-control ts-input" name="placod" value="<?php echo $placod ?>">
                                 </div>
                             </div>
-                           
+
                     </div><!--body-->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Salvar</button>
@@ -97,7 +131,7 @@ $parcela = buscaParcelaAcordo($negcod, $placod);
                     <tr class="ts-headerTabelaLinhaCima">
                         <th>PC</th>
                         <th>Perc</th>
-                        
+
                         <th></th>
                     </tr>
                 </thead>
@@ -147,7 +181,7 @@ $parcela = buscaParcelaAcordo($negcod, $placod);
 
                         linha = linha + "<td>" + object.titpar + "</td>";
                         linha = linha + "<td>" + object.perc_parcela + "</td>";
-                   
+
                         linha = linha + "<td class='text-end'><button type='button' class='btn btn-warning btn-sm me-2' data-bs-toggle='modal' data-bs-target='#alterarModal'";
                         linha = linha + " data-titpar='" + object.titpar + "' ";
                         linha = linha + " data-perc_parcela='" + object.perc_parcela + "' ";
@@ -167,11 +201,11 @@ $parcela = buscaParcelaAcordo($negcod, $placod);
 
         }
 
-       // MODAL ALTERAR
-       $(document).on('click', 'button[data-bs-target="#alterarModal"]', function() {
+        // MODAL ALTERAR
+        $(document).on('click', 'button[data-bs-target="#alterarModal"]', function() {
             var titpar = $(this).attr("data-titpar");
             var perc_parcela = $(this).attr("data-perc_parcela");
-            
+
             $('#titpar').val(titpar);
             $('#perc_parcela').val(perc_parcela);
 
@@ -195,7 +229,6 @@ $parcela = buscaParcelaAcordo($negcod, $placod);
         function refreshPage() {
             window.location.reload();
         }
-
     </script>
 
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->
