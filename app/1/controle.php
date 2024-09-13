@@ -45,6 +45,10 @@ if ($metodo=="GET"){
         include 'acoplanparcel.php';
       break;
 
+      case "serasacli":
+        include 'serasacli.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -62,6 +66,10 @@ if ($metodo=="GET"){
 
       case "acoplanos":
         include 'acoplanos_inserir.php';
+      break;
+
+      case "serasacli":
+        include 'serasacli_inserir.php';
       break;
       
       default:
@@ -90,6 +98,10 @@ if ($metodo=="GET"){
       case "acoplanparcel":
         include 'acoplanparcel_alterar.php';
       break;
+
+      case "serasacli_arquivo":
+        include 'serasacli_arquivo.php';
+      break;
     
       default:
         $jsonSaida = json_decode(json_encode(
@@ -108,6 +120,10 @@ if ($metodo=="GET"){
 
       case "acoplanos":
         include 'acoplanos_excluir.php';
+      break;
+
+      case "serasacli":
+        include 'serasacli_excluir.php';
       break;
 
       default:
