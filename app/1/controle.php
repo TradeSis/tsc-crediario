@@ -5,6 +5,15 @@
 //echo "parametro=".$parametro."\n";
 
 if ($metodo=="GET"){
+    if ($funcao == "acooferta" && $parametro == "condicoes") {
+      $funcao = "acooferta/condicoes";
+      $parametro = null;
+    }
+    if ($funcao == "acooferta" && $parametro == "contratos") {
+      $funcao = "acooferta/contratos";
+      $parametro = null;
+    }
+
     switch ($funcao) {
       case "cliente":
         include 'crediariocliente.php';
@@ -43,6 +52,18 @@ if ($metodo=="GET"){
 
       case "acoplanparcel":
         include 'acoplanparcel.php';
+      break;
+
+      case "acooferta":
+        include 'acooferta.php';
+      break;
+
+      case "acooferta/condicoes":
+        include 'acooferta_condicoes.php';
+      break;
+
+      case "acooferta/contratos":
+        include 'acooferta_contratos.php';
       break;
 
       default:
