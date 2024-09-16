@@ -41,7 +41,7 @@ $tpNegociacao = $_GET['tpNegociacao'];
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Inserir Acordo</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Inserir <?php echo $tpNegociacao ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body pt-0">
@@ -158,7 +158,7 @@ $tpNegociacao = $_GET['tpNegociacao'];
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Alterar Acordo</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Alterar <?php echo $tpNegociacao ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body pt-0">
