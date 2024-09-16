@@ -96,6 +96,17 @@ then do:
         ttacooferta.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
         ttacooferta.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
         ttacooferta.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
+
+        create ttacooferta.
+        ttacooferta.negcod            =  2  . /* conegoc.negcod. */
+        ttacooferta.negnom            =   "teste 2" . /* aconegoc.negnom. */
+        ttacooferta.qtd               =   20 . /* ttnegociacao.qtd.   */
+        ttacooferta.vlr_aberto        =   14192.55 . /* ttnegociacao.vlr_aberto.    */
+        ttacooferta.vlr_divida        =    137894.70. /* ttnegociacao.vlr_divida.    */
+        ttacooferta.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
+        ttacooferta.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
+        ttacooferta.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
+
     end.
        
 END.
