@@ -69,6 +69,17 @@ if ($metodo=="GET"){
         include 'serasacli.php';
       break;
 
+      case "aoacordo":
+        include 'aoacordo.php';
+      break;
+
+      case "aoacorigem":
+        include 'aoacorigem.php';
+      break;
+
+      case "aoacparcela":
+        include 'aoacparcela.php';
+      break;
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
