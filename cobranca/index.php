@@ -100,7 +100,7 @@ include_once(__DIR__ . '/../header.php');
                 </div>
 
                 <div class="list-group">
-                    <a href="aoacordo.php" class="list-group-item mb-2">
+                    <a href="oferta_parametros.php" class="list-group-item mb-2">
                         <div class="row g-0">
                             <div class="col-1 text-center " style="width: 50px;">
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
