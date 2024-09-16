@@ -57,7 +57,7 @@ vmessage = no.
 
 /*def buffer bttnegociacao for ttnegociacao. */
 
-/* 
+
  create ttacoofertacont.
  ttacoofertacont.negcod            =  1  . /* conegoc.negcod. */
  ttacoofertacont.negnom            =   "teste x" . /* aconegoc.negnom. */
@@ -68,7 +68,7 @@ vmessage = no.
  ttacoofertacont.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
  ttacoofertacont.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
        
-END. */
+
 
         
 
