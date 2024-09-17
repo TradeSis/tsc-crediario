@@ -45,7 +45,7 @@ THEN DO:
     ttaconegoc.id_recid = RECID(aconegoc).
 END.
 ELSE DO:
-    FOR EACH aconegoc WHERE aconegoc.tpNegociacao = ttentrada.tpNegociacao:
+    FOR EACH aconegoc WHERE aconegoc.tpNegociacao = ttentrada.tpNegociacao no-lock:
         create ttaconegoc.
         BUFFER-COPY aconegoc TO ttaconegoc.
         ttaconegoc.id_recid = RECID(aconegoc).

@@ -2,11 +2,7 @@
 //Lucas 05092024 criado
 include_once(__DIR__ . '/../header.php');
 
-$tpNegociacao = "";
-if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
-    $tpNegociacao = $_GET['tpNegociacao'];
-}
-//echo json_encode($tpNegociacao);
+$tpNegociacao = $_GET['tpNegociacao'];
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -30,45 +26,13 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
 
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
-            <div class="col-3">
+            <div class="col-10">
                 <h2 class="ts-tituloPrincipal">Parametrização <?php echo $tpNegociacao ?></h2>
             </div>
 
-            <div class="col-3 d-flex gap-2 align-items-end justify-content-end">
-                <div class="col-7">
-                    <select class="form-select ts-input" id="FiltroTpNegociacao">
-                        <?php if ($tpNegociacao == "") { ?>
-                            <option value="<?php echo "null" ?>">Selecione</option>
-                            <option value="ACORDO ONLINE">ACORDO ONLINE</option>
-                            <option value="SERASA">SERASA</option>
-                        <?php } else { ?>
-                            <option <?php
-                                    echo "selected";
-
-                                    ?> value="<?php echo $tpNegociacao ?>">
-                                <?php echo $tpNegociacao ?>
-                            </option>
-                            <option value="<?php echo "null" ?>">Selecione</option>
-                            <option value="ACORDO ONLINE">ACORDO ONLINE</option>
-                            <option value="SERASA">SERASA</option>
-
-                        <?php } ?>
-
-                    </select>
-                </div>
-                <div class="col-1">
-                    <button type="submit" class="btn btn-primary btn-sm" id="filtrarTpNegociacao">Filtrar</button>
-                </div>
+            <div class="col-2 text-end">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
             </div>
-
-            <?php if ($tpNegociacao == "") { ?>
-                <div class="col-6 text-end"></div>
-            <?php } else { ?>
-                <div class="col-6 text-end">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
-                </div>
-
-            <?php } ?>
 
         </div>
 
@@ -456,14 +420,6 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                     $('#alterarModal').modal('show');
                 }
             });
-        });
-
-        $("#filtrarTpNegociacao").click(function() {
-            tpNegociacao = $("#FiltroTpNegociacao").val();
-
-            var url = window.location.href.split('?')[0];
-            var newUrl = url + '?tpNegociacao=' + tpNegociacao;
-            window.location.href = newUrl;
         });
 
         // MODAL PLANOS EXCLUIR
