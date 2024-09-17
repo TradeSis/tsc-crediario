@@ -34,13 +34,22 @@ $dados = json_decode($retorno,true);
       $dados = $dados["conteudoSaida"][0];
   } else {
     
-     if (!isset($dados["aoacordo"][1]) && ($jsonEntrada['dadosEntrada'][0]['IDAcordo'] != null)) {  // Verifica se tem mais de 1 registro
+     if (!isset($dados["aoacordo"][0]) && ($jsonEntrada['dadosEntrada'][0]['IDAcordo'] != null)) {  // Verifica se tem mais de 1 registro
       $dados = $dados["aoacordo"][0]; // Retorno sem array
-    } elseif(!isset($dados["aoacordo"][0])){
-        $dados = $dados["aoacordo"][0];
-    }else {
+      //echo "1111";
+    } else {
       $dados = $dados["aoacordo"];  
+      //echo "2222";
     }
+
+    /* 
+     if (!isset($dados["aoacordo"][1]) && ($jsonEntrada['dadosEntrada'][0]['IDAcordo'] != null) && (!isset($jsonEntrada['dadosEntrada'][0]['CliFor']))) {  // Verifica se tem mais de 1 registro
+      $dados = $dados["aoacordo"][0]; // Retorno sem array
+      echo "1111";
+    } else {
+      $dados = $dados["aoacordo"];  
+      echo "2222";
+    } */
 
   }
 

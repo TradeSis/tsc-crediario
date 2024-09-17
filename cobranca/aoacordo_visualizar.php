@@ -5,7 +5,8 @@ include_once('../database/aoacordo.php');
 
 $Tipo = $_GET['Tipo'];
 $IDAcordo = $_GET['IDAcordo'];
-$acordo = buscaAcordo($Tipo, $IDAcordo);
+$acordos = buscaAcordo($Tipo, $IDAcordo);
+$acordo = $acordos[0];
 $id_recid = $acordo['id_recid'];
 
 $DtAcordo = ($acordo['DtAcordo'] != null ? date('d/m/Y', strtotime($acordo['DtAcordo'])) : "");
