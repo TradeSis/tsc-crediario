@@ -3,7 +3,7 @@
 
 include_once __DIR__ . "/../conexao.php";
 
-function buscaAcordo($IDAcordo = null)
+function buscaAcordo($Tipo, $IDAcordo = null)
 {
 	
 	$acordo = array();
@@ -11,6 +11,7 @@ function buscaAcordo($IDAcordo = null)
 		array(
 			"dadosEntrada" => array(
 				array(
+					'Tipo' => $Tipo,
 					'IDAcordo' => $IDAcordo
 				)
 			)
@@ -27,13 +28,18 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao == "buscar") {
 
-        $IDAcordo = isset($_POST["IDAcordo"]) && $_POST["IDAcordo"] !== "null"  ? $_POST["IDAcordo"]  : null;
+        $IDAcordo = isset($_POST["IDAcordo"]) && $_POST["IDAcordo"] !== ""  ? $_POST["IDAcordo"]  : null;
+		$DtAcordoini = isset($_POST["DtAcordoini"]) && $_POST["DtAcordoini"] !== "null" && $_POST["DtAcordoini"] !== ""  ? $_POST["DtAcordoini"]  : null;
+		$DtAcordofim = isset($_POST["DtAcordofim"]) && $_POST["DtAcordofim"] !== "null" && $_POST["DtAcordofim"] !== ""  ? $_POST["DtAcordofim"]  : null;
 	
 		$apiEntrada = 
 		array(
 			"dadosEntrada" => array(
 				array(
-					'IDAcordo' => $IDAcordo
+					'Tipo' => $_POST["Tipo"],
+					'IDAcordo' => $IDAcordo,
+					'DtAcordoini' => $DtAcordoini,
+					'DtAcordofim' => $DtAcordofim
 				)
 			)
 		);

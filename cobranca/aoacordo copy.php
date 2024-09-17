@@ -29,20 +29,21 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
 
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
-            <div class="col d-flex">
+            <div class="col-6 d-flex">
                 <!-- TITULO -->
                 <a href="aoacordo.php" style="text-decoration: none;">
                     <h6 class="ts-tituloSecundaria">Gestão de Acordos</h6>
                 </a>
                 <?php if ($Tipo != "") { ?>
                     &nbsp; / &nbsp;
-                    <h2 class="ts-tituloPrincipal"><?php echo $Tipo ?></h2>
+                    <h2 class="ts-tituloPrincipal">Acordo de Cobrança - Via <?php echo $Tipo ?></h2>
 
                 <?php } ?>
 
             </div>
 
-            <div class="col-2 d-flex gap-2 align-items-end justify-content-end">
+            <div class="col-6 d-flex gap-2 align-items-end justify-content-end">
+                <div class="col-4">
                     <select class="form-select ts-input" id="FiltroTipo">
                         <?php if ($Tipo == "") { ?>
                             <option value="<?php echo "null" ?>">Selecione</option>
@@ -62,24 +63,9 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                         <?php } ?>
 
                     </select>
-                
-            </div>
-
-            <div class="col d-flex">
-
-                <div class="col-4 d-flex">
-                    <input type="date" class="form-control ts-input" name="DtAcordoini" id="DtAcordoini" required>
-                    <p class="mx-2" style="margin-bottom: -5px;">até</p>
-                    <input type="date" class="form-control ts-input me-2" name="DtAcordofim" id="DtAcordofim" required>
-                
-                    <button type="submit" class="btn btn-primary" id="filtrardata">Filtrar</button>
                 </div>
-            </div>
-
-            <div class="col-2">
-                <div class="input-group">
-                    <input type="text" class="form-control ts-input" id="IDAcordo" placeholder="Buscar por IDAcordo">
-                    <button class="btn btn-primary rounded" type="button" id="buscar"><i class="bi bi-search"></i></button>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary btn-sm" id="filtrarTipo">Filtrar</button>
                 </div>
             </div>
 
@@ -90,15 +76,18 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
             <table class="table table-sm table-hover">
                 <thead class="ts-headertabelafixo">
                     <tr class="ts-headerTabelaLinhaCima">
-                        <th>IDAcordo</th>
-                        <th>Data</th>
+                        <th>ID Acordo</th>
                         <th>Estab</th>
-                        <th>Cliente</th>
-                        <th>CPF</th>
-                        <th>Nome</th>
-                        <th>Valor Acordo</th>
-                        <th>Dt Efetivacao</th>
+                        <th>Cli/For</th>
                         <th>Situacao</th>
+                        <th>Dt Acordo</th>
+                        <th>Hora</th>
+                        <th>Dt Efetivacao</th>
+                        <th>Hr</th>
+                        <th>Vlr ori</th>
+                        <th>Vlr Acordo</th>
+                        <th>DtVincula</th>
+                        <th>Tipo</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -123,19 +112,16 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
             var texto = $("#textocontador");
             texto.html('Total: ' + 0 + " | Valor Total Acordo: " + 0);
         });
-        buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
+        buscar()
 
-        function buscar(IDAcordo, DtAcordoini, DtAcordofim) {
-            //alert(IDAcordo)
+        function buscar() {
+            //alert(FiltroPortador)
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
                 url: '../database/aoacordo.php?operacao=buscar',
                 data: {
-                    IDAcordo: IDAcordo,
-                    Tipo: '<?php echo $Tipo ?>',
-                    DtAcordoini: DtAcordoini,
-                    DtAcordofim: DtAcordofim
+                    Tipo: '<?php echo $Tipo ?>'
                 },
                 success: function(msg) {
                     var Tipo = '<?php echo $Tipo ?>';
@@ -151,17 +137,21 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                         linha = linha + "<tr>";
 
                         linha = linha + "<td>" + object.IDAcordo + "</td>";
-                        linha = linha + "<td>" + (object.DtAcordo != "null" ? formatDate(object.DtAcordo) : "") + "</td>";
                         linha = linha + "<td>" + object.etbcod + "</td>";
-                        linha = linha + "<td>" + object.clicod + "</td>";
-                        linha = linha + "<td>" + object.ciccgc + "</td>";
-                        linha = linha + "<td>" + object.clinom + "</td>";
+                        linha = linha + "<td>" + object.CliFor + "</td>";
+                        linha = linha + "<td>" + object.Situacao + "</td>";
+                        linha = linha + "<td>" + (object.DtAcordo != "null" ? formatDate(object.DtAcordo) : "") + "</td>";
+                        linha = linha + "<td>" + object.HrAcordo + "</td>";
+                        linha = linha + "<td>" + (object.DtEfetiva != "null" ? formatDate(object.DtEfetiva) : "") + "</td>";
+                        linha = linha + "<td>" + object.HrEfetiva + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.VlOriginal.toLocaleString('pt-br', {
+                            minimumFractionDigits: 2
+                        }) + "</td>";
                         linha = linha + "<td class='text-end'>" + object.VlAcordo.toLocaleString('pt-br', {
                             minimumFractionDigits: 2
                         }) + "</td>";
-                        linha = linha + "<td>" + (object.DtEfetiva != "null" ? formatDate(object.DtEfetiva) : "") + "</td>";
-                        linha = linha + "<td>" + object.Situacao + "</td>";
-
+                        linha = linha + "<td>" + (object.DtVinculo != "null" ? formatDate(object.DtVinculo) : "") + "</td>";
+                        linha = linha + "<td>" + object.Tipo + "</td>";
 
                         linha = linha + "<td class='text-end'>";
 
@@ -183,23 +173,10 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                 }
             });
 
+
         }
 
-        $("#buscar").click(function() {
-            buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
-        })
-        
-        $("#filtrardata").click(function() {
-            buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
-        })
-
-        document.addEventListener("keypress", function(e) {
-            if (e.key === "Enter") {
-                buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
-            }
-        });
-
-        $("#FiltroTipo").change(function() {
+        $("#filtrarTipo").click(function() {
             Tipo = $("#FiltroTipo").val();
 
             var url = window.location.href.split('?')[0];

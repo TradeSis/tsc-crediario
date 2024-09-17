@@ -3,9 +3,14 @@
 include_once('../header.php');
 include_once('../database/aoacordo.php');
 
+$Tipo = $_GET['Tipo'];
 $IDAcordo = $_GET['IDAcordo'];
-$acordo = buscaAcordo($IDAcordo);
+$acordo = buscaAcordo($Tipo, $IDAcordo);
 $id_recid = $acordo['id_recid'];
+
+$DtAcordo = ($acordo['DtAcordo'] != null ? date('d/m/Y', strtotime($acordo['DtAcordo'])) : "");
+$DtEfetiva = ($acordo['DtEfetiva'] != null ? date('d/m/Y', strtotime($acordo['DtEfetiva'])) : "");
+$DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['DtVinculo'])) : "");
 
 ?>
 
@@ -30,13 +35,16 @@ $id_recid = $acordo['id_recid'];
         </div>
 
         <div class="row mt-2"> <!-- LINHA SUPERIOR A TABLE -->
-            <div class="col-12 d-flex">
+            <div class="col-10 d-flex">
      
-                <a href="aoacordo.php" style="text-decoration: none;">
+                <a href="aoacordo.php?Tipo=<?php echo $Tipo ?>" style="text-decoration: none;">
                     <h6 class="ts-tituloSecundaria">Gestão de Acordos</h6>
                 </a> &nbsp; / &nbsp;
-                <h2 class="ts-tituloPrincipal">Acordo de Cobrança - Via Acordo Online</h2>
+                <h2 class="ts-tituloPrincipal"><?php echo $Tipo ?></h2>
 
+            </div>
+            <div class="col-2 text-end">
+                <a href="#" onclick="history.back()" role="button" class="btn btn-primary"><i class="bi bi-arrow-left-square"></i></i>&#32;Voltar</a>
             </div>
         </div>
         <hr>
@@ -66,13 +74,13 @@ $id_recid = $acordo['id_recid'];
                         <td><?php echo $acordo['etbcod'] ?></td>
                         <td><?php echo $acordo['CliFor'] ?></td>
                         <td><?php echo $acordo['Situacao'] ?></td>
-                        <td><?php echo $acordo['DtAcordo'] ?></td>
+                        <td><?php echo $DtAcordo ?></td>
                         <td><?php echo $acordo['HrAcordo'] ?></td>
-                        <td><?php echo $acordo['DtEfetiva'] ?></td>
+                        <td><?php echo $DtEfetiva ?></td>
                         <td><?php echo $acordo['HrEfetiva'] ?></td>
                         <td><?php echo $acordo['VlOriginal'] ?></td>
                         <td><?php echo $acordo['VlAcordo'] ?></td>
-                        <td><?php echo $acordo['DtVinculo'] ?></td>
+                        <td><?php echo $DtVinculo ?></td>
                         <td><?php echo $acordo['Tipo'] ?></td>
                     </tr>
 

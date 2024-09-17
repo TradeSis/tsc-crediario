@@ -36,7 +36,9 @@ $dados = json_decode($retorno,true);
     
      if (!isset($dados["aoacordo"][1]) && ($jsonEntrada['dadosEntrada'][0]['IDAcordo'] != null)) {  // Verifica se tem mais de 1 registro
       $dados = $dados["aoacordo"][0]; // Retorno sem array
-    } else {
+    } elseif(!isset($dados["aoacordo"][0])){
+        $dados = $dados["aoacordo"][0];
+    }else {
       $dados = $dados["aoacordo"];  
     }
 
