@@ -12,15 +12,23 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field clicod like clien.clicod
     field negcod like aconegoc.negcod.
 
-def temp-table ttacoofertacont  no-undo serialize-name "acoofertacont"  /* JSON SAIDA */
-    field negcod like aconegoc.negcod
-    field negnom like aconegoc.negnom
-    field qtd as int
-    field vlr_aberto as dec
-    field vlr_divida as dec
-    field qtd_selecionado as int
-    field vlr_selaberto as dec
-    field vlr_selecionado as dec.
+def temp-table ttcontrato  no-undo serialize-name "acoofertacont"  /* JSON SAIDA */
+    field marca     as log format "*/ "
+    field negcod       like aconegoc.negcod
+    field contnum       like contrato.contnum
+    field tpcontrato    like contrato.tpcontrato
+    field vlr_aberto    as dec
+    field vlr_divida    as dec
+    field vlr_parcela   as dec
+    field dt_venc       as date
+    field dias_atraso   as int
+    field qtd_pagas     as int
+    field qtd_parcelas  as int
+    field perc_pagas    as dec
+    field vlr_vencido   as dec
+    field vlr_vencer    as dec
+    field trectitprotesto as recid
+    index idx is unique primary  negcod asc contnum asc.
 
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
@@ -58,22 +66,47 @@ vmessage = no.
 /*def buffer bttnegociacao for ttnegociacao. */
 
 
- create ttacoofertacont.
- ttacoofertacont.negcod            =  1  . /* conegoc.negcod. */
- ttacoofertacont.negnom            =   "teste x" . /* aconegoc.negnom. */
- ttacoofertacont.qtd               =   20 . /* ttnegociacao.qtd.   */
- ttacoofertacont.vlr_aberto        =   14192.55 . /* ttnegociacao.vlr_aberto.    */
- ttacoofertacont.vlr_divida        =    137894.70. /* ttnegociacao.vlr_divida.    */
- ttacoofertacont.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
- ttacoofertacont.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
- ttacoofertacont.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
+ create ttcontrato.
+ ttcontrato.marca = FALSE.
+ ttcontrato.negcod = 1.
+ ttcontrato.contnum = 1.
+ ttcontrato.tpcontrato = "XPTO".
+ ttcontrato.vlr_aberto = 120.
+ ttcontrato.vlr_divida = 1200.
+ ttcontrato.vlr_parcela = 25.
+ ttcontrato.dt_venc = today.
+ ttcontrato.dias_atraso = 5.
+ ttcontrato.qtd_pagas = 2.
+ ttcontrato.qtd_parcelas = 12.
+ ttcontrato.perc_pagas = 10.
+ ttcontrato.vlr_vencido = 220.
+ ttcontrato.vlr_vencer = 225.
+ ttcontrato.trectitprotesto = 12345.
+ 
+ create ttcontrato.
+ ttcontrato.marca = TRUE.
+ ttcontrato.negcod = 2.
+ ttcontrato.contnum = 2.
+ ttcontrato.tpcontrato = "XPTO2".
+ ttcontrato.vlr_aberto = 220.
+ ttcontrato.vlr_divida = 2200.
+ ttcontrato.vlr_parcela = 55.
+ ttcontrato.dt_venc = today.
+ ttcontrato.dias_atraso = 10.
+ ttcontrato.qtd_pagas = 20.
+ ttcontrato.qtd_parcelas = 22.
+ ttcontrato.perc_pagas = 20.
+ ttcontrato.vlr_vencido = 420.
+ ttcontrato.vlr_vencer = 525.
+ ttcontrato.trectitprotesto = 64789.
+
        
 
 
         
 
-find first ttacoofertacont no-error.
-if not avail ttacoofertacont
+find first ttcontrato no-error.
+if not avail ttcontrato
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
@@ -86,7 +119,7 @@ then do:
     return.
 end. 
 
-hsaida  = TEMP-TABLE ttacoofertacont:handle.
+hsaida  = TEMP-TABLE ttcontrato:handle.
 
 
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).

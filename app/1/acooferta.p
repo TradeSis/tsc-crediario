@@ -18,7 +18,7 @@ def temp-table ttcliente  no-undo serialize-name "cliente"
     field clinom   like clien.clinom
     field etbcad   like clien.etbcad.
     
-def temp-table ttacooferta  no-undo serialize-name "acooferta"  /* JSON SAIDA */
+def temp-table ttnegociacao  no-undo serialize-name "acooferta"  /* JSON SAIDA */
     field negcod like aconegoc.negcod
     field negnom like aconegoc.negnom
     field qtd as int
@@ -28,7 +28,7 @@ def temp-table ttacooferta  no-undo serialize-name "acooferta"  /* JSON SAIDA */
     field vlr_selaberto as dec
     field vlr_selecionado as dec.
 
-def dataset acooferta for ttcliente, ttacooferta.
+def dataset acooferta for ttcliente, ttnegociacao.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -87,25 +87,25 @@ then do:
         ttcliente.clinom   =  clien.clinom.
         ttcliente.etbcad   =  clien.etbcad.
 
-        create ttacooferta.
-        ttacooferta.negcod            =  1  . /* conegoc.negcod. */
-        ttacooferta.negnom            =   "teste x" . /* aconegoc.negnom. */
-        ttacooferta.qtd               =   20 . /* ttnegociacao.qtd.   */
-        ttacooferta.vlr_aberto        =   14192.55 . /* ttnegociacao.vlr_aberto.    */
-        ttacooferta.vlr_divida        =    137894.70. /* ttnegociacao.vlr_divida.    */
-        ttacooferta.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
-        ttacooferta.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
-        ttacooferta.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
+        create ttnegociacao.
+        ttnegociacao.negcod            =  1  . /* conegoc.negcod. */
+        ttnegociacao.negnom            =   "teste x" . /* aconegoc.negnom. */
+        ttnegociacao.qtd               =   20 . /* ttnegociacao.qtd.   */
+        ttnegociacao.vlr_aberto        =   14192.55 . /* ttnegociacao.vlr_aberto.    */
+        ttnegociacao.vlr_divida        =    137894.70. /* ttnegociacao.vlr_divida.    */
+        ttnegociacao.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
+        ttnegociacao.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
+        ttnegociacao.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
 
-        create ttacooferta.
-        ttacooferta.negcod            =  2  . /* conegoc.negcod. */
-        ttacooferta.negnom            =   "teste 2" . /* aconegoc.negnom. */
-        ttacooferta.qtd               =   20 . /* ttnegociacao.qtd.   */
-        ttacooferta.vlr_aberto        =   14192.55 . /* ttnegociacao.vlr_aberto.    */
-        ttacooferta.vlr_divida        =    137894.70. /* ttnegociacao.vlr_divida.    */
-        ttacooferta.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
-        ttacooferta.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
-        ttacooferta.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
+        create ttnegociacao.
+        ttnegociacao.negcod            =  2  . /* conegoc.negcod. */
+        ttnegociacao.negnom            =   "teste 2" . /* aconegoc.negnom. */
+        ttnegociacao.qtd               =   20 . /* ttnegociacao.qtd.   */
+        ttnegociacao.vlr_aberto        =   14192.55 . /* ttnegociacao.vlr_aberto.    */
+        ttnegociacao.vlr_divida        =    137894.70. /* ttnegociacao.vlr_divida.    */
+        ttnegociacao.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
+        ttnegociacao.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
+        ttnegociacao.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
 
     end.
        
@@ -113,8 +113,8 @@ END.
 
         
 
-find first ttacooferta no-error.
-if not avail ttacooferta
+find first ttnegociacao no-error.
+if not avail ttnegociacao
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
