@@ -11,9 +11,12 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field IDAcordo like aoacordo.IDAcordo
     FIELD DtAcordoini AS DATE
     FIELD DtAcordofim AS DATE
+    field CliFor  like aoacordo.CliFor
+    field cpfcnpj  like clien.ciccgc
+    field etbcod  like aoacordo.etbcod
     field Tipo like aoacordo.Tipo.
 
-def temp-table ttaoacordo  no-undo serialize-name "aoacordo"  /* JSON SAIDA */
+def temp-table ttaoacordo  no-undo serialize-name "aoacordo"  /* JSON SAIDA  */
     like aoacordo
     FIELD clicod LIKE clien.clicod
     FIELD ciccgc LIKE clien.ciccgc
@@ -23,6 +26,8 @@ def temp-table ttaoacordo  no-undo serialize-name "aoacordo"  /* JSON SAIDA */
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
     field descricaoStatus      as char.
+
+def var vclifor like ttentrada.clifor.
 
 hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
@@ -40,16 +45,52 @@ then do:
     message string(vlcSaida).
     return.
 end.
-        RUN LOG(STRING(ttentrada.DtAcordoini)).
-        RUN LOG(STRING(ttentrada.DtAcordofim)).
+ 
+vclifor = ?.
+IF ttentrada.cpfcnpj <> ? 
+THEN DO:
+    FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
+    IF avail clien
+    then vclifor = clien.clicod.
+        RUN LOG("AQUI 01").
+END.
+IF ttentrada.CliFor <> ? 
+THEN DO:
+    vclifor = ttentrada.CliFor.
+    RUN LOG("AQUI 02") .
+END.
+
+        
+IF ttentrada.IDAcordo = ? 
+THEN DO:
+ RUN LOG("CLIFOR -> " + STRING(vclifor)).
+    for each aoacordo where aoacordo.Tipo = ttentrada.Tipo AND
+        (if vclifor = ? 
+        then true else aoacordo.CliFor = vclifor) AND 
+        (if ttentrada.etbcod = ? 
+        then true else aoacordo.etbcod = ttentrada.etbcod) AND
+        
+        (if ttentrada.DtAcordoini = ? 
+        then true else aoacordo.DtAcordo >= ttentrada.DtAcordoini) AND
+        (if ttentrada.DtAcordofim = ? 
+        then true else aoacordo.DtAcordo <= ttentrada.DtAcordofim) 
+        no-lock.
+       
+        RUN criaAoAcordo.
+    
+    end.
+END.  
+// OLD        
 IF ttentrada.IDAcordo <> ?
 then do:
 RUN LOG("AQUI 0").
         find aoacordo WHERE aoacordo.Tipo = ttentrada.Tipo AND
                             aoacordo.IDAcordo = ttentrada.IDAcordo no-lock.
-          
-          RUN criaAoAcordo.
+                            
+        
+        RUN criaAoAcordo.
 END.
+/*
 ELSE DO:
     IF ttentrada.DtAcordoini <> ? AND ttentrada.DtAcordofim <> ?
     THEN DO:
@@ -72,7 +113,7 @@ ELSE DO:
      END.          
  
 END.
-
+    */
  
  /*
 IF ttentrada.DtAcordoini <> ? AND ttentrada.DtAcordofim <> ? AND ttentrada.IDAcordo = ?

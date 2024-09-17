@@ -6,6 +6,25 @@ $Tipo = "";
 if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
     $Tipo = $_GET['Tipo'];
 }
+//echo json_encode($_SESSION['filtro_aoacordo']);
+
+$DtAcordoini = null;
+$DtAcordofim = null;
+$CliFor = null;
+$cpfcnpj = null;
+$etbcod = null; 
+
+if (isset($_SESSION['filtro_aoacordo'][0])) {
+    $filtroEntrada = $_SESSION['filtro_aoacordo'];
+    $DtAcordoini = $filtroEntrada['DtAcordoini'];
+    $DtAcordofim = $filtroEntrada['DtAcordofim'];
+    $CliFor = $filtroEntrada['CliFor'];
+    $cpfcnpj = $filtroEntrada['cpfcnpj'];
+    $etbcod = $filtroEntrada['etbcod'];
+  }
+
+
+
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -73,6 +92,7 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                     <input type="date" class="form-control ts-input me-2" name="DtAcordofim" id="DtAcordofim" required>
                 
                     <button type="submit" class="btn btn-primary" id="filtrardata">Filtrar</button>
+                    <button type="submit" class="btn btn-info ms-1" onclick="limpar()">Limpar</button>
                 </div>
             </div>
 
@@ -101,6 +121,23 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                         <th>Situacao</th>
                         <th></th>
                     </tr>
+                    <tr class="ts-headerTabelaLinhaBaixo">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela text-center" placeholder="Cliente [ENTER]"
+                            value="<?php echo $CliFor !== null ? $CliFor : null ?>" name="CliFor" id="CliFor" required>
+                        </th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela text-center" placeholder="Cpf/Cnpj [ENTER]"
+                            value="<?php echo $cpfcnpj !== null ? $cpfcnpj : null ?>" name="cpfcnpj" id="cpfcnpj" required>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                 </thead>
 
                 <tbody id='dados' class="fonteCorpo">
@@ -123,19 +160,26 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
             var texto = $("#textocontador");
             texto.html('Total: ' + 0 + " | Valor Total Acordo: " + 0);
         });
-        buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
 
-        function buscar(IDAcordo, DtAcordoini, DtAcordofim) {
+        function limpar(){
+            buscar(null,null,null,null,null,null);
+        }
+        buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
+
+        function buscar(IDAcordo, DtAcordoini, DtAcordofim, CliFor, cpfcnpj, etbcod) {  
             //alert(IDAcordo)
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
                 url: '../database/aoacordo.php?operacao=buscar',
                 data: {
-                    IDAcordo: IDAcordo,
                     Tipo: '<?php echo $Tipo ?>',
+                    IDAcordo: IDAcordo,
                     DtAcordoini: DtAcordoini,
-                    DtAcordofim: DtAcordofim
+                    DtAcordofim: DtAcordofim,
+                    CliFor: CliFor,
+                    cpfcnpj: cpfcnpj,
+                    etbcod: etbcod
                 },
                 success: function(msg) {
                     var Tipo = '<?php echo $Tipo ?>';
@@ -186,17 +230,16 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
         }
 
         $("#buscar").click(function() {
-            buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
+            buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
         })
         
         $("#filtrardata").click(function() {
-            buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
+            buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
         })
 
         document.addEventListener("keypress", function(e) {
             if (e.key === "Enter") {
-                buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val());
-            }
+                buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());            }
         });
 
         $("#FiltroTipo").change(function() {
