@@ -3,6 +3,7 @@
 include_once(__DIR__ . '/../header.php');
 include_once '../database/acooferta.php';
 
+$tpNegociacao = $_GET['tpNegociacao'];
 if (isset($_GET['parametros'])) {
     $codigoCliente = $_POST['codigoCliente'];
 } else {
@@ -10,7 +11,7 @@ if (isset($_GET['parametros'])) {
 }
 
 
-$ofertaAcordo = buscaOfertaAcordoOnline("ACORDO ONLINE", $codigoCliente);
+$ofertaAcordo = buscaOfertaAcordoOnline($tpNegociacao, $codigoCliente);
 $cliente = $ofertaAcordo["cliente"][0];
 $oferta = $ofertaAcordo["acooferta"][0];
 ?>
@@ -37,7 +38,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-10">
-                        <h4>Ofertas Acordo Online</h4>
+                        <h4>Ofertas <?php echo $tpNegociacao ?></h4>
                     </div>
                     <div class="col-sm" style="text-align:right">
                         <a href="index.php" role="button" class="btn btn-primary btn-sm">Voltar</a>
@@ -146,11 +147,12 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 dataType: 'html',
                 url: '../database/acooferta.php?operacao=buscar',
                 data: {
-                    ptpnegociacao : "ACORDO ONLINE",
+                    ptpnegociacao : '<?php echo $tpNegociacao ?>',
                     clicod : <?php echo $codigoCliente ?>
                 },
                 success: function(msg) {
                     console.log(msg);
+                    var tpNegociacao = '<?php echo $tpNegociacao ?>';
                     var json = JSON.parse(msg);
                     var linha = "";
 
@@ -166,7 +168,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha += "<td>" + object.qtd_selecionado + "</td>";
                         linha += "<td>" + object.vlr_selaberto + "</td>";
                         linha += "<td>" + object.vlr_selecionado + "</td>";
-                        linha += "<td><a class='btn btn-info btn-sm ms-1' href='visualizar_acooferta.php?clicod=" + <?php echo $codigoCliente ?> + "&negcod=" + object.negcod + "' role='button'><i class='bi bi-eye'></i></a></td>";
+                        linha += "<td><a class='btn btn-info btn-sm ms-1' href='visualizar_acooferta.php?tpNegociacao=" + tpNegociacao + "&clicod=" + <?php echo $codigoCliente ?> + "&negcod=" + object.negcod + "' role='button'><i class='bi bi-eye'></i></a></td>";
                         linha += "</tr>";
                     }
 

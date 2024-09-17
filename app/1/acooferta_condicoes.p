@@ -12,15 +12,18 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field clicod like clien.clicod
     field negcod like aconegoc.negcod.
 
-def temp-table ttacoofertacond  no-undo serialize-name "acoofertacond"  /* JSON SAIDA */
-    field negcod like aconegoc.negcod
-    field negnom like aconegoc.negnom
-    field qtd as int
-    field vlr_aberto as dec
-    field vlr_divida as dec
-    field qtd_selecionado as int
-    field vlr_selaberto as dec
-    field vlr_selecionado as dec.
+def temp-table ttcondicoes  no-undo serialize-name "acoofertacond"  /* JSON SAIDA */
+    field negcod        like aconegoc.negcod
+    field planom        like acoplanos.planom
+    field placod        like acoplanos.placod
+    field vlr_entrada   as dec
+    field min_entrada    as dec
+    field vlr_acordo    as dec
+    field vlr_juroacordo as dec
+    field dtvenc1       as date
+    field vlr_parcela   as dec
+    field especial as log
+    index idx is unique primary negcod asc placod asc planom asc.
 
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
@@ -58,22 +61,36 @@ vmessage = no.
 /*def buffer bttnegociacao for ttnegociacao. */
 
 
- create ttacoofertacond.
- ttacoofertacond.negcod            =  1  . /* conegoc.negcod. */
- ttacoofertacond.negnom            =   "teste x" . /* aconegoc.negnom. */
- ttacoofertacond.qtd               =   20 . /* ttnegociacao.qtd.   */
- ttacoofertacond.vlr_aberto        =   14192.55 . /* ttnegociacao.vlr_aberto.    */
- ttacoofertacond.vlr_divida        =    137894.70. /* ttnegociacao.vlr_divida.    */
- ttacoofertacond.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
- ttacoofertacond.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
- ttacoofertacond.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
+ create ttcondicoes.
+ ttcondicoes.negcod = 1.
+ ttcondicoes.planom = "1+5".
+ ttcondicoes.placod = 1.
+ ttcondicoes.vlr_entrada = 100.
+ ttcondicoes.min_entrada = 20.
+ ttcondicoes.vlr_acordo = 500.
+ ttcondicoes.vlr_juroacordo = 550.
+ ttcondicoes.dtvenc1  = TODAY.
+ ttcondicoes.vlr_parcela = 30.
+ ttcondicoes.especial = TRUE.
+ 
+ create ttcondicoes.
+ ttcondicoes.negcod = 2.
+ ttcondicoes.planom = "1+7".
+ ttcondicoes.placod = 2.
+ ttcondicoes.vlr_entrada = 200.
+ ttcondicoes.min_entrada = 40.
+ ttcondicoes.vlr_acordo = 1000.
+ ttcondicoes.vlr_juroacordo = 1550.
+ ttcondicoes.dtvenc1  = TODAY.
+ ttcondicoes.vlr_parcela = 60.
+ ttcondicoes.especial = FALSE.
        
 
 
         
 
-find first ttacoofertacond no-error.
-if not avail ttacoofertacond
+find first ttcondicoes no-error.
+if not avail ttcondicoes
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
@@ -86,7 +103,7 @@ then do:
     return.
 end. 
 
-hsaida  = TEMP-TABLE ttacoofertacond:handle.
+hsaida  = TEMP-TABLE ttcondicoes:handle.
 
 
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).

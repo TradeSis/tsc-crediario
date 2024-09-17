@@ -4,7 +4,7 @@
 // gabriel 22022023 16:00
 
 include_once '../header.php';
-
+$tpNegociacao = $_GET['tpNegociacao'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -23,10 +23,10 @@ include_once '../header.php';
         <div class="row justify-content-center">
             <div class="col-md-6 card p-0">
                 <div class="card-header">
-                    <h3>Ofertas Acordo Online</h3>
+                    <h3>Ofertas <?php echo $tpNegociacao ?></h3>
                 </div>
                 <div class="container">
-                    <form action="acooferta.php?parametros" method="POST">
+                    <form action="acooferta.php?parametros&tpNegociacao=<?php echo $tpNegociacao ?>" method="POST">
                         <div class="form-group">
                             <label>Código Cliente</label>
                             <input type="number" class="form-control" name="codigoCliente">
