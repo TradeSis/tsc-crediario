@@ -62,26 +62,11 @@ if (isset($_SESSION['filtro_aoacordo'][0])) {
             </div>
 
             <div class="col-2 d-flex gap-2 align-items-end justify-content-end">
-                    <select class="form-select ts-input" id="FiltroTipo">
-                        <?php if ($Tipo == "") { ?>
-                            <option value="<?php echo "null" ?>">Selecione</option>
-                            <option value="ACORDO ONLINE">ACORDO ONLINE</option>
-                            <option value="SERASA">SERASA</option>
-                        <?php } else { ?>
-                            <option <?php
-                                    echo "selected";
-
-                                    ?> value="<?php echo $Tipo ?>">
-                                <?php echo $Tipo ?>
-                            </option>
-                            <option value="<?php echo "null" ?>">Selecione</option>
-                            <option value="ACORDO ONLINE">ACORDO ONLINE</option>
-                            <option value="SERASA">SERASA</option>
-
-                        <?php } ?>
-
-                    </select>
-                
+                <select class="form-select ts-input" id="FiltroTipo">
+                    <option value="<?php echo "null" ?>" <?php if ($Tipo == "") {echo "selected"; } ?>>Selecione</option>
+                    <option value="ACORDO ONLINE" <?php if ($Tipo == "ACORDO ONLINE") {echo "selected"; } ?>>ACORDO ONLINE</option>
+                    <option value="SERASA" <?php if ($Tipo == "SERASA") {echo "selected"; } ?>>SERASA</option>
+                </select>
             </div>
 
             <div class="col d-flex">
@@ -124,7 +109,13 @@ if (isset($_SESSION['filtro_aoacordo'][0])) {
                     <tr class="ts-headerTabelaLinhaBaixo">
                         <th></th>
                         <th></th>
-                        <th></th>
+                        <th>
+                            <div class="input-group">
+                                <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 input-etbcod" placeholder="Digite Filial [ENTER]"
+                                value="<?php echo $etbcod !== null ? $etbcod : null ?>" name="etbcod" id="etbcod" required>
+                                <button class="btn ts-input btn-outline-secondary ts-acionaZoomEstab" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
+                            </div>
+                        </th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela text-center" placeholder="Cliente [ENTER]"
                             value="<?php echo $CliFor !== null ? $CliFor : null ?>" name="CliFor" id="CliFor" required>
@@ -235,20 +226,26 @@ if (isset($_SESSION['filtro_aoacordo'][0])) {
         
         $("#filtrardata").click(function() {
             buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
+        
+            Tipo = $("#FiltroTipo").val();
+
+            var url = window.location.href.split('?')[0];
+            var newUrl = url + '?Tipo=' + Tipo;
+            window.location.href = newUrl;
         })
 
         document.addEventListener("keypress", function(e) {
             if (e.key === "Enter") {
                 buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());            }
         });
-
+/* 
         $("#FiltroTipo").change(function() {
             Tipo = $("#FiltroTipo").val();
 
             var url = window.location.href.split('?')[0];
             var newUrl = url + '?Tipo=' + Tipo;
             window.location.href = newUrl;
-        });
+        }); */
 
 
 
@@ -267,6 +264,25 @@ if (isset($_SESSION['filtro_aoacordo'][0])) {
             }
             return "";
         }
+
+        // Ao iniciar o programa, inseri os valores de data nos inputs. 
+        $(document).ready(function() {
+            var data = new Date(),
+                dia = data.getDate().toString(),
+                diaF = (dia.length == 1) ? '0' + dia : dia,
+                mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro come�a com zero.
+                mesF = (mes.length == 1) ? '0' + mes : mes,
+                anoF = data.getFullYear();
+            dataAtual = anoF + "-" + mesF + "-" + diaF;
+            primeirodiadomes = anoF + "-" + mesF + "-" + "01";
+
+            const DtAcordoini = document.getElementById("DtAcordoini");
+            DtAcordoini.value = primeirodiadomes;
+
+            const DtAcordofim = document.getElementById("DtAcordofim");
+            DtAcordofim.value = dataAtual;
+
+        });
     </script>
 
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->

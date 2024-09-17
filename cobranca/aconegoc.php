@@ -30,35 +30,16 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
 
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
-            <div class="col-3">
+            <div class="col-4">
                 <h2 class="ts-tituloPrincipal">Parametrização <?php echo $tpNegociacao ?></h2>
             </div>
 
-            <div class="col-3 d-flex gap-2 align-items-end justify-content-end">
-                <div class="col-7">
+            <div class="col-2">
                     <select class="form-select ts-input" id="FiltroTpNegociacao">
-                        <?php if ($tpNegociacao == "") { ?>
-                            <option value="<?php echo "null" ?>">Selecione</option>
-                            <option value="ACORDO ONLINE">ACORDO ONLINE</option>
-                            <option value="SERASA">SERASA</option>
-                        <?php } else { ?>
-                            <option <?php
-                                    echo "selected";
-
-                                    ?> value="<?php echo $tpNegociacao ?>">
-                                <?php echo $tpNegociacao ?>
-                            </option>
-                            <option value="<?php echo "null" ?>">Selecione</option>
-                            <option value="ACORDO ONLINE">ACORDO ONLINE</option>
-                            <option value="SERASA">SERASA</option>
-
-                        <?php } ?>
-
+                            <option value="<?php echo "null" ?>" <?php if ($tpNegociacao == "") {echo "selected"; } ?>>Selecione</option>
+                            <option value="ACORDO ONLINE" <?php if ($tpNegociacao == "ACORDO ONLINE") {echo "selected"; } ?>>ACORDO ONLINE</option>
+                            <option value="SERASA" <?php if ($tpNegociacao == "SERASA") {echo "selected"; } ?>>SERASA</option>
                     </select>
-                </div>
-                <div class="col-1">
-                    <button type="submit" class="btn btn-primary btn-sm" id="filtrarTpNegociacao">Filtrar</button>
-                </div>
             </div>
 
             <?php if ($tpNegociacao == "") { ?>
@@ -458,7 +439,7 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
             });
         });
 
-        $("#filtrarTpNegociacao").click(function() {
+        $("#FiltroTpNegociacao").change(function() {
             tpNegociacao = $("#FiltroTpNegociacao").val();
 
             var url = window.location.href.split('?')[0];
