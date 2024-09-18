@@ -35,10 +35,10 @@ $oferta = $ofertaAcordo["acooferta"][0];
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-10">
-                        <h4>ACORDO ONLINE - <?php echo $oferta['negnom'] ?> - Cliente <?php echo $_GET['clicod'] ?></h4>
+                        <h4>AxCORDO ONLINE - <?php echo $oferta['negnom'] ?> - Cliente <?php echo $_GET['clicod'] ?></h4>
                     </div>
                     <div class="col-sm" style="text-align:right">
-                        <a href="acooferta.php?codigoCliente=<?php echo $_GET['clicod'] ?>" role="button" class="btn btn-primary btn-sm">Voltar</a>
+                        <a href="acooferta.php?tpNegociacao=<?php echo $tpNegociacao ?>&codigoCliente=<?php echo $_GET['clicod'] ?>" role="button" class="btn btn-primary btn-sm">Voltar</a>
                     </div>
                 </div>
             </div>
