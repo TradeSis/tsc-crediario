@@ -127,6 +127,10 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
+                                    <label class="form-label ts-label">listadiasparaentrada</label>
+                                    <input type="text" class="form-control ts-input" name="listadiasparaentrada" placeholder="0,1,2...">
+                                </div>
+                                <div class="col">
                                     <label class="form-label ts-label">perc_acres</label>
                                     <input type="text" class="form-control ts-input" name="perc_acres">
                                 </div>
@@ -212,6 +216,10 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                 </div>
                             </div>
                             <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">listadiasparaentrada</label>
+                                    <input type="text" class="form-control ts-input" name="listadiasparaentrada" id="listadiasparaentrada" placeholder="0,1,2...">
+                                </div>
                                 <div class="col">
                                     <label class="form-label ts-label">perc_acres</label>
                                     <input type="text" class="form-control ts-input" name="perc_acres" id="perc_acres">
@@ -397,6 +405,7 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                     $('#permite_alt_vezes').val(permite_alt_vezes);
                     $('#valor_acres').val(data.valor_acres);
                     $('#valor_desc').val(data.valor_desc);
+                    $('#listadiasparaentrada').val(data.listadiasparaentrada);
 
                     $('#alterarModal').modal('show');
                 }

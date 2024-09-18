@@ -26,7 +26,7 @@ def temp-table ttentrada no-undo serialize-name "aconegoc"   /* JSON ENTRADA */
     field ParcVencerQtd like aconegoc.ParcVencerQtd
     field Arrasta like aconegoc.Arrasta
     field PermiteTitProtesto like aconegoc.PermiteTitProtesto
-    
+    field calculaSeguroPrestamista like aconegoc.calculaSeguroPrestamista
     FIELD ptpnegociacao as char.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
@@ -76,6 +76,7 @@ do on error undo:
     aconegoc.ParcVencerQtd = ttentrada.ParcVencerQtd.
     aconegoc.Arrasta = ttentrada.Arrasta.
     aconegoc.PermiteTitProtesto = ttentrada.PermiteTitProtesto.
+    aconegoc.calculaSeguroPrestamista = ttentrada.calculaSeguroPrestamista.
 
 end.
 

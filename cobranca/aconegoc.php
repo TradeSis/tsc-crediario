@@ -160,6 +160,14 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" value="true" name="calculaSeguroPrestamista">
+                                        <label class="form-label ts-label">
+                                        calculaSeguroPrestamistao
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                     </div><!--body-->
                     <div class="modal-footer">
@@ -276,6 +284,14 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" name="calculaSeguroPrestamista" id="calculaSeguroPrestamista">
+                                        <label class="form-label ts-label">
+                                        calculaSeguroPrestamistao
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                     </div><!--body-->
@@ -433,6 +449,12 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                     $('#Arrasta').val(Arrasta);
                     PermiteTitProtesto = data.PermiteTitProtesto == true ? "true" : "false";
                     $('#PermiteTitProtesto').val(PermiteTitProtesto);
+                    if(data.calculaSeguroPrestamista == true){
+                        $('#calculaSeguroPrestamista').prop('checked', true);
+                    }else{
+                        $('#calculaSeguroPrestamista').prop('checked', false);
+                    }
+                    
 
                     $('#alterarModal').modal('show');
                 }
