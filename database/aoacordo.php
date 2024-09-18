@@ -49,7 +49,7 @@ if (isset($_GET['operacao'])) {
 				)
 			)
 		);
-		$_SESSION['filtro_aoacordo'] = $apiEntrada;
+		
 		$acordo = chamaAPI(null, '/crediario/aoacordo', json_encode($apiEntrada), 'GET');
 
 		echo json_encode($acordo);

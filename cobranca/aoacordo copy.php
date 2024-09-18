@@ -139,19 +139,18 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
         });
 
         function limpar(){
-            Tipo = $("#FiltroTipo").val();
-            buscar(Tipo, null,null,null,null,null,null);
-            $("#IDAcordo").val('');
+            buscar(null,null,null,null,null,null);
         }
+        //buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
 
         function buscar(Tipo, IDAcordo, DtAcordoini, DtAcordofim, CliFor, cpfcnpj, etbcod) {  
-            //alert(IDAcordo)
+            //alert(Tipo)
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
                 url: '../database/aoacordo.php?operacao=buscar',
                 data: {
-                    Tipo: Tipo,
+                    Tipo: '<?php echo $Tipo ?>',
                     IDAcordo: IDAcordo,
                     DtAcordoini: DtAcordoini,
                     DtAcordofim: DtAcordofim,
@@ -160,12 +159,15 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                     etbcod: etbcod
                 },
                 success: function(msg) {
+                    //alert(msg)
+                    var Tipo = '<?php echo $Tipo ?>';
                     var json = JSON.parse(msg);
-                    //alert(JSON.stringify(json));
+                    alert(JSON.stringify(json));
                     var contadorItem = 0;
                     var contadorVlrAcordo = 0;
                     var linha = "";
                     for (var $i = 0; $i < json.length; $i++) {
+                        alert(object.IDAcordo)
                         var object = json[$i];
                         contadorItem += 1;
                         contadorVlrAcordo += object.VlAcordo;
@@ -183,8 +185,11 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                         linha = linha + "<td>" + (object.DtEfetiva != "null" ? formatDate(object.DtEfetiva) : "") + "</td>";
                         linha = linha + "<td>" + object.Situacao + "</td>";
 
+
                         linha = linha + "<td class='text-end'>";
-                        linha = linha + "<a class='btn btn-info btn-sm ms-1' href='aoacordo_visualizar.php?Tipo=" + object.Tipo + "&IDAcordo=" + object.IDAcordo + "' role='button'><i class='bi bi-eye'></i></a> ";
+
+                        linha = linha + "<a class='btn btn-info btn-sm ms-1' href='aoacordo_visualizar.php?Tipo=" + Tipo + "&IDAcordo=" + object.IDAcordo + "' role='button'><i class='bi bi-eye'></i></a> ";
+
                         linha = linha + "</td>";
 
                         linha = linha + "</tr>";
@@ -204,20 +209,22 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
         }
 
         $("#buscarAcordo").click(function() {
-            Tipo = $("#FiltroTipo").val();
-            buscar(Tipo, $("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
+            buscar('<?php echo $Tipo ?>', $("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
         })
         
         $("#filtrardata").click(function() {
             Tipo = $("#FiltroTipo").val();
+
+            var url = window.location.href.split('?')[0];
+            var newUrl = url + '?Tipo=' + Tipo;
+            window.location.href = newUrl;
+
             buscar(Tipo, $("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());
-        
         })
 
         document.addEventListener("keypress", function(e) {
             if (e.key === "Enter") {
-                Tipo = $("#FiltroTipo").val();
-                buscar(Tipo, $("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());            }
+                buscar('<?php echo $Tipo ?>', $("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#etbcod").val());            }
         });
 
         // Ao clicar no input Filial simula um click no botão do modal "Estabelecimentos"
@@ -226,10 +233,20 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
             elemento.click()
         });
 
+        // Ao selecionar um estabelecimento, passa Etbcod e munic para form inserir 
+       /*  $(document).on('click', '.ts-click', function() {
+            var etbcod = $(this).attr("data-etbcod");
+            var munic = $(this).attr("data-munic");
+
+            $('#inserir_Etbcod').val(etbcod);
+            $('#inserir_munic').val(munic);
+
+            $('#zoomEstabModal').modal('hide');
+        }); */
+
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
-            Tipo = $("#FiltroTipo").val();
-            buscar(Tipo, $("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), etbcod);
+            buscar($("#IDAcordo").val(), $("#DtAcordoini").val(), $("#DtAcordofim").val(), $("#CliFor").val(), $("#cpfcnpj").val(), etbcod);
             $('#etbcod').val(etbcod);
             $('#zoomEstabModal').modal('hide');
         });

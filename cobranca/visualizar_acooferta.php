@@ -8,7 +8,7 @@ include_once '../database/acooferta.php';
 
 $tpNegociacao = $_GET['tpNegociacao'];
 $ofertaAcordo = buscaOfertaAcordoOnline($tpNegociacao, $_GET['clicod'], $_GET['negcod']);
-echo json_encode($ofertaAcordo);
+//echo json_encode($ofertaAcordo);
 $cliente = $ofertaAcordo["cliente"][0];
 $oferta = $ofertaAcordo["acooferta"][0];
 ?>
@@ -246,7 +246,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha = linha + "<td>" + object.vlr_acordo + "</td>";
                         linha = linha + "<td>" + object.vlr_entrada + "</td>";
                         linha = linha + "<td>" + object.vlr_parcela + "</td>";
-                        linha = linha + "<td>" + object.dtvenc1 + "</td>";
+                        linha = linha + "<td>" + (object.dtvenc1 != "null" ? formatDate(object.dtvenc1) : "") + "</td>";
                         linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#parcelasModal' data-placod='" + object.placod + "'><i class='bi bi-eye-fill'></i></button> " + "</td>";
  
 
@@ -293,13 +293,10 @@ $oferta = $ofertaAcordo["acooferta"][0];
 
 
         $(document).on('click', 'button[data-bs-target="#parcelasModal"]', function () {
-            
-
-
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
-                url: '../database/acooferta.php?operacao=buscarCondicoes',
+                url: '../database/acooferta.php?operacao=buscarParcelas',
                 data: {
                     ptpnegociacao : '<?php echo $tpNegociacao ?>',
                     clicod : <?php echo $_GET['clicod'] ?>
@@ -311,8 +308,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         var object = json[$i];
                         linha = linha + "<tr>"; 
                         linha = linha + "<td>parc</td>";
-                        linha = linha + "<td>vlr parcela</td>";
-                        linha = linha + "<td>perc</td>";
+                        linha = linha + "<td>" + object.vlr_parcela + "</td>";
+                        linha = linha + "<td>" + object.perc_parcela + "</td>";
                   
                         linha = linha + "</tr>";
                     }
@@ -321,29 +318,20 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 }
             });
            
-
-            /* var etbcod = $(this).attr("data-etbcod");
-            //alert(etbcod)
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: '../database/estab.php?operacao=buscar',
-                data: {
-                    etbcod: etbcod
-                },
-                success: function (data) {
-                    var estab = data[0];
-                    $('#etbcod').val(estab.etbcod);
-                    $('#etbnom').val(estab.etbnom);
-                    $('#munic').val(estab.munic);
-
-                    $('#parcelasModal').modal('show');
-                }
-            }); */
         });
 
 
-
+   // FORMATAR DATAS
+   function formatDate(dateString) {
+            if (dateString !== null && !isNaN(new Date(dateString))) {
+                var date = new Date(dateString);
+                var day = date.getUTCDate().toString().padStart(2, '0');
+                var month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+                var year = date.getUTCFullYear().toString().padStart(4, '0');
+                return day + "/" + month + "/" + year;
+            }
+            return "";
+        }
 
 
         window.onload = function () {
