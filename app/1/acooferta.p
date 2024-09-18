@@ -12,23 +12,6 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field clicod like clien.clicod
     field negcod like aconegoc.negcod.
 
-def temp-table ttcliente  no-undo serialize-name "cliente"
-    field clicod  like clien.clicod    
-    field cpfCNPJ  like clien.ciccgc 
-    field clinom   like clien.clinom
-    field etbcad   like clien.etbcad.
-    
-def temp-table ttnegociacao  no-undo serialize-name "acooferta"  /* JSON SAIDA */
-    field negcod like aconegoc.negcod
-    field negnom like aconegoc.negnom
-    field qtd as int
-    field vlr_aberto as dec
-    field vlr_divida as dec
-    field qtd_selecionado as int
-    field vlr_selaberto as dec
-    field vlr_selecionado as dec.
-
-def dataset acooferta for ttcliente, ttnegociacao.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -59,7 +42,17 @@ ptpnegociacao = ttentrada.ptpnegociacao.
 par-clicod = ttentrada.clicod.
 vmessage = no.
 
-/*{/admcom/progr/aco/acordo.i new} */
+{acha.i}
+{aco/acordo.i new} 
+
+def temp-table ttcliente  no-undo serialize-name "cliente"
+    field clicod  like clien.clicod    
+    field cpfCNPJ  like clien.ciccgc 
+    field clinom   like clien.clinom
+    field etbcad   like clien.etbcad.
+    
+
+def dataset acooferta for ttcliente, ttnegociacao.
 
 
 /*def buffer bttnegociacao for ttnegociacao. */
@@ -87,6 +80,16 @@ then do:
         ttcliente.clinom   =  clien.clinom.
         ttcliente.etbcad   =  clien.etbcad.
 
+
+        FIND clien WHERE clien.clicod = ttentrada.clicod NO-LOCK.
+         
+        run calcelegiveis (input ttentrada.ptpnegociacao, input ttentrada.clicod, ?).
+        for each ttnegociacao.
+            find aconegoc of ttnegociacao no-lock.
+            ttnegociacao.negnom = aconegoc.negnom.
+        end.
+/*
+
         create ttnegociacao.
         ttnegociacao.negcod            =  1  . /* conegoc.negcod. */
         ttnegociacao.negnom            =   "teste x" . /* aconegoc.negnom. */
@@ -106,7 +109,7 @@ then do:
         ttnegociacao.qtd_selecionado   =    20. /* ttnegociacao.qtd_selecionado. */
         ttnegociacao.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
         ttnegociacao.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
-
+*/
     end.
        
 END.

@@ -52,6 +52,7 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao == "buscarCondicoes") {
 
+		$ptpnegociacao = isset($_POST["ptpnegociacao"]) && $_POST["ptpnegociacao"] !== "null"  ? $_POST["ptpnegociacao"]  : null;
         $negcod = isset($_POST["negcod"]) && $_POST["negcod"] !== "null"  ? $_POST["negcod"]  : null;
         $clicod = isset($_POST["clicod"]) && $_POST["clicod"] !== "null"  ? $_POST["clicod"]  : null;
 
@@ -59,8 +60,9 @@ if (isset($_GET['operacao'])) {
 		array(
 			"dadosEntrada" => array(
 				array(
-					'negcod' => $negcod,
-					'clicod' => $clicod
+					'ptpnegociacao' => $ptpnegociacao,
+					'clicod' => $clicod,
+					'negcod' => $negcod
 				)
 			)
 		);
@@ -73,16 +75,18 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao == "buscarContratos") {
 
+		$ptpnegociacao = isset($_POST["ptpnegociacao"]) && $_POST["ptpnegociacao"] !== "null"  ? $_POST["ptpnegociacao"]  : null;
         $negcod = isset($_POST["negcod"]) && $_POST["negcod"] !== "null"  ? $_POST["negcod"]  : null;
+        $clicod = isset($_POST["clicod"]) && $_POST["clicod"] !== "null"  ? $_POST["clicod"]  : null;
 
 		$apiEntrada = 
 		array(
-			"dadosEntrada" => array(
-				array(
-					'negcod' => $negcod
-				)
+			array(
+				'ptpnegociacao' => $ptpnegociacao,
+				'clicod' => $clicod,
+				'negcod' => $negcod
 			)
-		);
+	);
 		
 		$acordo = chamaAPI(null, '/crediario/acooferta/contratos', json_encode($apiEntrada), 'GET');
 
@@ -92,13 +96,19 @@ if (isset($_GET['operacao'])) {
 
 	if ($operacao == "buscarParcelas") {
 
+		$ptpnegociacao = isset($_POST["ptpnegociacao"]) && $_POST["ptpnegociacao"] !== "null"  ? $_POST["ptpnegociacao"]  : null;
         $negcod = isset($_POST["negcod"]) && $_POST["negcod"] !== "null"  ? $_POST["negcod"]  : null;
+        $clicod = isset($_POST["clicod"]) && $_POST["clicod"] !== "null"  ? $_POST["clicod"]  : null;
+		$placod = isset($_POST["placod"]) && $_POST["placod"] !== "null"  ? $_POST["placod"]  : null;
 
 		$apiEntrada = 
 		array(
 			"dadosEntrada" => array(
 				array(
-					'negcod' => $negcod
+					'ptpnegociacao' => $ptpnegociacao,
+					'clicod' => $clicod,
+					'negcod' => $negcod,
+					'placod' => $placod
 				)
 			)
 		);

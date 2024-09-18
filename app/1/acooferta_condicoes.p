@@ -11,24 +11,16 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field ptpnegociacao as CHAR
     field clicod like clien.clicod
     field negcod like aconegoc.negcod.
-
-def temp-table ttcondicoes  no-undo serialize-name "acoofertacond"  /* JSON SAIDA */
-    field negcod        like aconegoc.negcod
-    field planom        like acoplanos.planom
-    field placod        like acoplanos.placod
-    field vlr_entrada   as dec
-    field min_entrada    as dec
-    field vlr_acordo    as dec
-    field vlr_juroacordo as dec
-    field dtvenc1       as date
-    field vlr_parcela   as dec
-    field especial as log
-    index idx is unique primary negcod asc placod asc planom asc.
-
-
+   
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
     field descricaoStatus      as char.
+
+def var vmessage as log.
+vmessage = no.
+
+{acha.i}
+{aco/acordo.i new} 
 
 hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
@@ -47,19 +39,15 @@ then do:
     return.
 end.
 
-def var ptpnegociacao as char.
-def var par-clicod like clien.clicod.
-def var vmessage as log.
+    FIND clien WHERE clien.clicod = ttentrada.clicod NO-LOCK.
 
-ptpnegociacao = ttentrada.ptpnegociacao.
-par-clicod = ttentrada.clicod.
-vmessage = no.
-
-/*{/admcom/progr/aco/acordo.i new} */
-
-
-/*def buffer bttnegociacao for ttnegociacao. */
-
+    FIND aconegoc WHERE aconegoc.negcod = ttentrada.negcod NO-LOCK.
+    run calcelegiveis (input aconegoc.tpNegociacao, input ttentrada.clicod, ttentrada.negcod).
+    
+    FIND FIRST ttnegociacao .
+    run montacondicoes (INPUT ttentrada.negcod, ?).
+        
+/*
 
  create ttcondicoes.
  ttcondicoes.negcod = 1.
@@ -85,7 +73,7 @@ vmessage = no.
  ttcondicoes.vlr_parcela = 60.
  ttcondicoes.especial = FALSE.
        
-
+  */
 
         
 
