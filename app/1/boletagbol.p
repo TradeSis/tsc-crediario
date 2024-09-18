@@ -13,13 +13,16 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field bolcod  like boletagbol.bolcod
     field bancod  like boletagbol.bancod
     field NossoNumero  like boletagbol.NossoNumero
-    field dtini  like boletagbol.DtEmissao
-    field dtfim    like boletagbol.DtEmissao.
+    field dtInicial  like boletagbol.DtEmissao
+    field dtFinal    like boletagbol.DtEmissao
+    field situacao    like boletagbol.situacao
+    field tipodedata    as char.
 
 def TEMP-TABLE ttboletagbol  no-undo serialize-name "boletagbol"  /* JSON SAIDA */
     like boletagbol
     FIELD cpfcnpj           AS CHAR
-    FIELD nomeCliente       AS CHAR.
+    FIELD nomeCliente       AS CHAR
+    FIELD situacaoDescricao      AS CHAR.
 
 def temp-table ttboletagparcela  no-undo serialize-name "boletagparcela"
     like boletagparcela.
@@ -64,10 +67,10 @@ THEN DO:
         then true else boletagbol.bancod = ttentrada.bancod) AND
         (if ttentrada.NossoNumero = ? 
         then true else boletagbol.NossoNumero = ttentrada.NossoNumero) AND
-        (if ttentrada.dtini = ? 
-        then true else boletagbol.DtEmissao >= ttentrada.dtini) AND
-        (if ttentrada.dtfim = ? 
-        then true else boletagbol.DtEmissao <= ttentrada.dtfim) 
+        (if ttentrada.dtInicial = ? 
+        then true else boletagbol.DtEmissao >= ttentrada.dtInicial) AND
+        (if ttentrada.dtFinal = ? 
+        then true else boletagbol.DtEmissao <= ttentrada.dtFinal) 
         no-lock.
 
         FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
@@ -75,7 +78,9 @@ THEN DO:
         ttboletagbol.cpfcnpj = clien.ciccgc.
         ttboletagbol.nomeCliente = clien.clinom.
         BUFFER-COPY boletagbol TO ttboletagbol.
-
+        IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
+        IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
+        IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
     end.
 END.
 
@@ -89,7 +94,10 @@ THEN DO:
         then do:
             create ttboletagbol.
             BUFFER-COPY boletagbol TO ttboletagbol.
-
+            IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
+            IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
+            IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
+            
             FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK no-error.
             if avail clien
             then do:

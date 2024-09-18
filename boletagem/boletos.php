@@ -9,16 +9,16 @@ $bancod = null;
 $NossoNumero = null;
 $dtini = date('Y-m-d');
 $dtfim = date('Y-m-d');
-if (isset($_SESSION['filtro_boletos'])) {
-  $filtroEntrada = $_SESSION['filtro_boletos'];
-  $CliFor = $filtroEntrada['CliFor'];
-  $cpfcnpj = $filtroEntrada['cpfcnpj'];
-  $bolcod = $filtroEntrada['bolcod'];
-  $bancod = $filtroEntrada['bancod'];
-  $NossoNumero = $filtroEntrada['NossoNumero'];
-  $dtini = $filtroEntrada['dtini'];
-  $dtfim = $filtroEntrada['dtfim'];
-}
+/* if (isset($_SESSION['filtro_boletos'])) {
+    $filtroEntrada = $_SESSION['filtro_boletos'];
+    $CliFor = $filtroEntrada['CliFor'];
+    $cpfcnpj = $filtroEntrada['cpfcnpj'];
+    $bolcod = $filtroEntrada['bolcod'];
+    $bancod = $filtroEntrada['bancod'];
+    $NossoNumero = $filtroEntrada['NossoNumero'];
+    $dtini = $filtroEntrada['dtini'];
+    $dtfim = $filtroEntrada['dtfim'];
+} */
 
 ?>
 
@@ -42,30 +42,17 @@ if (isset($_SESSION['filtro_boletos'])) {
         </div>
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
-            <div class="col-3 col-lg-3" id="filtroh6">
+            <div class="col-5 col-lg-5" id="filtroh6">
                 <h2 class="ts-tituloPrincipal">Boletos</h2>
                 <h6 style="font-size: 10px;font-style:italic;text-align:left;"></h6>
             </div>
 
-            <div class="col-5 col-lg-5">
-                <div class="input-group">
-                    <div class="form-group col">
-                        <div class="row">
-                        <div class="col">
-                            <label>Emissão De</label>
-                        </div>
-                        <div class="col">
-                            <label>Até</label>
-                        </div>
-                        </div>
-                        <div class="input-group">
-                            <input type="date" class="form-control" value="<?php echo $dtini != null ? $dtini : date('Y-m-d') ?>" name="dtini" id="dtini">
-                            <input type="date" class="form-control" value="<?php echo $dtfim != null ? $dtfim : date('Y-m-d') ?>" name="dtfim" id="dtfim">
-                        </div>
-                    </div>
-                    <button class="ms-4 btn btn-sm btn-primary" type="button" id="filtrarButton">Filtrar</button>
-                    <button id="exportCsvButton" class="ms-4 btn btn-success">CSV</button>
-                </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filtroentradaModal"><i class="bi bi-calendar3"></i></button>
+            </div>
+
+            <div class="col-1">
+                <button id="exportCsvButton" class="ms-4 btn btn-success"><i class="bi bi-file-earmark-arrow-down-fill" style="color:#fff"></i>&#32;CSV</button>
             </div>
 
             <div class="col-4 col-lg-4">
@@ -77,6 +64,63 @@ if (isset($_SESSION['filtro_boletos'])) {
             </div>
 
         </div>
+
+        <!--------- FILTRO BOLETOS --------->
+        <div class="modal" id="filtroentradaModal" tabindex="-1"
+            aria-labelledby="filtroentradaModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Filtrar Boletos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label>Situacao</label>
+                                    <select class="form-control" id="situacao">
+                                        <option value="A">Aberto</option>
+                                        <option value="P">Pago</option>
+                                        <option value="B">Baixado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Tipo de Data</label>
+                                    <select class="form-control" id="tipodedata">
+                                        <option value="Emissao">Emissao</option>
+                                        <option value="Pagamento">Pagamento</option>
+                                        <option value="Baixa">Baixa</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row" id="conteudoReal">
+                                <div class="col">
+                                    <label class="labelForm">Data Inicial</label>
+                                    <input type="date" class="data select form-control" id="dtInicial">
+                                </div>
+                                <div class="col">
+                                    <label class="labelForm">Data Final</label>
+                                    <input type="date" class="data select form-control" id="dtFinal">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <div class="col-sm text-start">
+                            <button type="button" class="btn btn-primary" onClick="limparPeriodo()">Limpar</button>
+                        </div>
+                        <div class="col-sm text-end">
+                            <button type="button" class="btn btn-success" id="filtroentrada" data-dismiss="modal">Filtrar</button>
+                        </div>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="table mt-2 ts-divTabela ts-tableFiltros">
             <table class="table table-sm table-hover">
@@ -93,27 +137,29 @@ if (isset($_SESSION['filtro_boletos'])) {
                         <th>Valor Cobrado</th>
                         <th>Dt Pagamento</th>
                         <th>Dt Baixa</th>
+                        <th>Situação</th>
                         <th></th>
                     </tr>
                     <tr class="ts-headerTabelaLinhaBaixo">
                         <th></th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cliente [ENTER]"
-                            value="<?php echo $CliFor !== null ? $CliFor : null ?>" name="CliFor" id="CliFor" required>
+                                value="<?php echo $CliFor !== null ? $CliFor : null ?>" name="CliFor" id="CliFor" required>
                         </th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cpf/Cnpj [ENTER]"
-                            value="<?php echo $cpfcnpj !== null ? $cpfcnpj : null ?>" name="cpfcnpj" id="cpfcnpj" required>
+                                value="<?php echo $cpfcnpj !== null ? $cpfcnpj : null ?>" name="cpfcnpj" id="cpfcnpj" required>
                         </th>
                         <th></th>
                         <th class="col-1">
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Banco [ENTER]"
-                            value="<?php echo $bancod !== null ? $bancod : null ?>" name="bancod" id="bancod" required>
+                                value="<?php echo $bancod !== null ? $bancod : null ?>" name="bancod" id="bancod" required>
                         </th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Nosso Numero [ENTER]"
-                            value="<?php echo $NossoNumero !== null ? $NossoNumero : null ?>" name="NossoNumero" id="NossoNumero" required>
+                                value="<?php echo $NossoNumero !== null ? $NossoNumero : null ?>" name="NossoNumero" id="NossoNumero" required>
                         </th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -144,93 +190,130 @@ if (isset($_SESSION['filtro_boletos'])) {
             var texto = $("#textocontador");
             texto.html('total: ' + 0);
         });
-        
-        function buscar(CliFor,cpfcnpj,bolcod,bancod,NossoNumero,dtini, dtfim) {
-            if (dtini == '' || dtfim == '') {
+
+        function buscar(situacao, tipodedata, dtInicial, dtFinal, CliFor, cpfcnpj, bolcod, bancod, NossoNumero) {
+            if (dtInicial == '' || dtFinal == '') {
                 alert("Informe um período")
             } else {
-            //alert (buscar);
-            var h6Element = $("#filtroh6 h6");
-            var text = "";
-            if (dtini !== null && dtini !== '') {
-                text += "Periodo de " + formatDate(dtini);
+                //alert (buscar);
+                var h6Element = $("#filtroh6 h6");
+                var text = "";
+
+                var select = document.getElementById('situacao');
+                var option = select.children[select.selectedIndex];
+                var textoSelect = option.textContent;
+               
+                text += "Situação: " + textoSelect;
+                
+                if (tipodedata !== null && tipodedata !== '') {
+                    if (text) text += " | Tipo de Data: ";
+                    text += tipodedata;
+                }
+                if (dtInicial !== null && dtInicial !== '') {
+                    text += " | Periodo de " + formatDate(dtInicial);
+                }
+                if (dtFinal !== null && dtFinal !== '') {
+                    if (text) text += " até ";
+                    text += formatDate(dtFinal);
+                }
+
+                h6Element.html(text);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'html',
+                    url: '<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=buscar',
+                    beforeSend: function() {
+                        $("#dados").html("Carregando...");
+                    },
+                    data: {
+                        situacao: situacao,
+                        tipodedata: tipodedata,
+                        dtInicial: dtInicial,
+                        dtFinal: dtFinal,
+                        CliFor: CliFor,
+                        cpfcnpj: cpfcnpj,
+                        bolcod: bolcod,
+                        bancod: bancod,
+                        NossoNumero: NossoNumero
+
+                    },
+                    success: function(msg) {
+                        var contadorItem = 0;
+                        var contadorVlCobrado = 0;
+                        var json = JSON.parse(msg);
+                        var linha = "";
+                        for (var $i = 0; $i < json.length; $i++) {
+                            var object = json[$i];
+
+                            contadorItem += 1;
+                            contadorVlCobrado += object.VlCobrado;
+                            linha += "<tr>";
+
+                            linha += "<td>" + object.bolcod + "</td>";
+                            linha += "<td>" + object.CliFor + "</td>";
+                            linha += "<td>" + object.cpfcnpj + "</td>";
+                            linha += "<td>" + object.Documento + "</td>";
+                            linha += "<td>" + object.bancod + "</td>";
+                            linha += "<td>" + object.NossoNumero + "</td>";
+                            linha += "<td>" + (object.DtEmissao ? formatDate(object.DtEmissao) : "--") + "</td>";
+                            linha += "<td>" + (object.DtVencimento ? formatDate(object.DtVencimento) : "--") + "</td>";
+                            linha += "<td>" + parseFloat(object.VlCobrado).toFixed(2).replace('.', ',') + "</td>";
+                            linha += "<td>" + (object.DtPagamento ? formatDate(object.DtPagamento) : "--") + "</td>";
+                            linha += "<td>" + (object.DtBaixa ? formatDate(object.DtBaixa) : "--") + "</td>";
+                            linha += "<td>" + object.situacaoDescricao + "</td>";
+
+                            linha = linha + "<td>" + "<a class='btn btn-primary btn-sm' href='visualizar_boleto.php?bolcod=" + object.bolcod + "' role='button'><i class='bi bi-eye-fill'></i></a>";
+
+                            linha += "</td>";
+
+                            linha += "</tr>";
+                        }
+
+                        $("#dados").html(linha);
+
+                        var texto = $("#textocontador");
+                        var VlCobrado = contadorVlCobrado.toLocaleString('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        });
+                        texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlCobrado);
+                    }
+                });
             }
-            if (dtfim !== null && dtfim !== '') {
-                if (text) text += " até ";
-                text += formatDate(dtfim);
-            }
+        }
 
-            h6Element.html(text);
-            $.ajax({
-                 type: 'POST',
-                 dataType: 'html',
-                 url: '<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=buscar',
-                 beforeSend: function() {
-                     $("#dados").html("Carregando...");
-                 },
-                 data: {
-                    CliFor: CliFor,
-                    cpfcnpj: cpfcnpj,
-                    bolcod: bolcod,
-                    bancod: bancod,
-                    NossoNumero: NossoNumero,
-                    dtini: dtini,
-                    dtfim: dtfim
-                 },
-                 success: function(msg) {
-                     var contadorItem = 0;
-                     var contadorVlCobrado = 0;
-                     var json = JSON.parse(msg);
-                     var linha = "";
-                     for (var $i = 0; $i < json.length; $i++) {
-                         var object = json[$i];
-                        
-                         contadorItem += 1;
-                         contadorVlCobrado += object.VlCobrado;
-                         linha += "<tr>";
-
-                         linha += "<td>" + object.bolcod + "</td>";
-                         linha += "<td>" + object.CliFor + "</td>";
-                         linha += "<td>" + object.cpfcnpj + "</td>";
-                         linha += "<td>" + object.Documento + "</td>";
-                         linha += "<td>" + object.bancod + "</td>";
-                         linha += "<td>" + object.NossoNumero + "</td>";
-                         linha += "<td>" + (object.DtEmissao ? formatDate(object.DtEmissao) : "--") + "</td>";
-                         linha += "<td>" + (object.DtVencimento ? formatDate(object.DtVencimento) : "--") + "</td>";
-                         linha += "<td>" + parseFloat(object.VlCobrado).toFixed(2).replace('.', ',') + "</td>"; 
-                         linha += "<td>" + (object.DtPagamento ? formatDate(object.DtPagamento) : "--") + "</td>";
-                         linha += "<td>" + (object.DtBaixa ? formatDate(object.DtBaixa) : "--") + "</td>";
-
-                         linha = linha + "<td>" + "<a class='btn btn-primary btn-sm' href='visualizar_boleto.php?bolcod=" + object.bolcod + "' role='button'><i class='bi bi-eye-fill'></i></a>";
-
-                         linha += "</td>";
-
-                         linha += "</tr>";
-                     }
-
-                     $("#dados").html(linha);
-
-                     var texto = $("#textocontador");
-                     var VlCobrado = contadorVlCobrado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                     texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlCobrado);
-                 }
-             });
-            }
-         }
-
-        $("#buscar").click(function () {
-            buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
+        $("#buscar").click(function() {
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val());
         })
-        $(document).ready(function() {
-            $("#filtrarButton").click(function() {
-                buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
-            });
-        });  
-        document.addEventListener("keypress", function (e) {
+
+        document.addEventListener("keypress", function(e) {
             if (e.key === "Enter") {
-                buscar($("#CliFor").val(),$("#cpfcnpj").val(),$("#bolcod").val(),$("#bancod").val(), $("#NossoNumero").val(),$("#dtini").val(), $("#dtfim").val());
+                if (($("#NossoNumero").val() != '') && ($("#bancod").val() == '')) {
+                    alert("Digitar Codigo do Banco");
+                } else {
+                    buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val());
+                }
             }
         });
+
+        $("#filtroentrada").click(function() {
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val());
+            $('#filtroentradaModal').modal('hide');
+
+        });
+
+        function limparPeriodo() {
+            $('#filtroentradaModal').modal('hide');
+            $("#CliFor").val('');
+            $("#cpfcnpj").val('');
+            $("#bolcod").val('');
+            $("#bancod").val('');
+            $("#NossoNumero").val('');
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), null, null, null, null, null, function() {
+                window.location.reload();
+            });
+        }
+
 
         // FORMATAR DATAS
         function formatDate(dateString) {
@@ -244,7 +327,7 @@ if (isset($_SESSION['filtro_boletos'])) {
             return "";
         }
 
-        document.getElementById("exportCsvButton").addEventListener("click", function () {
+        document.getElementById("exportCsvButton").addEventListener("click", function() {
             exportTableToCSV('boletos.csv');
         });
 
@@ -258,7 +341,7 @@ if (isset($_SESSION['filtro_boletos'])) {
                 }
                 var row = [],
                     cols = rows[i].querySelectorAll("td, th");
-                for (var j = 0; j < cols.length - 1; j++) { 
+                for (var j = 0; j < cols.length - 1; j++) {
                     let cellText = cols[j].innerText.trim();
                     if (j === 9) {
                         cellText = cellText.replace('.', '').replace(',', '.');
@@ -267,7 +350,9 @@ if (isset($_SESSION['filtro_boletos'])) {
                 }
                 csv.push(row.join(";"));
             }
-            var csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+            var csvFile = new Blob([csv.join("\n")], {
+                type: "text/csv"
+            });
             var downloadLink = document.createElement("a");
             downloadLink.download = filename;
             downloadLink.href = window.URL.createObjectURL(csvFile);
@@ -276,6 +361,26 @@ if (isset($_SESSION['filtro_boletos'])) {
             downloadLink.click();
             document.body.removeChild(downloadLink);
         }
+
+        // Ao iniciar o programa, inseri os valores de data nos inputs. 
+        $(document).ready(function() {
+            var data = new Date(),
+                dia = data.getDate().toString(),
+                diaF = (dia.length == 1) ? '0' + dia : dia,
+                mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro come�a com zero.
+                mesF = (mes.length == 1) ? '0' + mes : mes,
+                anoF = data.getFullYear();
+            dataAtual = anoF + "-" + mesF + "-" + diaF;
+            primeirodiadomes = anoF + "-" + mesF + "-" + "01";
+
+            const dtInicial = document.getElementById("dtInicial");
+            dtInicial.value = dataAtual;
+
+            const dtFinal = document.getElementById("dtFinal");
+            dtFinal.value = dataAtual;
+
+
+        });
     </script>
 
 
