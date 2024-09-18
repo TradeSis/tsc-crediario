@@ -52,101 +52,37 @@ THEN DO:
     FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
     IF avail clien
     then vclifor = clien.clicod.
-        RUN LOG("AQUI 01").
 END.
 IF ttentrada.CliFor <> ? 
 THEN DO:
     vclifor = ttentrada.CliFor.
-    RUN LOG("AQUI 02") .
 END.
 
         
 IF ttentrada.IDAcordo = ? 
 THEN DO:
- RUN LOG("CLIFOR -> " + STRING(vclifor)).
     for each aoacordo where aoacordo.Tipo = ttentrada.Tipo AND
         (if vclifor = ? 
         then true else aoacordo.CliFor = vclifor) AND 
         (if ttentrada.etbcod = ? 
         then true else aoacordo.etbcod = ttentrada.etbcod) AND
-        
-        (if ttentrada.DtAcordoini = ? 
-        then true else aoacordo.DtAcordo >= ttentrada.DtAcordoini) AND
-        (if ttentrada.DtAcordofim = ? 
-        then true else aoacordo.DtAcordo <= ttentrada.DtAcordofim) 
+        (if ttentrada.DtAcordoini = ? AND ttentrada.DtAcordofim = ?
+        then true else aoacordo.DtAcordo >= ttentrada.DtAcordoini AND
+                       aoacordo.DtAcordo <= ttentrada.DtAcordofim)
         no-lock.
        
         RUN criaAoAcordo.
     
     end.
 END.  
-// OLD        
+      
 IF ttentrada.IDAcordo <> ?
 then do:
-RUN LOG("AQUI 0").
-        find aoacordo WHERE aoacordo.Tipo = ttentrada.Tipo AND
-                            aoacordo.IDAcordo = ttentrada.IDAcordo no-lock.
+    find aoacordo WHERE aoacordo.Tipo = ttentrada.Tipo AND
+                        aoacordo.IDAcordo = ttentrada.IDAcordo no-lock.
                             
-        
-        RUN criaAoAcordo.
+    RUN criaAoAcordo.
 END.
-/*
-ELSE DO:
-    IF ttentrada.DtAcordoini <> ? AND ttentrada.DtAcordofim <> ?
-    THEN DO:
-    RUN LOG("AQUI 1").
-           for each aoacordo where aoacordo.Tipo = ttentrada.Tipo AND
-                                   aoacordo.DtAcordo >= ttentrada.DtAcordoini AND
-                                   aoacordo.DtAcordo <= ttentrada.DtAcordofim
-                                   NO-LOCK.
-            RUN criaAoAcordo.
-        END.          
-    END.
-    
-    
-    IF ttentrada.IDAcordo = ? AND ttentrada.DtAcordoini = ? AND ttentrada.DtAcordofim = ?
-    THEN DO:
-    RUN LOG("AQUI TODOS").
-           for each aoacordo WHERE aoacordo.Tipo = ttentrada.Tipo NO-LOCK.
-                RUN criaAoacordo.
-            END.
-     END.          
- 
-END.
-    */
- 
- /*
-IF ttentrada.DtAcordoini <> ? AND ttentrada.DtAcordofim <> ? AND ttentrada.IDAcordo = ?
-THEN DO:
-RUN LOG("AQUI 1")).
-       for each aoacordo where aoacordo.Tipo = ttentrada.Tipo AND
-                               aoacordo.DtAcordo >= ttentrada.DtAcordoini AND
-                               aoacordo.DtAcordo <= ttentrada.DtAcordofim
-                               NO-LOCK.
-        FIND clien WHERE clien.clicod = aoacordo.CliFor NO-LOCK.
-        
-        create ttaoacordo.
-        BUFFER-COPY aoacordo TO ttaoacordo.
-        IF AVAIL clien
-        THEN DO:
-            ttaoacordo.clicod = clien.clicod.  
-            ttaoacordo.ciccgc = clien.ciccgc. 
-            ttaoacordo.clinom = clien.clinom.    
-        END.
-        
-        ttaoacordo.id_recid = RECID(aoacordo).
-    END.          
-END.
-
-ELSE DO:
-RUN LOG("AQUI 2")).
-    for each aoacordo WHERE aoacordo.Tipo = ttentrada.Tipo NO-LOCK.
-        //RUN criaAoacordo.
-    END.
-    
-end.
- */
-
 
 
 find first ttaoacordo no-error.
@@ -186,17 +122,3 @@ PROCEDURE criaAoAcordo.
             ttaoacordo.id_recid = RECID(aoacordo).
 
 END PROCEDURE.
-
-
-procedure LOG.
-    DEF INPUT PARAM vmensagem AS CHAR.    
-    OUTPUT TO VALUE(vtmp + "/AOACORDO_" + string(today,"99999999") + ".log") APPEND.
-        PUT UNFORMATTED 
-            STRING (TIME,"HH:MM:SS")
-            " progress -> " vmensagem
-            SKIP.
-    OUTPUT CLOSE.
-    
-END PROCEDURE.
-
-

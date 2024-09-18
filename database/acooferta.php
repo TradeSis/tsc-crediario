@@ -90,4 +90,23 @@ if (isset($_GET['operacao'])) {
 		return $acordo;
 	}
 
+	if ($operacao == "buscarParcelas") {
+
+        $negcod = isset($_POST["negcod"]) && $_POST["negcod"] !== "null"  ? $_POST["negcod"]  : null;
+
+		$apiEntrada = 
+		array(
+			"dadosEntrada" => array(
+				array(
+					'negcod' => $negcod
+				)
+			)
+		);
+		
+		$acordo = chamaAPI(null, '/crediario/acooferta/parcelas', json_encode($apiEntrada), 'GET');
+
+		echo json_encode($acordo);
+		return $acordo;
+	}
+
 }

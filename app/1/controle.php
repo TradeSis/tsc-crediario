@@ -19,6 +19,10 @@ if ($metodo=="GET"){
       $funcao = "acooferta/contratos";
       $parametro = null;
     }
+    if ($funcao == "acooferta" && $parametro == "parcelas") {
+      $funcao = "acooferta/parcelas";
+      $parametro = null;
+    }
 
 
     switch ($funcao) {
@@ -102,6 +106,10 @@ if ($metodo=="GET"){
 
       case "acooferta/contratos":
         include 'acooferta_contratos.php';
+      break;
+
+      case "acooferta/parcelas":
+        include 'acooferta_parcelas.php';
       break;
 
       default:

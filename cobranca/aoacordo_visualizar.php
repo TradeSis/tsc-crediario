@@ -38,7 +38,7 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
         <div class="row mt-2"> <!-- LINHA SUPERIOR A TABLE -->
             <div class="col-10 d-flex">
      
-                <a href="aoacordo.php?Tipo=<?php echo $Tipo ?>" style="text-decoration: none;">
+                <a href="aoacordo.php" style="text-decoration: none;">
                     <h6 class="ts-tituloSecundaria">Gestão de Acordos</h6>
                 </a> &nbsp; / &nbsp;
                 <h2 class="ts-tituloPrincipal"><?php echo $Tipo ?></h2>
