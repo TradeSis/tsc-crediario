@@ -36,60 +36,55 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
     field tstatus        as int serialize-name "status"
     field descricaoStatus      as char.
 
-def var vclifor like ttentrada.clifor.
+def var vclicod like ttentrada.clifor.
 
 hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
 find first ttentrada no-error.
+if NOT AVAIL ttentrada then do:
+    create ttsaida.
+    ttsaida.tstatus = 400.
+    ttsaida.descricaoStatus = "sem dados de entrada".
+
+    hsaida  = temp-table ttsaida:handle.
+
+    lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
+    message string(vlcSaida).
+    return.    
+end.
 
 
-IF ttentrada.cpfcnpj <> ? 
-THEN DO:
-    FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
-    IF avail clien
-    then vclifor = clien.clicod.
-    
-END.
-IF ttentrada.CliFor <> ? 
-THEN DO:
-    vclifor = ttentrada.CliFor.
-END.
-
-
-
-
-IF ttentrada.bolcod = ? 
-THEN DO:
-    for each boletagbol where 
-        (if vclifor = ? 
-        then true else boletagbol.CliFor = vclifor) AND
-        (if ttentrada.bancod = ? 
-        then true else boletagbol.bancod = ttentrada.bancod) AND
-        (if ttentrada.NossoNumero = ? 
-        then true else boletagbol.NossoNumero = ttentrada.NossoNumero) AND
-        (if ttentrada.dtInicial = ? 
-        then true else boletagbol.DtEmissao >= ttentrada.dtInicial) AND
-        (if ttentrada.dtFinal = ? 
-        then true else boletagbol.DtEmissao <= ttentrada.dtFinal) 
-        no-lock.
-
-        FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
-        create ttboletagbol.
-        ttboletagbol.cpfcnpj = clien.ciccgc.
-        ttboletagbol.nomeCliente = clien.clinom.
-        BUFFER-COPY boletagbol TO ttboletagbol.
-        IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
-        IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
-        IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
-    end.
-END.
-
-IF ttentrada.bolcod <> ?
+IF ttentrada.bolcod <> ? 
 THEN DO:
     find boletagbol where 
         boletagbol.bolcod = ttentrada.bolcod 
         NO-LOCK no-error.
+    
+    if avail boletagbol
+    then do:
+        create ttboletagbol.
+        BUFFER-COPY boletagbol TO ttboletagbol.
+        IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
+        IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
+        IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
         
+        FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
+            ttboletagbol.cpfcnpj = clien.ciccgc.
+            ttboletagbol.nomeCliente = clien.clinom.
+        for each boletagparcela of boletagbol NO-LOCK:
+            create ttboletagparcela.
+            BUFFER-COPY boletagparcela TO ttboletagparcela.
+        end.
+    end.
+END.
+else do:
+
+    if ttentrada.NossoNumero <> ? and
+       ttentrada.bancod      <> ?
+    then do:
+        find boletagbol where boletagbol.bancod = ttentrada.bancod and 
+                              boletagbol.NossoNumero = ttentrada.NossoNumero
+            NO-LOCK no-error.
         if avail boletagbol
         then do:
             create ttboletagbol.
@@ -98,22 +93,96 @@ THEN DO:
             IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
             IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
             
-            FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK no-error.
-            if avail clien
-            then do:
+            FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
                 ttboletagbol.cpfcnpj = clien.ciccgc.
                 ttboletagbol.nomeCliente = clien.clinom.
-            end.
-
-            FIND boletagparcela WHERE boletagparcela.bolcod = boletagbol.bolcod NO-LOCK no-error.
-            if avail boletagparcela
-            then do:
+            for each boletagparcela of boletagbol NO-LOCK:
                 create ttboletagparcela.
                 BUFFER-COPY boletagparcela TO ttboletagparcela.
             end.
         end.
-END.
 
+    end.
+    else do:
+        vclicod = ?.
+        IF ttentrada.cpfcnpj <> ? 
+        THEN DO:
+            FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
+            IF avail clien
+            then vclicod = clien.clicod.
+            
+        END.
+        IF ttentrada.CliFor <> ? 
+        THEN DO:
+            vclicod = ttentrada.CliFor.
+        END.
+              
+        if ttentrada.tipodedata = "Emissao"
+        then do:
+            for each boletagbol where 
+                boletagbol.dtemissao >= ttentrada.dtInicial and
+                boletagbol.dtemissao <= ttentrada.dtFinal and
+                (if ttentrada.bancod <> ? 
+                then boletagbol.bancod = ttentrada.bancod else TRUE)
+                no-lock.
+
+                if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
+                if boletagbol.situacao <> ttentrada.situacao then next.
+
+                FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
+                create ttboletagbol.
+                ttboletagbol.cpfcnpj = clien.ciccgc.
+                ttboletagbol.nomeCliente = clien.clinom.
+                BUFFER-COPY boletagbol TO ttboletagbol.
+                IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
+                IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
+                IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
+            end.
+        end.
+        if ttentrada.tipodedata = "Pagamento"
+        then do:
+            for each boletagbol where 
+                boletagbol.situacao = ttentrada.situacao and
+                boletagbol.dtpagamento >= ttentrada.dtInicial and
+                boletagbol.dtpagamento <= ttentrada.dtFinal
+                no-lock.
+                if ttentrada.bancod <> ? then if boletagbol.bancod <> ttentrada.bancod then next.                
+                if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
+                
+                FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
+                create ttboletagbol.
+                ttboletagbol.cpfcnpj = clien.ciccgc.
+                ttboletagbol.nomeCliente = clien.clinom.
+                BUFFER-COPY boletagbol TO ttboletagbol.
+                IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
+                IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
+                IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
+            end.
+        end.
+        if ttentrada.tipodedata = "Baixa"
+        then do:
+            for each boletagbol where 
+                boletagbol.situacao = ttentrada.situacao and
+                boletagbol.dtbaixa >= ttentrada.dtInicial and
+                boletagbol.dtbaixa <= ttentrada.dtFinal
+                no-lock.
+                
+                if ttentrada.bancod <> ? THEN IF boletagbol.bancod <> ttentrada.bancod then next.                
+                if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
+
+                FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
+                create ttboletagbol.
+                ttboletagbol.cpfcnpj = clien.ciccgc.
+                ttboletagbol.nomeCliente = clien.clinom.
+                BUFFER-COPY boletagbol TO ttboletagbol.
+                IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
+                IF(ttboletagbol.situacao = "P") THEN ttboletagbol.situacaoDescricao = "Pago".
+                IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
+            end.
+        end.
+
+    end.
+END.
 
 find first ttboletagbol no-error.
 
