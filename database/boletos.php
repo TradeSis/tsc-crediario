@@ -46,7 +46,6 @@ if (isset($_GET['operacao'])) {
 			'NossoNumero' => $NossoNumero	
 		)));
 		
-		$_SESSION['filtro_boletos'] = $apiEntrada;
 		$boletos = chamaAPI(null, '/crediario/boletos', json_encode($apiEntrada), 'GET');
 
 		echo json_encode($boletos);

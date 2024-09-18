@@ -2,24 +2,6 @@
 
 include_once(__DIR__ . '/../header.php');
 
-$CliFor = null;
-$cpfcnpj = null;
-$bolcod = null;
-$bancod = null;
-$NossoNumero = null;
-$dtini = date('Y-m-d');
-$dtfim = date('Y-m-d');
-/* if (isset($_SESSION['filtro_boletos'])) {
-    $filtroEntrada = $_SESSION['filtro_boletos'];
-    $CliFor = $filtroEntrada['CliFor'];
-    $cpfcnpj = $filtroEntrada['cpfcnpj'];
-    $bolcod = $filtroEntrada['bolcod'];
-    $bancod = $filtroEntrada['bancod'];
-    $NossoNumero = $filtroEntrada['NossoNumero'];
-    $dtini = $filtroEntrada['dtini'];
-    $dtfim = $filtroEntrada['dtfim'];
-} */
-
 ?>
 
 <!doctype html>
@@ -144,20 +126,20 @@ $dtfim = date('Y-m-d');
                         <th></th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cliente [ENTER]"
-                                value="<?php echo $CliFor !== null ? $CliFor : null ?>" name="CliFor" id="CliFor" required>
+                            name="CliFor" id="CliFor" required>
                         </th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cpf/Cnpj [ENTER]"
-                                value="<?php echo $cpfcnpj !== null ? $cpfcnpj : null ?>" name="cpfcnpj" id="cpfcnpj" required>
+                            name="cpfcnpj" id="cpfcnpj" required>
                         </th>
                         <th></th>
                         <th class="col-1">
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Banco [ENTER]"
-                                value="<?php echo $bancod !== null ? $bancod : null ?>" name="bancod" id="bancod" required>
+                            name="bancod" id="bancod" required>
                         </th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Nosso Numero [ENTER]"
-                                value="<?php echo $NossoNumero !== null ? $NossoNumero : null ?>" name="NossoNumero" id="NossoNumero" required>
+                            name="NossoNumero" id="NossoNumero" required>
                         </th>
                         <th></th>
                         <th></th>
