@@ -32,7 +32,10 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
             <div class="col d-flex">
                 <!-- TITULO -->
                 <a href="aoacordo.php" style="text-decoration: none;">
-                    <h6 class="ts-tituloSecundaria">Gestão de Acordos</h6>
+                <h6 class="ts-tituloSecundaria">Gestão de Acordos</h6>
+                    <div id="filtroh6"> 
+                        <h6 style="color:black;font-size: 10px;font-style:italic;text-align:left;"></h6>
+                    </div>
                 </a>
                 <?php if ($Tipo != "") { ?>
                     &nbsp; / &nbsp;
@@ -145,6 +148,17 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
         }
 
         function buscar(Tipo, IDAcordo, DtAcordoini, DtAcordofim, CliFor, cpfcnpj, etbcod) {  
+            var h6Element = $("#filtroh6 h6");
+            var text = "";
+            if (DtAcordoini !== null && DtAcordoini !== '') {
+                text += "Periodo de " + formatDate(DtAcordoini);
+            }
+            if (DtAcordofim !== null && DtAcordofim !== '') {
+                if (text) text += " até ";
+                text += formatDate(DtAcordofim);
+            }
+
+            h6Element.html(text);
             //alert(IDAcordo)
             $.ajax({
                 type: 'POST',
