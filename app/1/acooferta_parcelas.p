@@ -10,18 +10,8 @@ def var hsaida   as handle.             /* HANDLE SAIDA */
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
     field ptpnegociacao as CHAR
     field clicod like clien.clicod
-    field negcod like aconegoc.negcod.
-
-def temp-table ttparcelas  no-undo serialize-name "parcelas"  /* JSON SAIDA */
-    field negcod        like aconegoc.negcod
-    field planom        like acoplanos.planom
-    field placod        like acoplanos.placod
-    field titpar        as int format ">>9" label "parc"
-    field perc_parcela  as dec decimals 6 format ">>>9.999999%" label "perc"
-    field dtvenc        as date format "99/99/9999"
-    field vlr_parcela   as dec format ">>>>>9.99" label "vlr parcela"
-    index idx is unique primary negcod asc placod asc planom asc titpar asc.
-
+    field negcod like aconegoc.negcod
+    FIELD placod LIKE acoplanos.placod INITIAL ?.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -44,35 +34,24 @@ then do:
     return.
 end.
 
-def var ptpnegociacao as char.
-def var par-clicod like clien.clicod.
 def var vmessage as log.
 
-ptpnegociacao = ttentrada.ptpnegociacao.
-par-clicod = ttentrada.clicod.
 vmessage = no.
+{acha.i}
+{aco/acordo.i new}
 
-/*{/admcom/progr/aco/acordo.i new} */
+      FIND clien WHERE clien.clicod = ttentrada.clicod NO-LOCK.
 
- create ttparcelas.
- ttparcelas.negcod = 1.
- ttparcelas.planom = "1+5".
- ttparcelas.placod = 1. 
- ttparcelas.titpar = 1.
- ttparcelas.perc_parcela = 10.
- ttparcelas.dtvenc = today.
- ttparcelas.vlr_parcela = 110.
- 
- create ttparcelas.
- ttparcelas.negcod = 2.
- ttparcelas.planom = "1+7".
- ttparcelas.placod = 2. 
- ttparcelas.titpar = 2.
- ttparcelas.perc_parcela = 20.
- ttparcelas.dtvenc = today.
- ttparcelas.vlr_parcela = 220.
+    FIND aconegoc WHERE aconegoc.negcod = ttentrada.negcod NO-LOCK.
+    run calcelegiveis (input aconegoc.tpNegociacao, input ttentrada.clicod, ttentrada.negcod).
+    
+    FIND FIRST ttnegociacao .
+    run montacondicoes (INPUT ttentrada.negcod, ttentrada.placod).
+    for EACH ttparcelas:
+        FIND  acoplanos OF ttparcelas NO-LOCK.
+        ttparcelas.planom = acoplanos.planom.
+    end.
 
-  
 
 find first ttparcelas no-error.
 if not avail ttparcelas

@@ -231,7 +231,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 url: '../database/acooferta.php?operacao=buscarCondicoes',
                 data: {
                     ptpnegociacao : '<?php echo $tpNegociacao ?>',
-                    clicod : <?php echo $_GET['clicod'] ?>
+                    clicod : <?php echo $_GET['clicod'] ?>,
+                    negcod : <?php echo $_GET['negcod'] ?>
                 },
                 success: function(msg) {
                     var json = JSON.parse(msg);
@@ -260,6 +261,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 dataType: 'html',
                 url: '../database/acooferta.php?operacao=buscarContratos',
                 data: {
+                    ptpnegociacao : '<?php echo $tpNegociacao ?>',
+                    clicod : <?php echo $_GET['clicod'] ?>,
                     negcod : <?php echo $_GET['negcod'] ?>
                 },
                 success: function(msg) {
@@ -299,7 +302,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 url: '../database/acooferta.php?operacao=buscarParcelas',
                 data: {
                     ptpnegociacao : '<?php echo $tpNegociacao ?>',
-                    clicod : <?php echo $_GET['clicod'] ?>
+                    clicod : <?php echo $_GET['clicod'] ?>,
+                    negcod : <?php echo $_GET['negcod'] ?>
                 },
                 success: function(msg) {
                     var json = JSON.parse(msg);
@@ -307,7 +311,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                     for (var $i = 0; $i < json.length; $i++) {
                         var object = json[$i];
                         linha = linha + "<tr>"; 
-                        linha = linha + "<td>parc</td>";
+                        linha = linha + "<td>" + object.titpar + "</td>";
                         linha = linha + "<td>" + object.vlr_parcela + "</td>";
                         linha = linha + "<td>" + object.perc_parcela + "</td>";
                   
