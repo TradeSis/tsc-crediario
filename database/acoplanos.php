@@ -42,7 +42,8 @@ if (isset($_GET['operacao'])) {
                     'perc_acres' => $_POST['perc_acres'],
                     'permite_alt_vezes' => $_POST['permite_alt_vezes'],
                     'valor_acres' => $_POST['valor_acres'],
-                    'valor_desc' => $_POST['valor_desc']
+                    'valor_desc' => $_POST['valor_desc'],
+					'listadiasparaentrada' => $_POST['listadiasparaentrada']
 				)
 			)
 		);
@@ -70,7 +71,8 @@ if (isset($_GET['operacao'])) {
                     'perc_acres' => $_POST['perc_acres'],
                     'permite_alt_vezes' => $_POST['permite_alt_vezes'],
                     'valor_acres' => $_POST['valor_acres'],
-                    'valor_desc' => $_POST['valor_desc']
+                    'valor_desc' => $_POST['valor_desc'],
+					'listadiasparaentrada' => $_POST['listadiasparaentrada']
 				)
 			)
 		);

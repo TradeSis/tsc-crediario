@@ -30,6 +30,7 @@ if (isset($_GET['operacao'])) {
         $dtfim = isset($_POST["dtfim"]) && $_POST["dtfim"] !== ""  ? $_POST["dtfim"]  : null;
         $dtemissao_de = isset($_POST["dtemissao_de"]) && $_POST["dtemissao_de"] !== ""  ? $_POST["dtemissao_de"]  : null;
         $dtemissao_ate = isset($_POST["dtemissao_ate"]) && $_POST["dtemissao_ate"] !== ""  ? $_POST["dtemissao_ate"]  : null;
+		$calculaSeguroPrestamista = isset($_POST["calculaSeguroPrestamista"]) && $_POST["calculaSeguroPrestamista"] == true  ? true  : false;
 
 		$apiEntrada = 
 		array(
@@ -53,7 +54,8 @@ if (isset($_GET['operacao'])) {
                     'ParcVencerQtd' => $_POST['ParcVencerQtd'],
                     'Arrasta' => $_POST['Arrasta'],
                     'PermiteTitProtesto' => $_POST['PermiteTitProtesto'],
-					'ptpnegociacao' => $_POST['tpNegociacao']
+					'ptpnegociacao' => $_POST['tpNegociacao'],
+					'calculaSeguroPrestamista' => $calculaSeguroPrestamista
 				)
 			)
 		);
@@ -67,6 +69,7 @@ if (isset($_GET['operacao'])) {
 		$dtfim = isset($_POST["dtfim"]) && $_POST["dtfim"] !== ""  ? $_POST["dtfim"]  : null;
         $dtemissao_de = isset($_POST["dtemissao_de"]) && $_POST["dtemissao_de"] !== ""  ? $_POST["dtemissao_de"]  : null;
         $dtemissao_ate = isset($_POST["dtemissao_ate"]) && $_POST["dtemissao_ate"] !== ""  ? $_POST["dtemissao_ate"]  : null;
+		$calculaSeguroPrestamista = isset($_POST["calculaSeguroPrestamista"]) && $_POST["calculaSeguroPrestamista"] == true  ? true  : false;
 
 		$apiEntrada = 
 		array(
@@ -90,7 +93,8 @@ if (isset($_GET['operacao'])) {
                     'ParcVencidaQtd' => $_POST['ParcVencidaQtd'],
                     'ParcVencerQtd' => $_POST['ParcVencerQtd'],
                     'Arrasta' => $_POST['Arrasta'],
-                    'PermiteTitProtesto' => $_POST['PermiteTitProtesto']
+                    'PermiteTitProtesto' => $_POST['PermiteTitProtesto'],
+					'calculaSeguroPrestamista' => $calculaSeguroPrestamista
 				)
 			)
 		);

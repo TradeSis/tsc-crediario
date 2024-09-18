@@ -19,7 +19,8 @@ def temp-table ttentrada no-undo serialize-name "acoplanos"   /* JSON ENTRADA */
     field perc_acres like acoplanos.perc_acres
     field permite_alt_vezes like acoplanos.permite_alt_vezes
     field valor_acres like acoplanos.valor_acres
-    field valor_desc like acoplanos.valor_desc.
+    field valor_desc like acoplanos.valor_desc
+    field listadiasparaentrada like acoplanos.listadiasparaentrada.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -72,6 +73,7 @@ do on error undo:
     acoplanos.permite_alt_vezes = ttentrada.permite_alt_vezes.
     acoplanos.valor_acres = ttentrada.valor_acres.
     acoplanos.valor_desc = ttentrada.valor_desc.
+    acoplanos.listadiasparaentrada = ttentrada.listadiasparaentrada.
     
     run crediario/app/1/paramparcelas.p (input "incluir",
                                         recid(acoplanos),
