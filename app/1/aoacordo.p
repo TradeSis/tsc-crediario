@@ -62,14 +62,15 @@ END.
 IF ttentrada.IDAcordo = ? 
 THEN DO:
     for each aoacordo where aoacordo.Tipo = ttentrada.Tipo AND
-        (if vclifor = ? 
-        then true else aoacordo.CliFor = vclifor) AND 
-        (if ttentrada.etbcod = ? 
-        then true else aoacordo.etbcod = ttentrada.etbcod) AND
-        (if ttentrada.DtAcordoini = ? AND ttentrada.DtAcordofim = ?
-        then true else aoacordo.DtAcordo >= ttentrada.DtAcordoini AND
-                       aoacordo.DtAcordo <= ttentrada.DtAcordofim)
-        no-lock.
+                    aoacordo.DtAcordo >= ttentrada.DtAcordoini AND
+                    aoacordo.DtAcordo <= ttentrada.DtAcordofim and
+            (if ttentrada.etbcod = ? 
+             then true else aoacordo.etbcod = ttentrada.etbcod) 
+             no-lock.
+
+        if vclifor <> ? 
+        then if aoacordo.CliFor <> vclifor)
+             then next.
        
         RUN criaAoAcordo.
     
@@ -78,8 +79,7 @@ END.
       
 IF ttentrada.IDAcordo <> ?
 then do:
-    find aoacordo WHERE aoacordo.Tipo = ttentrada.Tipo AND
-                        aoacordo.IDAcordo = ttentrada.IDAcordo no-lock.
+    find aoacordo WHERE aoacordo.IDAcordo = ttentrada.IDAcordo no-lock.
                             
     RUN criaAoAcordo.
 END.
