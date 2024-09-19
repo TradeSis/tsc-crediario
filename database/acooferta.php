@@ -3,6 +3,24 @@
 
 include_once __DIR__ . "/../conexao.php";
 
+function buscaOfertasAcordoOnline($ptpnegociacao = null, $clicod = null)
+{
+	
+	$acordo = array();
+	$apiEntrada = 
+		array(
+			"dadosEntrada" => array(
+				array(
+					'ptpnegociacao' => $ptpnegociacao,
+					'clicod' => $clicod
+				)
+			)
+		);
+
+	$acordo = chamaAPI(null, '/crediario/acoofertas', json_encode($apiEntrada), 'GET');
+	return $acordo;
+}
+
 function buscaOfertaAcordoOnline($ptpnegociacao = null, $clicod = null, $negcod = null)
 {
 	

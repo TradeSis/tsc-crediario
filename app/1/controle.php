@@ -74,6 +74,10 @@ if ($metodo=="GET"){
         include 'aoacparcela.php';
       break;
 
+      case "acoofertas":
+        include 'acoofertas.php';
+      break;
+
       case "acooferta":
         include 'acooferta.php';
       break;
