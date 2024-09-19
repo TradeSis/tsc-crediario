@@ -168,7 +168,6 @@ vassina = yes.
                   input 1,
                   output ppdf).
                   
-
 unix silent value("rm -f " + varquivo).
 
 run atualiza.
