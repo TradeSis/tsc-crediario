@@ -31,7 +31,8 @@ if (isset($_GET['operacao'])) {
 			'DiasPrimeiroVencMax' => $_POST['DiasPrimeiroVencMax'],
 			'valorParcelMin' => $_POST['valorParcelMin'],
 			'valorParcelaMax' => $_POST['valorParcelaMax'],
-			'listaPlanos' => $_POST['listaPlanos']
+			'listaPlanos' => $_POST['listaPlanos'],
+			'refin' => $_POST['refin']
 		)));
 		
 		$parametros = chamaAPI(null, '/crediario/parametrizacao', json_encode($apiEntrada), 'PUT');
@@ -60,7 +61,8 @@ if (isset($_GET['operacao'])) {
 			'DiasPrimeiroVencMax' => intval($_POST['DiasPrimeiroVencMax']),
 			'valorParcelMin' => intval($_POST['valorParcelMin']),
 			'valorParcelaMax' => intval($_POST['valorParcelaMax']),
-			'listaPlanos' => $_POST['listaPlanos']
+			'listaPlanos' => $_POST['listaPlanos'],
+			'refin' => $_POST['refin']
 		)));
 	
 		$parametros = chamaAPI(null, '/crediario/parametrizacao', json_encode($apiEntrada), 'POST');

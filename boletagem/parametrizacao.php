@@ -136,6 +136,13 @@ include_once(__DIR__ . '/../header.php');
                                 <label>listaPlanos</label>
                                 <input type="text" class="form-control" name="listaPlanos" id="view_listaPlanos" readonly>
                             </div>
+                            <div class="form-group col">
+                                <label>Refin</label>
+                                <select class="form-control ts-displayDisable" name="refin" id="view_refin">
+                                    <option value="false">Não</option>
+                                    <option value="true">Sim</option>
+                                </select>
+                            </div>
                         </div>
                     </div><!--body-->
 
@@ -224,6 +231,13 @@ include_once(__DIR__ . '/../header.php');
                                 <div class="form-group col">
                                     <label>listaPlanos</label>
                                     <input type="text" class="form-control" name="listaPlanos">
+                                </div>
+                                <div class="form-group col">
+                                    <label>Refin</label>
+                                    <select class="form-control" name="refin">
+                                        <option value="false">Não</option>
+                                        <option value="true">Sim</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -319,6 +333,13 @@ include_once(__DIR__ . '/../header.php');
                                     <label>listaPlanos</label>
                                     <input type="text" class="form-control" name="listaPlanos" id="listaPlanos">
                                 </div>
+                                <div class="form-group col">
+                                    <label>Refin</label>
+                                    <select class="form-control" name="refin" id="refin">
+                                        <option value="false">Não</option>
+                                        <option value="true">Sim</option>
+                                    </select>
+                                </div>
                             </div>
 
 
@@ -375,9 +396,9 @@ include_once(__DIR__ . '/../header.php');
                         linha += "<td>" + object.listaModalidades + "</td>";
 
                         if (object.dtFimVig != null) {
-                            linha = linha + "<td><button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#visualizar' data-dtIniVig='" + object.dtIniVig + "' data-listaModalidades='" + object.listaModalidades + "'><i class='bi bi-eye-fill'></i></button></td>";
+                            linha = linha + "<td class='text-end pe-2'><button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#visualizar' data-dtIniVig='" + object.dtIniVig + "' data-listaModalidades='" + object.listaModalidades + "'><i class='bi bi-eye-fill'></i></button></td>";
                         } else {
-                            linha = linha + "<td>" + "<button type='button' class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#alterar' data-dtIniVig='" + object.dtIniVig + "' data-listaModalidades='" + object.listaModalidades + "'><i class='bi bi-pencil-square'></i></button>"
+                            linha = linha + "<td class='text-end pe-2'>" + "<button type='button' class='btn btn-warning btn-sm' data-bs-toggle='modal' data-bs-target='#alterar' data-dtIniVig='" + object.dtIniVig + "' data-listaModalidades='" + object.listaModalidades + "'><i class='bi bi-pencil-square'></i></button>"
                         }
 
                         linha += "</tr>";
@@ -437,6 +458,8 @@ include_once(__DIR__ . '/../header.php');
                     $('#view_valorParcelMin').val(data.valorParcelMin);
                     $('#view_valorParcelaMax').val(data.valorParcelaMax);
                     $('#view_listaPlanos').val(data.listaPlanos);
+                    refin = data.refin == true ? "true" : "false";
+                    $('#view_refin').val(refin);
 
                     modalidades = data.listaModalidades;
                     const arrayModalidade = modalidades.split(",");
@@ -471,7 +494,7 @@ include_once(__DIR__ . '/../header.php');
         $(document).on('click', 'button[data-bs-target="#alterar"]', function() {
             var dtIniVig = $(this).attr("data-dtIniVig");
             var listaModalidades = $(this).attr("data-listaModalidades");
-            
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -494,7 +517,9 @@ include_once(__DIR__ . '/../header.php');
                     $('#valorParcelMin').val(data.valorParcelMin);
                     $('#valorParcelaMax').val(data.valorParcelaMax);
                     $('#listaPlanos').val(data.listaPlanos);
-
+                    refin = data.refin == true ? "true" : "false";
+                    $('#refin').val(refin);
+                    
                     modalidades = data.listaModalidades;
                     const arrayModalidade = modalidades.split(",");
                     if (arrayModalidade.includes("CRE") === true) {
