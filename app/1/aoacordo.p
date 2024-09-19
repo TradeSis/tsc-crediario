@@ -69,7 +69,7 @@ THEN DO:
              no-lock.
 
         if vclifor <> ? 
-        then if aoacordo.CliFor <> vclifor)
+        then if aoacordo.CliFor <> vclifor
              then next.
        
         RUN criaAoAcordo.
