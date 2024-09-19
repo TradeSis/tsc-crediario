@@ -6,7 +6,7 @@
 $LOG_CAMINHO = defineCaminhoLog();
 if (isset($LOG_CAMINHO)) {
     $LOG_NIVEL = defineNivelLog();
-    $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "acooferta_parcelas";
+    $identificacao = date("dmYHis") . "-PID" . getmypid() . "-" . "acoofertas";
     if (isset($LOG_NIVEL)) {
         if ($LOG_NIVEL >= 1) {
             $arquivo = fopen(defineCaminhoLog() . "crediario_" . date("dmY") . ".log", "a");
@@ -27,13 +27,15 @@ $dados = array();
 
 
 $progr = new chamaprogress();
-$retorno = $progr->executarprogress("crediario/app/1/acooferta_parcelas", json_encode($jsonEntrada));
+$retorno = $progr->executarprogress("crediario/app/1/acoofertas", json_encode($jsonEntrada));
 fwrite($arquivo, $identificacao . "-RETORNO->" . $retorno . "\n");
 $dados = json_decode($retorno,true);
   if (isset($dados["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
       $dados = $dados["conteudoSaida"][0];
   } else {
-      $dados = $dados["parcelas"];  
+    
+      $dados = $dados["acoofertas"];  
+
   }
 
 

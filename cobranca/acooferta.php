@@ -11,7 +11,7 @@ if (isset($_GET['parametros'])) {
 }
 
 
-$ofertaAcordo = buscaOfertaAcordoOnline($tpNegociacao, $codigoCliente);
+$ofertaAcordo = buscaOfertasAcordoOnline($tpNegociacao, $codigoCliente);
 $cliente = $ofertaAcordo["cliente"][0];
 $oferta = $ofertaAcordo["acooferta"][0];
 ?>

@@ -35,7 +35,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-10">
-                        <h4>AxCORDO ONLINE - <?php echo $oferta['negnom'] ?> - Cliente <?php echo $_GET['clicod'] ?></h4>
+                        <h4><?php echo $tpNegociacao ?> - <?php echo $oferta['negnom'] ?> - Cliente <?php echo $_GET['clicod'] ?></h4>
                     </div>
                     <div class="col-sm" style="text-align:right">
                         <a href="acooferta.php?tpNegociacao=<?php echo $tpNegociacao ?>&codigoCliente=<?php echo $_GET['clicod'] ?>" role="button" class="btn btn-primary btn-sm">Voltar</a>
@@ -189,7 +189,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">parcelas</h5>
+                        <h5 class="modal-title" id="tituloparcelas"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -248,7 +248,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha = linha + "<td>" + object.vlr_entrada + "</td>";
                         linha = linha + "<td>" + object.vlr_parcela + "</td>";
                         linha = linha + "<td>" + (object.dtvenc1 != "null" ? formatDate(object.dtvenc1) : "") + "</td>";
-                        linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#parcelasModal' data-placod='" + object.placod + "'><i class='bi bi-eye-fill'></i></button> " + "</td>";
+                        linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#parcelasModal' data-placod='" + object.placod + "' data-planom='" + object.planom + "'><i class='bi bi-eye-fill'></i></button> " + "</td>";
  
 
                         linha = linha + "</tr>";
@@ -279,13 +279,11 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha = linha + "<td class='text-start'>" + object.vlr_aberto + "</td>";
                         linha = linha + "<td class='text-start'>" + object.vlr_divida + "</td>";
                         linha = linha + "<td class='text-start'>" + object.vlr_parcela + "</td>";
-                        linha = linha + "<td class='text-start'>" + object.dt_venc + "</td>";
+                        linha = linha + "<td class='text-start'>" + (object.dt_venc != "null" ? formatDate(object.dt_venc) : "") + "</td>";
                         linha = linha + "<td class='text-start'>" + object.dias_atraso + "</td>";
                         linha = linha + "<td class='text-start'>" + object.qtd_parcelas + "</td>";
                         linha = linha + "<td class='text-start'>" + object.perc_pagas + "</td>";
                         linha = linha + "<td class='text-start'>pg</td>";
-                        /* linha = linha + "<td><a class='btn btn-info btn-sm ms-1' href='visualizar_acooferta.php?clicod=" + <?php echo $_POST['codigoCliente'] ?> + "' role='button'><i class='bi bi-eye'></i></a>";
-                        linha = linha + "</td>";  */
 
                         linha = linha + "</tr>";
                     }
@@ -296,6 +294,11 @@ $oferta = $ofertaAcordo["acooferta"][0];
 
 
         $(document).on('click', 'button[data-bs-target="#parcelasModal"]', function () {
+            var placod = $(this).attr("data-placod");
+            var planom = $(this).attr("data-planom");
+    
+            var texto = $("#tituloparcelas");
+            texto.html('Parcelas plano: ' + planom);
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
@@ -303,7 +306,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 data: {
                     ptpnegociacao : '<?php echo $tpNegociacao ?>',
                     clicod : <?php echo $_GET['clicod'] ?>,
-                    negcod : <?php echo $_GET['negcod'] ?>
+                    negcod : <?php echo $_GET['negcod'] ?>,
+                    placod: placod
                 },
                 success: function(msg) {
                     var json = JSON.parse(msg);
