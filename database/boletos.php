@@ -24,24 +24,28 @@ if (isset($_GET['operacao'])) {
 	
 	if ($operacao == "buscar") {
 
+		$situacao = isset($_POST["situacao"]) && $_POST["situacao"] !== "" ? $_POST["situacao"] : null;
+		$tipodedata = isset($_POST["tipodedata"]) && $_POST["tipodedata"] !== "" ? $_POST["tipodedata"] : null;
+		$dtInicial = isset($_POST["dtInicial"]) && $_POST["dtInicial"] !== "" ? $_POST["dtInicial"] : null;
+		$dtFinal = isset($_POST["dtFinal"]) && $_POST["dtFinal"] !== "" ? $_POST["dtFinal"] : null;
 		$CliFor = isset($_POST["CliFor"]) && $_POST["CliFor"] !== "" ? $_POST["CliFor"] : null;
 		$cpfcnpj = isset($_POST["cpfcnpj"]) && $_POST["cpfcnpj"] !== "" ? $_POST["cpfcnpj"] : null;
 		$bolcod = isset($_POST["bolcod"]) && $_POST["bolcod"] !== "" ? $_POST["bolcod"] : null;
 		$bancod = isset($_POST["bancod"]) && $_POST["bancod"] !== "" ? $_POST["bancod"] : null;
 		$NossoNumero = isset($_POST["NossoNumero"]) && $_POST["NossoNumero"] !== "" ? $_POST["NossoNumero"] : null;
-		$dtini = isset($_POST["dtini"]) && $_POST["dtini"] !== "" ? $_POST["dtini"] : null;
-		$dtfim = isset($_POST["dtfim"]) && $_POST["dtfim"] !== "" ? $_POST["dtfim"] : null;
 		
 		$apiEntrada = array("dadosEntrada" => array(array(
+			'situacao' => $situacao,
+			'tipodedata' => $tipodedata,
+			'dtInicial' => $dtInicial,
+			'dtFinal' => $dtFinal,
 			'CliFor' => $CliFor,
 			'cpfcnpj' => $cpfcnpj,
 			'bolcod' => $bolcod,
 			'bancod' => $bancod,
-			'NossoNumero' => $NossoNumero,
-			'dtini' => $dtini,
-			'dtfim' => $dtfim
+			'NossoNumero' => $NossoNumero	
 		)));
-		$_SESSION['filtro_boletos'] = $apiEntrada;
+		
 		$boletos = chamaAPI(null, '/crediario/boletos', json_encode($apiEntrada), 'GET');
 
 		echo json_encode($boletos);

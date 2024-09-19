@@ -20,7 +20,8 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     FIELD DiasPrimeiroVencMax     like boletagparam.DiasPrimeiroVencMax
     FIELD valorParcelMin          like boletagparam.valorParcelMin
     FIELD valorParcelaMax         like boletagparam.valorParcelaMax
-    FIELD listaPlanos             like boletagparam.listaPlanos.
+    FIELD listaPlanos             like boletagparam.listaPlanos
+    FIELD refin                   like boletagparam.refin.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"

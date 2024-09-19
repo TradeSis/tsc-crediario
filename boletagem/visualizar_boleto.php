@@ -58,32 +58,53 @@ if (isset($boleto["boletagparcela"])) {
                     </div>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-3 d-flex align-items-center">
+                            <div class="col d-flex align-items-center">
                                 <div class="form-group">
                                     <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boleto&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo $boleto['bolcod'] ?>" readonly>
                             </div>
-                            <div class="col-3 d-flex align-items-center">
+                            <div class="col d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Banco&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $boleto['bancod'] ?>" readonly>
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
                                 <div class="form-group">
                                     <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nosso&nbsp;Numero&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo $boleto['NossoNumero'] ?>" readonly>
                             </div>
-                            <div class="col d-flex align-items-center">
+                            <div class="col-3 d-flex align-items-center">
                                 <div class="form-group">
                                     <label>Documento&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo $boleto['Documento'] ?>" readonly>
                             </div>
+                            <div class="col d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>Origem&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $boleto['origem'] ?>" readonly>
+                            </div>
+                            <div class="col d-flex align-items-center">
+                                <div class="form-group">
+                                    <label>Situação&nbsp;:&nbsp;</label>
+                                </div>
+                                <input type="text" class="form-control ts-inputSemBorda"
+                                    value="<?php echo $boleto['situacaoDescricao'] ?>" readonly>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente&nbsp;:&nbsp;</label>
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo $boleto['CliFor'] ?> - <?php echo $boleto['nomeCliente'] ?>"
@@ -98,12 +119,12 @@ if (isset($boleto["boletagparcela"])) {
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-3 d-flex align-items-center">
+                            <div class="col-2 d-flex align-items-center">
                                 <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Banco&nbsp;:&nbsp;</label>
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estab&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['bancod'] ?>" readonly>
+                                    value="<?php echo $boleto['etbcod'] ?>" readonly>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
@@ -114,7 +135,7 @@ if (isset($boleto["boletagparcela"])) {
                             </div>
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
-                                    <label>Cod.&nbsp;de&nbsp;Barras&nbsp;:&nbsp;</label>
+                                    <label>Codigo&nbsp;Barras&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
                                     value="<?php echo $boleto['CodigoBarras'] ?>" readonly>
@@ -127,7 +148,7 @@ if (isset($boleto["boletagparcela"])) {
                             <div class="row">
                                 <div class="col-1"></div>
                                 <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Emissão&nbsp;:&nbsp;</label>
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Emissão&nbsp;:&nbsp;</label>
                                     <input type="text" class="form-control ts-inputSemBorda"
                                         value="<?php echo $boleto['DtEmissao'] !== null ? date('d/m/Y', strtotime($boleto['DtEmissao'])) : '' ?>"
                                         readonly>
@@ -136,25 +157,7 @@ if (isset($boleto["boletagparcela"])) {
                             <div class="row">
                                 <div class="col-1"></div>
                                 <div class="col d-flex align-items-center">
-                                    <label>&nbsp;Dt.&nbsp;Pagamento&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['DtPagamento'] !== null ? date('d/m/Y', strtotime($boleto['DtPagamento'])) : '' ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Baixa&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['DtBaixa'] !== null ? date('d/m/Y', strtotime($boleto['DtBaixa'])) : '' ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>Dt.&nbsp;Vencimento&nbsp;:&nbsp;</label>
+                                    <label>&nbsp;&nbsp;&nbsp;Dt.&nbsp;Vencimento&nbsp;:&nbsp;</label>
                                     <input type="text" class="form-control ts-inputSemBorda"
                                         value="<?php echo $boleto['DtVencimento'] !== null ? date('d/m/Y', strtotime($boleto['DtVencimento'])) : '' ?>"
                                         readonly>
@@ -163,9 +166,72 @@ if (isset($boleto["boletagparcela"])) {
                             <div class="row">
                                 <div class="col-1"></div>
                                 <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vlr.&nbsp;Cobrado&nbsp;:&nbsp;</label>
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vlr.&nbsp;Cobrado&nbsp;:&nbsp;</label>
                                     <input type="text" class="form-control ts-inputSemBorda"
                                         value="<?php echo $boleto['VlCobrado'] !== null ? number_format($boleto['VlCobrado'], 2, ',', '') : ''  ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Baixa&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo $boleto['DtBaixa'] !== null ? date('d/m/Y', strtotime($boleto['DtBaixa'])) : '' ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Pagamento&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo $boleto['DtPagamento'] !== null ? date('d/m/Y', strtotime($boleto['DtPagamento'])) : '' ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tp&nbsp;Baixa&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo $boleto['cmocod'] ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Etb.&nbsp;Pag&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo $boleto['etbpag'] ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nsu&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo $boleto['nsu'] ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>Nosso&nbsp;Pg&nbsp;Banco&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo $boleto['numero_pgto_banco'] ?>"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col d-flex align-items-center">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obs.&nbsp;&nbsp;:&nbsp;</label>
+                                    <input type="text" class="form-control ts-inputSemBorda"
+                                        value="<?php echo $boleto['obs_pgto_banco'] ?>"
                                         readonly>
                                 </div>
                             </div>
