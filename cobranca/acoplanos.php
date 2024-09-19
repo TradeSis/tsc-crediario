@@ -90,14 +90,16 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                     <input type="hidden" class="form-control ts-input" name="id_recid" value="<?php echo $acordo["id_recid"] ?>">
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col">
+                            <div class="row">
+                                <div class="col-6">
                                     <label class="form-label ts-label">Calc Juro titula</label>
                                     <select class="form-select ts-input" name="calc_juro_titulo">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="row mt-2">
                                 <div class="col">
                                     <!-- SIM-habilita proxima col -->
                                     <label class="form-label ts-label">Com Entrada</label>
@@ -112,10 +114,12 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col">
+                                <div class="col-6">
                                     <label class="form-label ts-label">dias primeira</label>
                                     <input type="text" class="form-control ts-input" name="dias_max_primeira">
                                 </div>
+                            </div>
+                            <div class="row mt-2">
                                 <div class="col">
                                     <label class="form-label ts-label">perc_desconto</label>
                                     <input type="text" class="form-control ts-input" name="perc_desconto">
@@ -126,10 +130,6 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col">
-                                    <label class="form-label ts-label">listadiasparaentrada</label>
-                                    <input type="text" class="form-control ts-input" name="listadiasparaentrada" placeholder="0,1,2...">
-                                </div>
                                 <div class="col">
                                     <label class="form-label ts-label">perc_acres</label>
                                     <input type="text" class="form-control ts-input" name="perc_acres">
@@ -152,6 +152,14 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                     </select>
                                 </div>
                             </div>
+                            <?php if ($tpNegociacao == "SERASA") { ?>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">listadiasparaentrada</label>
+                                    <input type="text" class="form-control ts-input" name="listadiasparaentrada" placeholder="0,1,2...">
+                                </div>
+                            </div>
+                            <?php } ?>
                     </div><!--body-->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Cadastrar</button>
@@ -166,14 +174,13 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">alterar Plano</h5>
+                        <h5 class="modal-title" id="textoalterar"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body pt-0">
                         <form method="post" id="alterarForm">
                             <div class="row">
-                                <div class="col">
-                                    <label class="form-label ts-label">Nome</label>
+                                <div class="col d-none">
                                     <input type="text" class="form-control ts-input" name="planom" id="planom" readonly>
                                     <input type="hidden" class="form-control ts-input" name="placod" id="placod">
                                     <input type="hidden" class="form-control ts-input" name="negcod" value="<?php echo $negcod ?>">
@@ -181,13 +188,15 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col">
+                                <div class="col-6">
                                     <label class="form-label ts-label">Calc Juro titula</label>
                                     <select class="form-select ts-input" name="calc_juro_titulo" id="calc_juro_titulo">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="row mt-2">
                                 <div class="col">
                                     <!-- SIM-habilita proxima col -->
                                     <label class="form-label ts-label">Com Entrada</label>
@@ -202,10 +211,12 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col">
+                                <div class="col-6">
                                     <label class="form-label ts-label">dias primeira</label>
                                     <input type="text" class="form-control ts-input" name="dias_max_primeira" id="dias_max_primeira">
                                 </div>
+                            </div>
+                            <div class="row mt-2">
                                 <div class="col">
                                     <label class="form-label ts-label">perc_desconto</label>
                                     <input type="text" class="form-control ts-input" name="perc_desconto" id="perc_desconto">
@@ -216,10 +227,6 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col">
-                                    <label class="form-label ts-label">listadiasparaentrada</label>
-                                    <input type="text" class="form-control ts-input" name="listadiasparaentrada" id="listadiasparaentrada" placeholder="0,1,2...">
-                                </div>
                                 <div class="col">
                                     <label class="form-label ts-label">perc_acres</label>
                                     <input type="text" class="form-control ts-input" name="perc_acres" id="perc_acres">
@@ -242,6 +249,14 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                                     </select>
                                 </div>
                             </div>
+                            <?php if ($tpNegociacao == "SERASA") { ?>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">listadiasparaentrada</label>
+                                    <input type="text" class="form-control ts-input" name="listadiasparaentrada" id="listadiasparaentrada" placeholder="0,1,2...">
+                                </div>
+                            </div>
+                            <?php }?>
                     </div><!--body-->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Salvar</button>
@@ -406,6 +421,9 @@ $dtfim = ($acordo['dtfim'] != null ? date('d/m/Y', strtotime($acordo['dtfim'])) 
                     $('#valor_acres').val(data.valor_acres);
                     $('#valor_desc').val(data.valor_desc);
                     $('#listadiasparaentrada').val(data.listadiasparaentrada);
+
+                    var texto = $("#textoalterar");
+                    texto.html('alterar Plano: ' + data.planom);
 
                     $('#alterarModal').modal('show');
                 }

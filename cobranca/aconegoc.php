@@ -35,11 +35,17 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
             </div>
 
             <div class="col-2">
-                    <select class="form-select ts-input" id="FiltroTpNegociacao">
-                            <option value="<?php echo "null" ?>" <?php if ($tpNegociacao == "") {echo "selected"; } ?>>Selecione</option>
-                            <option value="ACORDO ONLINE" <?php if ($tpNegociacao == "ACORDO ONLINE") {echo "selected"; } ?>>ACORDO ONLINE</option>
-                            <option value="SERASA" <?php if ($tpNegociacao == "SERASA") {echo "selected"; } ?>>SERASA</option>
-                    </select>
+                <select class="form-select ts-input" id="FiltroTpNegociacao">
+                    <option value="<?php echo "null" ?>" <?php if ($tpNegociacao == "") {
+                                                                echo "selected";
+                                                            } ?>>Selecione</option>
+                    <option value="ACORDO ONLINE" <?php if ($tpNegociacao == "ACORDO ONLINE") {
+                                                        echo "selected";
+                                                    } ?>>ACORDO ONLINE</option>
+                    <option value="SERASA" <?php if ($tpNegociacao == "SERASA") {
+                                                echo "selected";
+                                            } ?>>SERASA</option>
+                </select>
             </div>
 
             <?php if ($tpNegociacao == "") { ?>
@@ -113,6 +119,8 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                                     <label class="form-label ts-label">dias atraso</label>
                                     <input type="text" class="form-control ts-input" name="dias_atraso">
                                 </div>
+                            </div>
+                            <div class="row mt-2">
                                 <div class="col">
                                     <label class="form-label ts-label">vlr aberto</label>
                                     <input type="text" class="form-control ts-input" name="vlr_aberto">
@@ -146,29 +154,35 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col">
+                                <div class="col-6">
                                     <label class="form-label ts-label">Arrasta Outros Contratos?</label>
                                     <select class="form-select ts-input" name="Arrasta">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
-                                <div class="col">
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-6">
                                     <label class="form-label ts-label">Permite Ctr Protesto</label>
                                     <select class="form-select ts-input" name="PermiteTitProtesto">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
+                            </div>
+                            <?php if ($tpNegociacao == "SERASA") { ?>
+                            <div class="row mt-2">
                                 <div class="col">
                                     <div class="form-check mt-3">
                                         <input class="form-check-input" type="checkbox" value="true" name="calculaSeguroPrestamista">
                                         <label class="form-label ts-label">
-                                        calculaSeguroPrestamistao
+                                            Calcula Seguro Prestamista
                                         </label>
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
                     </div><!--body-->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Cadastrar</button>
@@ -189,10 +203,13 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                     <div class="modal-body pt-0">
                         <form method="post" id="alterarAcordoForm">
                             <div class="row">
+                                <div class="col-2">
+                                    <label class="form-label ts-label">negcod</label>
+                                    <input type="text" class="form-control ts-input" name="negcod" id="negcod" readonly>
+                                </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">Nome</label>
+                                    <label class="form-label ts-label"></label>
                                     <input type="text" class="form-control ts-input" name="negnom" id="negnom" required>
-                                    <input type="hidden" class="form-control ts-input" name="negcod" id="negcod">
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -238,7 +255,9 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                                     <label class="form-label ts-label">dias atraso</label>
                                     <input type="text" class="form-control ts-input" name="dias_atraso" id="dias_atraso">
                                 </div>
-                                <div class="col">
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-6">
                                     <label class="form-label ts-label">vlr aberto</label>
                                     <input type="text" class="form-control ts-input" name="vlr_aberto" id="vlr_aberto">
                                 </div>
@@ -270,30 +289,37 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                                     <input type="text" class="form-control ts-input" name="ParcVencerQtd" id="ParcVencerQtd">
                                 </div>
                             </div>
+
                             <div class="row mt-2">
-                                <div class="col">
+                                <div class="col-6">
                                     <label class="form-label ts-label">Arrasta Outros Contratos?</label>
                                     <select class="form-select ts-input" name="Arrasta" id="Arrasta">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
-                                <div class="col">
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-6">
                                     <label class="form-label ts-label">Permite Ctr Protesto</label>
                                     <select class="form-select ts-input" name="PermiteTitProtesto" id="PermiteTitProtesto">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
-                                <div class="col">
-                                    <div class="form-check mt-3">
-                                        <input class="form-check-input" type="checkbox" name="calculaSeguroPrestamista" id="calculaSeguroPrestamista">
-                                        <label class="form-label ts-label">
-                                        calculaSeguroPrestamistao
-                                        </label>
+                            </div>
+                            <?php if ($tpNegociacao == "SERASA") { ?>
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <div class="form-check mt-3">
+                                            <input class="form-check-input" type="checkbox" name="calculaSeguroPrestamista" id="calculaSeguroPrestamista">
+                                            <label class="form-label ts-label">
+                                                Calcula Seguro Prestamista
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                     </div><!--body-->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Salvar</button>
@@ -449,12 +475,12 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                     $('#Arrasta').val(Arrasta);
                     PermiteTitProtesto = data.PermiteTitProtesto == true ? "true" : "false";
                     $('#PermiteTitProtesto').val(PermiteTitProtesto);
-                    if(data.calculaSeguroPrestamista == true){
+                    if (data.calculaSeguroPrestamista == true) {
                         $('#calculaSeguroPrestamista').prop('checked', true);
-                    }else{
+                    } else {
                         $('#calculaSeguroPrestamista').prop('checked', false);
                     }
-                    
+
 
                     $('#alterarModal').modal('show');
                 }
