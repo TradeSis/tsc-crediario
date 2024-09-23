@@ -47,7 +47,7 @@ include_once '../header.php';
                             <div class="col-1">
                                 <span id="view_bancod"></span>
                             </div>
-                            <div class="col-2">
+                            <div class="col-2 mx-0 px-0">
                                 <span id="view_NossoNumero"></span>
                             </div>
                             <div class="col">
