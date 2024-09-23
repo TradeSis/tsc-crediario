@@ -21,6 +21,21 @@ function buscaBoleto($bolcod)
 if (isset($_GET['operacao'])) {
 
 	$operacao = $_GET['operacao'];
+
+	if ($operacao == "buscarboleto") {
+
+		$apiEntrada = array("dadosEntrada" => array(array(
+			'bolcod' => $_POST["bolcod"]
+		)));
+		$arquivo = fopen("C:TRADESIS/tmp/LOG.txt", "a");
+		fwrite($arquivo, json_encode($apiEntrada) . "\n");
+		fclose($arquivo);
+
+		$boletos = chamaAPI(null, '/crediario/boletos', json_encode($apiEntrada), 'GET');
+
+		echo json_encode($boletos);
+		return $boletos;
+	}
 	
 	if ($operacao == "buscar") {
 

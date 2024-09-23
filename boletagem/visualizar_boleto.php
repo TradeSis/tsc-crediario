@@ -3,17 +3,6 @@
 // gabriel 23022023 09:50
 
 include_once '../header.php';
-include_once '../database/boletos.php';
-
-if (isset($_GET['bolcod'])) {
-    $bolcod = $_GET['bolcod'];
-}
-
-
-$boleto = buscaBoleto($bolcod);
-if (isset($boleto["boletagparcela"])) {
-    $parcelas = $boleto["boletagparcela"];
-}
 
 ?>
 
@@ -22,18 +11,14 @@ if (isset($boleto["boletagparcela"])) {
 
 <head>
 
-    <style>
-        .modal-fullscreen {
-            max-width: 100vw !important;
-        }
-        input[readonly] {
-            background-color: transparent !important; 
-        }  
-    </style>
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
 
 </head>
-
+<style>
+    .modal-fullscreen {
+        max-width: 100vw !important;
+    }
+</style>
 
 <body class="ts-noScroll">
 
@@ -41,104 +26,57 @@ if (isset($boleto["boletagparcela"])) {
 
         <!-- Modal -->
         <div class="modal" id="modalBoletoVisualizar" tabindex="-1" aria-hidden="true" style="margin: 5px;">
-            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen"> <!-- Modal 1 -->
+            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
                 <div class="modal-content" style="background-color: #F1F2F4;">
 
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-5">
-                            </div>
-                            <div class="col-6">
+                            <div class="col-11 text-center">
                                 <span class="ts-tituloPrincipalModal">Consulta Boleto</span>
                             </div>
                             <div class="col-1 border-start d-flex">
-                                <a href="#" onclick="history.back()" role="button" class="btn-close"></a>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                         </div>
                     </div>
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boleto&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['bolcod'] ?>" readonly>
+                        <div class="row mt-2">
+                            <div class="col-1">
+                                <span id="view_bolcod"></span>
                             </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Banco&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['bancod'] ?>" readonly>
+                            <div class="col-1">
+                                <span id="view_bancod"></span>
                             </div>
-                            <div class="col-2 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nosso&nbsp;Numero&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['NossoNumero'] ?>" readonly>
+                            <div class="col-2">
+                                <span id="view_NossoNumero"></span>
                             </div>
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Documento&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['Documento'] ?>" readonly>
+                            <div class="col">
+                                <span id="view_Documento"></span>
                             </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Origem&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['origem'] ?>" readonly>
+                            <div class="col">
+                                <span id="view_origem"></span>
                             </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Situação&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['situacaoDescricao'] ?>" readonly>
+                            <div class="col">
+                                <span id="view_situacaoDescricao"></span>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['CliFor'] ?> - <?php echo $boleto['nomeCliente'] ?>"
-                                    readonly>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <span id="view_cliente"></span>
                             </div>
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPF/CNPJ&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['cpfcnpj'] ?>" readonly>
+                            <div class="col">
+                                <span id="view_cpfcnpj"></span>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-2 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estab&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['etbcod'] ?>" readonly>
+                        <div class="row mt-2">
+                            <div class="col-1">
+                                <span id="view_etbcod"></span>
                             </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Linha&nbsp;Digitavel&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['LinhaDigitavel'] ?>" readonly>
+                            <div class="col mx-0 px-0">
+                                <span id="view_LinhaDigitavel"></span>
                             </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Codigo&nbsp;Barras&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $boleto['CodigoBarras'] ?>" readonly>
+                            <div class="col mx-0 px-0">
+                                <span id="view_CodigoBarras"></span>
                             </div>
                         </div>
                     </div>
@@ -146,93 +84,53 @@ if (isset($boleto["boletagparcela"])) {
                     <div class="row">
                         <div class="col-3">
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Emissão&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['DtEmissao'] !== null ? date('d/m/Y', strtotime($boleto['DtEmissao'])) : '' ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_DtEmissao"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;Dt.&nbsp;Vencimento&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['DtVencimento'] !== null ? date('d/m/Y', strtotime($boleto['DtVencimento'])) : '' ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_DtVencimento"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vlr.&nbsp;Cobrado&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['VlCobrado'] !== null ? number_format($boleto['VlCobrado'], 2, ',', '') : ''  ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_VlCobrado"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Baixa&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['DtBaixa'] !== null ? date('d/m/Y', strtotime($boleto['DtBaixa'])) : '' ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_DtBaixa"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;Dt.&nbsp;Pagamento&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['DtPagamento'] !== null ? date('d/m/Y', strtotime($boleto['DtPagamento'])) : '' ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_DtPagamento"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tp&nbsp;Baixa&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['cmocod'] ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_ctmcod"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Etb.&nbsp;Pag&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['etbpag'] ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_etbpag"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nsu&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['nsu'] ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_nsu"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>Nosso&nbsp;Pg&nbsp;Banco&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['numero_pgto_banco'] ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_numero_pgto_banco"></span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obs.&nbsp;&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo $boleto['obs_pgto_banco'] ?>"
-                                        readonly>
+                                <div class="col ms-4 my-1">
+                                    <span id="view_obs_pgto_banco"></span>
                                 </div>
                             </div>
                         </div>
@@ -244,55 +142,30 @@ if (isset($boleto["boletagparcela"])) {
                                 <div class="tabContent">
                                     <!-- *****************Parcelas Contrato***************** -->
                                     <div class="table table-responsive">
-                                        <table class="table table-sm table-hover table-bordered">
+                                        <table class="table table-sm table-hover table-bordered text-center">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center">Contrato</th>
-                                                    <th class="text-center">Parc</th>
-                                                    <th class="text-center">Vlr Cobrado</th>
-                                                    <th class="text-center">Boleto</th>
+                                                    <th>Contrato</th>
+                                                    <th>Parc</th>
+                                                    <th>Vlr Cobrado</th>
+                                                    <th>Boleto</th>
                                                 </tr>
                                             </thead>
-                                            <?php 
-                                            if (isset($boleto["boletagparcela"])) {
-                                            foreach ($parcelas as $parcela) { ?>
-                                                <tr>
-                                                    <td class="text-center">
-                                                        <?php echo $parcela['contnum'] ?>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <?php echo $parcela['titpar'] ?>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <?php echo number_format($parcela['VlCobrado'], 2, ',', '') ?>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <?php echo $parcela['bolcod'] ?>
-                                                    </td>
-                                                </tr>
-                                            <?php } } else { ?>
-                                                <tr>
-                                                    <td class="text-center">
-                                                    Boleto não possui parcelas
-                                                    </td>
-                                                </tr>
-                                            <?php   } ?>
+                                            <tbody id='dadosParcelas' class="fonteCorpo">
 
-                                        </table> 
+                                            </tbody>
+
+                                        </table>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
-                                        
+
                 </div>
             </div>
-        </div><!-- Modal 1 -->
-
-
-    </div>
-
+        </div>
 
     </div><!--container-fluid-->
 
@@ -320,15 +193,10 @@ if (isset($boleto["boletagparcela"])) {
     <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
     <script>
-        var myModal = new bootstrap.Modal(document.getElementById("modalBoletoVisualizar"), {});
-        document.onreadystatechange = function () {
-            myModal.show();
-        };
-
         var tab;
         var tabContent;
 
-        window.onload = function () {
+        window.onload = function() {
             tabContent = document.getElementsByClassName('tabContent');
             tab = document.getElementsByClassName('tab');
             hideTabsContent(1);
@@ -343,7 +211,7 @@ if (isset($boleto["boletagparcela"])) {
             }
         }
 
-        document.getElementById('ts-tabs').onclick = function (event) {
+        document.getElementById('ts-tabs').onclick = function(event) {
             var target = event.target;
             if (target.className == 'tab') {
                 for (var i = 0; i < tab.length; i++) {
@@ -371,7 +239,6 @@ if (isset($boleto["boletagparcela"])) {
                 tabContent[b].classList.add('show');
             }
         }
-
     </script>
 
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->
