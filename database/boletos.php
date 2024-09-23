@@ -27,9 +27,6 @@ if (isset($_GET['operacao'])) {
 		$apiEntrada = array("dadosEntrada" => array(array(
 			'bolcod' => $_POST["bolcod"]
 		)));
-		$arquivo = fopen("C:TRADESIS/tmp/LOG.txt", "a");
-		fwrite($arquivo, json_encode($apiEntrada) . "\n");
-		fclose($arquivo);
 
 		$boletos = chamaAPI(null, '/crediario/boletos', json_encode($apiEntrada), 'GET');
 
