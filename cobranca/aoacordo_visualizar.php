@@ -79,8 +79,8 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
                         <td><?php echo $acordo['HrAcordo'] ?></td>
                         <td><?php echo $DtEfetiva ?></td>
                         <td><?php echo $acordo['HrEfetiva'] ?></td>
-                        <td><?php echo $acordo['VlOriginal'] ?></td>
-                        <td><?php echo $acordo['VlAcordo'] ?></td>
+                        <td><?php echo number_format($acordo['VlOriginal'], 2, ',', '.'); ?></td>
+                        <td><?php echo number_format($acordo['VlAcordo'], 2, ',', '.'); ?></td>
                         <td><?php echo $DtVinculo ?></td>
                         <td><?php echo $acordo['Tipo'] ?></td>
                     </tr>
@@ -104,14 +104,14 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
                 </div>
 
                 <div class="table ts-divTabela60 mt-1">
-                    <table class="table table-sm table-hover">
+                    <table class="table table-sm table-hover text-center">
                         <thead class="ts-headertabelafixo">
                             <tr class="ts-headerTabelaLinhaCima">
                                 <th>Contrato</th>
                                 <th>Pc</th>
-                                <th>vlr ori</th>
-                                <th>juros</th>
-                                <th>divida</th>
+                                <th class="text-end">vlr ori</th>
+                                <th class="text-end">juros</th>
+                                <th class="text-end">divida</th>
                                 <th>Boleto</th>
                                 <th>Envio</th>
                                 <th>Sit</th>
@@ -144,13 +144,13 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
 
                 <div class="table ts-divTabela60 mt-1">
 
-                    <table class="table table-sm table-hover">
+                    <table class="table table-sm table-hover text-center">
                         <thead class="ts-headertabelafixo">
                             <tr class="ts-headerTabelaLinhaCima">
                                 <th>Par</th>
                                 <th>Venc</th>
-                                <th>Vl Acordo</th>
-                                <th>Contrato</th>
+                                <th class="text-end">Vl Acordo</th>
+                                <th class="text-end">Contrato</th>
                                 <th>Dt Baixa</th>
                                 <th>Sit</th>
                                 <th>Boleto</th>
@@ -261,10 +261,10 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
 
                     linha = linha + "<td>" + object.contnum + "</td>";
                     linha = linha + "<td>" + object.titpar + "</td>";
-                    linha = linha + "<td>" + object.vlcob + "</td>";
-                    linha = linha + "<td>" + object.vljur + "</td>";
-                    linha = linha + "<td>" + object.vltot + "</td>";
-                    linha = linha + "<td>" + object.nossonumero + "</td>";
+                    linha = linha + "<td class='text-end'>" + parseFloat(object.vlcob).toFixed(2).replace('.', ',') + "</td>";
+                    linha = linha + "<td class='text-end'>" + parseFloat(object.vljur).toFixed(2).replace('.', ',') + "</td>";
+                    linha = linha + "<td class='text-end'>" + parseFloat(object.vltot).toFixed(2).replace('.', ',') + "</td>";
+                    linha = linha + "<td>" + (object.nossonumero != "0" ? object.nossonumero : "") + "</td>";
                     linha = linha + "<td>" + (object.dtenvio != "null" ? formatDate(object.dtenvio) : "") + "</td>";
                     linha = linha + "<td>" + object.situacao + "</td>";
 
@@ -303,11 +303,11 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
 
                         linha = linha + "<td>" + object.parcela + "</td>";
                         linha = linha + "<td>" + (object.dtvencimento != "null" ? formatDate(object.dtvencimento) : "") + "</td>";
-                        linha = linha + "<td>" + object.vlcobrado + "</td>";
-                        linha = linha + "<td>" + object.contnum + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlcobrado).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.contnum + "</td>";
                         linha = linha + "<td>" + (object.dtbaixa != "null" ? formatDate(object.dtbaixa) : "") + "</td>";
                         linha = linha + "<td>" + object.situacao + "</td>";
-                        linha = linha + "<td>" + object.nossonumero + "</td>";
+                        linha = linha + "<td>" + (object.nossonumero != "0" ? object.nossonumero : "") + "</td>";
                         linha = linha + "<td>" + (object.bol_situacao != "null" ? formatDate(object.bol_situacao) : "") + "</td>";
                         linha = linha + "<td>" + object.situacao + "</td>";
 
