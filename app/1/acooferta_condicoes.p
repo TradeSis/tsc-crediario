@@ -56,6 +56,8 @@ end.
         ttcondicoes.perc_desc = acoplanos.perc_desc.
         ttcondicoes.perc_acres = acoplanos.perc_acres. 
         ttcondicoes.calc_juro = acoplanos.calc_juro.
+        ttcondicoes.qtd_vezes = acoplanos.qtd_vezes. 
+        ttcondicoes.dias_max_primeira = acoplanos.dias_max_primeira.
     end.
         
 /*

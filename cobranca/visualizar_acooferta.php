@@ -136,11 +136,12 @@ $oferta = $ofertaAcordo["acooferta"][0];
                                             <th>Plano</th>
                                             <th></th>
                                             <th>J</th>
-                                            <th>acordo</th>
-                                            <th>ent %</th>
-                                            <th>entrada</th>
+                                            <th class="text-end">acordo</th>
+                                            <th class="text-end">ent %</th>
+                                            <th class="text-end">entrada</th>
                                             <th>parc</th>
                                             <th>venc</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -159,17 +160,17 @@ $oferta = $ofertaAcordo["acooferta"][0];
                                         <tr class="ts-headerTabelaLinhaCima">
                                             <!-- <th style="width: 40px;">*</th> -->
                                             <th style="width: 40px;">fil</th>
-                                            <th class="text-start">contrato</th>
+                                            <th class="text-end">contrato</th>
                                             <th style="width: 60px;">mod</th>
                                             <th style="width: 40px;">t</th>
-                                            <th>aberto</th>
-                                            <th>divida</th>
-                                            <th>parc</th>
+                                            <th class="text-end">aberto</th>
+                                            <th class="text-end">divida</th>
+                                            <th class="text-end">parc</th>
                                             <th>venc</th>
-                                            <th>dias</th>
-                                            <th style="width: 40px;">par</th>
-                                            <th style="width: 40px;">ppg</th>
-                                            <th style="width: 40px;">%pg</th>
+                                            <th class="text-end">dias</th>
+                                            <th class="text-end" style="width: 40px;">par</th>
+                                            <th class="text-end" style="width: 40px;">ppg</th>
+                                            <th class="text-end" style="width: 40px;">%pg</th>
                                             <th style="width: 60px;"></th>
                                         </tr>
                                     </thead>
@@ -247,11 +248,12 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha = linha + "<td>" + object.planom + "</td>";
                         linha = linha + "<td>" + (object.perc_desc != "0" ? object.perc_desc + "%Desc " : "") + (object.perc_desc != "0" ? object.perc_acres + "%ac" : "") + "</td>";
                         linha = linha + "<td>" + (object.calc_juro == true ? "S" : "N") + "</td>";
-                        linha = linha + "<td>" + object.vlr_acordo + "</td>";
-                        linha = linha + "<td>" + formatPorcentage(object.vlr_entrada) + "</td>";
-                        linha = linha + "<td>" + parseFloat(object.min_entrada).toFixed(2).replace('.', ',') + "</td>";
-                        linha = linha + "<td>" + object.vlr_parcela + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.vlr_acordo + "</td>";
+                        linha = linha + "<td class='text-end'>" + formatPorcentage(object.vlr_entrada) + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.min_entrada).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td>" + object.qtd_vezes + "x " + object.vlr_parcela + "</td>";
                         linha = linha + "<td>" + (object.dtvenc1 != "null" ? formatDate(object.dtvenc1) : "") + "</td>";
+                        linha = linha + "<td>" + object.dias_max_primeira + "</td>";
                         linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#parcelasModal' data-placod='" + object.placod + "' data-planom='" + object.planom + "'><i class='bi bi-eye-fill'></i></button> " + "</td>";
 
 
@@ -276,18 +278,18 @@ $oferta = $ofertaAcordo["acooferta"][0];
                     for (var $i = 0; $i < json.length; $i++) {
                         var object = json[$i];
                         linha = linha + "<tr>";
-                        linha = linha + "<td>fil</td>";
-                        linha = linha + "<td>" + object.contnum + "</td>";
-                        linha = linha + "<td>mod</td>";
+                        linha = linha + "<td>" + object.etbcod + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.contnum + "</td>";
+                        linha = linha + "<td>" + object.modcod + "</td>";
                         linha = linha + "<td>" + object.tpcontrato + "</td>";
-                        linha = linha + "<td>" + parseFloat(object.vlr_aberto).toFixed(2).replace('.', ',') + "</td>";
-                        linha = linha + "<td>" + parseFloat(object.vlr_divida).toFixed(2).replace('.', ',') + "</td>";
-                        linha = linha + "<td>" + parseFloat(object.vlr_parcela).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_aberto).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_divida).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_parcela).toFixed(2).replace('.', ',') + "</td>";
                         linha = linha + "<td>" + (object.dt_venc != "null" ? formatDate(object.dt_venc) : "") + "</td>";
-                        linha = linha + "<td>" + object.dias_atraso + "</td>";
-                        linha = linha + "<td>" + object.qtd_parcelas + "</td>";
-                        linha = linha + "<td>" + object.qtd_pagas + "</td>";
-                        linha = linha + "<td>" + object.perc_pagas + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.dias_atraso + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.qtd_parcelas + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.qtd_pagas + "</td>";
+                        linha = linha + "<td class='text-end'>" + object.perc_pagas + "</td>";
 
 
                         linha = linha + "</tr>";
