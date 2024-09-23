@@ -42,8 +42,6 @@ put unformatted
     "FINANCIAMENTO E INVESTIMENTOS, inscrita no CNPJ " skip
     "sob n 11.271.860/0001-86, doravante designado FINANCEIRA." skip(2).
 
-if vassina
-then  put unformatted  "<image=idbiometria>" skip.
 
 put "CLIENTE/FINANCIADO - Dados" skip.
 put unformatted "Nome: " clien.clinom format "x(40)" skip.
@@ -129,6 +127,8 @@ put unformatted chr(27) "a" chr(49).       /* centraliza */
 
 if vassina
 then do:
+    put unformatted  skip(4) "<image=idbiometria>" skip.
+
     put unformatted
     space(30) "ASSINANTE" skip
     space(30) clien.clinom skip
