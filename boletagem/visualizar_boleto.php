@@ -83,57 +83,90 @@ include_once '../header.php';
                     <hr>
                     <div class="row">
                         <div class="col-3">
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Dt. Emissão:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_DtEmissao"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Dt. Vencimento:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_DtVencimento"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Vlr. Cobrado:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_VlCobrado"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Dt. Baixa:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_DtBaixa"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Dt. Pagamento:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_DtPagamento"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Tp. Baixa:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_ctmcod"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Etb. Pag:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_etbpag"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    nsu:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_nsu"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Numero Pg Banco:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_numero_pgto_banco"></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col ms-4 my-1">
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Obs.:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
                                     <span id="view_obs_pgto_banco"></span>
                                 </div>
                             </div>
+
                         </div>
+
                         <div class="col-9 border-start">
                             <div id="ts-tabs">
                                 <div class="tab whiteborder" id="tab-parcela">Parcelas</div>

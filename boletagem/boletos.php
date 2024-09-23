@@ -312,16 +312,16 @@ include_once(__DIR__ . '/../header.php');
                         $("#view_LinhaDigitavel").html('Linha Digitavel: ' + object.LinhaDigitavel);
                         $("#view_CodigoBarras").html('Codigo Barras: ' + object.CodigoBarras);
                         //DADOS BOLETOS (parte de lateral)
-                        $("#view_DtEmissao").html('Dt. Emissão: ' + (object.DtEmissao ? formatDate(object.DtEmissao) : ""));
-                        $("#view_DtVencimento").html('Dt. Vencimento: ' + (object.DtVencimento ? formatDate(object.DtVencimento) : ""));
-                        $("#view_VlCobrado").html('Vlr. Cobrado: ' + parseFloat(object.VlCobrado).toFixed(2).replace('.', ','));
-                        $("#view_DtBaixa").html('Dt. Baixa: ' + (object.DtBaixa ? formatDate(object.DtBaixa) : ""));
-                        $("#view_DtPagamento").html('Dt. Pagamento: ' + (object.DtPagamento ? formatDate(object.DtPagamento) : ""));
-                        $("#view_ctmcod").html('Tp. Baixa: ' + object.ctmcod);
-                        $("#view_etbpag").html('Etb. Pag: ' + object.etbpag);
-                        $("#view_nsu").html('nsu: ' + object.nsu);
-                        $("#view_numero_pgto_banco").html('Nosso Pg Banco: ' + object.numero_pgto_banco);
-                        $("#view_obs_pgto_banco").html('Obs.: ' + object.obs_pgto_banco);
+                        $("#view_DtEmissao").html((object.DtEmissao ? formatDate(object.DtEmissao) : ""));
+                        $("#view_DtVencimento").html((object.DtVencimento ? formatDate(object.DtVencimento) : ""));
+                        $("#view_VlCobrado").html(parseFloat(object.VlCobrado).toFixed(2).replace('.', ','));
+                        $("#view_DtBaixa").html((object.DtBaixa ? formatDate(object.DtBaixa) : ""));
+                        $("#view_DtPagamento").html((object.DtPagamento ? formatDate(object.DtPagamento) : ""));
+                        $("#view_ctmcod").html(object.ctmcod);
+                        $("#view_etbpag").html(object.etbpag);
+                        $("#view_nsu").html(object.nsu);
+                        $("#view_numero_pgto_banco").html(object.numero_pgto_banco);
+                        $("#view_obs_pgto_banco").html(object.obs_pgto_banco);
 
                         //TABELA PARCELAS
                         parcelas = object.boletagparcela
