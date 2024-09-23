@@ -46,6 +46,17 @@ end.
     
     FIND FIRST ttnegociacao .
     run montacondicoes (INPUT ttentrada.negcod, ?).
+    
+    for each ttcondicoes.
+        find acoplanos where 
+                            acoplanos.negcod  = ttentrada.negcod and
+                            acoplanos.placod  = ttcondicoes.placod
+                            no-lock.
+
+        ttcondicoes.perc_desc = acoplanos.perc_desc.
+        ttcondicoes.perc_acres = acoplanos.perc_acres. 
+        ttcondicoes.calc_juro = acoplanos.calc_juro.
+    end.
         
 /*
 
