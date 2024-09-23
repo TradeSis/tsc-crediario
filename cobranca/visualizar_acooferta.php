@@ -14,11 +14,12 @@ $oferta = $ofertaAcordo["acooferta"][0];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
     <style>
         input[readonly] {
-            background-color: transparent !important; 
+            background-color: transparent !important;
         }
     </style>
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
@@ -45,7 +46,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
 
 
             <div class="container-fluid">
-            <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['negcod'] ?>" hidden>
+                <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['negcod'] ?>" hidden>
                 <div class="row mt-2">
                     <div class="col-2 d-flex align-items-center">
                         <div class="form-group">
@@ -116,13 +117,13 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['vlr_selecionado'] ?>" readonly>
                     </div>
                 </div>
-               
+
                 <hr>
                 <div class="container-fluid mt-3">
                     <div id="ts-tabs">
                         <div class="tab whiteborder" id="tab-condicoes">Condições</div>
                         <div class="tab" id="tab-contrato">Contratos</div>
-                        
+
                         <div class="line"></div>
 
                         <div class="tabContent">
@@ -131,15 +132,16 @@ $oferta = $ofertaAcordo["acooferta"][0];
                                 <table class="table table-sm table-hover">
                                     <thead class="ts-headertabelafixo">
                                         <tr class="ts-headerTabelaLinhaCima">
-                                            <th style="width: 40px;">ID</th>
-                                            <th class="text-start">Plano</th>
+                                            <th>ID</th>
+                                            <th>Plano</th>
+                                            <th></th>
                                             <th>J</th>
                                             <th>acordo</th>
                                             <th>ent %</th>
                                             <th>entrada</th>
                                             <th>parc</th>
                                             <th>venc</th>
-                                            <th style="width: 60px;"></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
 
@@ -193,23 +195,23 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <div class="table mt-2 ts-divTabela60 ts-tableFiltros text-center">
-                                <table class="table table-sm table-hover">
-                                    <thead class="ts-headertabelafixo">
-                                        <tr class="ts-headerTabelaLinhaCima">
-                                            <th>parc</th>
-                                            <th>Vlr parcela</th>
-                                            <th>perc</th>
-                                        </tr>
-                                    </thead>
+                        <div class="table mt-2 ts-divTabela60 ts-tableFiltros text-center">
+                            <table class="table table-sm table-hover">
+                                <thead class="ts-headertabelafixo">
+                                    <tr class="ts-headerTabelaLinhaCima">
+                                        <th>parc</th>
+                                        <th>Vlr parcela</th>
+                                        <th>perc</th>
+                                    </tr>
+                                </thead>
 
-                                    <tbody id='dadosParcelas' class="fonteCorpo">
+                                <tbody id='dadosParcelas' class="fonteCorpo">
 
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
+                        </div>
                     </div><!--body-->
-                    
+
                 </div>
             </div>
         </div>
@@ -217,9 +219,9 @@ $oferta = $ofertaAcordo["acooferta"][0];
     </div>
 
 
-<!-- LOCAL PARA COLOCAR OS JS -->
+    <!-- LOCAL PARA COLOCAR OS JS -->
 
-<?php include_once ROOT . "/vendor/footer_js.php"; ?>
+    <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
     <script>
         buscar();
@@ -230,26 +232,28 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 dataType: 'html',
                 url: '../database/acooferta.php?operacao=buscarCondicoes',
                 data: {
-                    ptpnegociacao : '<?php echo $tpNegociacao ?>',
-                    clicod : <?php echo $_GET['clicod'] ?>,
-                    negcod : <?php echo $_GET['negcod'] ?>
+                    ptpnegociacao: '<?php echo $tpNegociacao ?>',
+                    clicod: <?php echo $_GET['clicod'] ?>,
+                    negcod: <?php echo $_GET['negcod'] ?>
                 },
                 success: function(msg) {
                     var json = JSON.parse(msg);
                     var linha = "";
                     for (var $i = 0; $i < json.length; $i++) {
                         var object = json[$i];
-                        linha = linha + "<tr>"; 
+                        linha = linha + "<tr>";
+                       
                         linha = linha + "<td>" + object.placod + "</td>";
-                        linha = linha + "<td class='text-start'>" + object.planom + "</td>";
-                        linha = linha + "<td class='text-start'></td>";
-                        linha = linha + "<td>J</td>";
+                        linha = linha + "<td>" + object.planom + "</td>";
+                        linha = linha + "<td>" + (object.perc_desc != "0" ? object.perc_desc + "%Desc " : "") + (object.perc_desc != "0" ? object.perc_acres + "%ac" : "") + "</td>";
+                        linha = linha + "<td>" + (object.calc_juro == true ? "S" : "N") + "</td>";
                         linha = linha + "<td>" + object.vlr_acordo + "</td>";
-                        linha = linha + "<td>" + object.vlr_entrada + "</td>";
+                        linha = linha + "<td>" + formatPorcentage(object.vlr_entrada) + "</td>";
+                        linha = linha + "<td>" + parseFloat(object.min_entrada).toFixed(2).replace('.', ',') + "</td>";
                         linha = linha + "<td>" + object.vlr_parcela + "</td>";
                         linha = linha + "<td>" + (object.dtvenc1 != "null" ? formatDate(object.dtvenc1) : "") + "</td>";
                         linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#parcelasModal' data-placod='" + object.placod + "' data-planom='" + object.planom + "'><i class='bi bi-eye-fill'></i></button> " + "</td>";
- 
+
 
                         linha = linha + "</tr>";
                     }
@@ -261,9 +265,9 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 dataType: 'html',
                 url: '../database/acooferta.php?operacao=buscarContratos',
                 data: {
-                    ptpnegociacao : '<?php echo $tpNegociacao ?>',
-                    clicod : <?php echo $_GET['clicod'] ?>,
-                    negcod : <?php echo $_GET['negcod'] ?>
+                    ptpnegociacao: '<?php echo $tpNegociacao ?>',
+                    clicod: <?php echo $_GET['clicod'] ?>,
+                    negcod: <?php echo $_GET['negcod'] ?>
                 },
                 success: function(msg) {
                     //alert(msg)
@@ -271,32 +275,33 @@ $oferta = $ofertaAcordo["acooferta"][0];
                     var linha = "";
                     for (var $i = 0; $i < json.length; $i++) {
                         var object = json[$i];
-                        linha = linha + "<tr>"; 
+                        linha = linha + "<tr>";
                         linha = linha + "<td>fil</td>";
                         linha = linha + "<td>" + object.contnum + "</td>";
-                        linha = linha + "<td class='text-start'>mod</td>";
-                        linha = linha + "<td class='text-start'>t</td>";
-                        linha = linha + "<td class='text-start'>" + object.vlr_aberto + "</td>";
-                        linha = linha + "<td class='text-start'>" + object.vlr_divida + "</td>";
-                        linha = linha + "<td class='text-start'>" + object.vlr_parcela + "</td>";
-                        linha = linha + "<td class='text-start'>" + (object.dt_venc != "null" ? formatDate(object.dt_venc) : "") + "</td>";
-                        linha = linha + "<td class='text-start'>" + object.dias_atraso + "</td>";
-                        linha = linha + "<td class='text-start'>" + object.qtd_parcelas + "</td>";
-                        linha = linha + "<td class='text-start'>" + object.perc_pagas + "</td>";
-                        linha = linha + "<td class='text-start'>pg</td>";
+                        linha = linha + "<td>mod</td>";
+                        linha = linha + "<td>" + object.tpcontrato + "</td>";
+                        linha = linha + "<td>" + parseFloat(object.vlr_aberto).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td>" + parseFloat(object.vlr_divida).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td>" + parseFloat(object.vlr_parcela).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td>" + (object.dt_venc != "null" ? formatDate(object.dt_venc) : "") + "</td>";
+                        linha = linha + "<td>" + object.dias_atraso + "</td>";
+                        linha = linha + "<td>" + object.qtd_parcelas + "</td>";
+                        linha = linha + "<td>" + object.qtd_pagas + "</td>";
+                        linha = linha + "<td>" + object.perc_pagas + "</td>";
+
 
                         linha = linha + "</tr>";
                     }
                     $("#dadosContrato").html(linha);
                 }
             });
-        } 
+        }
 
 
-        $(document).on('click', 'button[data-bs-target="#parcelasModal"]', function () {
+        $(document).on('click', 'button[data-bs-target="#parcelasModal"]', function() {
             var placod = $(this).attr("data-placod");
             var planom = $(this).attr("data-planom");
-    
+
             var texto = $("#tituloparcelas");
             texto.html('Parcelas plano: ' + planom);
             $.ajax({
@@ -304,9 +309,9 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 dataType: 'html',
                 url: '../database/acooferta.php?operacao=buscarParcelas',
                 data: {
-                    ptpnegociacao : '<?php echo $tpNegociacao ?>',
-                    clicod : <?php echo $_GET['clicod'] ?>,
-                    negcod : <?php echo $_GET['negcod'] ?>,
+                    ptpnegociacao: '<?php echo $tpNegociacao ?>',
+                    clicod: <?php echo $_GET['clicod'] ?>,
+                    negcod: <?php echo $_GET['negcod'] ?>,
                     placod: placod
                 },
                 success: function(msg) {
@@ -314,23 +319,23 @@ $oferta = $ofertaAcordo["acooferta"][0];
                     var linha = "";
                     for (var $i = 0; $i < json.length; $i++) {
                         var object = json[$i];
-                        linha = linha + "<tr>"; 
+                        linha = linha + "<tr>";
                         linha = linha + "<td>" + object.titpar + "</td>";
                         linha = linha + "<td>" + object.vlr_parcela + "</td>";
-                        linha = linha + "<td>" + object.perc_parcela + "</td>";
-                  
+                        linha = linha + "<td>" + formatPorcentage(object.perc_parcela) + "</td>";
+
                         linha = linha + "</tr>";
                     }
                     $("#dadosParcelas").html(linha);
                     $('#parcelasModal').modal('show');
                 }
             });
-           
+
         });
 
 
-   // FORMATAR DATAS
-   function formatDate(dateString) {
+        // FORMATAR DATAS
+        function formatDate(dateString) {
             if (dateString !== null && !isNaN(new Date(dateString))) {
                 var date = new Date(dateString);
                 var day = date.getUTCDate().toString().padStart(2, '0');
@@ -342,7 +347,35 @@ $oferta = $ofertaAcordo["acooferta"][0];
         }
 
 
-        window.onload = function () {
+        // FORMATAR DATAS
+        function formatDate(dateString) {
+            if (dateString !== null && !isNaN(new Date(dateString))) {
+                var date = new Date(dateString);
+                var day = date.getUTCDate().toString().padStart(2, '0');
+                var month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+                var year = date.getUTCFullYear().toString().padStart(4, '0');
+                return day + "/" + month + "/" + year;
+            }
+            return "";
+        }
+
+        function formatPorcentage(number) {
+            const formatter = new Intl.NumberFormat('pt-BR', {
+                style: 'percent',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+            const formattedNumber = formatter.format(number);
+            return formattedNumber;
+        }
+
+
+
+        /* const formattedNumber = formatter.format(0);
+        console.log(formattedNumber); // "0,00%" */
+
+
+        window.onload = function() {
             tabContent = document.getElementsByClassName('tabContent');
             tab = document.getElementsByClassName('tab');
             hideTabsContent(1);
@@ -350,16 +383,16 @@ $oferta = $ofertaAcordo["acooferta"][0];
             var urlParams = new URLSearchParams(window.location.search);
             var id = urlParams.get('id');
             if (id === 'condicoes') {
-                showTabsContent(0); 
-            }  
+                showTabsContent(0);
+            }
             if (id === 'contrato') {
-                showTabsContent(1); 
+                showTabsContent(1);
             } else {
                 showTabsContent(0);
             }
         }
 
-        document.getElementById('ts-tabs').onclick = function (event) {
+        document.getElementById('ts-tabs').onclick = function(event) {
             var target = event.target;
             if (target.className.includes('tab')) {
                 for (var i = 0; i < tab.length; i++) {
@@ -389,7 +422,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
         }
     </script>
 
-<!-- LOCAL PARA COLOCAR OS JS -FIM -->
+    <!-- LOCAL PARA COLOCAR OS JS -FIM -->
 
 </body>
 
