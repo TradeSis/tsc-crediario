@@ -71,6 +71,10 @@ THEN DO:
         FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
             ttboletagbol.cpfcnpj = clien.ciccgc.
             ttboletagbol.nomeCliente = clien.clinom.
+        for each boletagparcela of boletagbol NO-LOCK:
+            create ttboletagparcela.
+            BUFFER-COPY boletagparcela TO ttboletagparcela.
+        end.
     end.
 END.
 else do:
@@ -92,6 +96,10 @@ else do:
             FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
                 ttboletagbol.cpfcnpj = clien.ciccgc.
                 ttboletagbol.nomeCliente = clien.clinom.
+            for each boletagparcela of boletagbol NO-LOCK:
+                create ttboletagparcela.
+                BUFFER-COPY boletagparcela TO ttboletagparcela.
+            end.
         end.
 
     end.

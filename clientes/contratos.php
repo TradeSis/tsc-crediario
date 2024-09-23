@@ -323,11 +323,6 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                     <td class="text-center">
                                                         <?php echo number_format($parcela['vlrPago'], 2, ',', '') ?>
                                                     </td>
-                                                    <!-- <td class="text-center ts-click">
-                                                        <a href="../boletagem/visualizar_boleto.php?bolcod=<?php echo $parcela['bolcod'] ?>">
-                                                            <?php echo $parcela['bolcod'] ?>
-                                                        </a>
-                                                    </td> -->
                                                     <td class="text-center ts-click">
                                                     <a class="link-opacity-100" data-bs-target='#modalBoletoVisualizar' data-bolcod='<?php echo $parcela['bolcod'] ?>'>
                                                             <?php echo $parcela['bolcod'] ?>
@@ -636,7 +631,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                             var linha_parcelas = "";
                             for (var $i = 0; $i < parcelas.length; $i++) {
                                 var object_parcela = parcelas[$i];
-                                alert(object_parcela.contnum)
+                                
                                 linha_parcelas += "<tr>";
 
                                 linha_parcelas += "<td>" + object_parcela.contnum + "</td>";
