@@ -44,6 +44,12 @@ vmessage = no.
 
     FIND aconegoc WHERE aconegoc.negcod = ttentrada.negcod NO-LOCK.
     run calcelegiveis (input aconegoc.tpNegociacao, input ttentrada.clicod, ttentrada.negcod).
+    for each ttcontrato.
+        find contrato of ttcontrato no-lock. 
+        ttcontrato.etbcod = contrato.etbcod.
+        ttcontrato.modcod = contrato.modcod.
+
+    end.
 
 /*   
  create ttcontrato.
