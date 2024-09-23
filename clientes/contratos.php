@@ -323,11 +323,17 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                     <td class="text-center">
                                                         <?php echo number_format($parcela['vlrPago'], 2, ',', '') ?>
                                                     </td>
-                                                    <td class="text-center ts-click">
+                                                    <!-- <td class="text-center ts-click">
                                                         <a href="../boletagem/visualizar_boleto.php?bolcod=<?php echo $parcela['bolcod'] ?>">
                                                             <?php echo $parcela['bolcod'] ?>
                                                         </a>
+                                                    </td> -->
+                                                    <td class="text-center ts-click">
+                                                    <a class="link-opacity-100" data-bs-target='#modalBoletoVisualizar' data-bolcod='<?php echo $parcela['bolcod'] ?>'>
+                                                            <?php echo $parcela['bolcod'] ?>
+                                                        </a>
                                                     </td>
+
                                                 </tr>
                                             <?php } ?>
 
@@ -511,7 +517,8 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
         </div>
     </div>
 
-
+    <!-- MODAL VISUALIZAR BOLETO -->
+    <?php include_once "../boletagem/visualizar_boleto.php"; ?>
 
     <!-- LOCAL PARA COLOCAR OS JS -->
 
@@ -580,6 +587,88 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
             var iframe = modalPDF.querySelector('iframe');
             iframe.src = pdfUrl; // Set iframe src to the PDF URL
         });
+
+
+        // MODAL VISUALIZAR BOLETO
+        $(document).on('click', 'a[data-bs-target="#modalBoletoVisualizar"]', function() {
+            var bolcod = $(this).attr("data-bolcod");
+            //alert(bolcod)
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=buscarboleto',
+                data: {
+                    bolcod: bolcod
+                },
+                success: function(msg) {
+                    //alert(JSON.stringify(msg));
+                    var linha = "";
+                    for (var $i = 0; $i < msg.length; $i++) {
+                        var object = msg[$i];
+                   
+                        //DADOS BOLETOS (parte de cima)
+                        $("#view_bolcod").html('Boleto: ' + object.bolcod);
+                        $("#view_bancod").html('Banco: ' + object.bancod);
+                        $("#view_NossoNumero").html('Nosso Numero: ' + object.NossoNumero);
+                        $("#view_Documento").html('Documento: ' + object.Documento);
+                        $("#view_origem").html('Origem: ' + object.origem);
+                        $("#view_situacaoDescricao").html('Situação: ' + object.situacaoDescricao);
+                        $("#view_cliente").html('Cliente: ' + object.CliFor + '-' + object.nomeCliente);
+                        $("#view_cpfcnpj").html('CPF/CNPJ: ' + object.cpfcnpj);
+                        $("#view_etbcod").html('Estab: ' + object.etbcod);
+                        $("#view_LinhaDigitavel").html('Linha Digitavel: ' + object.LinhaDigitavel);
+                        $("#view_CodigoBarras").html('Codigo Barras: ' + object.CodigoBarras);
+                        //DADOS BOLETOS (parte de lateral)
+                        $("#view_DtEmissao").html((object.DtEmissao ? formatDate(object.DtEmissao) : ""));
+                        $("#view_DtVencimento").html((object.DtVencimento ? formatDate(object.DtVencimento) : ""));
+                        $("#view_VlCobrado").html(parseFloat(object.VlCobrado).toFixed(2).replace('.', ','));
+                        $("#view_DtBaixa").html((object.DtBaixa ? formatDate(object.DtBaixa) : ""));
+                        $("#view_DtPagamento").html((object.DtPagamento ? formatDate(object.DtPagamento) : ""));
+                        $("#view_ctmcod").html(object.ctmcod);
+                        $("#view_etbpag").html(object.etbpag);
+                        $("#view_nsu").html(object.nsu);
+                        $("#view_numero_pgto_banco").html(object.numero_pgto_banco);
+                        $("#view_obs_pgto_banco").html(object.obs_pgto_banco);
+                       
+                        //TABELA PARCELAS
+                        parcelas = object.boletagparcela
+                        if (parcelas != null) {
+                            var linha_parcelas = "";
+                            for (var $i = 0; $i < parcelas.length; $i++) {
+                                var object_parcela = parcelas[$i];
+                                alert(object_parcela.contnum)
+                                linha_parcelas += "<tr>";
+
+                                linha_parcelas += "<td>" + object_parcela.contnum + "</td>";
+                                linha_parcelas += "<td>" + object_parcela.titpar + "</td>";
+                                linha_parcelas += "<td>" + parseFloat(object_parcela.VlCobrado).toFixed(2).replace('.', ',') + "</td>";
+                                linha_parcelas += "<td>" + object_parcela.bolcod + "</td>";
+
+                                linha_parcelas += "</tr>";
+                            }
+                        } else {
+                            $("#dadosParcelasBoleto").html("Boleto não possui parcelas");
+                        }
+                        $("#dadosParcelasBoleto").html(linha_parcelas);
+
+                    }
+                    $('#modalBoletoVisualizar').modal('show');
+                }
+            });
+        });
+
+
+        // FORMATAR DATAS
+        function formatDate(dateString) {
+            if (dateString !== null && !isNaN(new Date(dateString))) {
+                var date = new Date(dateString);
+                var day = date.getUTCDate().toString().padStart(2, '0');
+                var month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+                var year = date.getUTCFullYear().toString().padStart(4, '0');
+                return day + "/" + month + "/" + year;
+            }
+            return "";
+        }
 
     </script>
 

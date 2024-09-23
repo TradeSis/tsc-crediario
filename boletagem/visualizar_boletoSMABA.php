@@ -167,14 +167,9 @@ include_once '../header.php';
 
                         </div>
 
-                        <div class="col-9 border-start">
-                            <div id="ts-tabs">
-                                <div class="tab whiteborder" id="tab-parcelaBoleto">Parcelas</div>
-                                <div class="line"></div>
-
-                                <div class="tabContentParcela">
-                                    <!-- *****************Parcelas Contrato***************** -->
-                                    <div class="table table-responsive pe-3">
+                        <div class="col-9 border-start ">
+                            <h4>Parcelas</h4>
+                        <div class="table table-responsive pe-3">
                                         <table class="table table-sm table-hover table-bordered text-center">
                                             <thead>
                                                 <tr>
@@ -190,9 +185,6 @@ include_once '../header.php';
 
                                         </table>
                                     </div>
-                                </div>
-
-                            </div>
                         </div>
                     </div>
 
@@ -226,50 +218,7 @@ include_once '../header.php';
     <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
     <script>
-        var tab;
-        var tabContentParcela;
-
-        window.onload = function() {
-            tabContentParcela = document.getElementsByClassName('tabContentParcela');
-            tab = document.getElementsByClassName('tab');
-            hideTabsContent(1);
-
-            var urlParams = new URLSearchParams(window.location.search);
-            var id = urlParams.get('id');
-            if (id === 'parcelaBoleto') {
-                showTabsContent(0);
-            }
-        }
-
-        document.getElementById('ts-tabs').onclick = function(event) {
-            var target = event.target;
-            if (target.className == 'tab') {
-                for (var i = 0; i < tab.length; i++) {
-                    if (target == tab[i]) {
-                        showTabsContent(i);
-                        break;
-                    }
-                }
-            }
-        }
-
-        function hideTabsContent(a) {
-            for (var i = a; i < tabContentParcela.length; i++) {
-                tabContentParcela[i].classList.remove('show');
-                tabContentParcela[i].classList.add("hide");
-                tab[i].classList.remove('whiteborder');
-            }
-        }
-
-        function showTabsContent(b) {
-            if (tabContentParcela[b].classList.contains('hide')) {
-                hideTabsContent(0);
-                tab[b].classList.add('whiteborder');
-                tabContentParcela[b].classList.remove('hide');
-                tabContentParcela[b].classList.add('show');
-            }
-        }
-
+      
     </script>
 
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->

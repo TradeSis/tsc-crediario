@@ -225,7 +225,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     dtfim: dtfim
                 },
                 success: function (msg) {
-                    //alert("segundo alert: " + msg);
+                    alert("segundo alert: " + msg);
                     //console.log(msg);
                     var contadorItem = 0;
                     var contadorVlTotal = 0;
