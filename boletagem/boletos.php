@@ -33,7 +33,7 @@ include_once(__DIR__ . '/../header.php');
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filtroentradaModal"><i class="bi bi-calendar3"></i></button>
             </div>
 
-            <div class="col-1">
+            <div class="col-1 mx-0 px-0">
                 <button id="exportCsvButton" class="ms-4 btn btn-success"><i class="bi bi-file-earmark-arrow-down-fill" style="color:#fff"></i>&#32;CSV</button>
             </div>
 
@@ -126,20 +126,20 @@ include_once(__DIR__ . '/../header.php');
                         <th></th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cliente [ENTER]"
-                            name="CliFor" id="CliFor" required>
+                                name="CliFor" id="CliFor" required>
                         </th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cpf/Cnpj [ENTER]"
-                            name="cpfcnpj" id="cpfcnpj" required>
+                                name="cpfcnpj" id="cpfcnpj" required>
                         </th>
                         <th></th>
                         <th class="col-1">
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Banco [ENTER]"
-                            name="bancod" id="bancod" required>
+                                name="bancod" id="bancod" required>
                         </th>
                         <th>
                             <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Nosso Numero [ENTER]"
-                            name="NossoNumero" id="NossoNumero" required>
+                                name="NossoNumero" id="NossoNumero" required>
                         </th>
                         <th></th>
                         <th></th>
@@ -159,9 +159,10 @@ include_once(__DIR__ . '/../header.php');
 
     </div>
 
+    <!-- MODAL VISUALIZAR BOLETO -->
+    <?php include_once "visualizar_boleto.php"; ?>
 
     <!-- LOCAL PARA COLOCAR OS JS -->
-
     <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
     <!-- script para menu de filtros -->
@@ -184,9 +185,9 @@ include_once(__DIR__ . '/../header.php');
                 var select = document.getElementById('situacao');
                 var option = select.children[select.selectedIndex];
                 var textoSelect = option.textContent;
-               
+
                 text += "Situação: " + textoSelect;
-                
+
                 if (tipodedata !== null && tipodedata !== '') {
                     if (text) text += " | Tipo de Data: ";
                     text += tipodedata;
@@ -244,9 +245,7 @@ include_once(__DIR__ . '/../header.php');
                             linha += "<td>" + (object.DtBaixa ? formatDate(object.DtBaixa) : "--") + "</td>";
                             linha += "<td>" + object.situacaoDescricao + "</td>";
 
-                            linha = linha + "<td>" + "<a class='btn btn-primary btn-sm' href='visualizar_boleto.php?bolcod=" + object.bolcod + "' role='button'><i class='bi bi-eye-fill'></i></a>";
-
-                            linha += "</td>";
+                            linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#modalBoletoVisualizar' data-bolcod='" + object.bolcod + "'><i class='bi bi-eye-fill'></i></button></td>";
 
                             linha += "</tr>";
                         }
@@ -282,6 +281,73 @@ include_once(__DIR__ . '/../header.php');
             buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val());
             $('#filtroentradaModal').modal('hide');
 
+        });
+
+        // MODAL VISUALIZAR BOLETO
+        $(document).on('click', 'button[data-bs-target="#modalBoletoVisualizar"]', function() {
+            var bolcod = $(this).attr("data-bolcod");
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=buscarboleto',
+                data: {
+                    bolcod: bolcod
+                },
+                success: function(msg) {
+                    var linha = "";
+                    for (var $i = 0; $i < msg.length; $i++) {
+                        var object = msg[$i];
+                   
+                        //DADOS BOLETOS (parte de cima)
+                        $("#view_bolcod").html('Boleto: ' + object.bolcod);
+                        $("#view_bancod").html('Banco: ' + object.bancod);
+                        $("#view_NossoNumero").html('Nosso Numero: ' + object.NossoNumero);
+                        $("#view_Documento").html('Documento: ' + object.Documento);
+                        $("#view_origem").html('Origem: ' + object.origem);
+                        $("#view_situacaoDescricao").html('Situação: ' + object.situacaoDescricao);
+                        $("#view_cliente").html('Cliente: ' + object.CliFor + '-' + object.nomeCliente);
+                        $("#view_cpfcnpj").html('CPF/CNPJ: ' + object.cpfcnpj);
+                        $("#view_etbcod").html('Estab: ' + object.etbcod);
+                        $("#view_LinhaDigitavel").html('Linha Digitavel: ' + object.LinhaDigitavel);
+                        $("#view_CodigoBarras").html('Codigo Barras: ' + object.CodigoBarras);
+                        //DADOS BOLETOS (parte de lateral)
+                        $("#view_DtEmissao").html((object.DtEmissao ? formatDate(object.DtEmissao) : ""));
+                        $("#view_DtVencimento").html((object.DtVencimento ? formatDate(object.DtVencimento) : ""));
+                        $("#view_VlCobrado").html(parseFloat(object.VlCobrado).toFixed(2).replace('.', ','));
+                        $("#view_DtBaixa").html((object.DtBaixa ? formatDate(object.DtBaixa) : ""));
+                        $("#view_DtPagamento").html((object.DtPagamento ? formatDate(object.DtPagamento) : ""));
+                        $("#view_ctmcod").html(object.ctmcod);
+                        $("#view_etbpag").html(object.etbpag);
+                        $("#view_nsu").html(object.nsu);
+                        $("#view_numero_pgto_banco").html(object.numero_pgto_banco);
+                        $("#view_obs_pgto_banco").html(object.obs_pgto_banco);
+
+                        //TABELA PARCELAS
+                        parcelas = object.boletagparcela
+                        if (parcelas != null) {
+                            var linha_parcelas = "";
+                            for (var $i = 0; $i < parcelas.length; $i++) {
+                                var object_parcela = parcelas[$i];
+
+                                linha_parcelas += "<tr>";
+
+                                linha_parcelas += "<td>" + object_parcela.contnum + "</td>";
+                                linha_parcelas += "<td>" + object_parcela.titpar + "</td>";
+                                linha_parcelas += "<td>" + parseFloat(object_parcela.VlCobrado).toFixed(2).replace('.', ',') + "</td>";
+                                linha_parcelas += "<td>" + object_parcela.bolcod + "</td>";
+
+                                linha_parcelas += "</tr>";
+                            }
+                        } else {
+                            $("#dadosParcelas").html("Boleto não possui parcelas");
+                        }
+                        $("#dadosParcelas").html(linha_parcelas);
+
+                    }
+                    $('#modalBoletoVisualizar').modal('show');
+                }
+            });
         });
 
         function limparPeriodo() {
