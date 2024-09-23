@@ -28,7 +28,7 @@ if (isset($_GET['operacao'])) {
 			'bolcod' => $_POST["bolcod"]
 		)));
 
-		$boletos = chamaAPI(null, '/crediario/boletos', json_encode($apiEntrada), 'GET');
+		$boletos = chamaAPI(null, '/crediario/boleto', json_encode($apiEntrada), 'GET');
 
 		echo json_encode($boletos);
 		return $boletos;

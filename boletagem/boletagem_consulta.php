@@ -58,7 +58,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
             <div class="col-4 col-lg-4">
                 <div class="input-group">
                     <input type="text" class="form-control ts-input" id="contnum" placeholder="Buscar Contrato">
-                    <button class="btn btn-primary rounded" type="button" id="buscar"><i
+                    <button class="btn btn-primary rounded" type="button" id="buscarContrato"><i
                             class="bi bi-search"></i></button>
                 </div>
             </div>
@@ -159,7 +159,8 @@ if (isset($_SESSION['filtro_boletagem'])) {
         </div>
     </div>
 
-    <?php include_once '../clientes/zoomEstab.php'; ?>
+    
+    <?php include_once ROOT . "/cadastros/zoom/estab.php"; ?>
 
     <!-- LOCAL PARA COLOCAR OS JS -->
 
@@ -263,7 +264,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
             });
         }
 
-        document.getElementById("buscar").addEventListener("click",function () {
+        document.getElementById("buscarContrato").addEventListener("click",function () {
             buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
         })
         $("#etbcod").change(function() {

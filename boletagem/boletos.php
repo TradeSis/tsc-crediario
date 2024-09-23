@@ -286,7 +286,7 @@ include_once(__DIR__ . '/../header.php');
         // MODAL VISUALIZAR BOLETO
         $(document).on('click', 'button[data-bs-target="#modalBoletoVisualizar"]', function() {
             var bolcod = $(this).attr("data-bolcod");
-
+            
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -340,9 +340,9 @@ include_once(__DIR__ . '/../header.php');
                                 linha_parcelas += "</tr>";
                             }
                         } else {
-                            $("#dadosParcelas").html("Boleto não possui parcelas");
+                            $("#dadosParcelasBoleto").html("Boleto não possui parcelas");
                         }
-                        $("#dadosParcelas").html(linha_parcelas);
+                        $("#dadosParcelasBoleto").html(linha_parcelas);
 
                     }
                     $('#modalBoletoVisualizar').modal('show');

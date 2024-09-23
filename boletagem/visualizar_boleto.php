@@ -169,12 +169,12 @@ include_once '../header.php';
 
                         <div class="col-9 border-start">
                             <div id="ts-tabs">
-                                <div class="tab whiteborder" id="tab-parcela">Parcelas</div>
+                                <div class="tab whiteborder" id="tab-parcelaBoleto">Parcelas</div>
                                 <div class="line"></div>
 
-                                <div class="tabContent">
+                                <div class="tabContentParcela">
                                     <!-- *****************Parcelas Contrato***************** -->
-                                    <div class="table table-responsive">
+                                    <div class="table table-responsive pe-3">
                                         <table class="table table-sm table-hover table-bordered text-center">
                                             <thead>
                                                 <tr>
@@ -184,7 +184,7 @@ include_once '../header.php';
                                                     <th>Boleto</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id='dadosParcelas' class="fonteCorpo">
+                                            <tbody id='dadosParcelasBoleto' class="fonteCorpo">
 
                                             </tbody>
 
@@ -227,20 +227,17 @@ include_once '../header.php';
 
     <script>
         var tab;
-        var tabContent;
+        var tabContentParcela;
 
         window.onload = function() {
-            tabContent = document.getElementsByClassName('tabContent');
+            tabContentParcela = document.getElementsByClassName('tabContentParcela');
             tab = document.getElementsByClassName('tab');
             hideTabsContent(1);
 
             var urlParams = new URLSearchParams(window.location.search);
             var id = urlParams.get('id');
-            if (id === 'parcela') {
+            if (id === 'parcelaBoleto') {
                 showTabsContent(0);
-            }
-            if (id === 'assinatura') {
-                showTabsContent(1);
             }
         }
 
@@ -257,21 +254,22 @@ include_once '../header.php';
         }
 
         function hideTabsContent(a) {
-            for (var i = a; i < tabContent.length; i++) {
-                tabContent[i].classList.remove('show');
-                tabContent[i].classList.add("hide");
+            for (var i = a; i < tabContentParcela.length; i++) {
+                tabContentParcela[i].classList.remove('show');
+                tabContentParcela[i].classList.add("hide");
                 tab[i].classList.remove('whiteborder');
             }
         }
 
         function showTabsContent(b) {
-            if (tabContent[b].classList.contains('hide')) {
+            if (tabContentParcela[b].classList.contains('hide')) {
                 hideTabsContent(0);
                 tab[b].classList.add('whiteborder');
-                tabContent[b].classList.remove('hide');
-                tabContent[b].classList.add('show');
+                tabContentParcela[b].classList.remove('hide');
+                tabContentParcela[b].classList.add('show');
             }
         }
+
     </script>
 
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->
