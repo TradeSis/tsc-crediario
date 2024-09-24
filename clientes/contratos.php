@@ -24,11 +24,11 @@ if (URL !== "localhost") {
     $barramento = chamaAPI(
         IPBARRAMENTO,
         "/gateway/lebes-repo-img-biometria/1.0/registration-face/" .
-        $assinatura["etbcod"] . "/" .
-        $assinatura["dtinclu"] . "/" .
-        $assinatura["cxacod"] . "/" .
-        $assinatura["cpfCNPJ"] . "/" .
-        $assinatura["idBiometria"],
+            $assinatura["etbcod"] . "/" .
+            $assinatura["dtinclu"] . "/" .
+            $assinatura["cxacod"] . "/" .
+            $assinatura["cpfCNPJ"] . "/" .
+            $assinatura["idBiometria"],
         null,
         "GET"
     );
@@ -49,18 +49,14 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
 
 <head>
 
-    <style>
-        .modal-fullscreen {
-            max-width: 100vw !important;
-        }
-        input[readonly] {
-            background-color: transparent !important; 
-        }  
-    </style>
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
 
 </head>
-
+<style>
+    .modal-fullscreen {
+        max-width: 100vw !important;
+    }
+</style>
 
 <body class="ts-noScroll">
 
@@ -89,84 +85,42 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                         </div>
                     </div>
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contrato&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['numeroContrato'] ?>" readonly>
+                        <div class="row mt-2">
+                            <div class="col">
+                                Contrato: <?php echo $contrato['numeroContrato'] ?>
                             </div>
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Situação&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['situacao'] ?>" readonly>
+                            <div class="col">
+                                Situação: <?php echo $contrato['situacao'] ?>
                             </div>
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>idAdesaoHubSeg&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['idAdesaoHubSeg'] ?>" readonly>
+                            <div class="col">
+                                idAdesaoHubSeg: <?php echo $contrato['idAdesaoHubSeg'] ?>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>"
-                                    readonly>
+                        <div class="row mt-2">
+                            <div class="col">
+                                Cliente: <?php echo $contrato['codigoCliente'] ?> - <?php echo $contrato['nomeCliente'] ?>
                             </div>
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CPF/CNPJ&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['cpfCNPJ'] ?>" readonly>
+                            <div class="col">
+                                CPF/CNPJ: <?php echo $contrato['cpfCNPJ'] ?>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Data&nbsp;de&nbsp;Emissão&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo date('d/m/Y', strtotime($contrato['dtemissao'])) ?>" readonly>
+                        <div class="row mt-2">
+                            <div class="col">
+                                Data de Emissão: <?php echo date('d/m/Y', strtotime($contrato['dtemissao'])) ?>
                             </div>
-                            
-                            <div class="col d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loja&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['etbnom'] ?>" readonly>
+                            <div class="col">
+                                Loja: <?php echo $contrato['etbnom'] ?>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Banco&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['banco'] ?>" readonly>
+                        <div class="row mt-2">
+                            <div class="col">
+                                Banco: <?php echo $contrato['banco'] ?>
                             </div>
-                            <div class="col-3 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>Cod.&nbsp;Modalidade&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['modalidade'] ?>" readonly>
+                            <div class="col">
+                                Cod. Modalidade: <?php echo $contrato['modalidade'] ?>
                             </div>
-                            <div class="col-2 d-flex align-items-center">
-                                <div class="form-group">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qtd.&nbsp;Parcelas&nbsp;:&nbsp;</label>
-                                </div>
-                                <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo $contrato['nro_parcelas'] ?>" readonly>
+                            <div class="col">
+                                Qtd. Parcelas: <?php echo $contrato['nro_parcelas'] ?>
                             </div>
                         </div>
                     </div>
@@ -174,105 +128,97 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
 
                     <div class="row">
                         <div class="col-3">
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vlr&nbsp;Total&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorTotal'], 2, ',', '') ?>"
-                                        readonly>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Vlr Total:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorTotal'], 2, '.', '') ?>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;Vlr&nbsp;Entrada&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorEntrada'], 2, ',', '') ?>"
-                                        readonly>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Vlr Entrada:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorEntrada'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Vlr Liquido:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorLiquido'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Principal:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorPrincipal'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Acrescimo:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorAcrescimo'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Seguro:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorSeguro'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    IOF:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['IOF'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    CET:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['CET'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Tx. Juros:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['taxaJuros'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Vlr Vencido:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorVencido'], 2, '.', '') ?>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-5 text-end">
+                                    Em Aberto:
+                                </div>
+                                <div class="col-7 ms-0 ps-0 text-start">
+                                    <?php echo number_format($contrato['valorAberto'], 2, '.', '') ?>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;Vlr&nbsp;Liquido&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorLiquido'], 2, ',', '') ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Principal&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorPrincipal'], 2, ',', '') ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;Acrescimo&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorAcrescimo'], 2, ',', '') ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seguro&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorSeguro'], 2, ',', '') ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IOF&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['IOF'], 2, ',', '') ?>" readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CET&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['CET'], 2, ',', '') ?>" readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;Tx.&nbsp;Juros&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['taxaJuros'], 2, ',', '') ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>Vlr&nbsp;Vencido&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorVencido'], 2, ',', '') ?>"
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1"></div>
-                                <div class="col d-flex align-items-center">
-                                    <label>&nbsp;&nbsp;Em&nbsp;Aberto&nbsp;:&nbsp;</label>
-                                    <input type="text" class="form-control ts-inputSemBorda"
-                                        value="<?php echo number_format($contrato['valorAberto'], 2, ',', '') ?>"
-                                        readonly>
-                                </div>
-                            </div>
                         </div>
+
                         <div class="col-9 border-start">
                             <div id="ts-tabs">
                                 <div class="tab whiteborder" id="tab-parcela">Parcelas</div>
@@ -285,46 +231,46 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                 <div class="tabContent">
                                     <!-- *****************Parcelas Contrato***************** -->
                                     <div class="table mt-2 ts-divTabela60 ts-tableFiltros">
-                                        <table class="table table-sm table-hover table-bordered">
+                                        <table class="table table-sm table-hover table-bordered text-center">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center">Contrato</th>
-                                                    <th class="text-center">Parc</th>
-                                                    <th class="text-center">Dt Venc</th>
-                                                    <th class="text-center">Parc</th>
-                                                    <th class="text-center">Sit</th>
-                                                    <th class="text-center">Dt Pag</th>
-                                                    <th class="text-center">Pag</th>
-                                                    <th class="text-center">N.Boleto</th>
+                                                    <th>Contrato</th>
+                                                    <th>Parc</th>
+                                                    <th>Dt Venc</th>
+                                                    <th>Parc</th>
+                                                    <th>Sit</th>
+                                                    <th>Dt Pag</th>
+                                                    <th>Pag</th>
+                                                    <th>N.Boleto</th>
                                                 </tr>
                                             </thead>
                                             <?php foreach ($parcelas as $parcela) { ?>
                                                 <tr>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <?php echo $parcela['numeroContrato'] ?>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <?php echo $parcela['parcela'] ?>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <?php echo date('d/m/Y', strtotime($parcela['dtVencimento'])) ?>
                                                     </td>
-                                                    <td class="text-center">
-                                                        <?php echo number_format($parcela['vlrParcela'], 2, ',', '') ?>
+                                                    <td>
+                                                        <?php echo number_format($parcela['vlrParcela'], 2, '.', '') ?>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <?php echo $parcela['situacao'] ?>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <?php if ($parcela['dtPagamento'] !== null) {
                                                             echo date('d/m/Y', strtotime($parcela['dtPagamento']));
                                                         } ?>
                                                     </td>
-                                                    <td class="text-center">
-                                                        <?php echo number_format($parcela['vlrPago'], 2, ',', '') ?>
+                                                    <td>
+                                                        <?php echo number_format($parcela['vlrPago'], 2, '.', '') ?>
                                                     </td>
-                                                    <td class="text-center ts-click">
-                                                    <a class="link-opacity-100" data-bs-target='#modalBoletoVisualizar' data-bolcod='<?php echo $parcela['bolcod'] ?>'>
+                                                    <td class="ts-click">
+                                                        <a class="link-opacity-100" data-bs-target='#modalBoletoVisualizar' data-bolcod='<?php echo $parcela['bolcod'] ?>'>
                                                             <?php echo $parcela['bolcod'] ?>
                                                         </a>
                                                     </td>
@@ -390,7 +336,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                     <input type="text" class="form-control"
                                                         value="<?php echo isset($assinatura['dtinclu']) ? date('d/m/Y', strtotime($assinatura['dtinclu'])) : '' ?>"
                                                         readonly>
-                                                   
+
                                                 </div>
                                                 <div class="col-6">
                                                     <label>Boletavel</label>
@@ -405,7 +351,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                 <div class="col">
                                                     <label>idBiometria</label>
                                                     <input type="text" class="form-control"
-                                                    value="<?php echo isset($assinatura['idBiometria']) ? $assinatura['idBiometria'] : '' ?>" readonly>
+                                                        value="<?php echo isset($assinatura['idBiometria']) ? $assinatura['idBiometria'] : '' ?>" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -521,14 +467,14 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
 
     <script>
         var myModal = new bootstrap.Modal(document.getElementById("modalContratoVisualizar"), {});
-        document.onreadystatechange = function () {
+        document.onreadystatechange = function() {
             myModal.show();
         };
 
         var tab;
         var tabContent;
 
-        window.onload = function () {
+        window.onload = function() {
             tabContent = document.getElementsByClassName('tabContent');
             tab = document.getElementsByClassName('tab');
             hideTabsContent(1);
@@ -546,7 +492,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
             }
         }
 
-        document.getElementById('ts-tabs').onclick = function (event) {
+        document.getElementById('ts-tabs').onclick = function(event) {
             var target = event.target;
             if (target.className == 'tab') {
                 for (var i = 0; i < tab.length; i++) {
@@ -576,7 +522,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
         }
 
         var modalPDF = document.getElementById('modalPDF');
-        modalPDF.addEventListener('show.bs.modal', function (event) {
+        modalPDF.addEventListener('show.bs.modal', function(event) {
             var button = event.relatedTarget; // Button that triggered the modal
             var pdfUrl = button.getAttribute('data-pdf'); // Extract info from data-* attributes
             var iframe = modalPDF.querySelector('iframe');
@@ -600,7 +546,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                     var linha = "";
                     for (var $i = 0; $i < msg.length; $i++) {
                         var object = msg[$i];
-                   
+
                         //DADOS BOLETOS (parte de cima)
                         $("#view_bolcod").html('Boleto: ' + object.bolcod);
                         $("#view_bancod").html('Banco: ' + object.bancod);
@@ -616,7 +562,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                         //DADOS BOLETOS (parte de lateral)
                         $("#view_DtEmissao").html((object.DtEmissao ? formatDate(object.DtEmissao) : ""));
                         $("#view_DtVencimento").html((object.DtVencimento ? formatDate(object.DtVencimento) : ""));
-                        $("#view_VlCobrado").html(parseFloat(object.VlCobrado).toFixed(2).replace('.', ','));
+                        $("#view_VlCobrado").html(parseFloat(object.VlCobrado).toFixed(2).replace(',', '.'));
                         $("#view_DtBaixa").html((object.DtBaixa ? formatDate(object.DtBaixa) : ""));
                         $("#view_DtPagamento").html((object.DtPagamento ? formatDate(object.DtPagamento) : ""));
                         $("#view_ctmcod").html(object.ctmcod);
@@ -624,19 +570,19 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                         $("#view_nsu").html(object.nsu);
                         $("#view_numero_pgto_banco").html(object.numero_pgto_banco);
                         $("#view_obs_pgto_banco").html(object.obs_pgto_banco);
-                       
+
                         //TABELA PARCELAS
                         parcelas = object.boletagparcela
                         if (parcelas != null) {
                             var linha_parcelas = "";
                             for (var $i = 0; $i < parcelas.length; $i++) {
                                 var object_parcela = parcelas[$i];
-                                
+
                                 linha_parcelas += "<tr>";
 
                                 linha_parcelas += "<td>" + object_parcela.contnum + "</td>";
                                 linha_parcelas += "<td>" + object_parcela.titpar + "</td>";
-                                linha_parcelas += "<td>" + parseFloat(object_parcela.VlCobrado).toFixed(2).replace('.', ',') + "</td>";
+                                linha_parcelas += "<td>" + parseFloat(object_parcela.VlCobrado).toFixed(2).replace(',', '.') + "</td>";
                                 linha_parcelas += "<td>" + object_parcela.bolcod + "</td>";
 
                                 linha_parcelas += "</tr>";
@@ -664,7 +610,6 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
             }
             return "";
         }
-
     </script>
 
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->

@@ -174,7 +174,7 @@ include_once '../header.php';
 
                                 <div class="tabContentParcela">
                                     <!-- *****************Parcelas Contrato***************** -->
-                                    <div class="table table-responsive pe-3">
+                                    <div class="table mt-2 ts-divTabela60 ts-tableFiltros pe-2">
                                         <table class="table table-sm table-hover table-bordered text-center">
                                             <thead>
                                                 <tr>
