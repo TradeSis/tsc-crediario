@@ -71,7 +71,7 @@ then do:
     then do:
         create ttsaida.
         ttsaida.tstatus = 400.
-        ttsaida.descricaoStatus = "Nao encontrado".
+        ttsaida.descricaoStatus = "Cliente Nao encontrado".
 
         hsaida  = temp-table ttsaida:handle.
 
@@ -88,12 +88,23 @@ then do:
 
         IF ttentrada.clicod <> ?
         THEN DO:
-            FIND clien WHERE clien.clicod = par-clicod NO-LOCK.    
+            FIND clien WHERE clien.clicod = par-clicod NO-LOCK NO-ERROR.    
         END.
         ELSE DO:
-            FIND clien WHERE clien.ciccgc = ttentrada.cpfCnpj NO-LOCK.
+            FIND clien WHERE clien.ciccgc = ttentrada.cpfCnpj NO-LOCK NO-ERROR.
         END.
-        
+        if not avail clien
+        then do:
+            create ttsaida.
+            ttsaida.tstatus = 400.
+            ttsaida.descricaoStatus = "Cliente Nao encontrado".
+
+            hsaida  = temp-table ttsaida:handle.
+
+            lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
+            message string(vlcSaida).
+            return.
+        end.
          
         run calcelegiveis (input ttentrada.ptpnegociacao, input clien.clicod, ?).
         for each ttnegociacao.
