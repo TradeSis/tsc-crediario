@@ -18,7 +18,6 @@ $ofertaAcordo = buscaOfertasAcordoOnline($tpNegociacao, $codigoCliente, $cpfCnpj
 $cliente = $ofertaAcordo["cliente"][0];
 $clicod = $cliente['clicod'];
 
-$oferta = $ofertaAcordo["acooferta"][0];
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -26,7 +25,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
 <head>
     <style>
         input[readonly] {
-            background-color: transparent !important; 
+            background-color: transparent !important;
         }
     </style>
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
@@ -53,34 +52,21 @@ $oferta = $ofertaAcordo["acooferta"][0];
 
 
             <div class="container-fluid">
-                <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['negcod'] ?>" hidden>
                 <div class="row mt-2">
-                    <div class="col-2 d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Cod.&nbsp;Cliente&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['clicod'] ?>" readonly>
+                    <div class="col">
+                        Cod. Cliente: <?php echo $cliente['clicod'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>CPF/CNPJ&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['cpfCNPJ'] ?>" readonly>
+                    <div class="col">
+                        CPF/CNPJ: <?php echo $cliente['cpfCNPJ'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Nome&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['clinom'] ?>" readonly>
+                    <div class="col">
+                        Nome: <?php echo $cliente['clinom'] ?>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Fil&nbsp;Cad.&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['etbcad'] ?>" readonly>
+                    <div class="col">
+                        Fil Cad.: <?php echo $cliente['etbcad'] ?>
                     </div>
                 </div>
-               
+
                 <hr>
                 <div class="container-fluid mt-2">
                     <div class="table mt-2 ts-divTabela ts-tableFiltros text-center">
@@ -98,9 +84,9 @@ $oferta = $ofertaAcordo["acooferta"][0];
                                     <th style="width: 60px;"></th>
                                 </tr>
                             </thead>
-    
+
                             <tbody id='dados' class="fonteCorpo">
-    
+
                             </tbody>
                         </table>
                     </div>
@@ -108,31 +94,6 @@ $oferta = $ofertaAcordo["acooferta"][0];
             </div>
         </div>
     </div>
-
-
-    <div class="container-fluid">
-
-        <div class="row ">
-            <!--<BR> MENSAGENS/ALERTAS -->
-        </div>
-        <div class="row">
-            <!--<BR> BOTOES AUXILIARES -->
-        </div>
-
-        <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
-
-            <div class="col-10">
-                <h2 class="ts-tituloPrincipal">Ofertas Acordo Online - Cliente <?php echo $codigoCliente ?></h2>
-            </div>
-
-            <div class="col-2 text-end">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inserirModal"><i class="bi bi-plus-square"></i>&nbsp Novo</button>
-            </div>
-
-        </div>
-
-
-    </div><!--container-fluid-->
 
     <!-- LOCAL PARA COLOCAR OS JS -->
 
@@ -152,8 +113,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 dataType: 'html',
                 url: '../database/acooferta.php?operacao=buscar',
                 data: {
-                    ptpnegociacao : '<?php echo $tpNegociacao ?>',
-                    clicod : <?php echo $clicod ?>
+                    ptpnegociacao: '<?php echo $tpNegociacao ?>',
+                    clicod: <?php echo $clicod ?>
                 },
                 success: function(msg) {
                     console.log(msg);
@@ -181,7 +142,6 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 }
             });
         }
-
     </script>
 
     <!-- LOCAL PARA COLOCAR OS JS -FIM -->
