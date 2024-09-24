@@ -5,10 +5,13 @@ include_once '../database/acooferta.php';
 
 $tpNegociacao = isset($_POST['tpNegociacao']) ? $_POST['tpNegociacao'] : $_GET['tpNegociacao'];
 
-$codigoCliente = null;
+
 $cpfCnpj = null;
 
 $codigoCliente = isset($_POST['codigoCliente']) ? $_POST['codigoCliente'] : $_GET['codigoCliente'];
+if($codigoCliente == ''){
+    $codigoCliente = null; 
+}
 if (isset($_POST['cpfCnpj'])) {
     $cpfCnpj = $_POST['cpfCnpj'];
 }
