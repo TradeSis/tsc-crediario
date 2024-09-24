@@ -1,13 +1,12 @@
 <?php
-// lucas 120320204 id884 bootstrap local - alterado head
-// gabriel 27022023 13:51 ajustado action ?parametros
-// gabriel 22022023 16:00
+//Lucas 23092024 criado
 
 include_once '../header.php';
-$tpNegociacao = $_GET['tpNegociacao'];
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
     <?php include_once ROOT . "/vendor/head_css.php"; ?>
@@ -23,28 +22,54 @@ $tpNegociacao = $_GET['tpNegociacao'];
         <div class="row justify-content-center">
             <div class="col-md-6 card p-0">
                 <div class="card-header">
-                    <h3>Ofertas <?php echo $tpNegociacao ?></h3>
+                    <h3>Consultar</h3>
                 </div>
-                <div class="container">
-                    <form action="acooferta.php?parametros&tpNegociacao=<?php echo $tpNegociacao ?>" method="POST">
+                <div class="modal-body">
+                    <form action="acooferta.php?parametros" method="POST">
                         <div class="form-group">
                             <label>Código Cliente</label>
-                            <input type="number" class="form-control" name="codigoCliente">
+                            <input type="number" class="form-control" name="codigoCliente" id="codigoCliente">
+                            <label>CPF/CNPJ</label>
+                            <input type="number" class="form-control" name="cpfCnpj" id="cpfCnpj">
                         </div>
-                        <div class="card-footer bg-transparent" style="text-align:right">
-                            <button type="submit" class="btn btn-sm btn-success">Consultar Ofertas</button>
+
+                        <div class="row mt-2">
+                            <div class="form-group col-6">
+                                <label>Tipo Negociação</label>
+                                <select class="form-control" name="tpNegociacao">
+                                    <option value="ACORDO ONLINE">ACORDO ONLINE</option>
+                                    <option value="SERASA">SERASA</option>
+                                </select>
+                            </div>
                         </div>
-                    </form>
                 </div>
+                <div class="modal-footer">
+                    <button type="bottom" class="btn btn-sm btn-success" id="btnEnviar">Consultar</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>
 
-<!-- LOCAL PARA COLOCAR OS JS -->
+    <!-- LOCAL PARA COLOCAR OS JS -->
 
-<?php include_once ROOT . "/vendor/footer_js.php"; ?>
+    <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
-<!-- LOCAL PARA COLOCAR OS JS -FIM -->
+    <script>
+        // Verifica se tem Código Cliente ou CPF/CNPJ
+        const btn = document.querySelector("#btnEnviar");
+        btn.addEventListener("click", function(e) {
+
+            codigoCliente = $('#codigoCliente').val();
+            cpfCnpj = $('#cpfCnpj').val();
+            if ((codigoCliente == '') && (cpfCnpj == '')) {
+                alert("Digitar campo Código Cliente ou CPF/CNPJ")
+                e.preventDefault();
+            }
+        });
+    </script>
+
+    <!-- LOCAL PARA COLOCAR OS JS -FIM -->
 </body>
 
 </html>

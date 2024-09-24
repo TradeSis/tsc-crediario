@@ -59,26 +59,13 @@ include_once(__DIR__ . '/../header.php');
             <!-- Coluna 2 -->
             <div class="col">
                 <div class="list-group">
-                    <a href="oferta_parametros?tpNegociacao=SERASA" class="list-group-item mb-2">
+                    <a href="oferta_parametros" class="list-group-item mb-2">
                         <div class="row g-0">
                             <div class="col-1 text-center " style="width: 50px;">
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
                             </div>
                             <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Serasa - Consulta Ofertas</div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="list-group">
-                    <a href="oferta_parametros?tpNegociacao=ACORDO ONLINE" class="list-group-item mb-2">
-                        <div class="row g-0">
-                            <div class="col-1 text-center " style="width: 50px;">
-                                <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
-                            </div>
-                            <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Acordo Online - Consulta Ofertas</div>
+                                <div class="fw-bold">Consulta Ofertas</div>
                             </div>
                         </div>
                     </a>

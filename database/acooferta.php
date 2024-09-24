@@ -3,7 +3,7 @@
 
 include_once __DIR__ . "/../conexao.php";
 
-function buscaOfertasAcordoOnline($ptpnegociacao = null, $clicod = null)
+function buscaOfertasAcordoOnline($ptpnegociacao = null, $clicod = null, $cpfCnpj = null)
 {
 	
 	$acordo = array();
@@ -12,7 +12,8 @@ function buscaOfertasAcordoOnline($ptpnegociacao = null, $clicod = null)
 			"dadosEntrada" => array(
 				array(
 					'ptpnegociacao' => $ptpnegociacao,
-					'clicod' => $clicod
+					'clicod' => $clicod,
+					'cpfCnpj' => $cpfCnpj
 				)
 			)
 		);

@@ -3,16 +3,21 @@
 include_once(__DIR__ . '/../header.php');
 include_once '../database/acooferta.php';
 
-$tpNegociacao = $_GET['tpNegociacao'];
-if (isset($_GET['parametros'])) {
-    $codigoCliente = $_POST['codigoCliente'];
-} else {
-    $codigoCliente = $_GET['codigoCliente'];
+$tpNegociacao = isset($_POST['tpNegociacao']) ? $_POST['tpNegociacao'] : $_GET['tpNegociacao'];
+
+$codigoCliente = null;
+$cpfCnpj = null;
+
+$codigoCliente = isset($_POST['codigoCliente']) ? $_POST['codigoCliente'] : $_GET['codigoCliente'];
+if (isset($_POST['cpfCnpj'])) {
+    $cpfCnpj = $_POST['cpfCnpj'];
 }
 
 
-$ofertaAcordo = buscaOfertasAcordoOnline($tpNegociacao, $codigoCliente);
+$ofertaAcordo = buscaOfertasAcordoOnline($tpNegociacao, $codigoCliente, $cpfCnpj);
 $cliente = $ofertaAcordo["cliente"][0];
+$clicod = $cliente['clicod'];
+
 $oferta = $ofertaAcordo["acooferta"][0];
 ?>
 <!doctype html>
@@ -148,7 +153,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                 url: '../database/acooferta.php?operacao=buscar',
                 data: {
                     ptpnegociacao : '<?php echo $tpNegociacao ?>',
-                    clicod : <?php echo $codigoCliente ?>
+                    clicod : <?php echo $clicod ?>
                 },
                 success: function(msg) {
                     console.log(msg);
@@ -168,7 +173,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha += "<td>" + object.qtd_selecionado + "</td>";
                         linha += "<td>" + object.vlr_selaberto + "</td>";
                         linha += "<td>" + object.vlr_selecionado + "</td>";
-                        linha += "<td><a class='btn btn-info btn-sm ms-1' href='visualizar_acooferta.php?tpNegociacao=" + tpNegociacao + "&clicod=" + <?php echo $codigoCliente ?> + "&negcod=" + object.negcod + "' role='button'><i class='bi bi-eye'></i></a></td>";
+                        linha += "<td><a class='btn btn-info btn-sm ms-1' href='visualizar_acooferta.php?tpNegociacao=" + tpNegociacao + "&clicod=" + <?php echo $clicod ?> + "&negcod=" + object.negcod + "' role='button'><i class='bi bi-eye'></i></a></td>";
                         linha += "</tr>";
                     }
 

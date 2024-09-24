@@ -9,7 +9,8 @@ def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
     field ptpnegociacao as CHAR
-    field clicod like clien.clicod.
+    field clicod like clien.clicod
+    field cpfCnpj like clien.ciccgc.
 
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
@@ -57,14 +58,14 @@ def dataset acoofertas for ttcliente, ttnegociacao.
 /*def buffer bttnegociacao for ttnegociacao. */
 
 
-IF ttentrada.clicod <> ?
+IF ttentrada.clicod <> ? OR ttentrada.cpfCnpj <> ?
 then do:
-    find clien where clien.clicod = par-clicod no-lock no-error.
+    find clien WHERE clien.clicod = par-clicod OR clien.ciccgc = ttentrada.cpfCnpj no-lock no-error.
     if not avail clien
     then do:
         create ttsaida.
         ttsaida.tstatus = 400.
-        ttsaida.descricaoStatus = "Nao encontrado".
+        ttsaida.descricaoStatus = "Nao encontradox".
 
         hsaida  = temp-table ttsaida:handle.
 
@@ -80,9 +81,9 @@ then do:
         ttcliente.etbcad   =  clien.etbcad.
 
 
-        FIND clien WHERE clien.clicod = ttentrada.clicod NO-LOCK.
+        FIND clien WHERE clien.clicod = par-clicod OR clien.ciccgc = ttentrada.cpfCnpj NO-LOCK.
          
-        run calcelegiveis (input ttentrada.ptpnegociacao, input ttentrada.clicod, ?).
+        run calcelegiveis (input ttentrada.ptpnegociacao, input clien.clicod, ?).
         for each ttnegociacao.
             find aconegoc of ttnegociacao no-lock.
             ttnegociacao.negnom = aconegoc.negnom.
