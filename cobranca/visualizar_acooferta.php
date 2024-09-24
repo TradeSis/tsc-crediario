@@ -46,78 +46,44 @@ $oferta = $ofertaAcordo["acooferta"][0];
 
 
             <div class="container-fluid">
-                <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['negcod'] ?>" hidden>
                 <div class="row mt-2">
-                    <div class="col-2 d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Cod.&nbsp;Cliente&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['clicod'] ?>" readonly>
+                    <div class="col">
+                        Cod. Cliente: <?php echo $cliente['clicod'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>CPF/CNPJ&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['cpfCNPJ'] ?>" readonly>
+                    <div class="col mx-0 px-0">
+                        CPF/CNPJ: <?php echo $cliente['cpfCNPJ'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Nome&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['clinom'] ?>" readonly>
+                    <div class="col mx-0 px-0">
+                        Nome: <?php echo $cliente['clinom'] ?>
                     </div>
-                    <div class="col-2 d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Fil&nbsp;Cad.&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $cliente['etbcad'] ?>" readonly>
+                    <div class="col">
+                        Fil Cad.: <?php echo $cliente['etbcad'] ?>
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-3 d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Campanha&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['negnom'] ?>" readonly>
+                    <div class="col me-0 pe-0">
+                        Campanha: <?php echo $oferta['negnom'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Qtd&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['qtd'] ?>" readonly>
+                    <div class="col-1">
+                        Qtd: <?php echo $oferta['qtd'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Aberto&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['vlr_aberto'] ?>" readonly>
+                    <div class="col mx-0 px-0">
+                        Aberto: <?php echo $oferta['vlr_aberto'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Divida&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['vlr_divida'] ?>" readonly>
+                    <div class="col mx-0 px-0">
+                        Divida: <?php echo $oferta['vlr_divida'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Selecionado&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['qtd_selecionado'] ?>" readonly>
+                    <div class="col">
+                        Selecionado: <?php echo $oferta['qtd_selecionado'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Sel.&nbsp;aberto&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['vlr_selaberto'] ?>" readonly>
+                    <div class="col mx-0 px-0">
+                        Sel. aberto: <?php echo $oferta['vlr_selaberto'] ?>
                     </div>
-                    <div class="col d-flex align-items-center">
-                        <div class="form-group">
-                            <label>Sel.&nbsp;total&nbsp;:&nbsp;</label>
-                        </div>
-                        <input type="text" class="form-control ts-inputSemBorda" value="<?php echo $oferta['vlr_selecionado'] ?>" readonly>
+                    <div class="col mx-0 px-0">
+                        Sel. total: <?php echo $oferta['vlr_selecionado'] ?>
                     </div>
                 </div>
-
+ 
                 <hr>
                 <div class="container-fluid mt-3">
                     <div id="ts-tabs">
@@ -128,7 +94,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
 
                         <div class="tabContent">
                             <h4>Condições</h4>
-                            <div class="table mt-2 ts-divTabela ts-tableFiltros text-center">
+                            <div class="table mt-2 ts-divTabela60 ts-tableFiltros text-center">
                                 <table class="table table-sm table-hover">
                                     <thead class="ts-headertabelafixo">
                                         <tr class="ts-headerTabelaLinhaCima">
@@ -154,7 +120,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         </div>
                         <div class="tabContent">
                             <h4>Contratos</h4>
-                            <div class="table mt-2 ts-divTabela ts-tableFiltros text-center">
+                            <div class="table mt-2 ts-divTabela60 ts-tableFiltros text-center">
                                 <table class="table table-sm table-hover">
                                     <thead class="ts-headertabelafixo">
                                         <tr class="ts-headerTabelaLinhaCima">
@@ -282,9 +248,9 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha = linha + "<td class='text-end'>" + object.contnum + "</td>";
                         linha = linha + "<td>" + object.modcod + "</td>";
                         linha = linha + "<td>" + object.tpcontrato + "</td>";
-                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_aberto).toFixed(2).replace('.', ',') + "</td>";
-                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_divida).toFixed(2).replace('.', ',') + "</td>";
-                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_parcela).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_aberto).toFixed(2).replace(',', '.') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_divida).toFixed(2).replace(',', '.') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_parcela).toFixed(2).replace(',', '.') + "</td>";
                         linha = linha + "<td>" + (object.dt_venc != "null" ? formatDate(object.dt_venc) : "") + "</td>";
                         linha = linha + "<td class='text-end'>" + object.dias_atraso + "</td>";
                         linha = linha + "<td class='text-end'>" + object.qtd_parcelas + "</td>";
@@ -370,12 +336,6 @@ $oferta = $ofertaAcordo["acooferta"][0];
             const formattedNumber = formatter.format(number);
             return formattedNumber;
         }
-
-
-
-        /* const formattedNumber = formatter.format(0);
-        console.log(formattedNumber); // "0,00%" */
-
 
         window.onload = function() {
             tabContent = document.getElementsByClassName('tabContent');
