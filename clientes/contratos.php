@@ -284,7 +284,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
 
                                 <div class="tabContent">
                                     <!-- *****************Parcelas Contrato***************** -->
-                                    <div class="table table-responsive">
+                                    <div class="table mt-2 ts-divTabela60 ts-tableFiltros">
                                         <table class="table table-sm table-hover table-bordered">
                                             <thead>
                                                 <tr>
