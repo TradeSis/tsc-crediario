@@ -240,7 +240,7 @@ include_once(__DIR__ . '/../header.php');
                             linha += "<td>" + object.NossoNumero + "</td>";
                             linha += "<td>" + (object.DtEmissao ? formatDate(object.DtEmissao) : "--") + "</td>";
                             linha += "<td>" + (object.DtVencimento ? formatDate(object.DtVencimento) : "--") + "</td>";
-                            linha += "<td>" + parseFloat(object.VlCobrado).toFixed(2).replace('.', ',') + "</td>";
+                            linha += "<td>" + parseFloat(object.VlCobrado).toFixed(2).replace(',', '.') + "</td>";
                             linha += "<td>" + (object.DtPagamento ? formatDate(object.DtPagamento) : "--") + "</td>";
                             linha += "<td>" + (object.DtBaixa ? formatDate(object.DtBaixa) : "--") + "</td>";
                             linha += "<td>" + object.situacaoDescricao + "</td>";
@@ -314,7 +314,7 @@ include_once(__DIR__ . '/../header.php');
                         //DADOS BOLETOS (parte de lateral)
                         $("#view_DtEmissao").html((object.DtEmissao ? formatDate(object.DtEmissao) : ""));
                         $("#view_DtVencimento").html((object.DtVencimento ? formatDate(object.DtVencimento) : ""));
-                        $("#view_VlCobrado").html(parseFloat(object.VlCobrado).toFixed(2).replace('.', ','));
+                        $("#view_VlCobrado").html(parseFloat(object.VlCobrado).toFixed(2).replace(',', '.'));
                         $("#view_DtBaixa").html((object.DtBaixa ? formatDate(object.DtBaixa) : ""));
                         $("#view_DtPagamento").html((object.DtPagamento ? formatDate(object.DtPagamento) : ""));
                         $("#view_ctmcod").html(object.ctmcod);
@@ -334,7 +334,7 @@ include_once(__DIR__ . '/../header.php');
 
                                 linha_parcelas += "<td>" + object_parcela.contnum + "</td>";
                                 linha_parcelas += "<td>" + object_parcela.titpar + "</td>";
-                                linha_parcelas += "<td>" + parseFloat(object_parcela.VlCobrado).toFixed(2).replace('.', ',') + "</td>";
+                                linha_parcelas += "<td>" + parseFloat(object_parcela.VlCobrado).toFixed(2).replace(',', '.') + "</td>";
                                 linha_parcelas += "<td>" + object_parcela.bolcod + "</td>";
 
                                 linha_parcelas += "</tr>";
