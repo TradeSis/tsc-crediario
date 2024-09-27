@@ -8,8 +8,8 @@ then run crediario/app/1/crd/assinaimpimg.p (input pcontnum, input pimagem, outp
 
 
 do on error undo:
-    /*if ppdf <> ? and pimagem <> ?
-    then*/ do:
+    if ppdf <> ? and pimagem <> ?
+    then do:
         find contrassin where contrassin.contnum = pcontnum
             exclusive no-wait no-error.
         if avail contrassin
