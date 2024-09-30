@@ -132,7 +132,6 @@ if ($metodo=="GET"){
         include 'boletagparam_inserir.php';
       break;
 
-
       case "aconegoc":
         include 'aconegoc_inserir.php';
       break;
@@ -156,6 +155,11 @@ if ($metodo=="GET"){
   }
   
   if ($metodo=="POST"){
+    if ($funcao == "termos" && $parametro == "rascunho") {
+      $funcao = "termos/rascunho";
+      $parametro = null;
+    }
+
     switch ($funcao) {
       case "assinaContrato":
         include 'assinaContrato.php';
