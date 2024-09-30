@@ -5,6 +5,12 @@
 //echo "parametro=".$parametro."\n";
 
 if ($metodo=="GET"){
+
+  if ($funcao == "cliente" && $parametro == "historico") {
+    $funcao = "cliente/historico";
+    $parametro = null;
+  }
+
     if ($funcao == "acooferta" && $parametro == "condicoes") {
       $funcao = "acooferta/condicoes";
       $parametro = null;
@@ -18,9 +24,13 @@ if ($metodo=="GET"){
       $parametro = null;
     }
 
+
     switch ($funcao) {
       case "cliente":
         include 'crediariocliente.php';
+      break;
+      case "cliente/historico":
+        include 'historicocliente.php';
       break;
       case "contrato":
         include 'crediariocontrato.php';
@@ -38,13 +48,36 @@ if ($metodo=="GET"){
         include 'filacredito.php';
       break;
 
-      case "estab":
-        include 'estab.php';
-      break;
-
       case "assinatura":
         include 'contrassin.php';
       break;
+
+
+      case "parametrizacao":
+        include 'boletagparam.php';
+      break;
+
+      case "boletos":
+        include 'boletagbol.php';
+      break;
+
+      case "boleto":
+        include 'boletagboleto.php';
+      break;
+
+      case "contrassinestab":
+        include 'contrassinestab.php';
+
+      case "finan":
+        include 'finan.php';
+      case "termos":
+        include 'termos.php';
+      break;
+
+      case "mnemos":
+        include 'mnemos.php';
+
+        break;
 
       case "aconegoc":
         include 'aconegoc.php';
@@ -105,6 +138,14 @@ if ($metodo=="GET"){
 
  if ($metodo=="PUT"){
     switch ($funcao) {
+
+      case "parametrizacao":
+        include 'boletagparam_inserir.php';
+      break;
+      case "termos":
+        include 'termos_inserir.php';
+        break;
+
       case "aconegoc":
         include 'aconegoc_inserir.php';
       break;
@@ -117,6 +158,7 @@ if ($metodo=="GET"){
         include 'serasacli_inserir.php';
       break;
       
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -127,9 +169,27 @@ if ($metodo=="GET"){
   }
   
   if ($metodo=="POST"){
+    if ($funcao == "termos" && $parametro == "rascunho") {
+      $funcao = "termos/rascunho";
+      $parametro = null;
+    }
+
     switch ($funcao) {
       case "assinaContrato":
         include 'assinaContrato.php';
+        break;
+
+
+      case "parametrizacao":
+        include 'boletagparam_alterar.php';
+      break;
+    
+      case "termos":
+        include 'termos_alterar.php';
+        break;
+
+      case "termos/rascunho":
+        include 'termos_rascunho.php';
         break;
 
       case "aconegoc":
@@ -147,6 +207,7 @@ if ($metodo=="GET"){
       case "serasacli_arquivo":
         include 'serasacli_arquivo.php';
       break;
+
     
       default:
         $jsonSaida = json_decode(json_encode(
