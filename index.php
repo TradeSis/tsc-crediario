@@ -48,17 +48,17 @@ if (
                         ?>
                         <?php if ($_SESSION['nivelMenu'] >= 2) {
                             if ($tab == '') {
-                                $tab = 'historico';
+                                $tab = 'clientes';
                             } ?>
                             <li class="nav-item mr-1">
                                 <a class="nav-link 
-                                <?php if ($tab == "historico") {echo " active ";} ?>" 
-                                href="?tab=historico" role="tab">Histórico</a>
+                                <?php if ($tab == "clientes") {echo " active ";} ?>" 
+                                href="?tab=clientes" role="tab">Clientes</a>
                             </li>
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "contratos") {echo " active ";} ?>"
+                                <a class="nav-link <?php if ($tab == "contratos") {echo " active ";} ?>" 
                                 href="?tab=contratos" role="tab">Contratos</a>
                             </li>
                         <?php }
@@ -74,18 +74,13 @@ if (
                                 href="?tab=filacredito" role="tab">Fila Crédito</a>
                             </li>
                         <?php }
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "assinatura") {echo " active ";} ?>" 
-                                href="?tab=assinatura" role="tab">Assinatura</a>
+                                <a class="nav-link <?php if ($tab == "boletos") {echo " active ";} ?>" 
+                                href="?tab=boletos" role="tab">Boletos</a>
                             </li>
                         <?php }
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
-                            <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "inauguracao") {echo " active ";} ?>" 
-                                href="?tab=inauguracao" role="tab">Cadastro Cliente</a>
-                            </li>
-                        <?php } ?>
+                           ?>
                     </ul>
 
                 </div>
@@ -100,8 +95,8 @@ if (
                     <select class="form-select mt-2 ts-selectSubMenuAplicativos" id="subtabCrediario">
 
                         <?php if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=historico" 
-                        <?php if ($getTab == "historico") {echo " selected ";} ?>>Histórico</option>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=clientes" 
+                        <?php if ($getTab == "clientes") {echo " selected ";} ?>>Clientes</option>
                         <?php }
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
@@ -118,17 +113,10 @@ if (
                         <option value="<?php echo URLROOT ?>/crediario/?tab=filacredito" 
                         <?php if ($getTab == "filacredito") {echo " selected ";} ?>>Fila Crédito</option>
                         <?php }
-
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=assinatura" 
-                        <?php if ($getTab == "assinatura") {echo " selected ";} ?>>Assinatura</option>
-                        <?php }
-
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=inauguracao" 
-                        <?php if ($getTab == "inauguracao") {echo " selected ";} ?>>Cadastro Cliente</option>
-                        <?php } ?>
-
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
+                        <?php if ($getTab == "boletos") {echo " selected ";} ?>>Boletos</option>
+                        <?php }   ?>
                     </select>
                 </div>
 
@@ -141,11 +129,12 @@ if (
             <?php
             $src = "";
 
-            if ($tab == "historico") {
-                $src = "clientes/historico_parametros.php";
+            if ($tab == "clientes") {
+                $src = "clientes/cliente_menu.php";
             }
+
             if ($tab == "contratos") {
-                $src = "clientes/contratos_parametros.php";
+                $src = "clientes/contrato_menu.php";
             }
             if ($tab == "seguros") {
                 $src = "consultas/seguros_parametros.php";
@@ -154,12 +143,12 @@ if (
                 $src = "consultas/filacredito.php";
             }
 
-            if ($tab == "assinatura") {
-                $src = "clientes/contrassin.php";
-            }
-
             if ($tab == "inauguracao") {
                 $src = "clientes/cliente_cadastro.php";
+            }
+
+            if ($tab == "boletos") {
+                $src = "boletagem/";
             }
 
             if ($src !== "") {
