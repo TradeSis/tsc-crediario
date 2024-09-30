@@ -88,8 +88,8 @@ if (
                         <?php } 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "cobranca") {echo " active ";} ?>" 
-                                href="?tab=cobranca" role="tab">Cobrança</a>
+                                <a class="nav-link <?php if ($tab == "acordos") {echo " active ";} ?>" 
+                                href="?tab=acordos" role="tab">Acordos</a>
                             </li>
                         <?php } ?>
 
@@ -141,8 +141,8 @@ if (
                         <?php }  
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=cobranca" 
-                        <?php if ($getTab == "cobranca") {echo " selected ";} ?>>Cobrança</option>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=acordos" 
+                        <?php if ($getTab == "acordos") {echo " selected ";} ?>>Acordos</option>
                         <?php } ?>
 
 
@@ -175,8 +175,8 @@ if (
             if ($tab == "inauguracao") {
                 $src = "clientes/cliente_cadastro.php";
             }
-            if ($tab == "cobranca") {
-                $src = "cobranca/";
+            if ($tab == "acordos") {
+                $src = "acordos/";
             }
 
             if ($tab == "boletos") {
