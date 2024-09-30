@@ -161,7 +161,7 @@ if (
                 $src = "clientes/cliente_cadastro.php";
             }
             if ($tab == "acordos") {
-                $src = "cobranca/";
+                $src = "acordos/";
             }
 
             if ($tab == "boletos") {
