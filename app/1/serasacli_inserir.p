@@ -32,6 +32,7 @@ then do:
 end.
 
 do on error undo:
+    /* desabilitado até homologar
     FOR EACH clien:
         FIND serasacli OF clien NO-LOCK NO-ERROR.
         IF AVAIL serasacli THEN NEXT.
@@ -41,6 +42,7 @@ do on error undo:
         serasacli.dtenvio = ?.
         serasacli.vlrdivida = 0.
     END.
+    */
 
 end.
 
