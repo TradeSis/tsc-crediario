@@ -85,8 +85,14 @@ if (
                                 <a class="nav-link <?php if ($tab == "termos") {echo " active ";} ?>" 
                                 href="?tab=termos" role="tab">Termos</a>
                             </li>
-                        <?php }
-                           ?>
+                        <?php } 
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "cobranca") {echo " active ";} ?>" 
+                                href="?tab=cobranca" role="tab">Cobrança</a>
+                            </li>
+                        <?php } ?>
+
                     </ul>
 
                 </div>
@@ -122,10 +128,23 @@ if (
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                        <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
                         <?php if ($getTab == "boletos") {echo " selected ";} ?>>Boletos</option>
-                        <?php }   ?>
+                        <?php }  
 
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
                         <option value="<?php echo URLROOT ?>/crediario/?tab=termos" 
                         <?php if ($getTab == "termos") {echo " selected ";} ?>>Termos</option>
+                        <?php }  
+
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=inauguracao" 
+                        <?php if ($getTab == "inauguracao") {echo " selected ";} ?>>Cadastro Cliente</option>
+                        <?php }  
+
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=cobranca" 
+                        <?php if ($getTab == "cobranca") {echo " selected ";} ?>>Cobrança</option>
+                        <?php } ?>
+
 
                     </select>
                 </div>
@@ -155,6 +174,9 @@ if (
 
             if ($tab == "inauguracao") {
                 $src = "clientes/cliente_cadastro.php";
+            }
+            if ($tab == "cobranca") {
+                $src = "cobranca/";
             }
 
             if ($tab == "boletos") {
