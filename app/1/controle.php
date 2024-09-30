@@ -5,10 +5,25 @@
 //echo "parametro=".$parametro."\n";
 
 if ($metodo=="GET"){
+
   if ($funcao == "cliente" && $parametro == "historico") {
     $funcao = "cliente/historico";
     $parametro = null;
   }
+
+    if ($funcao == "acooferta" && $parametro == "condicoes") {
+      $funcao = "acooferta/condicoes";
+      $parametro = null;
+    }
+    if ($funcao == "acooferta" && $parametro == "contratos") {
+      $funcao = "acooferta/contratos";
+      $parametro = null;
+    }
+    if ($funcao == "acooferta" && $parametro == "parcelas") {
+      $funcao = "acooferta/parcelas";
+      $parametro = null;
+    }
+
 
     switch ($funcao) {
       case "cliente":
@@ -37,6 +52,7 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
+
       case "parametrizacao":
         include 'boletagparam.php';
       break;
@@ -63,6 +79,54 @@ if ($metodo=="GET"){
 
         break;
 
+      case "aconegoc":
+        include 'aconegoc.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos.php';
+      break;
+
+      case "acoplanparcel":
+        include 'acoplanparcel.php';
+      break;
+
+      case "serasacli":
+        include 'serasacli.php';
+      break;
+
+      case "aoacordo":
+        include 'aoacordo.php';
+      break;
+
+      case "aoacorigem":
+        include 'aoacorigem.php';
+      break;
+
+      case "aoacparcela":
+        include 'aoacparcela.php';
+      break;
+
+      case "acoofertas":
+        include 'acoofertas.php';
+      break;
+
+      case "acooferta":
+        include 'acooferta.php';
+      break;
+
+      case "acooferta/condicoes":
+        include 'acooferta_condicoes.php';
+      break;
+
+      case "acooferta/contratos":
+        include 'acooferta_contratos.php';
+      break;
+
+      case "acooferta/parcelas":
+        include 'acooferta_parcelas.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -74,12 +138,27 @@ if ($metodo=="GET"){
 
  if ($metodo=="PUT"){
     switch ($funcao) {
+
       case "parametrizacao":
         include 'boletagparam_inserir.php';
       break;
       case "termos":
         include 'termos_inserir.php';
         break;
+
+      case "aconegoc":
+        include 'aconegoc_inserir.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos_inserir.php';
+      break;
+
+      case "serasacli":
+        include 'serasacli_inserir.php';
+      break;
+      
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -100,6 +179,7 @@ if ($metodo=="GET"){
         include 'assinaContrato.php';
         break;
 
+
       case "parametrizacao":
         include 'boletagparam_alterar.php';
       break;
@@ -111,6 +191,23 @@ if ($metodo=="GET"){
       case "termos/rascunho":
         include 'termos_rascunho.php';
         break;
+
+      case "aconegoc":
+        include 'aconegoc_alterar.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos_alterar.php';
+      break;
+
+      case "acoplanparcel":
+        include 'acoplanparcel_alterar.php';
+      break;
+
+      case "serasacli_arquivo":
+        include 'serasacli_arquivo.php';
+      break;
+
     
       default:
         $jsonSaida = json_decode(json_encode(
@@ -123,6 +220,18 @@ if ($metodo=="GET"){
   
   if ($metodo=="DELETE"){
     switch ($funcao) {
+      case "aconegoc":
+        include 'aconegoc_excluir.php';
+      break;
+
+      case "acoplanos":
+        include 'acoplanos_excluir.php';
+      break;
+
+      case "serasacli":
+        include 'serasacli_excluir.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
