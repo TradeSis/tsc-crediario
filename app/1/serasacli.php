@@ -36,9 +36,7 @@ $dados = json_decode($retorno,true);
     
      if (!isset($dados["serasacli"][1]) && ($jsonEntrada['dadosEntrada'][0]['clicod'] != null)) {  // Verifica se tem mais de 1 registro
       $dados = $dados["serasacli"][0]; // Retorno sem array
-    } else {
-      $dados = $dados["serasacli"];  
-    }
+    } 
 
   }
 
