@@ -71,7 +71,7 @@ if operacao = "alterar"
 then do:
     do on error undo:
 
-        //find current acoplanparcel exclusive.
+        
         find acoplanparcel WHERE acoplanparcel.negcod = negcod AND
                                  acoplanparcel.placod = placod AND
                                  acoplanparcel.titpar = titpar   
