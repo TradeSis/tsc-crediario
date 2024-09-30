@@ -70,8 +70,10 @@ RUN pdf_new_page("Spdf").
 
 RUN pdf_set_parameter("Spdf","DefaultFont","Courier").
 RUN pdf_set_font("Spdf","Courier", vtamfonte).
-
+def var vpagina as int.
 do vcont = 1 to vCopia:
+    vpagina = 1.
+    
     input from value(p-arq).
     
     vContLinha = 0.
@@ -83,12 +85,13 @@ do vcont = 1 to vCopia:
         then do:
             RUN pdf_new_page("Spdf").
             vcontlinha = 1.
+            vpagina = vpagina + 1.
         end.
         /*
         if vCopia > 1 and vContLinha > 5 then
             RUN pdf_set_font("Spdf","Courier", 10.0).
         */                 
-        if vlinha begins "<image"
+        if vlinha begins "<image" and vpagina = 2
         then do:
             def var vaux as char.
             vaux = replace(vlinha,"<","").
@@ -97,7 +100,10 @@ do vcont = 1 to vCopia:
               run pdf_place_image("Spdf",vaux,
                                    /*15,760,80,80).*/
                                    /*  20,660,80,80). */
-                                       30,690,80,80).
+                                   /*  30,690,80,80). */
+                                   /* 30,760,100,136). */
+                                   30,510,100,136).
+                                       
                                    
                                    
             next.

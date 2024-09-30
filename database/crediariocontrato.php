@@ -21,7 +21,7 @@ function buscaContratos($numeroContrato)
 	}
 	return $contrato;
 }
-function buscaAssinatura($contnum = null)
+function buscaAssinatura($contnum=null)
 {
 	$assinatura = array();
 	$retorno = array();
@@ -49,16 +49,31 @@ if (isset ($_GET['operacao'])) {
 
 		$contnum = $_POST["contnum"];
 		$dtproc = $_POST["dtproc"];
+		$etbcod = $_POST["etbcod"];
+		$dtini = $_POST["dtini"];
+		$dtfim = $_POST["dtfim"];
 		if ($contnum == "") {
 			$contnum = null;
 		}
 		if ($dtproc == "") {
 			$dtproc = null;
 		}
+		if ($etbcod == "") {
+			$etbcod = null;
+		}
+		if ($dtini == "") {
+			$dtini = null;
+		}
+		if ($dtfim == "") {
+			$dtfim = null;
+		}
 		$apiEntrada = 
 		array("dadosEntrada" => array(
 			array('contnum' => $contnum,
-				'dtproc' => $dtproc)
+				'dtproc' => $dtproc,
+				'etbcod' => $etbcod,
+				'dtini' => $dtini,
+				'dtfim' => $dtfim)
 		));
 		$_SESSION['filtro_contrassin'] = $apiEntrada['dadosEntrada'][0];
 		$assinatura = chamaAPI(null, '/crediario/assinatura', json_encode($apiEntrada), 'GET');
@@ -91,6 +106,33 @@ if (isset ($_GET['operacao'])) {
 		echo json_encode($assinaturaProc);
 		return $assinaturaProc;
 	}
+
+	if ($operacao == "buscarFiliais") {
+
+        $etbcod = $_POST['etbcod'];
+
+        if ($etbcod == "") {
+            $etbcod = null;
+        }
+
+        $apiEntrada =
+            array(
+                "dadosEntrada" => array(
+                    array(
+                        'etbcod' => $etbcod
+                    )
+                )
+            );
+
+        $filiais = chamaAPI(null, '/crediario/contrassinestab', json_encode($apiEntrada), 'GET');
+
+        if (isset($filiais["contrassinestab"])) {
+            $filiais = $filiais["contrassinestab"];
+        }
+        echo json_encode($filiais);
+        return $filiais;
+
+    }
 }
 
 ?>
