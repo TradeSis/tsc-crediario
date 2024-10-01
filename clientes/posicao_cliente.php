@@ -47,7 +47,7 @@ $codigoCliente = $cliente["codigoCliente"];
         <div class="modal" id="modalClienteVisualizar" tabindex="-1" aria-hidden="true" style="margin: 5px;">
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen"> <!-- Modal 1 -->
                 <div class="modal-content" style="background-color: #F1F2F4;">
-
+<?php echo json_encode($cliente); ?>
                     <div class="card-header">
                         <div class="row">
                             <div class="col-5">
@@ -308,8 +308,8 @@ $codigoCliente = $cliente["codigoCliente"];
                         <!-- ROW4 fim -->
                     </div>
                     <div class="card-header text-center">
-                        <span class="ts-tituloPrincipalModal">ATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo $cliente['vDTMAIORATRASO'] !== null ? date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) : '' ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            Vencidas:&nbsp;<?php echo number_format(floatval($cliente['vVLRPARCVENC']), 2) ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format($cliente['vcheque_devolvido'], 2, ',', '') ?>
+                        <span class="ts-tituloPrincipalModal">xATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo $cliente['vDTMAIORATRASO'] !== null ? date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) : '' ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Vencidas:&nbsp;<?php echo number_format(floatval($cliente['vVLRPARCVENC']), 2) ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format(floatval($cliente['vcheque_devolvido']), 2) ?>
                         </span>
                     </div>
                     <div class="card-footer text-center">
