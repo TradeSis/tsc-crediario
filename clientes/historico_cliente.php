@@ -122,13 +122,13 @@ if (isset($historico["contratos"])) {
                                     } ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo number_format($contrato['valorTotal'], 2, ',', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorTotal']), 2) ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo number_format($contrato['valorEntrada'], 2, ',', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorEntrada']), 2) ?>
                                 </td>
                                 <td class="text-center">
-                                    <?php echo number_format($contrato['valorAberto'], 2, ',', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorAberto']), 2) ?>
                                 </td>
                                 <td class="text-center">
                                     <?php echo $contrato['situacao'] ?>
