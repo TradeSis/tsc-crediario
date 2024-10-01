@@ -133,7 +133,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Vlr Total:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorTotal'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorTotal']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -141,7 +141,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Vlr Entrada:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorEntrada'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorEntrada']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -149,7 +149,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Vlr Liquido:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorLiquido'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorLiquido']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -157,7 +157,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Principal:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorPrincipal'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorPrincipal']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -165,7 +165,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Acrescimo:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorAcrescimo'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorAcrescimo']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -173,7 +173,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Seguro:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorSeguro'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorSeguro']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -181,7 +181,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     IOF:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['IOF'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['IOF']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -189,7 +189,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     CET:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['CET'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['CET']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -197,7 +197,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Tx. Juros:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['taxaJuros'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['taxaJuros']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -205,7 +205,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Vlr Vencido:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorVencido'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorVencido']), 2) ?>
                                 </div>
                             </div>
                             <div class="row mt-1">
@@ -213,7 +213,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                     Em Aberto:
                                 </div>
                                 <div class="col-7 ms-0 ps-0 text-start">
-                                    <?php echo number_format($contrato['valorAberto'], 2, '.', '') ?>
+                                    <?php echo number_format(floatval($contrato['valorAberto']), 2) ?>
                                 </div>
                             </div>
 
@@ -256,7 +256,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                         <?php echo date('d/m/Y', strtotime($parcela['dtVencimento'])) ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo number_format($parcela['vlrParcela'], 2, '.', '') ?>
+                                                        <?php echo number_format(floatval($parcela['vlrParcela']), 2) ?>
                                                     </td>
                                                     <td>
                                                         <?php echo $parcela['situacao'] ?>
@@ -267,7 +267,7 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                         } ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo number_format($parcela['vlrPago'], 2, '.', '') ?>
+                                                        <?php echo number_format(floatval($parcela['vlrPago']), 2) ?>
                                                     </td>
                                                     <td class="ts-click">
                                                         <a class="link-opacity-100" data-bs-target='#modalBoletoVisualizar' data-bolcod='<?php echo $parcela['bolcod'] ?>'>
@@ -305,13 +305,13 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                                 <?php echo $produto['nomeProduto'] ?>
                                             </td>
                                             <td class="text-center">
-                                                <?php echo number_format($produto['precoVenda'], 2, ',', '.') ?>
+                                                <?php echo number_format(floatval($produto['precoVenda']), 2) ?>
                                             </td>
                                             <td class="text-center">
                                                 <?php echo $produto['quantidade'] ?>
                                             </td>
                                             <td class="text-center">
-                                                <?php echo number_format($produto['valorTotal'], 2, ',', '.') ?>
+                                                <?php echo number_format(floatval($produto['valorTotal']), 2) ?>
                                             </td>
                                         </tr>
                                     <?php } ?>

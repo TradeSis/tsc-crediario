@@ -103,21 +103,21 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">CR&nbsp;Crédito&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vvlrLimite'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vvlrLimite']), 2) ?>" readonly>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
                                     <label class="form-label ts-label">Aberto&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vcomprometido'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vcomprometido']), 2) ?>" readonly>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
                                     <label class="form-label ts-label">Principal&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vcomprometido-principal'], 2, ',', '') ?>"
+                                    value="<?php echo number_format(floatval($cliente['vcomprometido-principal']), 2) ?>"
                                     readonly>
                             </div>
                             <div class="col d-flex align-items-center">
@@ -125,7 +125,7 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">Disponível&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vsaldoLimite'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vsaldoLimite']), 2) ?>" readonly>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -134,14 +134,14 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">EP&nbsp;Crédito&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vvlrLimiteEP'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vvlrLimiteEP']), 2) ?>" readonly>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
                                     <label class="form-label ts-label">Aberto&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vcomprometidoEP'], 2, ',', '') ?>"
+                                    value="<?php echo number_format(floatval($cliente['vcomprometidoEP']), 2) ?>"
                                     readonly>
                             </div>
                             <div class="col d-flex align-items-center">
@@ -149,7 +149,7 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">Principal&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vcomprometido-principalEP'], 2, ',', '') ?>"
+                                    value="<?php echo number_format(floatval($cliente['vcomprometido-principalEP']), 2) ?>"
                                     readonly>
                             </div>
                             <div class="col d-flex align-items-center">
@@ -157,7 +157,7 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">Disponível&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vsaldoLimiteEP'], 2, ',', '') ?>"
+                                    value="<?php echo number_format(floatval($cliente['vsaldoLimiteEP']), 2) ?>"
                                     readonly>
                             </div>
                         </div>
@@ -234,7 +234,7 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">Media&nbsp;Por&nbsp;Contrato&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vMEDIACONT'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vMEDIACONT']), 2) ?>" readonly>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -255,7 +255,7 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maior&nbsp;Acum.&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vMAIORACUM'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vMAIORACUM']), 2) ?>" readonly>
                             </div>
                             <div class="col d-flex align-items-center">
                                 <div class="form-group">
@@ -283,7 +283,7 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prest.&nbsp;Media&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vPARCMEDIA'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vPARCMEDIA']), 2) ?>" readonly>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -302,14 +302,14 @@ $codigoCliente = $cliente["codigoCliente"];
                                     <label class="form-label ts-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Próximo&nbsp;Mês&nbsp;:&nbsp;</label>
                                 </div>
                                 <input type="text" class="form-control ts-inputSemBorda"
-                                    value="<?php echo number_format($cliente['vproximo-mes'], 2, ',', '') ?>" readonly>
+                                    value="<?php echo number_format(floatval($cliente['vproximo-mes']), 2) ?>" readonly>
                             </div>
                         </div>
                         <!-- ROW4 fim -->
                     </div>
                     <div class="card-header text-center">
                         <span class="ts-tituloPrincipalModal">ATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo $cliente['vDTMAIORATRASO'] !== null ? date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) : '' ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            Vencidas:&nbsp;<?php echo number_format($cliente['vVLRPARCVENC'], 2, ',', '') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format($cliente['vcheque_devolvido'], 2, ',', '') ?>
+                            Vencidas:&nbsp;<?php echo number_format(floatval($cliente['vVLRPARCVENC']), 2) ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format($cliente['vcheque_devolvido'], 2, ',', '') ?>
                         </span>
                     </div>
                     <div class="card-footer text-center">
