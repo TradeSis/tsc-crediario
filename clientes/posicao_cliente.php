@@ -308,7 +308,7 @@ $codigoCliente = $cliente["codigoCliente"];
                         <!-- ROW4 fim -->
                     </div>
                     <div class="card-header text-center">
-                        <span class="ts-tituloPrincipalModal">xATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo $cliente['vDTMAIORATRASO'] !== null ? date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) : '' ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="ts-tituloPrincipalModal">ATRASO->&nbsp;Atual:&nbsp;<?php echo $cliente['vATRASOATUAL'] ?>&nbsp;(<?php echo $cliente['vDTMAIORATRASO'] !== null ? date('d/m/Y', strtotime($cliente['vDTMAIORATRASO'])) : '' ?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             Vencidas:&nbsp;<?php echo number_format(floatval($cliente['vVLRPARCVENC']), 2) ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chq&nbsp;Devol:&nbsp;<?php echo number_format(floatval($cliente['vcheque_devolvido']), 2) ?>
                         </span>
                     </div>
