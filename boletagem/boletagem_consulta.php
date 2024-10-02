@@ -86,7 +86,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
                             <div class="input-group">
                                 <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela mt-1 input-etbcod" placeholder="Filial [ENTER]"
                                 value="<?php echo $etbcod !== null ? $etbcod : null ?>" name="etbcod" id="etbcod" required>
-                                <button class="btn ts-input btn-outline-secondary" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
+                                <button class="btn ts-input btn-outline-secondary ts-acionaZoomEstab" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
                             </div>
                         </th>
                         <th></th>
@@ -395,10 +395,6 @@ if (isset($_SESSION['filtro_boletagem'])) {
         });
 
         
-        $("#button-etbcod").click(function(event) {
-            event.preventDefault(); 
-            $("#zoomEstabModal").modal('show');
-        });
 
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
