@@ -2,7 +2,7 @@
 // lucas 120320204 id884 bootstrap local - alterado head
 
 include_once '../header.php';
-include_once '../database/filacredito.php';
+
 
 $IP = $_SERVER['REMOTE_ADDR'];
 
@@ -12,21 +12,17 @@ $codigoFilial = null;
 if ($vfilial[0] == 172 || $vfilial[0] == 192) {
     if ($vfilial[1] == 17 || $vfilial[1] == 23 || $vfilial[1] == 168) {
         $codigoFilial = $vfilial[2];
-        $filiais = buscaFiliais($codigoFilial);
-        $filiais = $filiais[0];
 
     }
 } else {
 
     if ($IP == "10.146.0.15" && URLROOT == "/tslebes" && $_SERVER['SERVER_ADDR'] == "10.145.0.60") { // Simulacao da 188 no servidor winjump
         $codigoFilial = 188;
-        $filiais = buscaFiliais($codigoFilial);
-        $filiais = $filiais[0];
-    } else {
-        $filiais = buscaFiliais();
-    }
+    } 
 
-}
+} 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -47,25 +43,10 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
             </div>
             <div class="col-sm-2" style="margin-top:-10px;">
                 <div class="input-group">
-                    <form action="" method="post">
-                        <?php if (isset($codigoFilial)) { ?>
-                            <input type="text" class="form-control" value="<?php echo $filiais['value'] ?>" readonly>
-                            <input type="number" class="form-control" value="<?php echo $filiais['id'] ?>"
-                                name="codigoFilial" id="FiltroFilial" hidden>
-                        <?php } else { ?>
-                            <select class="form-control text-center" name="codigoFilial" id="FiltroFilial"
-                                autocomplete="off">
-                                <option value="<?php echo null ?>">
-                                    <?php echo "Selecione a Filial" ?>
-                                </option>
-                                <?php foreach ($filiais as $filial) { ?>
-                                    <option value="<?php echo $filial['id'] ?>">
-                                        <?php echo $filial['value'] ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                        <?php } ?>
-                    </form>
+                    <!-- gabriel id 1372 - removido antigo select, adicionado zoomEstab -->
+                    <input type="text" class="form-control" placeholder="Digite Filial [ENTER]"
+                    value="<?php echo $codigoFilial !== null ? $codigoFilial : null ?>" name="codigoFilial" id="FiltroFilial" required>
+                    <button class="btn ts-input btn-outline-secondary ts-acionaZoomEstab" type="button" id="button-etbcod" title="Fixo"><i class="bi bi-search"></i></button>
                 </div>
             </div>
             <div class="col-sm-4" style="margin-top:-10px;">
@@ -138,6 +119,10 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
             </div>
         </div>
     </div>
+
+
+<!--------- MODAIS DE ZOOM --------->
+<?php include_once ROOT . "/cadastros/zoom/estab.php"; ?>
 
 <!-- LOCAL PARA COLOCAR OS JS -->
 
@@ -389,6 +374,18 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
             if (selectedOption === "csv") {
                 exportToCSV();
             }
+        });
+
+        $("#button-etbcod").click(function(event) {
+            event.preventDefault(); 
+            $("#zoomEstabModal").modal('show');
+        });
+
+        $(document).on('click', '.ts-click', function () {
+            var etbcod = $(this).attr("data-etbcod");
+            buscar(etbcod, $("#FiltroNome_pessoa").val(), $("#FiltroDtinclu").val());
+            $('#FiltroFilial').val(etbcod);
+            $('#zoomEstabModal').modal('hide');
         });
 
     </script>
