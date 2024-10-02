@@ -341,16 +341,6 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         });
 
         
-        /* $("#button-etbcod").click(function(event) {
-            event.preventDefault(); 
-            $("#zoomEstabModal").modal('show');
-        }); */
-        // Ao clicar no input Filial simula um click no botão do modal "Estabelecimentos"
-        $(document).on('click', '.ts-acionaZoomEstab', function() {
-            const elemento = document.getElementById('abreEstabModal');
-            elemento.click()
-        });
-
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
             buscar($("#contnum").val(), $("#dtproc").val(),etbcod, $("#dtini").val(), $("#dtfim").val());

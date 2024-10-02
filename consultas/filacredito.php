@@ -376,10 +376,6 @@ if ($vfilial[0] == 172 || $vfilial[0] == 192) {
             }
         });
 
-        $("#button-etbcod").click(function(event) {
-            event.preventDefault(); 
-            $("#zoomEstabModal").modal('show');
-        });
 
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
