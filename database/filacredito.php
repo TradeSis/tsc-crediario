@@ -4,21 +4,6 @@
 include_once('../conexao.php');
 
 
-function buscaFiliais($codigoFilial=null)
-{
-    $filiais = array();
-    $apiEntrada =
-        array(
-            "dadosEntrada" => array(
-                array('codigoFilial' => $codigoFilial)
-            )
-        );
-    $filiais = chamaAPI(null, '/crediario/estab', json_encode($apiEntrada), 'GET');
-    if (isset($filiais["conteudoSaida"])) {
-        $filiais = $filiais["conteudoSaida"]; // TRATAMENTO DO RETORNO
-	}
-    return $filiais;
-}
 
 if (isset($_GET['operacao'])) {
     $operacao = $_GET['operacao'];
