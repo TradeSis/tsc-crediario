@@ -73,7 +73,21 @@ then do:
         message string(vlcSaida).
         return.
     end.
-    else do:
+
+    find serasacli where serasacli.clicod = par-clicod no-lock no-error.
+    if not avail serasacli
+    then do:
+        create ttsaida.
+        ttsaida.tstatus = 400.
+        ttsaida.descricaoStatus = "Nao encontrado na base".
+
+        hsaida  = temp-table ttsaida:handle.
+
+        lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
+        message string(vlcSaida).
+        return.
+    end.
+    
         create ttcliente.
         ttcliente.clicod   =  clien.clicod.
         ttcliente.cpfCNPJ  =  clien.ciccgc.
@@ -110,7 +124,6 @@ then do:
         ttnegociacao.vlr_selaberto     =    14192.55 . /* ttnegociacao.vlr_selaberto.   */
         ttnegociacao.vlr_selecionado   =    137894.70. /*  ttnegociacao.vlr_selecionado.*/
 */
-    end.
        
 END.
 
