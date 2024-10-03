@@ -1,11 +1,6 @@
 <?php
 //Lucas 13092024 criado
 include_once(__DIR__ . '/../header.php');
-
-$Tipo = "";
-if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
-    $Tipo = $_GET['Tipo'];
-}
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -37,19 +32,14 @@ if (isset($_GET['Tipo']) && $_GET['Tipo'] != "null") {
                         <h6 style="color:black;font-size: 10px;font-style:italic;text-align:left;"></h6>
                     </div>
                 </a>
-                <?php if ($Tipo != "") { ?>
-                    &nbsp; / &nbsp;
-                    <h2 class="ts-tituloPrincipal"><?php echo $Tipo ?></h2>
-
-                <?php } ?>
-
             </div>
 
             <div class="col-2 d-flex gap-2 align-items-end justify-content-end">
                 <select class="form-select ts-input" id="FiltroTipo">
-                    <option value="<?php echo "null" ?>" <?php if ($Tipo == "") {echo "selected"; } ?>>Selecione</option>
-                    <option value="ACORDO ONLINE" <?php if ($Tipo == "ACORDO ONLINE") {echo "selected"; } ?>>ACORDO ONLINE</option>
-                    <option value="SERASA" <?php if ($Tipo == "SERASA") {echo "selected"; } ?>>SERASA</option>
+                    <option value="<?php echo "null" ?>">Selecione</option>
+                    <option value="api/acordo,negociacaoboleto">Acordo Online - Novacao</option>
+                    <option value="api/acordo,parcelasboleto">Acordo Online - Parcelas</option>
+                    <option value="SERASA">SERASA</option>
                 </select>
             </div>
 
