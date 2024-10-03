@@ -4,6 +4,12 @@ include_once('../header.php');
 include_once('../database/aoacordo.php');
 
 $Tipo = $_GET['Tipo'];
+if($Tipo == "api/acordo,negociacaoboleto"){
+    $Tipo = "Acordo Online - Novacao"; 
+}
+if($Tipo == "api/acordo,parcelasboleto"){
+    $Tipo = "Acordo Online - Parcelas"; 
+}
 $IDAcordo = $_GET['IDAcordo'];
 $acordos = buscaAcordo($Tipo, $IDAcordo);
 $acordo = $acordos[0];
@@ -82,7 +88,7 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
                         <td><?php echo number_format($acordo['VlOriginal'], 2, ',', '.'); ?></td>
                         <td><?php echo number_format($acordo['VlAcordo'], 2, ',', '.'); ?></td>
                         <td><?php echo $DtVinculo ?></td>
-                        <td><?php echo $acordo['Tipo'] ?></td>
+                        <td><?php echo $Tipo ?></td>
                     </tr>
 
                 </tbody>
