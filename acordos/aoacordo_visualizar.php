@@ -17,7 +17,7 @@ $id_recid = $acordo['id_recid'];
 
 $DtAcordo = ($acordo['DtAcordo'] != null ? date('d/m/Y', strtotime($acordo['DtAcordo'])) : "");
 $DtEfetiva = ($acordo['DtEfetiva'] != null ? date('d/m/Y', strtotime($acordo['DtEfetiva'])) : "");
-$DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['DtVinculo'])) : "");
+$dtcanc = ($acordo['dtcanc'] != null ? date('d/m/Y', strtotime($acordo['dtcanc'])) : "");
 
 ?>
 
@@ -69,7 +69,7 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
                         <th>Hr</th>
                         <th>Vlr ori</th>
                         <th>Vlr Acordo</th>
-                        <th>DtVincula</th>
+                        <th>Dt Cancelamento</th>
                         <th>Tipo</th>
                         <th></th>
                     </tr>
@@ -87,7 +87,7 @@ $DtVinculo = ($acordo['DtVinculo'] != null ? date('d/m/Y', strtotime($acordo['Dt
                         <td><?php echo $acordo['HrEfetiva'] ?></td>
                         <td><?php echo number_format($acordo['VlOriginal'], 2, ',', '.'); ?></td>
                         <td><?php echo number_format($acordo['VlAcordo'], 2, ',', '.'); ?></td>
-                        <td><?php echo $DtVinculo ?></td>
+                        <td><?php echo $dtcanc ?></td>
                         <td><?php echo $Tipo ?></td>
                     </tr>
 
