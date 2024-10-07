@@ -73,8 +73,8 @@ include_once(__DIR__ . '/../header.php');
                         </div>
                         <div class="row mt-1">
                             <div class="form-group col">
-                                <label>Testa Novação</label>
-                                <select class="form-control" name="testaNovacao" id="view_testaNovacao" disabled>
+                                <label>Permite Novação</label>
+                                <select class="form-control" name="permiteNovacao" id="view_permiteNovacao" disabled>
                                     <option value="false">Não</option>
                                     <option value="true">Sim</option>
                                 </select>
@@ -129,8 +129,8 @@ include_once(__DIR__ . '/../header.php');
                             </div>
                             <div class="row mt-1">
                                 <div class="form-group col">
-                                    <label>Testa Novação</label>
-                                    <select class="form-control" name="testaNovacao">
+                                    <label>Permite Novação</label>
+                                    <select class="form-control" name="permiteNovacao">
                                         <option value="false">Não</option>
                                         <option value="true">Sim</option>
                                     </select>
@@ -190,8 +190,8 @@ include_once(__DIR__ . '/../header.php');
                             </div>
                             <div class="row mt-1">
                                 <div class="form-group col">
-                                    <label>Testa Novação</label>
-                                    <select class="form-control" name="testaNovacao" id="testaNovacao">
+                                    <label>Permite Novação</label>
+                                    <select class="form-control" name="permiteNovacao" id="permiteNovacao">
                                         <option value="false">Não</option>
                                         <option value="true">Sim</option>
                                     </select>
@@ -321,8 +321,8 @@ include_once(__DIR__ . '/../header.php');
                     $('#view_listaModalidades').val(data.listaModalidades);
                     $('#view_diasAtrasoMax').val(data.diasAtrasoMax);
                     $('#view_carteirasPermitidas').val(data.carteirasPermitidas);
-                    testaNovacao = data.testaNovacao == true ? "true" : "false";
-                    $('#view_testaNovacao').val(testaNovacao);
+                    permiteNovacao = data.permiteNovacao == true ? "true" : "false";
+                    $('#view_permiteNovacao').val(permiteNovacao);
                     $('#view_contratoPago').val(data.contratoPago);
 
                     modalidades = data.listaModalidades;
@@ -381,8 +381,8 @@ include_once(__DIR__ . '/../header.php');
                     $('#listaModalidades').val(data.listaModalidades);
                     $('#diasAtrasoMax').val(data.diasAtrasoMax);
                     $('#carteirasPermitidas').val(data.carteirasPermitidas);
-                    testaNovacao = data.testaNovacao == true ? "true" : "false";
-                    $('#testaNovacao').val(testaNovacao);
+                    permiteNovacao = data.permiteNovacao == true ? "true" : "false";
+                    $('#permiteNovacao').val(permiteNovacao);
                     $('#contratoPago').val(data.contratoPago);
 
                     modalidades = data.listaModalidades;

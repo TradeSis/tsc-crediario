@@ -12,7 +12,7 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     FIELD listaModalidades        like rfnparam.listaModalidades
     FIELD diasAtrasoMax           like rfnparam.diasAtrasoMax
     FIELD carteirasPermitidas     like rfnparam.carteirasPermitidas
-    FIELD testaNovacao            like rfnparam.testaNovacao
+    FIELD permiteNovacao          like rfnparam.permiteNovacao
     FIELD contratoPago            like rfnparam.contratoPago.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
@@ -95,9 +95,9 @@ end.
         then do:
             rfnparam.carteirasPermitidas = ttentrada.carteirasPermitidas.
         end.
-        if ttentrada.testaNovacao <> ?
+        if ttentrada.permiteNovacao <> ?
         then do:
-            rfnparam.testaNovacao = ttentrada.testaNovacao.
+            rfnparam.permiteNovacao = ttentrada.permiteNovacao.
         end.
         if ttentrada.contratoPago <> ?
         then do:

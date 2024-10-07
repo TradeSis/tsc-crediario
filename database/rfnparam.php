@@ -21,7 +21,7 @@ if (isset($_GET['operacao'])) {
 			'listaModalidades' => $modalidade,
 			'diasAtrasoMax' => $_POST['diasAtrasoMax'],
 			'carteirasPermitidas' => $_POST['carteirasPermitidas'],
-			'testaNovacao' => $_POST['testaNovacao'],
+			'permiteNovacao' => $_POST['permiteNovacao'],
 			'contratoPago' => $_POST['contratoPago']
 		)));
 		
@@ -43,7 +43,7 @@ if (isset($_GET['operacao'])) {
 			'listaModalidades' => $modalidade,
 			'diasAtrasoMax' => $_POST['diasAtrasoMax'],
 			'carteirasPermitidas' => $_POST['carteirasPermitidas'],
-			'testaNovacao' => $_POST['testaNovacao'],
+			'permiteNovacao' => $_POST['permiteNovacao'],
 			'contratoPago' => $_POST['contratoPago']
 		)));
 	
