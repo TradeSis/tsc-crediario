@@ -103,7 +103,7 @@ include_once(__DIR__ . '/../header.php');
                             <div class="row">
                                 <div class="form-group col">
                                     <label>Data Início</label>
-                                    <input type="date" class="form-control" name="dtIniVig" required>
+                                    <input type="date" class="form-control" name="dtIniVig" id="inserir_dtIniVig" required>
                                 </div>
                                 <div class="form-group col-6">
                                     <label>Lista de Modalidades</label>
@@ -490,6 +490,22 @@ include_once(__DIR__ . '/../header.php');
                 reverse: true
             });
             $('.formatValorDecimal').addClass("text-end")
+        });
+
+        // Ao iniciar o programa, inseri os valores de data nos inputs. 
+        $(document).ready(function() {
+            var data = new Date(),
+                dia = data.getDate().toString(),
+                diaF = (dia.length == 1) ? '0' + dia : dia,
+                mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro come�a com zero.
+                mesF = (mes.length == 1) ? '0' + mes : mes,
+                anoF = data.getFullYear();
+            dataAtual = anoF + "-" + mesF + "-" + diaF;
+            primeirodiadomes = anoF + "-" + mesF + "-" + "01";
+
+            const inserir_dtIniVig = document.getElementById("inserir_dtIniVig");
+            inserir_dtIniVig.value = dataAtual;
+
         });
     </script>
 

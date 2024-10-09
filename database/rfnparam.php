@@ -3,6 +3,23 @@
 
 include_once __DIR__ . "/../conexao.php";
 
+function buscaElegiveisRefin($clicod = null, $cpfCnpj = null)
+{
+	
+	$refin = array();
+	$apiEntrada = 
+		array(
+			"dadosEntrada" => array(
+				array(
+					'clicod' => $clicod,
+					'cpfCnpj' => $cpfCnpj
+				)
+			)
+		);
+
+	$refin = chamaAPI(API_IP2.'/bsweb/api/', 'varejo/elegivelrefin', json_encode($apiEntrada), 'GET');
+	return $refin;
+}
 
 if (isset($_GET['operacao'])) {
 
