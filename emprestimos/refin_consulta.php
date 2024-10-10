@@ -3,8 +3,8 @@
 include_once(__DIR__ . '/../header.php');
 include_once '../database/rfnparam.php';
 
-
-$codigoCliente = isset($_POST['codigoCliente']) ? $_POST['codigoCliente'] : null;
+$codigoCliente = null;
+$codigoCliente = isset($_POST['codigoCliente']) ? $_POST['codigoCliente'] : $_GET['codigoCliente'];
 $cpfCnpj = isset($_POST['cpfCnpj']) ? $_POST['cpfCnpj'] : null;
 
 $elevigeisRefin = buscaElegiveisRefin($codigoCliente, $cpfCnpj);
@@ -112,7 +112,7 @@ $contratos = $elevigeisRefin["dadosSaida"]["contrato"];
                                             </td>
                                             <td>
                                                 <a class="btn btn-primary btn-sm"
-                                                    href="../clientes/contratos.php?origem=cliente&&numeroContrato=<?php echo $contrato['numeroContrato'] ?>"
+                                                    href="../clientes/contratos.php?origem=refin&&numeroContrato=<?php echo $contrato['numeroContrato'] ?>"
                                                     role="button"><i class="bi bi-eye-fill"></i></a>
                                             </td>
                                         </tr>
