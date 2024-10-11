@@ -80,7 +80,13 @@ if (
                                 href="?tab=boletos" role="tab">Boletos</a>
                             </li>
                         <?php }
-                           ?>
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "emprestimos") {echo " active ";} ?>" 
+                                href="?tab=emprestimos" role="tab">Emprestimos</a>
+                            </li>
+                        <?php } ?>
+
                     </ul>
 
                 </div>
@@ -116,7 +122,12 @@ if (
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                         <option value="<?php echo URLROOT ?>/crediario/?tab=boletos" 
                         <?php if ($getTab == "boletos") {echo " selected ";} ?>>Boletos</option>
-                        <?php }   ?>
+                        <?php }   
+                    if ($_SESSION['nivelMenu'] >= 2) { ?>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=emprestimos" 
+                        <?php if ($getTab == "emprestimos") {echo " selected ";} ?>>Emprestimos</option>
+                        <?php } ?>
+                                                
                     </select>
                 </div>
 
@@ -150,7 +161,9 @@ if (
             if ($tab == "boletos") {
                 $src = "boletagem/";
             }
-
+            if ($tab == "emprestimos") {
+                $src = "emprestimos/";
+            }
             if ($src !== "") {
                 //echo URLROOT ."/cadastros/". $src;
             ?>
