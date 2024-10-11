@@ -54,6 +54,9 @@ if ($metodo=="GET"){
         include 'contrassinestab.php';
 
       break;
+      case "rfnparam":
+        include 'rfnparam.php';
+      break;
 
       default:
         $jsonSaida = json_decode(json_encode(
@@ -69,7 +72,9 @@ if ($metodo=="GET"){
       case "parametrizacao":
         include 'boletagparam_inserir.php';
       break;
-
+      case "rfnparam":
+        include 'rfnparam_inserir.php';
+      break;
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -87,6 +92,9 @@ if ($metodo=="GET"){
 
       case "parametrizacao":
         include 'boletagparam_alterar.php';
+      break;
+      case "rfnparam":
+        include 'rfnparam_alterar.php';
       break;
       default:
         $jsonSaida = json_decode(json_encode(
