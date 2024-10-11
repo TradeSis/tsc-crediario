@@ -17,7 +17,7 @@ function buscaElegiveisRefin($clicod = null, $cpfCnpj = null)
 			)
 		);
 
-	$refin = chamaAPI(API_IP2.'/bsweb/api/', 'varejo/elegivelrefin', json_encode($apiEntrada), 'GET');
+	$refin = chamaAPI(IPBSWEB, '/varejo/elegivelrefin', json_encode($apiEntrada), 'GET');
 	return $refin;
 }
 
