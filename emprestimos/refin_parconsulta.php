@@ -22,7 +22,7 @@ include_once '../header.php';
         <div class="row justify-content-center">
             <div class="col-md-6 card p-0">
                 <div class="card-header">
-                    <h3>Consultar Elegíveis Refin</h3>
+                    <h3>Consulta Elegíveis REFIN</h3>
                 </div>
                 <div class="modal-body">
                     <form action="refin_consulta.php" method="POST">

@@ -26,7 +26,7 @@ include_once(__DIR__ . '/../header.php');
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
                             </div>
                             <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Parametrização Refin</div>
+                                <div class="fw-bold">Parametrização REFIN</div>
                             </div>
                         </div>
                     </a>
@@ -41,7 +41,7 @@ include_once(__DIR__ . '/../header.php');
                                 <i class="bi bi-file-earmark-text" style="font-size: 35px;"></i>
                             </div>
                             <div class="col ms-2 me-auto">
-                                <div class="fw-bold">Consulta Elegíveis Refin</div>
+                                <div class="fw-bold">Consulta Elegíveis REFIN</div>
                             </div>
                         </div>
                     </a>

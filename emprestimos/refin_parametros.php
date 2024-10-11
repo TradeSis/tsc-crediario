@@ -26,7 +26,7 @@ include_once(__DIR__ . '/../header.php');
         <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
 
             <div class="col-6">
-                <h2 class="ts-tituloPrincipal">Parametrização Refin</h2>
+                <h2 class="ts-tituloPrincipal">Parametrização REFIN</h2>
             </div>
 
             <div class="col-6 text-end">

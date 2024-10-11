@@ -36,7 +36,7 @@ $contratos = $elevigeisRefin["dadosSaida"]["contrato"];
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-10">
-                        <h4>Elegíveis Refin</h4>
+                        <h4>Elegíveis REFIN</h4>
                     </div>
                     <div class="col-sm" style="text-align:right">
                         <a href="index.php" role="button" class="btn btn-primary btn-sm">Voltar</a>

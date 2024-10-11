@@ -80,6 +80,20 @@ if (
                                 href="?tab=boletos" role="tab">Boletos</a>
                             </li>
                         <?php }
+
+                            if ($_SESSION['nivelMenu'] >= 2) { ?>
+                                <li class="nav-item mr-1">
+                                    <a class="nav-link <?php if ($tab == "termos") {echo " active ";} ?>" 
+                                    href="?tab=termos" role="tab">Termos</a>
+                            </li>
+                        <?php } 
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "acordos") {echo " active ";} ?>" 
+                                href="?tab=acordos" role="tab">Acordos</a>
+                            </li>
+                            <?php } 
+
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
                                 <a class="nav-link <?php if ($tab == "emprestimos") {echo " active ";} ?>" 
