@@ -53,6 +53,7 @@ if ($metodo=="GET"){
       break;
 
 
+
       case "parametrizacao":
         include 'boletagparam.php';
       break;
@@ -125,6 +126,10 @@ if ($metodo=="GET"){
 
       case "acooferta/parcelas":
         include 'acooferta_parcelas.php';
+
+      case "rfnparam":
+        include 'rfnparam.php';
+
       break;
 
       default:
@@ -138,6 +143,7 @@ if ($metodo=="GET"){
 
  if ($metodo=="PUT"){
     switch ($funcao) {
+
 
       case "parametrizacao":
         include 'boletagparam_inserir.php';
@@ -156,6 +162,10 @@ if ($metodo=="GET"){
 
       case "serasacli":
         include 'serasacli_inserir.php';
+
+      case "rfnparam":
+        include 'rfnparam_inserir.php';
+
       break;
       
 
@@ -178,6 +188,7 @@ if ($metodo=="GET"){
       case "assinaContrato":
         include 'assinaContrato.php';
         break;
+
 
 
       case "parametrizacao":
@@ -206,6 +217,11 @@ if ($metodo=="GET"){
 
       case "serasacli_arquivo":
         include 'serasacli_arquivo.php';
+      break;
+
+
+      case "rfnparam":
+        include 'rfnparam_alterar.php';
       break;
 
     
