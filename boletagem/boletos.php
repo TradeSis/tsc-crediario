@@ -227,7 +227,7 @@ include_once(__DIR__ . '/../header.php');
                         var linha = "";
                         for (var $i = 0; $i < json.length; $i++) {
                             var object = json[$i];
-                            
+
                             contadorItem += 1;
                             contadorVlCobrado += object.VlCobrado;
                             linha += "<tr>";
@@ -243,15 +243,8 @@ include_once(__DIR__ . '/../header.php');
                             linha += "<td>" + parseFloat(object.VlCobrado).toFixed(2).replace(',', '.') + "</td>";
                             linha += "<td>" + (object.DtPagamento ? formatDate(object.DtPagamento) : "--") + "</td>";
                             linha += "<td>" + (object.DtBaixa ? formatDate(object.DtBaixa) : "--") + "</td>";
+                            linha += "<td>" + object.situacaoDescricao + "<br>";
                             
-                            if(object.situacaoDescricao == "Pago"){
-                                linha += "<td>" + object.situacaoDescricao + " (" + object.ctmcod + ") " + object.etbpag + "<br>";
-                                linha += "</td>"
-                            }else{
-                                linha += "<td>" + object.situacaoDescricao + "<br>";
-                            }
-                            
-
                             linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#modalBoletoVisualizar' data-bolcod='" + object.bolcod + "'><i class='bi bi-eye-fill'></i></button></td>";
 
                             linha += "</tr>";
