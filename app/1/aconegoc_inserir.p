@@ -18,6 +18,7 @@ def temp-table ttentrada no-undo serialize-name "aconegoc"   /* JSON ENTRADA */
     field dtemissao_ate like aconegoc.dtemissao_ate
     field vlr_parcela like aconegoc.vlr_parcela
     field dias_atraso like aconegoc.dias_atraso
+    field dias_atrasofim like aconegoc.dias_atrasofim
     field vlr_aberto like aconegoc.vlr_aberto
     field modcod like aconegoc.modcod
     field tpcontrato like aconegoc.tpcontrato
@@ -68,6 +69,7 @@ do on error undo:
     aconegoc.dtemissao_ate = ttentrada.dtemissao_ate.
     aconegoc.vlr_parcela = ttentrada.vlr_parcela.
     aconegoc.dias_atraso = ttentrada.dias_atraso.
+    aconegoc.dias_atrasofim = ttentrada.dias_atrasofim.
     aconegoc.vlr_aberto = ttentrada.vlr_aberto.
     aconegoc.modcod = ttentrada.modcod.
     aconegoc.tpcontrato = ttentrada.tpcontrato.

@@ -78,57 +78,61 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">inicio</label>
+                                    <label class="form-label ts-label">Início</label>
                                     <input type="date" class="form-control ts-input" name="dtini" id="inserir_dtini">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">final</label>
+                                    <label class="form-label ts-label">Final</label>
                                     <input type="date" class="form-control ts-input" name="dtfim">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">vlr contrato</label>
+                                    <label class="form-label ts-label">Valor Contrato</label>
                                     <input type="text" class="form-control ts-input" name="vlr_total">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">perc pagas</label>
+                                    <label class="form-label ts-label">Perc. Pagas</label>
                                     <input type="text" class="form-control ts-input" name="perc_pagas">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">qtd pagas</label>
+                                    <label class="form-label ts-label">Qtd. Pagas</label>
                                     <input type="text" class="form-control ts-input" name="qtd_pagas">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">emissao desde</label>
+                                    <label class="form-label ts-label">Emissão desde</label>
                                     <input type="date" class="form-control ts-input" name="dtemissao_de">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">ate</label>
+                                    <label class="form-label ts-label">até</label>
                                     <input type="date" class="form-control ts-input" name="dtemissao_ate">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">vlr parcela</label>
+                                    <label class="form-label ts-label">Valor Parcela</label>
                                     <input type="text" class="form-control ts-input" name="vlr_parcela">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">dias atraso</label>
+                                    <label class="form-label ts-label">Dias Atraso Inicial</label>
                                     <input type="text" class="form-control ts-input" name="dias_atraso">
+                                </div>
+                                <div class="col">
+                                    <label class="form-label ts-label">Dias Atraso Final</label>
+                                    <input type="text" class="form-control ts-input" name="dias_atrasofim">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">vlr aberto</label>
+                                    <label class="form-label ts-label">Valor Aberto</label>
                                     <input type="text" class="form-control ts-input" name="vlr_aberto">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">modalidade</label>
+                                    <label class="form-label ts-label">Modalidade</label>
                                     <input type="text" class="form-control ts-input" name="modcod">
                                 </div>
                                 <div class="col">
@@ -138,18 +142,18 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">So Parc Vencida</label>
+                                    <label class="form-label ts-label">Só Parcela Vencida</label>
                                     <select class="form-select ts-input" name="ParcVencidaSo">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">Qtd Parc Vencida</label>
+                                    <label class="form-label ts-label">Qtd. Parcela Vencida</label>
                                     <input type="text" class="form-control ts-input" name="ParcVencidaQtd">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">Qtd Parc Vencr</label>
+                                    <label class="form-label ts-label">Qtd. Parcela a Vencer</label>
                                     <input type="text" class="form-control ts-input" name="ParcVencerQtd">
                                 </div>
                             </div>
@@ -214,57 +218,61 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">inicio</label>
+                                    <label class="form-label ts-label">Início</label>
                                     <input type="date" class="form-control ts-input" name="dtini" id="dtini">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">final</label>
+                                    <label class="form-label ts-label">Final</label>
                                     <input type="date" class="form-control ts-input" name="dtfim" id="dtfim">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">vlr contrato</label>
+                                    <label class="form-label ts-label">Valor contrato</label>
                                     <input type="text" class="form-control ts-input" name="vlr_total" id="vlr_total">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">perc pagas</label>
+                                    <label class="form-label ts-label">Perc. pagas</label>
                                     <input type="text" class="form-control ts-input" name="perc_pagas" id="perc_pagas">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">qtd pagas</label>
+                                    <label class="form-label ts-label">Qtd. Pagas</label>
                                     <input type="text" class="form-control ts-input" name="qtd_pagas" id="qtd_pagas">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">emissao desde</label>
+                                    <label class="form-label ts-label">Emissão desde</label>
                                     <input type="date" class="form-control ts-input" name="dtemissao_de" id="dtemissao_de">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">ate</label>
+                                    <label class="form-label ts-label">até</label>
                                     <input type="date" class="form-control ts-input" name="dtemissao_ate" id="dtemissao_ate">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">vlr parcela</label>
+                                    <label class="form-label ts-label">Valor Parcela</label>
                                     <input type="text" class="form-control ts-input" name="vlr_parcela" id="vlr_parcela">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">dias atraso</label>
+                                    <label class="form-label ts-label">Dias Atraso Inicial</label>
                                     <input type="text" class="form-control ts-input" name="dias_atraso" id="dias_atraso">
+                                </div>
+                                <div class="col">
+                                    <label class="form-label ts-label">Dias Atraso Final</label>
+                                    <input type="text" class="form-control ts-input" name="dias_atrasofim" id="dias_atrasofim">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-6">
-                                    <label class="form-label ts-label">vlr aberto</label>
+                                    <label class="form-label ts-label">Valor Aberto</label>
                                     <input type="text" class="form-control ts-input" name="vlr_aberto" id="vlr_aberto">
                                 </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">modalidade</label>
+                                    <label class="form-label ts-label">Modalidade</label>
                                     <input type="text" class="form-control ts-input" name="modcod" id="modcod">
                                 </div>
                                 <div class="col">
@@ -274,18 +282,18 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                             </div>
                             <div class="row mt-2">
                                 <div class="col">
-                                    <label class="form-label ts-label">So Parc Vencida</label>
+                                    <label class="form-label ts-label">Só Parcela Vencida</label>
                                     <select class="form-select ts-input" name="ParcVencidaSo" id="ParcVencidaSo">
                                         <option value="false">Nao</option>
                                         <option value="true">Sim</option>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">Qtd Parc Vencida</label>
+                                    <label class="form-label ts-label">Qtd. Parcela Vencida</label>
                                     <input type="text" class="form-control ts-input" name="ParcVencidaQtd" id="ParcVencidaQtd">
                                 </div>
                                 <div class="col">
-                                    <label class="form-label ts-label">Qtd Parc Vencr</label>
+                                    <label class="form-label ts-label">Qtd. Parcela a Vencer</label>
                                     <input type="text" class="form-control ts-input" name="ParcVencerQtd" id="ParcVencerQtd">
                                 </div>
                             </div>
@@ -464,6 +472,7 @@ if (isset($_GET['tpNegociacao']) && $_GET['tpNegociacao'] != "null") {
                     $('#dtemissao_ate').val(data.dtemissao_ate);
                     $('#vlr_parcela').val(data.vlr_parcela);
                     $('#dias_atraso').val(data.dias_atraso);
+                    $('#dias_atrasofim').val(data.dias_atrasofim);
                     $('#vlr_aberto').val(data.vlr_aberto);
                     $('#modcod').val(data.modcod);
                     $('#tpcontrato').val(data.tpcontrato);
