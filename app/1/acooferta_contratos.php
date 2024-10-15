@@ -30,17 +30,13 @@ $progr = new chamaprogress();
 $retorno = $progr->executarprogress("crediario/app/1/acooferta_contratos", json_encode($jsonEntrada));
 fwrite($arquivo, $identificacao . "-RETORNO->" . $retorno . "\n");
 $dados = json_decode($retorno,true);
-  if (isset($dados["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
-      $dados = $dados["conteudoSaida"][0];
-  } else {
-    
-     if (!isset($dados["acoofertacont"][1]) && ($jsonEntrada['dadosEntrada'][0]['negcod'] != null)) {  // Verifica se tem mais de 1 registro
-      $dados = $dados["acoofertacont"][0]; // Retorno sem array
-    } else {
-      $dados = $dados["acoofertacont"];  
-    }
+if (isset($dados["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
+    $dados = $dados["conteudoSaida"][0];
+} else {
 
-  }
+    $dados = $dados["acoofertacont"];  
+
+}
 
 
 $jsonSaida = $dados;
