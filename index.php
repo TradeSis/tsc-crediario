@@ -82,10 +82,18 @@ if (
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
+
                                 <a class="nav-link <?php if ($tab == "acordos") {echo " active ";} ?>" 
                                 href="?tab=acordos" role="tab">Acordos</a>
                             </li>
-                        <?php } ?>
+                        <?php } 
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "termos") {echo " active ";} ?>" 
+                                href="?tab=termos" role="tab">Termos</a>
+                            </li>
+                        <?php }
+                           ?>
 
                     </ul>
 
@@ -128,6 +136,11 @@ if (
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                         <option value="<?php echo URLROOT ?>/crediario/?tab=acordos" 
                         <?php if ($getTab == "acordos") {echo " selected ";} ?>>Acordos</option>
+                        <?php } 
+
+                        if ($_SESSION['nivelMenu'] >= 2) { ?>
+                        <option value="<?php echo URLROOT ?>/crediario/?tab=termos" 
+                        <?php if ($getTab == "termos") {echo " selected ";} ?>>Termos</option>
                         <?php } ?>
 
 
@@ -166,6 +179,14 @@ if (
 
             if ($tab == "boletos") {
                 $src = "boletagem/";
+            }
+
+            if ($tab == "boletagem") {
+                $src = "boletagem/";
+            }
+
+            if ($tab == "termos") {
+                $src = "clientes/termos.php";
             }
 
             if ($src !== "") {

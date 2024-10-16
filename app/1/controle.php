@@ -52,6 +52,7 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
+
       case "parametrizacao":
         include 'boletagparam.php';
       break;
@@ -114,6 +115,14 @@ if ($metodo=="GET"){
 
       case "acooferta/parcelas":
         include 'acooferta_parcelas.php';
+
+      case "termos":
+        include 'termos.php';
+      break;
+
+      case "mnemos":
+        include 'mnemos.php';
+
       break;
 
       default:
@@ -127,6 +136,7 @@ if ($metodo=="GET"){
 
  if ($metodo=="PUT"){
     switch ($funcao) {
+
 
       case "parametrizacao":
         include 'boletagparam_inserir.php';
@@ -143,6 +153,11 @@ if ($metodo=="GET"){
       case "serasacli":
         include 'serasacli_inserir.php';
       break;
+
+      case "termos":
+        include 'termos_inserir.php';
+        break;
+
       
 
       default:
@@ -166,6 +181,7 @@ if ($metodo=="GET"){
         break;
 
 
+
       case "parametrizacao":
         include 'boletagparam_alterar.php';
       break;
@@ -185,6 +201,17 @@ if ($metodo=="GET"){
       case "serasacli_arquivo":
         include 'serasacli_arquivo.php';
       break;
+
+
+    
+      case "termos":
+        include 'termos_alterar.php';
+        break;
+
+      case "termos/rascunho":
+        include 'termos_rascunho.php';
+        break;
+    
 
       default:
         $jsonSaida = json_decode(json_encode(
