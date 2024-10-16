@@ -35,12 +35,15 @@ then do:
 end.
 
 def var vmessage as log.
+def var ptpseguro as int.
+def var pvalorTotalSeguroPrestamista as dec.
 
 vmessage = no.
 {acha.i}
 {aco/acordo.i new}
 
-      FIND clien WHERE clien.clicod = ttentrada.clicod NO-LOCK.
+ptpseguro = 1.
+    FIND clien WHERE clien.clicod = ttentrada.clicod NO-LOCK.
 
     FIND aconegoc WHERE aconegoc.negcod = ttentrada.negcod NO-LOCK.
     run calcelegiveis (input aconegoc.tpNegociacao, input ttentrada.clicod, ttentrada.negcod).
@@ -50,6 +53,21 @@ vmessage = no.
     for EACH ttparcelas:
         FIND  acoplanos OF ttparcelas NO-LOCK.
         ttparcelas.planom = acoplanos.planom.
+        
+        find first segprestpar where 
+            segprestpar.tpseguro  = ptpseguro and
+            segprestpar.categoria = "MOVEIS" and
+            segprestpar.etbcod    = 0
+        no-lock no-error.
+                  
+        pvalorTotalSeguroPrestamista    = 0.
+        
+        if avail segprestpar AND ttparcelas.titpar <> 0 
+        then do: 
+            pvalorTotalSeguroPrestamista = ttparcelas.vlr_parcela * segprestpar.percentualSeguro / 100.
+            ttparcelas.segprestamista = pvalorTotalSeguroPrestamista. 
+            ttparcelas.totalsegprestamista = ttparcelas.vlr_parcela + pvalorTotalSeguroPrestamista.
+        end.
     end.
 
 

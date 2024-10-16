@@ -168,6 +168,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                                     <tr class="ts-headerTabelaLinhaCima">
                                         <th>parc</th>
                                         <th>Vlr parcela</th>
+                                        <th>Vlr Seg. Prestamista</th>
+                                        <th>Vlr Total</th>
                                         <th>perc</th>
                                     </tr>
                                 </thead>
@@ -290,6 +292,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha = linha + "<tr>";
                         linha = linha + "<td>" + object.titpar + "</td>";
                         linha = linha + "<td>" + object.vlr_parcela + "</td>";
+                        linha = linha + "<td>" + object.segprestamista + "</td>";
+                        linha = linha + "<td>" + object.totalsegprestamista + "</td>";
                         linha = linha + "<td>" + formatPorcentage(object.perc_parcela) + "</td>";
 
                         linha = linha + "</tr>";
