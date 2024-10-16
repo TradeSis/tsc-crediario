@@ -292,8 +292,8 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         linha = linha + "<tr>";
                         linha = linha + "<td>" + object.titpar + "</td>";
                         linha = linha + "<td>" + object.vlr_parcela + "</td>";
-                        linha = linha + "<td>" + object.segprestamista + "</td>";
-                        linha = linha + "<td>" + object.totalsegprestamista + "</td>";
+                        linha = linha + "<td>" + object.segprestamista.toFixed(2) + "</td>";
+                        linha = linha + "<td>" + object.totalsegprestamista.toFixed(2) + "</td>";
                         linha = linha + "<td>" + formatPorcentage(object.perc_parcela) + "</td>";
 
                         linha = linha + "</tr>";
