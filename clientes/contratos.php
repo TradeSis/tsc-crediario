@@ -78,6 +78,9 @@ $foto = $barramento ? $barramento["registrationFace"]["imgBase64"] : null;
                                 <?php if (isset($_GET['origem']) && $_GET['origem'] === 'cliente') { ?>
                                     <a href="historico_cliente.php?codigoCliente=<?php echo $contrato['codigoCliente'] ?>"
                                     id="backBtn" role="button" class="btn-close"></a>
+                                <?php }elseif (isset($_GET['origem']) && $_GET['origem'] === 'refin') { ?>
+                                    <a href="../emprestimos/refin_consulta.php?codigoCliente=<?php echo $contrato['codigoCliente'] ?>"
+                                    id="backBtn" role="button" class="btn-close"></a>
                                 <?php } else { ?>
                                     <a href="#" id="backBtn" role="button" class="btn-close"></a>
                                 <?php } ?>

@@ -129,6 +129,9 @@ if ($metodo=="GET"){
         include 'finan.php';
 
       break;
+      case "rfnparam":
+        include 'rfnparam.php';
+      break;
 
       default:
         $jsonSaida = json_decode(json_encode(
@@ -147,6 +150,7 @@ if ($metodo=="GET"){
         include 'boletagparam_inserir.php';
       break;
 
+
       case "aconegoc":
         include 'aconegoc_inserir.php';
       break;
@@ -164,6 +168,11 @@ if ($metodo=="GET"){
         break;
 
       
+
+
+      case "rfnparam":
+        include 'rfnparam_inserir.php';
+      break;
 
       default:
         $jsonSaida = json_decode(json_encode(
@@ -191,6 +200,7 @@ if ($metodo=="GET"){
         include 'boletagparam_alterar.php';
       break;
 
+
       case "aconegoc":
         include 'aconegoc_alterar.php';
       break;
@@ -217,6 +227,11 @@ if ($metodo=="GET"){
         include 'termos_rascunho.php';
         break;
     
+
+
+      case "rfnparam":
+        include 'rfnparam_alterar.php';
+      break;
 
       default:
         $jsonSaida = json_decode(json_encode(
