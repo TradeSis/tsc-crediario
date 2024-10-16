@@ -53,6 +53,7 @@ if ($metodo=="GET"){
       break;
 
 
+
       case "parametrizacao":
         include 'boletagparam.php';
       break;
@@ -122,6 +123,10 @@ if ($metodo=="GET"){
 
       case "mnemos":
         include 'mnemos.php';
+
+
+      case "finan":
+        include 'finan.php';
 
       break;
 
