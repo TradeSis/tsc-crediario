@@ -123,7 +123,7 @@ if ($metodo=="GET"){
 
       case "mnemos":
         include 'mnemos.php';
-
+      break;
 
       case "finan":
         include 'finan.php';

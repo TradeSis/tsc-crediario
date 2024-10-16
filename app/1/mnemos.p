@@ -102,31 +102,31 @@ create ttmnemos.
 ttmnemos.mnemo  = "~{dtUltVen~}".
 ttmnemos.nome   = "Ultimo vencimento".
 create ttmnemos.
-ttmnemos.mnemo  = "~{parc.valor}~}".
+ttmnemos.mnemo  = "~{parc.valor~}".
 ttmnemos.nome   = "Valor das parcelas do Contrato ".
 create ttmnemos.
-ttmnemos.mnemo  = "~{qtdParc}~}".
+ttmnemos.mnemo  = "~{qtdParc~}".
 ttmnemos.nome   = "Qtd de parcelas do Contrato ".
 
 create ttmnemos. 
 ttmnemos.mnemo =  "<b>LISTAGEM DE CONTRATOS</b>". 
 ttmnemos.nome  = "".
 create ttmnemos.
-ttmnemos.mnemo  = "~{cont.lista}~}".
+ttmnemos.mnemo  = "~{cont.lista~}".
 ttmnemos.nome   = "".
 
 create ttmnemos. 
 ttmnemos.mnemo =  "<b>LISTAGEM DE PRODUTOS DO CONTRATO</b>". 
 ttmnemos.nome  = "".
 create ttmnemos.
-ttmnemos.mnemo  = "~{prod.lista}~}".
+ttmnemos.mnemo  = "~{prod.lista~}".
 ttmnemos.nome   = "".
 
 create ttmnemos. 
 ttmnemos.mnemo =  "<b>LISTAGEM DE PARCELAS DO CONTRATO</b>". 
 ttmnemos.nome  = "".
 create ttmnemos.
-ttmnemos.mnemo  = "~{parc.lista}~}".
+ttmnemos.mnemo  = "~{parc.lista~}".
 ttmnemos.nome   = "".
 
 create ttmnemos. 
