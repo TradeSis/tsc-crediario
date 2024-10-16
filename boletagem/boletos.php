@@ -119,7 +119,7 @@ include_once(__DIR__ . '/../header.php');
                         <th>Valor Cobrado</th>
                         <th>Dt Pagamento</th>
                         <th>Dt Baixa</th>
-                        <th>Situação</th>
+                        <th class="col-1">Situação</th>
                         <th></th>
                     </tr>
                     <tr class="ts-headerTabelaLinhaBaixo">
@@ -243,8 +243,8 @@ include_once(__DIR__ . '/../header.php');
                             linha += "<td>" + parseFloat(object.VlCobrado).toFixed(2).replace(',', '.') + "</td>";
                             linha += "<td>" + (object.DtPagamento ? formatDate(object.DtPagamento) : "--") + "</td>";
                             linha += "<td>" + (object.DtBaixa ? formatDate(object.DtBaixa) : "--") + "</td>";
-                            linha += "<td>" + object.situacaoDescricao + "</td>";
-
+                            linha += "<td>" + object.situacaoDescricao + "<br>";
+                            
                             linha = linha + "<td>" + "<button type='button' class='btn btn-info btn-sm' data-bs-toggle='modal' data-bs-target='#modalBoletoVisualizar' data-bolcod='" + object.bolcod + "'><i class='bi bi-eye-fill'></i></button></td>";
 
                             linha += "</tr>";
