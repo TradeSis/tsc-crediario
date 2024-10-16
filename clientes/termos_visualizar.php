@@ -233,7 +233,7 @@ $mnemos = buscaMnemos();
 
             normalizedValue = normalizedValue.replace(/[\u0300-\u036f]/g, '');
 
-            this.value = normalizedValue.replace(/[^a-zA-Z0-9\s\-{}\[\].,:/|\\$_()%*]/g, '');
+            this.value = normalizedValue.replace(/[^a-zA-Z0-9\s\-{}\[\].,:/|\\$_()%*#><=]/g, '');
         });
 
         $(document).on('click', '#buscarTermo', function() {
