@@ -12,11 +12,13 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
 
 def temp-table ttaoacparcela  no-undo serialize-name "aoacparcela"  /* JSON SAIDA */
     FIELD parcela like aoacparcela.parcela 
-        FIELD dtvencimento LIKE aoacparcela.dtvencimento
-        FIELD vlcobrado LIKE aoacparcela.vlcobrado
-        FIELD contnum LIKE aoacparcela.contnum
-        FIELD dtbaixa LIKE aoacparcela.dtbaixa
-        FIELD situacao LIKE aoacparcela.situacao 
+    FIELD dtvencimento LIKE aoacparcela.dtvencimento
+    FIELD vlcobrado LIKE aoacparcela.vlcobrado
+    FIELD contnum LIKE aoacparcela.contnum
+    FIELD dtbaixa LIKE aoacparcela.dtbaixa
+    FIELD situacao LIKE aoacparcela.situacao 
+    FIELD segprestamista LIKE aoacparcela.segprestamista 
+    FIELD vlr_parcelaOriginal LIKE aoacparcela.vlr_parcelaOriginal 
     FIELD nossonumero LIKE banbolorigem.nossonumero
     FIELD dtenvio LIKE banboleto.dtenvio
     FIELD bol_situacao LIKE banboleto.situacao

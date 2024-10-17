@@ -169,7 +169,7 @@ $oferta = $ofertaAcordo["acooferta"][0];
                                         <th>parc</th>
                                         <th>Vlr parcela</th>
                                         <th>Vlr Seg. Prestamista</th>
-                                        <th>Vlr Total</th>
+                                        <th>Vlr Parcela Original</th>
                                         <th>perc</th>
                                     </tr>
                                 </thead>
@@ -291,9 +291,9 @@ $oferta = $ofertaAcordo["acooferta"][0];
                         var object = json[$i];
                         linha = linha + "<tr>";
                         linha = linha + "<td>" + object.titpar + "</td>";
-                        linha = linha + "<td>" + object.vlr_parcela + "</td>";
-                        linha = linha + "<td>" + object.segprestamista.toFixed(2) + "</td>";
-                        linha = linha + "<td>" + object.totalsegprestamista.toFixed(2) + "</td>";
+                        linha = linha + "<td>" + (object.vlr_parcela != "0" ? object.vlr_parcela.toFixed(2) : "0") + "</td>";
+                        linha = linha + "<td>" + (object.segprestamista != "0" ? object.segprestamista.toFixed(2) : "0") + "</td>";
+                        linha = linha + "<td>" + (object.vlr_parcelaOriginal != "0" ? object.vlr_parcelaOriginal.toFixed(2) : "0") + "</td>";
                         linha = linha + "<td>" + formatPorcentage(object.perc_parcela) + "</td>";
 
                         linha = linha + "</tr>";
