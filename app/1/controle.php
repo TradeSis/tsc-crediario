@@ -37,7 +37,6 @@ if ($metodo=="GET"){
         include 'contrassin.php';
       break;
 
-
       case "parametrizacao":
         include 'boletagparam.php';
       break;
@@ -52,6 +51,9 @@ if ($metodo=="GET"){
 
       case "contrassinestab":
         include 'contrassinestab.php';
+
+      case "finan":
+        include 'finan.php';
 
       break;
 
