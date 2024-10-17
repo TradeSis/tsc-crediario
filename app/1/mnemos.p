@@ -102,31 +102,31 @@ create ttmnemos.
 ttmnemos.mnemo  = "~{dtUltVen~}".
 ttmnemos.nome   = "Ultimo vencimento".
 create ttmnemos.
-ttmnemos.mnemo  = "~{parc.valor}~}".
+ttmnemos.mnemo  = "~{parc.valor~}".
 ttmnemos.nome   = "Valor das parcelas do Contrato ".
 create ttmnemos.
-ttmnemos.mnemo  = "~{qtdParc}~}".
+ttmnemos.mnemo  = "~{qtdParc~}".
 ttmnemos.nome   = "Qtd de parcelas do Contrato ".
 
 create ttmnemos. 
 ttmnemos.mnemo =  "<b>LISTAGEM DE CONTRATOS</b>". 
 ttmnemos.nome  = "".
 create ttmnemos.
-ttmnemos.mnemo  = "~{cont.lista}~}".
+ttmnemos.mnemo  = "~{cont.lista~}".
 ttmnemos.nome   = "".
 
 create ttmnemos. 
 ttmnemos.mnemo =  "<b>LISTAGEM DE PRODUTOS DO CONTRATO</b>". 
 ttmnemos.nome  = "".
 create ttmnemos.
-ttmnemos.mnemo  = "~{prod.lista}~}".
+ttmnemos.mnemo  = "~{prod.lista~}".
 ttmnemos.nome   = "".
 
 create ttmnemos. 
 ttmnemos.mnemo =  "<b>LISTAGEM DE PARCELAS DO CONTRATO</b>". 
 ttmnemos.nome  = "".
 create ttmnemos.
-ttmnemos.mnemo  = "~{parc.lista}~}".
+ttmnemos.mnemo  = "~{parc.lista~}".
 ttmnemos.nome   = "".
 
 create ttmnemos. 
@@ -139,7 +139,10 @@ create ttmnemos.
 ttmnemos.mnemo  = "~{vlEntrada~}".
 ttmnemos.nome   = "valor da entrada do contrato".
 create ttmnemos.
-ttmnemos.mnemo  = "~{princ~}".
+ttmnemos.mnemo  = "~{vlFinanciado~}".
+ttmnemos.nome   = "vlPrinc + vlIof + vlTFC (+ spVlTotal se contrato != CDC".
+create ttmnemos.
+ttmnemos.mnemo  = "~{vlPrinc~}".
 ttmnemos.nome   = "valor do principal".
 create ttmnemos.
 ttmnemos.mnemo  = "~{princ.perc~}".
@@ -195,11 +198,14 @@ create ttmnemos.
 ttmnemos.mnemo = "~{spVlIof~}".
 ttmnemos.nome  = "Valor IOF Seguro".
 create ttmnemos.
+ttmnemos.mnemo = "~{spIof.perc##~}".
+ttmnemos.nome  = "percentual IOF Seguro (dinâmico)".
+create ttmnemos.
 ttmnemos.mnemo = "~{spRR~}".
 ttmnemos.nome  = "remuneracao representante".
 create ttmnemos.
-ttmnemos.mnemo = "~{spRR.perc~}".
-ttmnemos.nome  = "percentual remuneracao representante".
+ttmnemos.mnemo = "~{spRR.perc##~}".
+ttmnemos.nome  = "percentual remuneracao representante (dinâmico)".
 create ttmnemos.
 ttmnemos.mnemo = "~{spDtVigIni~}".
 ttmnemos.nome  = "data inicio de vigencia".
