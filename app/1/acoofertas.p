@@ -71,7 +71,7 @@ then do:
     then do:
         create ttsaida.
         ttsaida.tstatus = 400.
-        ttsaida.descricaoStatus = "Cliente Nao encontrado".
+        ttsaida.descricaoStatus = "Cliente não encontrado".
 
         hsaida  = temp-table ttsaida:handle.
 
@@ -97,7 +97,7 @@ then do:
         then do:
             create ttsaida.
             ttsaida.tstatus = 400.
-            ttsaida.descricaoStatus = "Cliente Nao encontrado".
+            ttsaida.descricaoStatus = "Cliente não encontrado".
 
             hsaida  = temp-table ttsaida:handle.
 
@@ -144,7 +144,7 @@ if not avail ttnegociacao
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
-    ttsaida.descricaoStatus = "Nao encontrado".
+    ttsaida.descricaoStatus = "Nenhuma oferta encontrada".
 
     hsaida  = temp-table ttsaida:handle.
 
