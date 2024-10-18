@@ -136,6 +136,12 @@ if (isset($_GET['operacao'])) {
 		return $termos;
 
 	}
+    if ($operacao == "buscaTermoTesteJSON") {
+		$termos = chamaAPI($url . "/bsweb/api", '/termos/buscaTermoTeste', $_POST["jsonEntrada"], 'POST');
+		echo json_encode($termos);
+		return $termos;
+
+	}
 
 	
 	

@@ -238,12 +238,19 @@ $mnemos = buscaMnemos();
 
         $(document).on('click', '#buscarTermo', function() {
             var jsonEntrada = $('#json').val();
-            
+            if (termoID === "TERMO-TESTE") {
+                var jsonParsed = JSON.parse(jsonEntrada); 
+                jsonParsed.rascunho = "RASCUNHO"; 
+                jsonEntrada = JSON.stringify(jsonParsed); 
+                var url = '../database/termos.php?operacao=buscaTermoTesteJSON';
+            } else {
+                var url = '../database/termos.php?operacao=buscaTermosJSON'; 
+            }
 
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '../database/termos.php?operacao=buscaTermosJSON',
+                url: url,
                 beforeSend: function() {
                     $("#termoJSON").val("Carregando termo...");
                 },
@@ -271,11 +278,19 @@ $mnemos = buscaMnemos();
         });
         $(document).on('click', '#buscarRascunho', function() {
             var jsonEntrada = $('#json').val();
-            var termoID = '<?php echo $termo['IDtermo'] ?>';
+            if (termoID === "TERMO-TESTE") {
+                var jsonParsed = JSON.parse(jsonEntrada); 
+                jsonParsed.rascunho = "RASCUNHO"; 
+                jsonEntrada = JSON.stringify(jsonParsed); 
+                var url = '../database/termos.php?operacao=buscaTermoTesteJSON';
+            } else {
+                var url = '../database/termos.php?operacao=buscaRascunhoJSON'; 
+            }
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '../database/termos.php?operacao=buscaRascunhoJSON',
+                url: url,
                 beforeSend: function() {
                     $("#rascunhoJSON").val("Carregando termo...");
                 },
@@ -283,7 +298,6 @@ $mnemos = buscaMnemos();
                     jsonEntrada: jsonEntrada
                 },
                 success: function(data) {
-                    console.log(data);
                     if(data != null){
                         var termo = data.find(termo => termo.tipo === termoID);
     

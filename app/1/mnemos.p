@@ -31,10 +31,13 @@ ttmnemos.mnemo = "~{nomeSocial~}".
 ttmnemos.nome  = "Nome Social".
 create ttmnemos.
 ttmnemos.mnemo = "~{cpfCnpj~}".
-ttmnemos.nome  = "CPF/CNPJdo cliente".
+ttmnemos.nome  = "CPF/CNPJ do cliente".
 create ttmnemos.
 ttmnemos.mnemo = "~{rg~}".
 ttmnemos.nome  = "RG do cliente".
+create ttmnemos.
+ttmnemos.mnemo = "~{dtNascimento~}".
+ttmnemos.nome  = "Data de nascimento do cliente".
 create ttmnemos.
 ttmnemos.mnemo = "~{end.logradouro~}".
 ttmnemos.nome  = "Endereco do cliente".
@@ -140,7 +143,7 @@ ttmnemos.mnemo  = "~{vlEntrada~}".
 ttmnemos.nome   = "valor da entrada do contrato".
 create ttmnemos.
 ttmnemos.mnemo  = "~{vlFinanciado~}".
-ttmnemos.nome   = "vlPrinc + vlIof + vlTFC (+ spVlTotal se contrato != CDC".
+ttmnemos.nome   = "vlPrinc + vlIof + vlTFC + spVlTotal".
 create ttmnemos.
 ttmnemos.mnemo  = "~{vlPrinc~}".
 ttmnemos.nome   = "valor do principal".
@@ -212,6 +215,12 @@ ttmnemos.nome  = "data inicio de vigencia".
 create ttmnemos.
 ttmnemos.mnemo = "~{spDtVigFim~}".
 ttmnemos.nome  = "data fim de vigencia".
+create ttmnemos.
+ttmnemos.mnemo = "~{sp27~}".
+ttmnemos.nome  = "Profissional CLT (x)".
+create ttmnemos.
+ttmnemos.mnemo = "~{sp28~}".
+ttmnemos.nome  = "Profissional Autonomo (x)".
 
 
 hsaida  = TEMP-TABLE ttmnemos:handle.
