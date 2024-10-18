@@ -18,6 +18,10 @@ if (isset($_POST['cpfCnpj'])) {
 
 
 $ofertaAcordo = buscaOfertasAcordoOnline($tpNegociacao, $codigoCliente, $cpfCnpj);
+if(isset($ofertaAcordo["status"]) && $ofertaAcordo["status"] = 400){
+    header("Location: oferta_parametros.php?msgErro=" . $ofertaAcordo["descricaoStatus"] . " ");
+}
+
 $cliente = $ofertaAcordo["cliente"][0];
 $clicod = $cliente['clicod'];
 

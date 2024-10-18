@@ -155,7 +155,9 @@ $dtcanc = ($acordo['dtcanc'] != null ? date('d/m/Y', strtotime($acordo['dtcanc']
                             <tr class="ts-headerTabelaLinhaCima">
                                 <th>Par</th>
                                 <th>Venc</th>
-                                <th class="text-end">Vl Acordo</th>
+                                <th class="text-end">Vlr Parcela</th>
+                                <th class="text-end">Vlr Seguro</th>
+                                <th class="text-end">Vlr Original</th>
                                 <th class="text-end">Contrato</th>
                                 <th>Dt Baixa</th>
                                 <th>Sit</th>
@@ -310,6 +312,8 @@ $dtcanc = ($acordo['dtcanc'] != null ? date('d/m/Y', strtotime($acordo['dtcanc']
                         linha = linha + "<td>" + object.parcela + "</td>";
                         linha = linha + "<td>" + (object.dtvencimento != "null" ? formatDate(object.dtvencimento) : "") + "</td>";
                         linha = linha + "<td class='text-end'>" + parseFloat(object.vlcobrado).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.segprestamista).toFixed(2).replace('.', ',') + "</td>";
+                        linha = linha + "<td class='text-end'>" + parseFloat(object.vlr_parcelaOriginal).toFixed(2).replace('.', ',') + "</td>";
                         linha = linha + "<td class='text-end'>" + object.contnum + "</td>";
                         linha = linha + "<td>" + (object.dtbaixa != "null" ? formatDate(object.dtbaixa) : "") + "</td>";
                         linha = linha + "<td>" + object.situacao + "</td>";
