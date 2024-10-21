@@ -51,11 +51,20 @@ if ($metodo=="GET"){
 
       case "contrassinestab":
         include 'contrassinestab.php';
+      break;
 
       case "finan":
         include 'finan.php';
-
       break;
+
+      case "parametroscarteira":
+        include 'parametroscarteira.php';
+      break;
+
+      case "parametrosproduto":
+        include 'parametrosproduto.php';
+      break;
+
 
       default:
         $jsonSaida = json_decode(json_encode(
@@ -70,6 +79,14 @@ if ($metodo=="GET"){
     switch ($funcao) {
       case "parametrizacao":
         include 'boletagparam_inserir.php';
+      break;
+
+      case "parametroscarteira":
+        include 'parametroscarteira_inserir.php';
+      break;
+
+      case "parametrosproduto":
+        include 'parametrosproduto_inserir.php';
       break;
 
       default:
@@ -90,6 +107,15 @@ if ($metodo=="GET"){
       case "parametrizacao":
         include 'boletagparam_alterar.php';
       break;
+
+      case "parametroscarteira":
+        include 'parametroscarteira_alterar.php';
+      break;
+
+      case "parametrosproduto":
+        include 'parametrosproduto_alterar.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -101,6 +127,15 @@ if ($metodo=="GET"){
   
   if ($metodo=="DELETE"){
     switch ($funcao) {
+
+      case "parametroscarteira":
+        include 'parametroscarteira_excluir.php';
+      break;
+
+      case "parametrosproduto":
+        include 'parametrosproduto_excluir.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
