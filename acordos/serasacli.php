@@ -33,12 +33,13 @@ include_once('../header.php');
         </div>
 
         <div id="ts-tabs">
-            <div class="tab whiteborder" id="tab-envios">Envios</div>
-            <div class="tab" id="tab-enviados">Enviados</div>
+            <!-- Lucas 21102024- comentado tab Enviados -->
+            <!-- <div class="tab whiteborder" id="tab-envios">Envios</div> -->
+            <div class="tab whiteborder" id="tab-enviados">Enviados</div>
 
             <div class="line"></div>
 
-            <div class="tabContent">
+            <!-- <div class="tabContent">
                 <div class="row d-flex align-items-center justify-content-center pt-1">
 
                     <div class="col-7">
@@ -78,13 +79,13 @@ include_once('../header.php');
                 </div>
 
                 <h6 class="fixed-bottom" id="textocontadorEnvios" style="color: #13216A;"></h6>
-                <!-- div de loading -->
+              
                 <div class="text-center" id="div-loadEnvios" style="margin-top: -200px; display: none;">
                     <div class="spinner-border" role="status">
                         <span class="visually-hidden"></span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="tabContent">
                 <div class="row d-flex align-items-center justify-content-center mt-1 pt-1 ">
@@ -264,6 +265,7 @@ include_once('../header.php');
         });
 
         // TABELA ENVIOS
+        /* Lucas 21102024- comentado tab Enviados
         $.ajax({
             type: 'POST',
             dataType: 'html',
@@ -311,7 +313,7 @@ include_once('../header.php');
                 });
                 textoEnvios.html('Total: ' + contadorItem + ' | Total Divida: ' + vlrTotalDividaFormatado);
             }
-        });
+        }); */
 
         function buscaEnviados(dtenvioini, dtenviofim) {
             if (dtenvioini == '' || dtenviofim == '') {
