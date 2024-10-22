@@ -8,11 +8,11 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
-    FIELD tipoOperacao          like prodparam.tipoOperacao
-    FIELD codpro                like prodparam.codpro
-    FIELD assEletronico         like prodparam.assEletronico
-    FIELD boletado              like prodparam.boletado
-    FIELD vlrMinAcrescimo       like prodparam.vlrMinAcrescimo.
+    FIELD tipoOperacao          like sicproparam.tipoOperacao
+    FIELD codpro                like sicproparam.codpro
+    FIELD assEletronico         like sicproparam.assEletronico
+    FIELD boletado              like sicproparam.boletado
+    FIELD vlrMinAcrescimo       like sicproparam.vlrMinAcrescimo.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -50,10 +50,10 @@ then do:
     return.
 end.
 
-find prodparam where prodparam.codpro = ttentrada.codpro AND
-                        prodparam.tipoOperacao = ttentrada.tipoOperacao
+find sicproparam where sicproparam.codpro = ttentrada.codpro AND
+                        sicproparam.tipoOperacao = ttentrada.tipoOperacao
                         no-lock no-error.
-if avail prodparam
+if avail sicproparam
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
@@ -68,8 +68,8 @@ end.
 
 
 do on error undo:
-    create prodparam.
-    BUFFER-COPY ttentrada TO prodparam.
+    create sicproparam.
+    BUFFER-COPY ttentrada TO sicproparam.
 end.
 
 create ttsaida.

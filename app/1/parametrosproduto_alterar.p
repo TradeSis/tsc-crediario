@@ -8,11 +8,11 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
-    FIELD tipoOperacao          like prodparam.tipoOperacao
-    FIELD codpro                like prodparam.codpro
-    FIELD assEletronico         like prodparam.assEletronico
-    FIELD boletado              like prodparam.boletado
-    FIELD vlrMinAcrescimo       like prodparam.vlrMinAcrescimo.
+    FIELD tipoOperacao          like sicproparam.tipoOperacao
+    FIELD codpro                like sicproparam.codpro
+    FIELD assEletronico         like sicproparam.assEletronico
+    FIELD boletado              like sicproparam.boletado
+    FIELD vlrMinAcrescimo       like sicproparam.vlrMinAcrescimo.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -48,10 +48,10 @@ then do:
     return.
 end.
 
-find prodparam where prodparam.codpro = ttentrada.codpro AND
-                        prodparam.tipoOperacao = ttentrada.tipoOperacao
+find sicproparam where sicproparam.codpro = ttentrada.codpro AND
+                        sicproparam.tipoOperacao = ttentrada.tipoOperacao
                         no-lock no-error.
-IF NOT avail prodparam
+IF NOT avail sicproparam
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
@@ -65,21 +65,21 @@ then do:
 end.
 
  do on error undo:   
-    find prodparam where prodparam.codpro = ttentrada.codpro AND
-                        prodparam.tipoOperacao = ttentrada.tipoOperacao
+    find sicproparam where sicproparam.codpro = ttentrada.codpro AND
+                        sicproparam.tipoOperacao = ttentrada.tipoOperacao
                         exclusive.
 
         if ttentrada.assEletronico <> ?
         then do:
-            prodparam.assEletronico = ttentrada.assEletronico.
+            sicproparam.assEletronico = ttentrada.assEletronico.
         end.
         if ttentrada.boletado <> ?
         then do:
-            prodparam.boletado = ttentrada.boletado.
+            sicproparam.boletado = ttentrada.boletado.
         end.
         if ttentrada.vlrMinAcrescimo <> ?
         then do:
-            prodparam.vlrMinAcrescimo = ttentrada.vlrMinAcrescimo.
+            sicproparam.vlrMinAcrescimo = ttentrada.vlrMinAcrescimo.
         end.
         
 end.

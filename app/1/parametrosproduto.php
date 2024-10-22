@@ -19,9 +19,9 @@ $dados = array();
       $dados = $dados["conteudoSaida"][0];
   } else { 
      if (($jsonEntrada['dadosEntrada'][0]['codpro'] != null)) {  // Verifica se tem mais de 1 registro
-      $dados = $dados["prodparam"][0]; // Retorno sem array
+      $dados = $dados["sicproparam"][0]; // Retorno sem array
     } else {
-      $dados = $dados["prodparam"]; 
+      $dados = $dados["sicproparam"]; 
     }
 
   }

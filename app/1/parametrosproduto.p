@@ -8,11 +8,11 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
-    field codpro  like prodparam.codpro
-    field tipoOperacao  like prodparam.tipoOperacao.
+    field codpro  like sicproparam.codpro
+    field tipoOperacao  like sicproparam.tipoOperacao.
 
-def temp-table ttprodparam  no-undo serialize-name "prodparam"  /* JSON SAIDA */
-    like prodparam
+def temp-table ttsicproparam  no-undo serialize-name "sicproparam"  /* JSON SAIDA */
+    like sicproparam
     field cobnom like cobra.cobnom.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
@@ -36,20 +36,20 @@ then do:
     return.
 end.
 
-for each prodparam where
+for each sicproparam where
     (if ttentrada.codpro = ? AND ttentrada.tipoOperacao = ?
     then true /* TODOS */
-    ELSE prodparam.codpro = ttentrada.codpro AND prodparam.tipoOperacao = ttentrada.tipoOperacao)
+    ELSE sicproparam.codpro = ttentrada.codpro AND sicproparam.tipoOperacao = ttentrada.tipoOperacao)
     no-lock.
 
-    create ttprodparam.
-    BUFFER-COPY prodparam TO ttprodparam.
+    create ttsicproparam.
+    BUFFER-COPY sicproparam TO ttsicproparam.
 
 end. 
 
 
-find first ttprodparam no-error.
-if not avail ttprodparam
+find first ttsicproparam no-error.
+if not avail ttsicproparam
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
@@ -62,7 +62,7 @@ then do:
     return.
 end.
 
-hsaida  = TEMP-TABLE ttprodparam:handle.
+hsaida  = TEMP-TABLE ttsicproparam:handle.
 
 
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).

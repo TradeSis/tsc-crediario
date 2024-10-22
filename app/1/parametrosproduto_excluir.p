@@ -8,8 +8,8 @@ def var hentrada as handle.             /* HANDLE ENTRADA */
 def var hsaida   as handle.             /* HANDLE SAIDA */
 
 def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA */
-    FIELD tipoOperacao                  like prodparam.tipoOperacao
-    FIELD codpro                        like prodparam.codpro.
+    FIELD tipoOperacao                  like sicproparam.tipoOperacao
+    FIELD codpro                        like sicproparam.codpro.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -45,10 +45,10 @@ then do:
     return.
 end.
 
-find prodparam where prodparam.codpro = ttentrada.codpro AND
-                        prodparam.tipoOperacao = ttentrada.tipoOperacao
+find sicproparam where sicproparam.codpro = ttentrada.codpro AND
+                        sicproparam.tipoOperacao = ttentrada.tipoOperacao
                         no-lock no-error.
-IF NOT avail prodparam
+IF NOT avail sicproparam
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
@@ -62,11 +62,11 @@ then do:
 end.
 
  do on error undo:   
-    find prodparam where prodparam.codpro = ttentrada.codpro AND
-                        prodparam.tipoOperacao = ttentrada.tipoOperacao
+    find sicproparam where sicproparam.codpro = ttentrada.codpro AND
+                        sicproparam.tipoOperacao = ttentrada.tipoOperacao
                         exclusive.
 
-    delete prodparam.
+    delete sicproparam.
         
 end.
     
