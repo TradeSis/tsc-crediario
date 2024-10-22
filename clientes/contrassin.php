@@ -103,22 +103,53 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                 </tbody>
             </table>
         </div>
-        <h6 class="fixed-bottom" id="textocontador" style="color: #13216A;"></h6>
-
+        <div class="fixed-bottom d-flex justify-content-between align-items-center" style="padding: 10px; background-color: #f8f9fa;">
+            <h6 id="textocontador" style="color: #13216A;"></h6>
+            <div>
+                <button id="prevPage" class="btn btn-primary mr-2" style="display:none;">Anterior</button>
+                <button id="nextPage" class="btn btn-primary" style="display:none;">Proximo</button>
+            </div>
+        </div>
     </div>
 
+    
     <!--------- FILTRO PERIODO --------->
     <?php include_once 'modal_periodo.php' ?>
 
     <!--------- MODAIS DE ZOOM --------->
     <?php include ROOT . '/cadastros/zoom/estab.php'; ?>
 
+    <div class="modal" id="csvModal" tabindex="-1" aria-labelledby="csvModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">CSV Assinatura</h5>
+                </div>
+                <div class="divmensagem">
+                    <div class="modal-body">
+                        <div class="col text-center">
+                            <div class="alert alertMesg" role="alert" id="mensagemCSV"></div>
+                            <div id="linkContainer"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- LOCAL PARA COLOCAR OS JS -->
 
     <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
     <script>
-        buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+        var qtdParam = 10;
+        var prirecatu = null;
+        var ultrecatu = null;
+
+        buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
 
         $(document).ready(function() {
             var texto = $("#textocontador");
@@ -129,22 +160,22 @@ $contrassin = "Sim"; //usando no include de zoomEstab
             var dtproc = $("#dtproc");
                 
             if (dtproc.is(":disabled")) {
-                buscar(null, null, $("#etbcod").val(), null, null);
+                buscar(null, null, $("#etbcod").val(), null, null, null, null);
             } else {
-                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
             }
             $('#dtproc').val("");
         }
 
         function limparPeriodo() {
-            buscar($("#contnum").val(), null,$("#etbcod").val(), null, null);
+            buscar($("#contnum").val(), null,$("#etbcod").val(), null, null, null, null);
             $('#dtproc').val("");
             $('#dtini').val("");
             $('#dtfim').val("");
             $('#periodoModal').modal('hide');
         };
 
-        function buscar(contnum, dtproc, etbcod, dtini, dtfim) {
+        function buscar(contnum, dtproc, etbcod, dtini, dtfim, recatuParam, paginacao) {
             //alert (buscar);
             var h6Element = $("#filtroh6 h6");
             var text = "";
@@ -172,9 +203,14 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                     dtproc: dtproc,
                     etbcod: etbcod,
                     dtini: dtini,
-                    dtfim: dtfim
+                    dtfim: dtfim,
+                    recatu: recatuParam,
+                    qtd: qtdParam,
+                    paginacao: paginacao
                 },
                 success: function (msg) {
+                    $("#prevPage, #nextPage").show();
+
                     //alert("segundo alert: " + msg);
                     //console.log(msg);
                     var contadorItem = 0;
@@ -206,6 +242,23 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                     }
                     $("#dados").html(linha);
 
+                    $("#prevPage, #nextPage").show();
+                    if (recatuParam == null) {
+                        $("#prevPage").hide();
+                    }
+                    if (json.length < qtdParam) {
+                        $("#nextPage").hide();
+                    }
+                    
+                    if (json.length > 0) {
+                        prirecatu = json[0].recatu;
+                        ultrecatu = json[json.length - 1].recatu;
+                        if (json[0].etbcod == 1) {
+                            prirecatu = null;
+                            $("#prevPage").hide();
+                        }
+                    }
+
                     var texto = $("#textocontador");
                     var VlTotal = contadorVlTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                     texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlTotal);
@@ -214,21 +267,21 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         }
 
         document.getElementById("buscar").addEventListener("click",function () {
-            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
         })
         $("#etbcod").change(function() {
-            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
         });
         $(document).ready(function() {
             $("#filtrarButton").click(function() {
                 var dtproc = $("#dtproc");
                 
                 if (dtproc.is(":disabled")) {
-                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
                     $('#dtproc').val("");
                 } 
                 else {
-                    buscar($("#contnum").val(), $("#dtproc").val(), $("#etbcod").val(), null, null);
+                    buscar($("#contnum").val(), $("#dtproc").val(), $("#etbcod").val(), null, null, null, null);
                     $('#dtini').val("");
                     $('#dtfim').val("");
                 } 
@@ -237,8 +290,16 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         });    
         document.addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
-                buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
             }
+        });
+        
+        $("#prevPage").click(function () {
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), prirecatu, "prev");
+        });
+        
+        $("#nextPage").click(function () {
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), ultrecatu, "next");
         });
         
         $(document).on('click', '.processar-btn', function () {
@@ -264,38 +325,42 @@ $contrassin = "Sim"; //usando no include de zoomEstab
             });
         });
 
-        document.getElementById("exportCsvButton").addEventListener("click", function () {
-            exportTableToCSV('contrassin.csv');
-        });
-
-        function exportTableToCSV(filename) {
-            var csv = [];
-            var rows = document.querySelectorAll("table tr");
-
-            for (var i = 0; i < rows.length; i++) {
-                if (rows[i].classList.contains("ts-headerTabelaLinhaBaixo")) {
-                    continue;
-                }
-                var row = [],
-                    cols = rows[i].querySelectorAll("td, th");
-                for (var j = 0; j < cols.length - 1; j++) { 
-                    let cellText = cols[j].innerText.trim();
-                    if (j === 8) {
-                        cellText = cellText.replace('.', '').replace(',', '.');
+        document.getElementById("exportCsvButton").addEventListener("click", function() {
+            $('#csvModal').modal('show');
+            var texto = $("#mensagemCSV");
+            texto.html("Gerando CSV...");
+            $.ajax({
+                type: 'POST',
+                dataType: 'html',
+                url: "<?php echo URLROOT ?>/crediario/database/crediariocontrato.php?operacao=csvContrassin",
+                data: {
+                    contnum: $("#contnum").val(),
+                    dtproc: $("#dtproc").val(),
+                    etbcod: $("#etbcod").val(),
+                    dtini: $("#dtini").val(),
+                    dtfim: $("#dtfim").val()
+                },
+                success: function(data) {
+                    var json = JSON.parse(data);
+                    if (json['status'] == 400) {
+                        //alert(json['descricaoStatus'])
+                        var texto = $("#mensagemCSV");
+                        texto.html(json['descricaoStatus']);
+                        $('.alertMesg').addClass('alert-danger');
+                        $('.alertMesg').removeClass('alert-success');
+                    } else {
+                        let textocomlink = json['descricaoStatus'].split(" ");
+                        let link = textocomlink[3].split("/");
+                        var texto = $("#mensagemCSV");
+                        texto.html(json['descricaoStatus']);
+                        var a = $('<a></a>').attr('href', "/relatorios/" + link[3]).text('Clique aqui para baixar');
+                        $('#linkContainer').html(a);
+                        $('.alertMesg').addClass('alert-success');
+                        $('.alertMesg').removeClass('alert-danger');
                     }
-                    row.push(cellText);
                 }
-                csv.push(row.join(";"));
-            }
-            var csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
-            var downloadLink = document.createElement("a");
-            downloadLink.download = filename;
-            downloadLink.href = window.URL.createObjectURL(csvFile);
-            downloadLink.style.display = "none";
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
+            });
+        });
 
         function formatarData(data) {
             var parts = data.split('-');
@@ -343,7 +408,7 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
-            buscar($("#contnum").val(), $("#dtproc").val(),etbcod, $("#dtini").val(), $("#dtfim").val());
+            buscar($("#contnum").val(), $("#dtproc").val(),etbcod, $("#dtini").val(), $("#dtfim").val(), null, null);
             $('#etbcod').val(etbcod);
             $('#zoomEstabModal').modal('hide');
         });

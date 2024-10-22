@@ -47,33 +47,26 @@ if (isset ($_GET['operacao'])) {
 
 	if ($operacao == "filtrar") {
 
-		$contnum = $_POST["contnum"];
-		$dtproc = $_POST["dtproc"];
-		$etbcod = $_POST["etbcod"];
-		$dtini = $_POST["dtini"];
-		$dtfim = $_POST["dtfim"];
-		if ($contnum == "") {
-			$contnum = null;
-		}
-		if ($dtproc == "") {
-			$dtproc = null;
-		}
-		if ($etbcod == "") {
-			$etbcod = null;
-		}
-		if ($dtini == "") {
-			$dtini = null;
-		}
-		if ($dtfim == "") {
-			$dtfim = null;
-		}
+		$contnum = isset($_POST["contnum"])  && $_POST["contnum"] !== "" && $_POST["contnum"] !== "null" ? $_POST["contnum"]  : null;
+		$etbcod = isset($_POST["etbcod"])  && $_POST["etbcod"] !== "" && $_POST["etbcod"] !== "null" ? $_POST["etbcod"]  : null;
+		$dtproc = isset($_POST["dtproc"])  && $_POST["dtproc"] !== "" && $_POST["dtproc"] !== "null" ? $_POST["dtproc"]  : null;
+		$dtini = isset($_POST["dtini"])  && $_POST["dtini"] !== "" && $_POST["dtini"] !== "null" ? $_POST["dtini"]  : null;
+		$dtfim = isset($_POST["dtfim"])  && $_POST["dtfim"] !== "" && $_POST["dtfim"] !== "null" ? $_POST["dtfim"]  : null;
+		$recatu = isset($_POST["recatu"])  && $_POST["recatu"] !== "" && $_POST["recatu"] !== "null" ? $_POST["recatu"]  : null;
+		$qtd = isset($_POST["qtd"])  && $_POST["qtd"] !== "" && $_POST["qtd"] !== "null" ? $_POST["qtd"]  : null;
+		$paginacao = isset($_POST["paginacao"])  && $_POST["paginacao"] !== "" && $_POST["paginacao"] !== "null" ? $_POST["paginacao"]  : "next";
+
 		$apiEntrada = 
 		array("dadosEntrada" => array(
 			array('contnum' => $contnum,
 				'dtproc' => $dtproc,
 				'etbcod' => $etbcod,
 				'dtini' => $dtini,
-				'dtfim' => $dtfim)
+				'dtfim' => $dtfim,
+				'recatu' => $recatu,
+				'qtd' => $qtd,
+				'paginacao' => $paginacao
+			)
 		));
 		$_SESSION['filtro_contrassin'] = $apiEntrada['dadosEntrada'][0];
 		$assinatura = chamaAPI(null, '/crediario/assinatura', json_encode($apiEntrada), 'GET');
@@ -82,6 +75,28 @@ if (isset ($_GET['operacao'])) {
 				$assinatura = $assinatura["contrassin"]; // TRATAMENTO DO RETORNO
 			}
 		}
+		echo json_encode($assinatura);
+		return $assinatura;
+	}
+
+	if ($operacao == "csvContrassin") {
+
+		$contnum = isset($_POST["contnum"])  && $_POST["contnum"] !== "" && $_POST["contnum"] !== "null" ? $_POST["contnum"]  : null;
+		$etbcod = isset($_POST["etbcod"])  && $_POST["etbcod"] !== "" && $_POST["etbcod"] !== "null" ? $_POST["etbcod"]  : null;
+		$dtproc = isset($_POST["dtproc"])  && $_POST["dtproc"] !== "" && $_POST["dtproc"] !== "null" ? $_POST["dtproc"]  : null;
+		$dtini = isset($_POST["dtini"])  && $_POST["dtini"] !== "" && $_POST["dtini"] !== "null" ? $_POST["dtini"]  : null;
+		$dtfim = isset($_POST["dtfim"])  && $_POST["dtfim"] !== "" && $_POST["dtfim"] !== "null" ? $_POST["dtfim"]  : null;
+
+		$apiEntrada = 
+		array("dadosEntrada" => array(
+			array('contnum' => $contnum,
+				'dtproc' => $dtproc,
+				'etbcod' => $etbcod,
+				'dtini' => $dtini,
+				'dtfim' => $dtfim
+			)
+		));
+		$assinatura = chamaAPI(null, '/crediario/assinatura/csv', json_encode($apiEntrada), 'POST');
 		echo json_encode($assinatura);
 		return $assinatura;
 	}

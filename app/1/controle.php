@@ -80,6 +80,15 @@ if ($metodo=="GET"){
   }
   
   if ($metodo=="POST"){
+    if ($funcao == "boletos" && $parametro == "csv") {
+      $funcao = "boletos/csv";
+      $parametro = null;
+    }
+    if ($funcao == "assinatura" && $parametro == "csv") {
+      $funcao = "assinatura/csv";
+      $parametro = null;
+    }
+    
     switch ($funcao) {
       case "assinaContrato":
         include 'assinaContrato.php';
@@ -87,6 +96,15 @@ if ($metodo=="GET"){
 
       case "parametrizacao":
         include 'boletagparam_alterar.php';
+      break;
+
+      case "assinatura/csv":
+        include 'csvcontrassin.php';
+
+      break;
+      case "boletos/csv":
+        include 'csvboletagbol.php';
+
       break;
       default:
         $jsonSaida = json_decode(json_encode(

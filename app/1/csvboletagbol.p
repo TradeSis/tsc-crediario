@@ -16,25 +16,21 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field dtInicial  like boletagbol.DtEmissao
     field dtFinal    like boletagbol.DtEmissao
     field situacao    like boletagbol.situacao
-    field tipodedata    as char
-    field recatu  AS recid
-    field qtd  AS int
-    field paginacao  AS char.
+    field tipodedata    as char.
 
-def TEMP-TABLE ttboletagbol  no-undo serialize-name "boletagbol"  /* JSON SAIDA */
+    
+def TEMP-TABLE ttboletagbol  no-undo serialize-name "csvboletagbol"  /* JSON SAIDA */
     like boletagbol
     FIELD cpfcnpj           AS CHAR
     FIELD nomeCliente       AS CHAR
-    FIELD situacaoDescricao      AS CHAR
-    FIELD recatu  AS recid 
-    index bolcod is unique primary bolcod asc.
+    FIELD situacaoDescricao      AS CHAR.
 
 def temp-table ttboletagparcela  no-undo serialize-name "boletagparcela"
     like boletagparcela.
 
 def dataset conteudoSaida for ttboletagbol, ttboletagparcela
     DATA-RELATION for1 FOR ttboletagbol, ttboletagparcela         
-        RELATION-FIELDS(ttboletagbol.bolcod,ttboletagparcela.bolcod) NESTED.
+        RELATION-FIELDS(ttboletagbol.bolcod,ttboletagparcela.bolcod) NESTED. 
     
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
@@ -44,8 +40,6 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
 def var vclicod like ttentrada.clifor.
 
 def query q-leitura for boletagbol scrolling.
-def var vrecatu as recid.
-def var vqtd as int.
 
 hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
@@ -62,8 +56,11 @@ if NOT AVAIL ttentrada then do:
     return.    
 end.
 
-vrecatu = ttentrada.recatu.
-vqtd = ttentrada.qtd.
+def var varqcsv as char format "x(65)".
+
+    varqcsv = "/admcom/relat/boletagbol_" + 
+                string(today,"99999999") + "_" + replace(string(time,"HH:MM:SS"),":","") + ".csv".
+
 
 
 IF ttentrada.bolcod <> ? 
@@ -150,15 +147,6 @@ else do:
                 then boletagbol.bancod = ttentrada.bancod else TRUE)
                 no-lock.
 
-                IF vrecatu <> ? THEN DO:
-                    reposition q-leitura to recid vrecatu no-error.
-                    get next  q-leitura.  
-                    if not avail boletagbol
-                    then do:
-                        vrecatu = ?.
-                        return.
-                    end.
-                END.
         end.
         if ttentrada.tipodedata = "Pagamento"
         then do:
@@ -168,15 +156,6 @@ else do:
                 boletagbol.dtpagamento <= ttentrada.dtFinal
                 no-lock.
 
-                IF vrecatu <> ? THEN DO:
-                    reposition q-leitura to recid vrecatu no-error.
-                    get next  q-leitura.  
-                    if not avail boletagbol
-                    then do:
-                        vrecatu = ?.
-                        return.
-                    end.
-                END.
         end.
         if ttentrada.tipodedata = "Baixa"
         then do:
@@ -186,22 +165,10 @@ else do:
                 boletagbol.dtbaixa <= ttentrada.dtFinal
                 no-lock.
 
-                IF vrecatu <> ? THEN DO:
-                    reposition q-leitura to recid vrecatu no-error.
-                    get next  q-leitura.  
-                    if not avail boletagbol
-                    then do:
-                        vrecatu = ?.
-                        return.
-                    end.
-                END.
         end.
 
         REPEAT:
-            IF ttentrada.paginacao = "prev" THEN
-                get prev  q-leitura. 
-            ELSE
-                get next  q-leitura. 
+            get next  q-leitura. 
             IF NOT avail boletagbol THEN LEAVE.
             
             if ttentrada.bancod <> ? THEN IF boletagbol.bancod <> ttentrada.bancod then next.                
@@ -211,45 +178,46 @@ else do:
             BUFFER-COPY boletagbol TO ttboletagbol.
             
             run bolClien.
-            vqtd = vqtd - 1.
-            IF vqtd <= 0 THEN LEAVE.
         END.
     end.
 END.
 
-find first ttboletagbol no-error.
 
-if not avail ttboletagbol
-then do:
-    create ttsaida.
-    ttsaida.tstatus = 400.
-    ttsaida.descricaoStatus = "Boletos nao encontrados".
 
-    hsaida  = temp-table ttsaida:handle.
+output to value(varqcsv).
+put unformatted  "numeroBoleto;cpfCnpj;documento;Banco;" 
+                 "NossoNumero;dataEmissao;dataVencimento;ValorCobrado;"
+                 "dataPagamento;dataBaixa;Situacao;"
+                 skip.
 
-    lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
-    message string(vlcSaida).
-    return.
-end.
+for each ttboletagbol.
 
-hsaida  = dataset conteudoSaida:handle.
+    put unformatted
+        ttboletagbol.bolcod ";"
+        ttboletagbol.cpfcnpj ";"
+        ttboletagbol.Documento ";"
+        ttboletagbol.bancod ";"
+        ttboletagbol.NossoNumero ";"
+        ttboletagbol.DtEmissao format "99/99/9999" ";"
+        ttboletagbol.DtVencimento format "99/99/9999" ";"
+        ttboletagbol.VlCobrado ";"
+        ttboletagbol.DtPagamento format "99/99/9999" ";"
+        ttboletagbol.DtBaixa format "99/99/9999" ";"
+        ttboletagbol.situacao ";"
+        skip.
+end.  
 
+
+output close.
+
+create ttsaida.
+ttsaida.tstatus = 200.
+ttsaida.descricaoStatus = "Arquivo csv gerado " + varqcsv.
+
+hsaida  = temp-table ttsaida:handle.
 
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
-/* export LONG VAR*/
-DEF VAR vMEMPTR AS MEMPTR  NO-UNDO.
-DEF VAR vloop   AS INT     NO-UNDO.
-if length(vlcsaida) > 30000
-then do:
-    COPY-LOB FROM vlcsaida TO vMEMPTR.
-    DO vLOOP = 1 TO LENGTH(vlcsaida): 
-        put unformatted GET-STRING(vMEMPTR, vLOOP, 1). 
-    END.
-end.
-else do:
-    put unformatted string(vlcSaida).
-end.    
-
+put unformatted string(vlcSaida). 
 
 procedure bolClien.
     FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.

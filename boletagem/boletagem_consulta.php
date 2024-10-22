@@ -107,7 +107,13 @@ if (isset($_SESSION['filtro_boletagem'])) {
                 </tbody>
             </table>
         </div>
-        <h6 class="fixed-bottom" id="textocontador" style="color: #13216A;"></h6>
+        <div class="fixed-bottom d-flex justify-content-between align-items-center" style="padding: 10px; background-color: #f8f9fa;">
+            <h6 id="textocontador" style="color: #13216A;"></h6>
+            <div>
+                <button id="prevPage" class="btn btn-primary mr-2" style="display:none;">Anterior</button>
+                <button id="nextPage" class="btn btn-primary" style="display:none;">Proximo</button>
+            </div>
+        </div>
 
     </div>
 
@@ -159,6 +165,27 @@ if (isset($_SESSION['filtro_boletagem'])) {
         </div>
     </div>
 
+    <div class="modal" id="csvModal" tabindex="-1" aria-labelledby="csvModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">CSV Boletagem</h5>
+                </div>
+                <div class="divmensagem">
+                    <div class="modal-body">
+                        <div class="col text-center">
+                            <div class="alert alertMesg" role="alert" id="mensagemCSV"></div>
+                            <div id="linkContainer"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
     <?php include_once ROOT . "/cadastros/zoom/estab.php"; ?>
 
@@ -167,7 +194,11 @@ if (isset($_SESSION['filtro_boletagem'])) {
     <?php include_once ROOT . "/vendor/footer_js.php"; ?>
 
     <script>
-        buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+        var qtdParam = 10;
+        var prirecatu = null;
+        var ultrecatu = null;
+
+        buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
 
         $(document).ready(function() {
             var texto = $("#textocontador");
@@ -178,22 +209,22 @@ if (isset($_SESSION['filtro_boletagem'])) {
             var dtbol = $("#dtbol");
                 
             if (dtbol.is(":disabled")) {
-                buscar(null, null, $("#etbcod").val(), null, null);
+                buscar(null, null, $("#etbcod").val(), null, null, null, null);
             } else {
-                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
             }
             $('#dtbol').val("");
         }
 
         function limparPeriodo() {
-            buscar($("#contnum").val(), null,$("#etbcod").val(), null, null);
+            buscar($("#contnum").val(), null,$("#etbcod").val(), null, null, null, null);
             $('#dtbol').val("");
             $('#dtini').val("");
             $('#dtfim').val("");
             $('#periodoModal').modal('hide');
         };
 
-        function buscar(contnum, dtbol, etbcod, dtini, dtfim) {
+        function buscar(contnum, dtbol, etbcod, dtini, dtfim, recatuParam, paginacao) {
             var boletavel = $("#boletavel").is(':checked');
             //alert (buscar);
             var h6Element = $("#filtroh6 h6");
@@ -223,7 +254,10 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     contnum: contnum,
                     etbcod: etbcod,
                     dtini: dtini,
-                    dtfim: dtfim
+                    dtfim: dtfim,
+                    recatu: recatuParam,
+                    qtd: qtdParam,
+                    paginacao: paginacao
                 },
                 success: function (msg) {
                     //alert("segundo alert: " + msg);
@@ -257,6 +291,23 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     }
                     $("#dados").html(linha);
 
+                    $("#prevPage, #nextPage").show();
+                    if (recatuParam == null) {
+                        $("#prevPage").hide();
+                    }
+                    if (json.length < qtdParam) {
+                        $("#nextPage").hide();
+                    }
+                    
+                    if (json.length > 0) {
+                        prirecatu = json[0].recatu;
+                        ultrecatu = json[json.length - 1].recatu;
+                        if (json[0].etbcod == 1) {
+                            prirecatu = null;
+                            $("#prevPage").hide();
+                        }
+                    }
+
                     var texto = $("#textocontador");
                     var VlTotal = contadorVlTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                     texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlTotal);
@@ -265,24 +316,24 @@ if (isset($_SESSION['filtro_boletagem'])) {
         }
 
         document.getElementById("buscarContrato").addEventListener("click",function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
         })
         $("#etbcod").change(function() {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
         });
         $("#boletavel").change(function() {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
         });
         $(document).ready(function() {
             $("#filtrarButton").click(function() {
                 var dtbol = $("#dtbol");
                 
                 if (dtbol.is(":disabled")) {
-                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
                     $('#dtbol').val("");
                 } 
                 else {
-                    buscar($("#contnum").val(), $("#dtbol").val(), $("#etbcod").val(), null, null);
+                    buscar($("#contnum").val(), $("#dtbol").val(), $("#etbcod").val(), null, null, null, null);
                     $('#dtini').val("");
                     $('#dtfim').val("");
                 } 
@@ -291,8 +342,16 @@ if (isset($_SESSION['filtro_boletagem'])) {
         });    
         document.addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
-                buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val());
+                buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
             }
+        });
+
+        $("#prevPage").click(function () {
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), prirecatu, "prev");
+        });
+        
+        $("#nextPage").click(function () {
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), ultrecatu, "next");
         });
         
         $(document).on('click', '.boletar-btn', function () {
@@ -318,38 +377,44 @@ if (isset($_SESSION['filtro_boletagem'])) {
             });
         });
 
-        document.getElementById("exportCsvButton").addEventListener("click", function () {
-            exportTableToCSV('boletagem.csv');
-        });
-
-        function exportTableToCSV(filename) {
-            var csv = [];
-            var rows = document.querySelectorAll("table tr");
-
-            for (var i = 0; i < rows.length; i++) {
-                if (rows[i].classList.contains("ts-headerTabelaLinhaBaixo")) {
-                    continue;
-                }
-                var row = [],
-                    cols = rows[i].querySelectorAll("td, th");
-                for (var j = 0; j < cols.length - 2; j++) { 
-                    let cellText = cols[j].innerText.trim();
-                    if (j === 8) {
-                        cellText = cellText.replace('.', '').replace(',', '.');
+        document.getElementById("exportCsvButton").addEventListener("click", function() {
+            $('#csvModal').modal('show');
+            var boletavel = $("#boletavel").is(':checked');
+            var texto = $("#mensagemCSV");
+            texto.html("Gerando CSV...");
+            $.ajax({
+                type: 'POST',
+                dataType: 'html',
+                url: "<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=csvBoletagem",
+                data: {
+                    boletavel: boletavel,
+                    dtbol: $("#dtbol").val(),
+                    contnum: $("#contnum").val(),
+                    etbcod: $("#etbcod").val(),
+                    dtini: $("#dtini").val(),
+                    dtfim: $("#dtfim").val()
+                },
+                success: function(data) {
+                    var json = JSON.parse(data);
+                    if (json['status'] == 400) {
+                        //alert(json['descricaoStatus'])
+                        var texto = $("#mensagemCSV");
+                        texto.html(json['descricaoStatus']);
+                        $('.alertMesg').addClass('alert-danger');
+                        $('.alertMesg').removeClass('alert-success');
+                    } else {
+                        let textocomlink = json['descricaoStatus'].split(" ");
+                        let link = textocomlink[3].split("/");
+                        var texto = $("#mensagemCSV");
+                        texto.html(json['descricaoStatus']);
+                        var a = $('<a></a>').attr('href', "/relatorios/" + link[3]).text('Clique aqui para baixar');
+                        $('#linkContainer').html(a);
+                        $('.alertMesg').addClass('alert-success');
+                        $('.alertMesg').removeClass('alert-danger');
                     }
-                    row.push(cellText);
                 }
-                csv.push(row.join(";"));
-            }
-            var csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
-            var downloadLink = document.createElement("a");
-            downloadLink.download = filename;
-            downloadLink.href = window.URL.createObjectURL(csvFile);
-            downloadLink.style.display = "none";
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
+            });
+        });
 
         function formatarData(data) {
             var parts = data.split('-');
@@ -398,7 +463,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
 
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
-            buscar($("#contnum").val(), $("#dtbol").val(),etbcod, $("#dtini").val(), $("#dtfim").val());
+            buscar($("#contnum").val(), $("#dtbol").val(),etbcod, $("#dtini").val(), $("#dtfim").val(), null, null);
             $('#etbcod').val(etbcod);
             $('#zoomEstabModal').modal('hide');
         });

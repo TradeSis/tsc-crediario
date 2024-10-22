@@ -15,19 +15,14 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field dtproc like contrassin.dtproc
     field etbcod like contrassin.etbcod
     field dtini like contrassin.dtinclu
-    field dtfim like contrassin.dtinclu
-    field recatu  AS recid
-    field qtd  AS int
-    field paginacao  AS char.
+    field dtfim like contrassin.dtinclu.
 
 def temp-table ttcontrassin  no-undo serialize-name "contrassin"  /* JSON SAIDA */
     like contrassin
     field cpfCNPJ   as char
     field nomeCliente   as char
     field vltotal   as char
-    field idneurotech   as char
-    FIELD recatu  AS recid 
-    index contnum is unique primary contnum asc.
+    field idneurotech   as char.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -36,8 +31,6 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
 def VAR vcontnum like ttentrada.contnum.
 
 def query q-leitura for contrassin scrolling.
-def var vrecatu as recid.
-def var vqtd as int.
 
 
 hEntrada = temp-table ttentrada:HANDLE.
@@ -55,8 +48,21 @@ if NOT AVAIL ttentrada then do:
     return.    
 end.
 
-vrecatu = ttentrada.recatu.
-vqtd = ttentrada.qtd.
+
+def var varqcsv as char format "x(65)".
+
+if ttentrada.acao = "boletagem"
+then do:
+    varqcsv = "/admcom/relat/boletagem_" + 
+                string(today,"99999999") + "_" + replace(string(time,"HH:MM:SS"),":","") + ".csv".
+end.
+else do:
+    varqcsv = "/admcom/relat/contrassin_" + 
+                string(today,"99999999") + "_" + replace(string(time,"HH:MM:SS"),":","") + ".csv".
+end.
+
+
+
 
 if ttentrada.acao = "boletagem"
 then do:
@@ -67,7 +73,6 @@ then do:
         IF avail contrassin THEN DO:
             create ttcontrassin.
             buffer-copy contrassin to ttcontrassin.
-            ttcontrassin.recatu = recid(contrassin).
         END.
     END.
     ELSE DO:
@@ -80,16 +85,6 @@ then do:
                 contrassin.dtinclu <= ttentrada.dtfim
                 no-lock.
 
-            IF vrecatu <> ? THEN DO:
-                reposition q-leitura to recid vrecatu no-error.
-                get next  q-leitura.  
-                if not avail contrassin
-                then do:
-                    vrecatu = ?.
-                    return.
-                end.
-            END.
-
            
         end.
         ELSE DO: 
@@ -99,16 +94,6 @@ then do:
                 (if ttentrada.etbcod = ? 
                 then true else contrassin.etbcod = ttentrada.etbcod) 
                 no-lock.
-
-            IF vrecatu <> ? THEN DO:
-                reposition q-leitura to recid vrecatu no-error.
-                get next  q-leitura.  
-                if not avail contrassin
-                then do:
-                    vrecatu = ?.
-                    return.
-                end.
-            END.
 
             
         end.
@@ -125,7 +110,6 @@ else do:
         IF avail contrassin THEN DO:
             create ttcontrassin.
             buffer-copy contrassin to ttcontrassin.
-            ttcontrassin.recatu = recid(contrassin).
         END.
     END.
     ELSE DO:
@@ -137,16 +121,6 @@ else do:
                 contrassin.dtinclu <= ttentrada.dtfim
                 no-lock.
 
-            IF vrecatu <> ? THEN DO:
-                reposition q-leitura to recid vrecatu no-error.
-                get next  q-leitura.  
-                if not avail contrassin
-                then do:
-                    vrecatu = ?.
-                    return.
-                end.
-            END.
-
            
         end.
         ELSE DO: 
@@ -156,17 +130,6 @@ else do:
                 then true else contrassin.etbcod = ttentrada.etbcod) 
                 no-lock.
 
-            IF vrecatu <> ? THEN DO:
-                reposition q-leitura to recid vrecatu no-error.
-                get next  q-leitura.  
-                if not avail contrassin
-                then do:
-                    vrecatu = ?.
-                    return.
-                end.
-            END.
-            
-           
         end.
     END.
 
@@ -175,10 +138,7 @@ else do:
 end.    
 
 REPEAT:
-    IF ttentrada.paginacao = "prev" THEN
-        get prev  q-leitura. 
-    ELSE
-        get next  q-leitura. 
+    get next  q-leitura. 
     IF NOT avail contrassin THEN LEAVE.
     
     create ttcontrassin.
@@ -188,75 +148,71 @@ REPEAT:
     ttcontrassin.idBiometria = contrassin.idBiometria.
     ttcontrassin.dtinclu = contrassin.dtinclu.
     ttcontrassin.dtproc = contrassin.dtproc.
-    ttcontrassin.recatu = recid(contrassin).
 
     run contClien.
-    vqtd = vqtd - 1.
-    IF vqtd <= 0 THEN LEAVE.
-
 
 END.
     
-
-  
-
-find first ttcontrassin no-error.
-
-if not avail ttcontrassin
+if ttentrada.acao = "boletagem"
 then do:
-    create ttsaida.
-    ttsaida.tstatus = 400.
-    ttsaida.descricaoStatus = "Assinatura nao encontrada".
+    output to value(varqcsv).
+    put unformatted  "filial;Contrato;Cliente;" 
+                    "cpfCnpj;idBiometria;dtEmissao;"
+                    "boletavel;dtBoletagem;vlTotal;idNeurotech;"
+                    skip.
 
-    hsaida  = temp-table ttsaida:handle.
+    for each ttcontrassin.
 
-    lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
-    message string(vlcSaida).
-    return.
+        put unformatted
+            ttcontrassin.etbcod ";"
+            ttcontrassin.contnum ";"
+            ttcontrassin.clicod ";"
+            ttcontrassin.cpfCNPJ ";"
+            ttcontrassin.idBiometria ";"
+            ttcontrassin.dtinclu format "99/99/9999" ";"
+            ttcontrassin.boletavel ";"
+            ttcontrassin.dtboletagem format "99/99/9999" ";"
+            ttcontrassin.vltotal ";"
+            ttcontrassin.idneurotech ";"
+            skip.
+    end.  
+end.
+else do:
+    output to value(varqcsv).
+    put unformatted  "filial;Contrato;Cliente;Nome;" 
+                    "cpfCnpj;idBiometria;dtEmissao;"
+                    "dtProc;vlTotal;idNeurotech;"
+                    skip.
+
+    for each ttcontrassin.
+
+        put unformatted
+            ttcontrassin.etbcod ";"
+            ttcontrassin.contnum ";"
+            ttcontrassin.clicod ";"
+            ttcontrassin.nomeCliente ";"
+            ttcontrassin.cpfCNPJ ";"
+            ttcontrassin.idBiometria ";"
+            ttcontrassin.dtinclu format "99/99/9999" ";"
+            ttcontrassin.dtproc format "99/99/9999" ";"
+            ttcontrassin.vltotal ";"
+            ttcontrassin.idneurotech ";"
+            skip.
+    end.  
 end.
 
     
 
-hsaida  = TEMP-TABLE ttcontrassin:handle.
+output close.
+
+create ttsaida.
+ttsaida.tstatus = 200.
+ttsaida.descricaoStatus = "Arquivo csv gerado " + varqcsv.
+
+hsaida  = temp-table ttsaida:handle.
 
 lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
-
-/* export LONG VAR*/
-DEF VAR vMEMPTR AS MEMPTR  NO-UNDO.
-DEF VAR vloop   AS INT     NO-UNDO.
-if length(vlcsaida) > 30000
-then do:
-    COPY-LOB FROM vlcsaida TO vMEMPTR.
-    DO vLOOP = 1 TO LENGTH(vlcsaida): 
-        put unformatted GET-STRING(vMEMPTR, vLOOP, 1). 
-    END.
-end.
-else do:
-    put unformatted string(vlcSaida).
-end.    
-/**
-if opsys = "UNIX"
-then do:
-    def var varquivo as char.
-    def var ppid as char.
-    INPUT THROUGH "echo $PPID".
-    DO ON ENDKEY UNDO, LEAVE:
-    IMPORT unformatted ppid.
-    END.
-    INPUT CLOSE.
-    
-    varquivo  = "/ws/works/contrassin" + string(today,"999999") + replace(string(time,"HH:MM:SS"),":","") + trim(ppid) + ".json".
-              
-    lokJson = hsaida:WRITE-JSON("FILE", varquivo, TRUE).
-              
-    os-command value("cat " + varquivo).
-    os-command value("rm -f " + varquivo)
-end.
-else do:
-    lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE). 
-    put unformatted string(vlcSaida).
-end.
-**/
+put unformatted string(vlcSaida). 
 
 
 procedure contClien.
