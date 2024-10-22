@@ -80,7 +80,7 @@ include_once(__DIR__ . '/../header.php');
                                     </select>
                                 </div>
                                 <div class="form-group col">
-                                    <label>Valor Minimo do Acrescismo</label>
+                                    <label>Acrescimo</label>
                                     <input type="number" class="form-control text-end" name="vlrMinAcrescimo" step="0.01">
                                 </div>
                             </div>
@@ -139,7 +139,7 @@ include_once(__DIR__ . '/../header.php');
                                     </select>
                                 </div>
                                 <div class="form-group col">
-                                    <label>Valor Minimo do Acrescismo</label>
+                                    <label>Acrescimo</label>
                                     <input type="number" class="form-control text-end" name="vlrMinAcrescimo" id="vlrMinAcrescimo" step="0.01">
                                 </div>
                             </div>
