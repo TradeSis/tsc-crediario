@@ -52,6 +52,8 @@ if (isset ($_GET['operacao'])) {
 		$dtproc = isset($_POST["dtproc"])  && $_POST["dtproc"] !== "" && $_POST["dtproc"] !== "null" ? $_POST["dtproc"]  : null;
 		$dtini = isset($_POST["dtini"])  && $_POST["dtini"] !== "" && $_POST["dtini"] !== "null" ? $_POST["dtini"]  : null;
 		$dtfim = isset($_POST["dtfim"])  && $_POST["dtfim"] !== "" && $_POST["dtfim"] !== "null" ? $_POST["dtfim"]  : null;
+		$clicod = isset($_POST["clicod"]) && $_POST["clicod"] !== "" ? $_POST["clicod"] : null;
+		$cpfcnpj = isset($_POST["cpfcnpj"]) && $_POST["cpfcnpj"] !== "" ? $_POST["cpfcnpj"] : null;
 		$recatu = isset($_POST["recatu"])  && $_POST["recatu"] !== "" && $_POST["recatu"] !== "null" ? $_POST["recatu"]  : null;
 		$qtd = isset($_POST["qtd"])  && $_POST["qtd"] !== "" && $_POST["qtd"] !== "null" ? $_POST["qtd"]  : null;
 		$paginacao = isset($_POST["paginacao"])  && $_POST["paginacao"] !== "" && $_POST["paginacao"] !== "null" ? $_POST["paginacao"]  : "next";
@@ -63,6 +65,8 @@ if (isset ($_GET['operacao'])) {
 				'etbcod' => $etbcod,
 				'dtini' => $dtini,
 				'dtfim' => $dtfim,
+				'clicod' => $clicod,
+				'cpfcnpj' => $cpfcnpj,
 				'recatu' => $recatu,
 				'qtd' => $qtd,
 				'paginacao' => $paginacao
@@ -86,6 +90,8 @@ if (isset ($_GET['operacao'])) {
 		$dtproc = isset($_POST["dtproc"])  && $_POST["dtproc"] !== "" && $_POST["dtproc"] !== "null" ? $_POST["dtproc"]  : null;
 		$dtini = isset($_POST["dtini"])  && $_POST["dtini"] !== "" && $_POST["dtini"] !== "null" ? $_POST["dtini"]  : null;
 		$dtfim = isset($_POST["dtfim"])  && $_POST["dtfim"] !== "" && $_POST["dtfim"] !== "null" ? $_POST["dtfim"]  : null;
+		$clicod = isset($_POST["clicod"]) && $_POST["clicod"] !== "" ? $_POST["clicod"] : null;
+		$cpfcnpj = isset($_POST["cpfcnpj"]) && $_POST["cpfcnpj"] !== "" ? $_POST["cpfcnpj"] : null;
 
 		$apiEntrada = 
 		array("dadosEntrada" => array(
@@ -93,7 +99,9 @@ if (isset ($_GET['operacao'])) {
 				'dtproc' => $dtproc,
 				'etbcod' => $etbcod,
 				'dtini' => $dtini,
-				'dtfim' => $dtfim
+				'dtfim' => $dtfim,
+				'clicod' => $clicod,
+				'cpfcnpj' => $cpfcnpj
 			)
 		));
 		$assinatura = chamaAPI(null, '/crediario/assinatura/csv', json_encode($apiEntrada), 'POST');

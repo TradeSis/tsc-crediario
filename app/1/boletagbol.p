@@ -76,24 +76,8 @@ THEN DO:
     then do:
         create ttboletagbol.
         BUFFER-COPY boletagbol TO ttboletagbol.
-        IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
-        IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
-        IF(ttboletagbol.situacao = "P") 
-        THEN DO:
-            IF ttboletagbol.ctmcod = "P7" 
-            THEN DO:
-                ttboletagbol.situacaoDescricao = "Pago" + " (" + string(ttboletagbol.etbpag) + ")".
-            END.
-            ELSE DO:
-                ttboletagbol.situacaoDescricao = "Pago" + " (" + ttboletagbol.ctmcod + ")".
-            END.
-            
-        END.
         
-        
-        FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
-            ttboletagbol.cpfcnpj = clien.ciccgc.
-            ttboletagbol.nomeCliente = clien.clinom.
+        run bolClien.
     end.
 END.
 else do:
@@ -108,22 +92,8 @@ else do:
         then do:
             create ttboletagbol.
             BUFFER-COPY boletagbol TO ttboletagbol.
-            IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
-            IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
-            IF(ttboletagbol.situacao = "P") 
-            THEN DO:
-                IF ttboletagbol.ctmcod = "P7" 
-                THEN DO:
-                    ttboletagbol.situacaoDescricao = "Pago" + " (" + string(ttboletagbol.etbpag) + ")".
-                END.
-                ELSE DO:
-                    ttboletagbol.situacaoDescricao = "Pago" + " (" + ttboletagbol.ctmcod + ")".
-                END.
-                
-            END.
-            FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
-                ttboletagbol.cpfcnpj = clien.ciccgc.
-                ttboletagbol.nomeCliente = clien.clinom.
+
+            run bolClien.
         end.
 
     end.

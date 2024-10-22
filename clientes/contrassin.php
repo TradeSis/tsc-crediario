@@ -87,9 +87,15 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                             </div>
                         </th>
                         <th></th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cliente [ENTER]"
+                                name="clicod" id="clicod" required>
+                        </th>
                         <th></th>
-                        <th></th>
-                        <th></th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cpf/Cnpj [ENTER]"
+                                name="cpfcnpj" id="cpfcnpj" required>
+                        </th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -149,7 +155,7 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         var prirecatu = null;
         var ultrecatu = null;
 
-        buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+        buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
 
         $(document).ready(function() {
             var texto = $("#textocontador");
@@ -160,22 +166,22 @@ $contrassin = "Sim"; //usando no include de zoomEstab
             var dtproc = $("#dtproc");
                 
             if (dtproc.is(":disabled")) {
-                buscar(null, null, $("#etbcod").val(), null, null, null, null);
+                buscar(null, null, $("#etbcod").val(), null, null, $("#clicod").val(), $("#cpfcnpj").val(), null, null);
             } else {
-                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
             }
             $('#dtproc').val("");
         }
 
         function limparPeriodo() {
-            buscar($("#contnum").val(), null,$("#etbcod").val(), null, null, null, null);
+            buscar($("#contnum").val(), null,$("#etbcod").val(), null, null, null, null, null, null);
             $('#dtproc').val("");
             $('#dtini').val("");
             $('#dtfim').val("");
             $('#periodoModal').modal('hide');
         };
 
-        function buscar(contnum, dtproc, etbcod, dtini, dtfim, recatuParam, paginacao) {
+        function buscar(contnum, dtproc, etbcod, dtini, dtfim, clicod, cpfcnpj, recatuParam, paginacao) {
             //alert (buscar);
             var h6Element = $("#filtroh6 h6");
             var text = "";
@@ -204,6 +210,8 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                     etbcod: etbcod,
                     dtini: dtini,
                     dtfim: dtfim,
+                    clicod: clicod,
+                    cpfcnpj: cpfcnpj,
                     recatu: recatuParam,
                     qtd: qtdParam,
                     paginacao: paginacao
@@ -228,7 +236,7 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                         linha = linha + "<td>" + object.contnum + "</td>";
                         linha = linha + "<td>" + object.clicod + "</td>";
                         linha = linha + "<td>" + object.nomeCliente + "</td>";
-                        linha = linha + "<td>" + object.cpfCNPJ + "</td>";
+                        linha = linha + "<td>" + object.cpfcnpj + "</td>";
                         linha = linha + "<td>" + object.idBiometria + "</td>";
                         linha = linha + "<td>" + (object.dtinclu ? formatarData(object.dtinclu) : "--") + "</td>";
                         linha = linha + "<td>" + (object.dtproc ? formatarData(object.dtproc) : "--") + "</td>";
@@ -267,21 +275,23 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         }
 
         document.getElementById("buscar").addEventListener("click",function () {
-            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
+
         })
         $("#etbcod").change(function() {
-            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
+
         });
         $(document).ready(function() {
             $("#filtrarButton").click(function() {
                 var dtproc = $("#dtproc");
                 
                 if (dtproc.is(":disabled")) {
-                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+                    buscar($("#contnum").val(), null,$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
                     $('#dtproc').val("");
                 } 
                 else {
-                    buscar($("#contnum").val(), $("#dtproc").val(), $("#etbcod").val(), null, null, null, null);
+                    buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), null, null, $("#clicod").val(), $("#cpfcnpj").val(), null, null);
                     $('#dtini').val("");
                     $('#dtfim').val("");
                 } 
@@ -290,16 +300,17 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         });    
         document.addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
-                buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+                buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
+
             }
         });
         
         $("#prevPage").click(function () {
-            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), prirecatu, "prev");
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), prirecatu, "prev");
         });
         
         $("#nextPage").click(function () {
-            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), ultrecatu, "next");
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultrecatu, "next");
         });
         
         $(document).on('click', '.processar-btn', function () {
@@ -338,7 +349,9 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                     dtproc: $("#dtproc").val(),
                     etbcod: $("#etbcod").val(),
                     dtini: $("#dtini").val(),
-                    dtfim: $("#dtfim").val()
+                    dtfim: $("#dtfim").val(),
+                    clicod: $("#clicod").val(),
+                    cpfcnpj: $("#cpfcnpj").val()
                 },
                 success: function(data) {
                     var json = JSON.parse(data);
@@ -408,7 +421,7 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
-            buscar($("#contnum").val(), $("#dtproc").val(),etbcod, $("#dtini").val(), $("#dtfim").val(), null, null);
+            buscar($("#contnum").val(), $("#dtproc").val(),etbcod, $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
             $('#etbcod').val(etbcod);
             $('#zoomEstabModal').modal('hide');
         });

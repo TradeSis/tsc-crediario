@@ -16,13 +16,15 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field etbcod like contrassin.etbcod
     field dtini like contrassin.dtinclu
     field dtfim like contrassin.dtinclu
+    field clicod  like contrassin.clicod
+    field cpfcnpj  like clien.ciccgc
     field recatu  AS recid
     field qtd  AS int
     field paginacao  AS char.
 
 def temp-table ttcontrassin  no-undo serialize-name "contrassin"  /* JSON SAIDA */
     like contrassin
-    field cpfCNPJ   as char
+    field cpfcnpj   as char
     field nomeCliente   as char
     field vltotal   as char
     field idneurotech   as char
@@ -34,6 +36,7 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
     field descricaoStatus      as char.
 
 def VAR vcontnum like ttentrada.contnum.
+def var vclicod like ttentrada.clicod.
 
 def query q-leitura for contrassin scrolling.
 def var vrecatu as recid.
@@ -68,9 +71,25 @@ then do:
             create ttcontrassin.
             buffer-copy contrassin to ttcontrassin.
             ttcontrassin.recatu = recid(contrassin).
+            
+            run contClien.
         END.
     END.
     ELSE DO:
+
+        vclicod = ?.
+        IF ttentrada.cpfcnpj <> ? 
+        THEN DO:
+            FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
+            IF avail clien
+            then vclicod = clien.clicod.
+            
+        END.
+        IF ttentrada.clicod <> ? 
+        THEN DO:
+            vclicod = ttentrada.clicod.
+        END.
+
         if ttentrada.dtini <> ? THEN DO:
             open query q-leitura for each contrassin where 
                 contrassin.boletavel = ttentrada.boletavel AND
@@ -126,9 +145,25 @@ else do:
             create ttcontrassin.
             buffer-copy contrassin to ttcontrassin.
             ttcontrassin.recatu = recid(contrassin).
+            
+            run contClien.
         END.
     END.
     ELSE DO:
+
+        vclicod = ?.
+        IF ttentrada.cpfcnpj <> ? 
+        THEN DO:
+            FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
+            IF avail clien
+            then vclicod = clien.clicod.
+            
+        END.
+        IF ttentrada.clicod <> ? 
+        THEN DO:
+            vclicod = ttentrada.clicod.
+        END.
+
         if ttentrada.dtini <> ? THEN DO:
             open query q-leitura for each contrassin where 
                 (if ttentrada.etbcod = ? 
@@ -180,14 +215,11 @@ REPEAT:
     ELSE
         get next  q-leitura. 
     IF NOT avail contrassin THEN LEAVE.
+
+    if vclicod <> ? then if contrassin.clicod <> vclicod then next.
     
     create ttcontrassin.
-    ttcontrassin.etbcod = contrassin.etbcod.
-    ttcontrassin.contnum = contrassin.contnum.
-    ttcontrassin.clicod = contrassin.clicod.
-    ttcontrassin.idBiometria = contrassin.idBiometria.
-    ttcontrassin.dtinclu = contrassin.dtinclu.
-    ttcontrassin.dtproc = contrassin.dtproc.
+    buffer-copy contrassin to ttcontrassin.
     ttcontrassin.recatu = recid(contrassin).
 
     run contClien.
@@ -267,10 +299,10 @@ procedure contClien.
             ttcontrassin.idneurotech = contrato.idOperacaoMotor.
         END.
         ELSE NEXT.
-        find clien of contrassin no-lock no-error.
+        FIND clien WHERE clien.clicod = contrassin.clicod NO-LOCK.
         if avail clien
         THEN DO:
-            ttcontrassin.cpfCNPJ = clien.ciccgc.
+            ttcontrassin.cpfcnpj = clien.ciccgc.
             ttcontrassin.nomeCliente = clien.clinom.
         END.
         ELSE NEXT.

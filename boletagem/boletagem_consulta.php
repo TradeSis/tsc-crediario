@@ -90,8 +90,14 @@ if (isset($_SESSION['filtro_boletagem'])) {
                             </div>
                         </th>
                         <th></th>
-                        <th></th>
-                        <th></th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cliente [ENTER]"
+                                name="clicod" id="clicod" required>
+                        </th>
+                        <th>
+                            <input type="text" class="form-control ts-input ts-selectFiltrosHeaderTabela" placeholder="Cpf/Cnpj [ENTER]"
+                                name="cpfcnpj" id="cpfcnpj" required>
+                        </th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -198,7 +204,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
         var prirecatu = null;
         var ultrecatu = null;
 
-        buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+        buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
 
         $(document).ready(function() {
             var texto = $("#textocontador");
@@ -209,9 +215,9 @@ if (isset($_SESSION['filtro_boletagem'])) {
             var dtbol = $("#dtbol");
                 
             if (dtbol.is(":disabled")) {
-                buscar(null, null, $("#etbcod").val(), null, null, null, null);
+                buscar(null, null, $("#etbcod").val(), null, null, $("#clicod").val(), $("#cpfcnpj").val(), null, null);
             } else {
-                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+                buscar(null, null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
             }
             $('#dtbol').val("");
         }
@@ -224,7 +230,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
             $('#periodoModal').modal('hide');
         };
 
-        function buscar(contnum, dtbol, etbcod, dtini, dtfim, recatuParam, paginacao) {
+        function buscar(contnum, dtbol, etbcod, dtini, dtfim, clicod, cpfcnpj, recatuParam, paginacao) {
             var boletavel = $("#boletavel").is(':checked');
             //alert (buscar);
             var h6Element = $("#filtroh6 h6");
@@ -255,6 +261,8 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     etbcod: etbcod,
                     dtini: dtini,
                     dtfim: dtfim,
+                    clicod: clicod,
+                    cpfcnpj: cpfcnpj,
                     recatu: recatuParam,
                     qtd: qtdParam,
                     paginacao: paginacao
@@ -276,7 +284,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
                         linha = linha + "<td>" + object.etbcod + "</td>";
                         linha = linha + "<td>" + object.contnum + "</td>";
                         linha = linha + "<td>" + object.clicod + "</td>";
-                        linha = linha + "<td>" + object.cpfCNPJ + "</td>";
+                        linha = linha + "<td>" + object.cpfcnpj + "</td>";
                         linha = linha + "<td>" + object.idBiometria + "</td>";
                         linha = linha + "<td>" + (object.dtinclu ? formatarData(object.dtinclu) : "--") + "</td>";
                         linha = linha + "<td>" + (object.boletavel ? "Sim" : "Não") + "</td>";
@@ -316,24 +324,27 @@ if (isset($_SESSION['filtro_boletagem'])) {
         }
 
         document.getElementById("buscarContrato").addEventListener("click",function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
+
         })
         $("#etbcod").change(function() {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
+
         });
         $("#boletavel").change(function() {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
+
         });
         $(document).ready(function() {
             $("#filtrarButton").click(function() {
                 var dtbol = $("#dtbol");
                 
                 if (dtbol.is(":disabled")) {
-                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+                    buscar($("#contnum").val(), null, $("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
                     $('#dtbol').val("");
                 } 
                 else {
-                    buscar($("#contnum").val(), $("#dtbol").val(), $("#etbcod").val(), null, null, null, null);
+                    buscar($("#contnum").val(), $("#dtbol").val(), $("#etbcod").val(), null, null, $("#clicod").val(), $("#cpfcnpj").val(), null, null);
                     $('#dtini').val("");
                     $('#dtfim').val("");
                 } 
@@ -342,16 +353,17 @@ if (isset($_SESSION['filtro_boletagem'])) {
         });    
         document.addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
-                buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), null, null);
+                buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
+
             }
         });
 
         $("#prevPage").click(function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), prirecatu, "prev");
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), prirecatu, "prev");
         });
         
         $("#nextPage").click(function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), ultrecatu, "next");
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultrecatu, "next");
         });
         
         $(document).on('click', '.boletar-btn', function () {
@@ -392,7 +404,9 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     contnum: $("#contnum").val(),
                     etbcod: $("#etbcod").val(),
                     dtini: $("#dtini").val(),
-                    dtfim: $("#dtfim").val()
+                    dtfim: $("#dtfim").val(),
+                    clicod: $("#clicod").val(),
+                    cpfcnpj: $("#cpfcnpj").val()
                 },
                 success: function(data) {
                     var json = JSON.parse(data);
@@ -463,7 +477,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
 
         $(document).on('click', '.ts-click', function () {
             var etbcod = $(this).attr("data-etbcod");
-            buscar($("#contnum").val(), $("#dtbol").val(),etbcod, $("#dtini").val(), $("#dtfim").val(), null, null);
+            buscar($("#contnum").val(), $("#dtbol").val(),etbcod, $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
             $('#etbcod').val(etbcod);
             $('#zoomEstabModal').modal('hide');
         });
