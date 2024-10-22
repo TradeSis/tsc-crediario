@@ -68,6 +68,12 @@ ttmnemos.nome  = "Email do cliente".
 create ttmnemos.
 ttmnemos.mnemo = "~{telefone~}".
 ttmnemos.nome  = "Telefone do cliente".
+create ttmnemos.
+ttmnemos.mnemo = "~{prof.clt~}".
+ttmnemos.nome  = "Profissional CLT (x)".
+create ttmnemos.
+ttmnemos.mnemo = "~{prof.autom~}".
+ttmnemos.nome  = "Profissional Autonomo (x)".
 
 
 create ttmnemos. 
@@ -215,12 +221,6 @@ ttmnemos.nome  = "data inicio de vigencia".
 create ttmnemos.
 ttmnemos.mnemo = "~{spDtVigFim~}".
 ttmnemos.nome  = "data fim de vigencia".
-create ttmnemos.
-ttmnemos.mnemo = "~{sp27~}".
-ttmnemos.nome  = "Profissional CLT (x)".
-create ttmnemos.
-ttmnemos.mnemo = "~{sp28~}".
-ttmnemos.nome  = "Profissional Autonomo (x)".
 
 
 hsaida  = TEMP-TABLE ttmnemos:handle.
