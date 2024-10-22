@@ -64,12 +64,6 @@ if (
                         <?php }
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                             <li class="nav-item mr-1">
-                                <a class="nav-link <?php if ($tab == "seguros") {echo " active ";} ?>" 
-                                href="?tab=seguros" role="tab">Seguros</a>
-                            </li>
-                        <?php }
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
-                            <li class="nav-item mr-1">
                                 <a class="nav-link <?php if ($tab == "filacredito") {echo " active ";} ?>" 
                                 href="?tab=filacredito" role="tab">Fila Crédito</a>
                             </li>
@@ -105,11 +99,6 @@ if (
                         <?php }
 
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
-                        <option value="<?php echo URLROOT ?>/crediario/?tab=seguros" 
-                        <?php if ($getTab == "seguros") {echo " selected ";} ?>>Seguros</option>
-                        <?php }
-
-                        if ($_SESSION['nivelMenu'] >= 2) { ?>
                         <option value="<?php echo URLROOT ?>/crediario/?tab=filacredito" 
                         <?php if ($getTab == "filacredito") {echo " selected ";} ?>>Fila Crédito</option>
                         <?php }
@@ -135,9 +124,6 @@ if (
 
             if ($tab == "contratos") {
                 $src = "clientes/contrato_menu.php";
-            }
-            if ($tab == "seguros") {
-                $src = "consultas/seguros_parametros.php";
             }
             if ($tab == "filacredito") {
                 $src = "consultas/filacredito.php";
