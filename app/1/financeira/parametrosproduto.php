@@ -1,7 +1,7 @@
 <?php
 
 $log_datahora_ini = date("dmYHis");
-$acao="parametroscarteira"; 
+$acao="parametrosproduto"; 
 $arqlog = defineCaminhoLog()."apilebes_".$acao."_".date("dmY").".log";
 $arquivo = fopen($arqlog,"a");
 $identificacao=$log_datahora_ini.$acao;
@@ -11,17 +11,17 @@ $dados = array();
 
   $progr = new chamaprogress();
   
-  $retorno = $progr->executarprogress("crediario/app/1/parametroscarteira",json_encode($jsonEntrada));
+  $retorno = $progr->executarprogress("crediario/app/1/financeira/parametrosproduto",json_encode($jsonEntrada));
 
   //$jsonSaida = json_decode($retorno,true);
   $dados = json_decode($retorno,true);
   if (isset($dados["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
       $dados = $dados["conteudoSaida"][0];
   } else { 
-     if (($jsonEntrada['dadosEntrada'][0]['cobcod'] != null)) {  // Verifica se tem mais de 1 registro
-      $dados = $dados["cobparam"][0]; // Retorno sem array
+     if (($jsonEntrada['dadosEntrada'][0]['codpro'] != null)) {  // Verifica se tem mais de 1 registro
+      $dados = $dados["sicproparam"][0]; // Retorno sem array
     } else {
-      $dados = $dados["cobparam"]; 
+      $dados = $dados["sicproparam"]; 
     }
 
   }

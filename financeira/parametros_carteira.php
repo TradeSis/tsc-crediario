@@ -196,7 +196,7 @@ include_once(__DIR__ . '/../header.php');
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
-                url: '<?php echo URLROOT ?>/crediario/database/parametroscarteira.php?operacao=buscar',
+                url: '<?php echo URLROOT ?>/crediario/database/financeira/parametroscarteira.php?operacao=buscar',
                 beforeSend: function() {
                     $("#dados").html("Carregando...");
                 },
@@ -250,7 +250,7 @@ include_once(__DIR__ . '/../header.php');
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/crediario/database/parametroscarteira.php?operacao=buscar',
+                url: '<?php echo URLROOT ?>/crediario/database/financeira/parametroscarteira.php?operacao=buscar',
                 data: {
                     cobcod: cobcod,
                     tipoOperacao: tipoOperacao
@@ -274,7 +274,7 @@ include_once(__DIR__ . '/../header.php');
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/crediario/database/parametroscarteira.php?operacao=buscar',
+                url: '<?php echo URLROOT ?>/crediario/database/financeira/parametroscarteira.php?operacao=buscar',
                 data: {
                     cobcod: cobcod,
                     tipoOperacao: tipoOperacao
@@ -294,7 +294,7 @@ include_once(__DIR__ . '/../header.php');
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "../database/parametroscarteira.php?operacao=inserir",
+                    url: "../database/financeira/parametroscarteira.php?operacao=inserir",
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -307,7 +307,7 @@ include_once(__DIR__ . '/../header.php');
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "../database/parametroscarteira.php?operacao=alterar",
+                    url: "../database/financeira/parametroscarteira.php?operacao=alterar",
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -320,7 +320,7 @@ include_once(__DIR__ . '/../header.php');
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "../database/parametroscarteira.php?operacao=excluir",
+                    url: "../database/financeira/parametroscarteira.php?operacao=excluir",
                     type: 'POST',
                     data: formData,
                     processData: false,

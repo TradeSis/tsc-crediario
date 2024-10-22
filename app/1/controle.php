@@ -58,11 +58,11 @@ if ($metodo=="GET"){
       break;
 
       case "parametroscarteira":
-        include 'parametroscarteira.php';
+        include 'financeira/parametroscarteira.php';
       break;
 
       case "parametrosproduto":
-        include 'parametrosproduto.php';
+        include 'financeira/parametrosproduto.php';
       break;
 
 
@@ -82,11 +82,11 @@ if ($metodo=="GET"){
       break;
 
       case "parametroscarteira":
-        include 'parametroscarteira_inserir.php';
+        include 'financeira/parametroscarteira_inserir.php';
       break;
 
       case "parametrosproduto":
-        include 'parametrosproduto_inserir.php';
+        include 'financeira/parametrosproduto_inserir.php';
       break;
 
       default:
@@ -109,11 +109,11 @@ if ($metodo=="GET"){
       break;
 
       case "parametroscarteira":
-        include 'parametroscarteira_alterar.php';
+        include 'financeira/parametroscarteira_alterar.php';
       break;
 
       case "parametrosproduto":
-        include 'parametrosproduto_alterar.php';
+        include 'financeira/parametrosproduto_alterar.php';
       break;
 
       default:
@@ -129,11 +129,11 @@ if ($metodo=="GET"){
     switch ($funcao) {
 
       case "parametroscarteira":
-        include 'parametroscarteira_excluir.php';
+        include 'financeira/parametroscarteira_excluir.php';
       break;
 
       case "parametrosproduto":
-        include 'parametrosproduto_excluir.php';
+        include 'financeira/parametrosproduto_excluir.php';
       break;
 
       default:

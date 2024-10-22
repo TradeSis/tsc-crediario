@@ -4,7 +4,7 @@
 
 
 $log_datahora_ini = date("dmYHis");
-$acao="parametroscarteira_inserir"; 
+$acao="parametroscarteira_excluir"; 
 $arqlog = defineCaminhoLog()."apilebes_".$acao."_".date("dmY").".log";
 $arquivo = fopen($arqlog,"a");
 $identificacao=$log_datahora_ini.$acao;
@@ -13,7 +13,7 @@ fwrite($arquivo,$identificacao."-ENTRADA->".json_encode($jsonEntrada)."\n");
     try {
 
         $progr = new chamaprogress();
-        $retorno = $progr->executarprogress("crediario/app/1/parametroscarteira_inserir",json_encode($jsonEntrada));
+        $retorno = $progr->executarprogress("crediario/app/1/financeira/parametroscarteira_excluir",json_encode($jsonEntrada));
         fwrite($arquivo,$identificacao."-RETORNO->".$retorno."\n");
         $conteudoSaida = json_decode($retorno,true);
         if (isset($conteudoSaida["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro
