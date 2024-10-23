@@ -15,7 +15,8 @@ if (isset($_GET['operacao'])) {
 			'cobcod' => $_POST['cobcod'],
 			'valMinParc' => $_POST['valMinParc'],
 			'qtdMinParc' => $_POST['qtdMinParc'],
-			'valorMinimoAcrescimoTotal' => $_POST['valorMinimoAcrescimoTotal']
+			'valorMinimoAcrescimoTotal' => $_POST['valorMinimoAcrescimoTotal'],
+			'clacod' => $_POST['clacod']
 		)));
 		
 		$parametros = chamaAPI(null, '/crediario/parametroscarteira', json_encode($apiEntrada), 'PUT');
@@ -30,7 +31,8 @@ if (isset($_GET['operacao'])) {
 			'cobcod' => $_POST['cobcod'],
 			'valMinParc' => $_POST['valMinParc'],
 			'qtdMinParc' => $_POST['qtdMinParc'],
-			'valorMinimoAcrescimoTotal' => $_POST['valorMinimoAcrescimoTotal']
+			'valorMinimoAcrescimoTotal' => $_POST['valorMinimoAcrescimoTotal'],
+			'clacod' => $_POST['clacod']
 		)));
 	
 		$parametros = chamaAPI(null, '/crediario/parametroscarteira', json_encode($apiEntrada), 'POST');

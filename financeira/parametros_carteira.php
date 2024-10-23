@@ -48,7 +48,15 @@ include_once(__DIR__ . '/../header.php');
                             <div class="row">
                                 <div class="form-group col">
                                     <label>Tipo Operação</label>
-                                    <input type="text" class="form-control text-end" name="tipoOperacao">
+                                    <select class="form-control" name="tipoOperacao" required>
+                                        <option value="">Selecione</option>
+                                        <option value="CDC">CDC</option>
+                                        <option value="CSLOG">CSLOG</option>
+                                        <option value="ECOMMERCE">ECOMMERCE</option>
+                                        <option value="EMPRESTIMO">EMPRESTIMO</option>
+                                        <option value="NOVACAO">NOVACAO</option>
+                                        <option value="RECORRENCIA">RECORRENCIA</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col">
                                     <label>Carteira</label>
@@ -67,6 +75,12 @@ include_once(__DIR__ . '/../header.php');
                                 <div class="form-group col">
                                     <label>Valor Acrescismo</label>
                                     <input type="number" class="form-control text-end" name="valorMinimoAcrescimoTotal" step="0.01">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label>Mercadológico</label>
+                                    <input type="number" class="form-control text-end" name="clacod" value="0">
                                 </div>
                             </div>
 
@@ -92,7 +106,15 @@ include_once(__DIR__ . '/../header.php');
                             <div class="row">
                                 <div class="form-group col">
                                     <label>Tipo Operação</label>
-                                    <input type="text" class="form-control text-end" name="tipoOperacao" id="tipoOperacao" readonly>
+                                    <select class="form-control ts-displayDisable" name="tipoOperacao" id="tipoOperacao">
+                                        <option value="">Selecione</option>
+                                        <option value="CDC">CDC</option>
+                                        <option value="CSLOG">CSLOG</option>
+                                        <option value="ECOMMERCE">ECOMMERCE</option>
+                                        <option value="EMPRESTIMO">EMPRESTIMO</option>
+                                        <option value="NOVACAO">NOVACAO</option>
+                                        <option value="RECORRENCIA">RECORRENCIA</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col">
                                     <label>Carteira</label>
@@ -111,6 +133,12 @@ include_once(__DIR__ . '/../header.php');
                                 <div class="form-group col">
                                     <label>Valor Acrescismo</label>
                                     <input type="number" class="form-control text-end" name="valorMinimoAcrescimoTotal" id="valorMinimoAcrescimoTotal" step="0.01">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label>Mercadológico</label>
+                                    <input type="number" class="form-control text-end" name="clacod" id="clacod">
                                 </div>
                             </div>
 
@@ -146,7 +174,7 @@ include_once(__DIR__ . '/../header.php');
 
                     </div><!--body-->
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="submit" class="btn btn-danger">Excluir</button>
                     </div>
                     </form>
                 </div>
@@ -158,8 +186,8 @@ include_once(__DIR__ . '/../header.php');
                 <thead class="ts-headertabelafixo">
                     <tr>
                         <th>Tipo Operação</th>
-                        <th style="width: 10px;" class="text-end">Car</th>
-                        <th></th>
+                        <th colspan="2">Car</th>
+                        <th colspan="2">Mercadológico</th>
                         <th class="text-end">Vlr Parc</th>
                         <th class="text-end">Qtd Parc</th>
                         <th class="text-end">Vlr acres</th>
@@ -215,6 +243,8 @@ include_once(__DIR__ . '/../header.php');
                         linha += "<td>" + object.tipoOperacao + "</td>";
                         linha += "<td class='text-end'>" + object.cobcod + "</td>";
                         linha += "<td>" + object.cobnom + "</td>";
+                        linha += "<td class='text-end'>" + object.clacod + "</td>";
+                        linha += "<td>" + object.clanome + "</td>";
                         linha += "<td class='text-end'>" + (object.valMinParc !== null ? object.valMinParc.toLocaleString('pt-br', {
                             minimumFractionDigits: 2
                         }) : "-") + "</td>";
@@ -261,6 +291,7 @@ include_once(__DIR__ . '/../header.php');
                     $('#valMinParc').val(data.valMinParc);
                     $('#qtdMinParc').val(data.qtdMinParc);
                     $('#valorMinimoAcrescimoTotal').val(data.valorMinimoAcrescimoTotal);
+                    $('#clacod').val(data.clacod);
 
                     $('#alterarModal').modal('show');
                 }
@@ -299,7 +330,14 @@ include_once(__DIR__ . '/../header.php');
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: refreshPage
+                    success: function(data) {
+                    var json = JSON.parse(data);
+                    if (json['status'] == 400) {
+                        alert(json['descricaoStatus'])
+                    } else {
+                        refreshPage()
+                    }
+                }
                 });
             });
 

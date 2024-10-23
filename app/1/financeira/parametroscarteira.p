@@ -13,7 +13,8 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
 
 def temp-table ttcobparam  no-undo serialize-name "cobparam"  /* JSON SAIDA */
     like cobparam
-    field cobnom like cobra.cobnom.
+    field cobnom like cobra.cobnom
+    field clanome like clase.clanome.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -47,6 +48,10 @@ for each cobparam where
     find cobra of cobparam no-lock no-error.
     if avail cobra
     then ttcobparam.cobnom = cobra.cobnom.
+    
+    find clase WHERE clase.clacod = cobparam.clacod no-lock no-error.
+    if avail cobra
+    then ttcobparam.clanome = clase.clanome.
 
 end. 
 

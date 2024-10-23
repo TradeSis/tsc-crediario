@@ -12,7 +12,8 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     FIELD cobcod                        like cobparam.cobcod
     FIELD valMinParc                    like cobparam.valMinParc
     FIELD qtdMinParc                    like cobparam.qtdMinParc
-    FIELD valorMinimoAcrescimoTotal     like cobparam.valorMinimoAcrescimoTotal.
+    FIELD valorMinimoAcrescimoTotal     like cobparam.valorMinimoAcrescimoTotal
+    FIELD clacod                        like cobparam.clacod.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -58,6 +59,20 @@ then do:
     create ttsaida.
     ttsaida.tstatus = 400.
     ttsaida.descricaoStatus = "ja cadastrado".
+
+    hsaida  = temp-table ttsaida:handle.
+
+    lokJson = hsaida:WRITE-JSON("LONGCHAR", vlcSaida, TRUE).
+    message string(vlcSaida).
+    return.
+end.
+
+find clase where clase.clacod = ttentrada.clacod no-lock no-error.
+if NOT avail clase
+then do:
+    create ttsaida.
+    ttsaida.tstatus = 400.
+    ttsaida.descricaoStatus = "Campo Mercadológico não encontrada".
 
     hsaida  = temp-table ttsaida:handle.
 

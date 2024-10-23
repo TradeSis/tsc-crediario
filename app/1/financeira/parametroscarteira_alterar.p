@@ -12,7 +12,8 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     FIELD cobcod                        like cobparam.cobcod
     FIELD valMinParc                    like cobparam.valMinParc
     FIELD qtdMinParc                    like cobparam.qtdMinParc
-    FIELD valorMinimoAcrescimoTotal     like cobparam.valorMinimoAcrescimoTotal.
+    FIELD valorMinimoAcrescimoTotal     like cobparam.valorMinimoAcrescimoTotal
+    FIELD clacod                        like cobparam.clacod.
 
 def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CASO ERRO */
     field tstatus        as int serialize-name "status"
@@ -80,6 +81,10 @@ end.
         if ttentrada.valorMinimoAcrescimoTotal <> ?
         then do:
             cobparam.valorMinimoAcrescimoTotal = ttentrada.valorMinimoAcrescimoTotal.
+        end.
+        if ttentrada.clacod <> ?
+        then do:
+            cobparam.clacod = ttentrada.clacod.
         end.
         
 end.
