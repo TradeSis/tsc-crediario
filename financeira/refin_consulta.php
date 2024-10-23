@@ -1,7 +1,7 @@
 <?php
 //Lucas 09102024 criado
 include_once(__DIR__ . '/../header.php');
-include_once '../database/rfnparam.php';
+include_once '../database/financeira/rfnparam.php';
 
 $codigoCliente = null;
 $codigoCliente = isset($_POST['codigoCliente']) ? $_POST['codigoCliente'] : $_GET['codigoCliente'];

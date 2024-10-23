@@ -55,7 +55,7 @@ if ($metodo=="GET"){
 
       break;
       case "rfnparam":
-        include 'rfnparam.php';
+        include 'financeira/rfnparam.php';
       break;
 
       default:
@@ -73,7 +73,7 @@ if ($metodo=="GET"){
         include 'boletagparam_inserir.php';
       break;
       case "rfnparam":
-        include 'rfnparam_inserir.php';
+        include 'financeira/rfnparam_inserir.php';
       break;
       default:
         $jsonSaida = json_decode(json_encode(
@@ -94,7 +94,7 @@ if ($metodo=="GET"){
         include 'boletagparam_alterar.php';
       break;
       case "rfnparam":
-        include 'rfnparam_alterar.php';
+        include 'financeira/rfnparam_alterar.php';
       break;
       default:
         $jsonSaida = json_decode(json_encode(

@@ -11,7 +11,7 @@ $dados = array();
 
   $progr = new chamaprogress();
   
-  $retorno = $progr->executarprogress("crediario/app/1/rfnparam",json_encode($jsonEntrada));
+  $retorno = $progr->executarprogress("crediario/app/1/financeira/rfnparam",json_encode($jsonEntrada));
 
   //$jsonSaida = json_decode($retorno,true);
   $dados = json_decode($retorno,true);

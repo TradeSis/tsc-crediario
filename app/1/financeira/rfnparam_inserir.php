@@ -13,7 +13,7 @@ fwrite($arquivo,$identificacao."-ENTRADA->".json_encode($jsonEntrada)."\n");
     try {
 
         $progr = new chamaprogress();
-        $retorno = $progr->executarprogress("crediario/app/1/rfnparam_inserir",json_encode($jsonEntrada));
+        $retorno = $progr->executarprogress("crediario/app/1/financeira/rfnparam_inserir",json_encode($jsonEntrada));
         fwrite($arquivo,$identificacao."-RETORNO->".$retorno."\n");
         $conteudoSaida = json_decode($retorno,true);
         if (isset($conteudoSaida["conteudoSaida"][0])) { // Conteudo Saida - Caso de erro

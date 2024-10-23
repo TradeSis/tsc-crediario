@@ -253,7 +253,7 @@ include_once(__DIR__ . '/../header.php');
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
-                url: '<?php echo URLROOT ?>/crediario/database/rfnparam.php?operacao=buscar',
+                url: '<?php echo URLROOT ?>/crediario/database/financeira/rfnparam.php?operacao=buscar',
                 beforeSend: function() {
                     $("#dados").html("Carregando...");
                 },
@@ -312,7 +312,7 @@ include_once(__DIR__ . '/../header.php');
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/crediario/database/rfnparam.php?operacao=buscar',
+                url: '<?php echo URLROOT ?>/crediario/database/financeira/rfnparam.php?operacao=buscar',
                 data: {
                     dtIniVig: dtIniVig
                 },
@@ -372,7 +372,7 @@ include_once(__DIR__ . '/../header.php');
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '<?php echo URLROOT ?>/crediario/database/rfnparam.php?operacao=buscar',
+                url: '<?php echo URLROOT ?>/crediario/database/financeira/rfnparam.php?operacao=buscar',
                 data: {
                     dtIniVig: dtIniVig
                 },
@@ -432,7 +432,7 @@ include_once(__DIR__ . '/../header.php');
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "../database/rfnparam.php?operacao=inserir",
+                    url: "../database/financeira/rfnparam.php?operacao=inserir",
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -457,7 +457,7 @@ include_once(__DIR__ . '/../header.php');
                 event.preventDefault();
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "../database/rfnparam.php?operacao=alterar",
+                    url: "../database/financeira/rfnparam.php?operacao=alterar",
                     type: 'POST',
                     data: formData,
                     processData: false,

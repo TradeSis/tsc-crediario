@@ -1,7 +1,7 @@
 <?php
 // Lucas 25092024  
 
-include_once __DIR__ . "/../conexao.php";
+include_once __DIR__ . "/../../conexao.php";
 
 function buscaElegiveisRefin($clicod = null, $cpfCnpj = null)
 {
