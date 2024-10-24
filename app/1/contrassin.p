@@ -47,12 +47,13 @@ def temp-table ttcontrassin  no-undo serialize-name "contrassin"  /* JSON SAIDA 
     field cpfcnpj   as char
     field nomeCliente   as char
     field vltotal   as char
-    field idneurotech   as char
-    field linha  AS int.
+    field idneurotech   as char.
 
 def temp-table tttotal  no-undo serialize-name "total"  /* JSON SAIDA */
     field vltotal   as char
-    field qtdRegistros   as char.
+    field qtdRegistros   as char
+    field linha  AS int.
+
 
 def dataset conteudoSaida for ttcontrassin, tttotal.
 
@@ -67,6 +68,7 @@ def var vclicod like ttentrada.clicod.
 def query q-leitura for contrassin scrolling.
 def var vlinha as int.
 def var vqtd as int.
+def var vinicial    as int.
 
 
 hEntrada = temp-table ttentrada:HANDLE.
@@ -156,22 +158,19 @@ then do:
     if vlinha > 0
     then do:
         reposition q-leitura to row vlinha no-error.
-        get next q-leitura.
-        vlinha = vlinha + 1.
     end.
     else do:
         vlinha = 1.
     end.
+    vinicial = vlinha.
 end.
 else do:
     if vlinha > 1
     then do:
         reposition q-leitura to row vlinha no-error.
-        get next q-leitura.
-        vlinha = vlinha + 1.
     end.
+    vinicial = vlinha.
 end.
-
 
 REPEAT:
     get next q-leitura.
@@ -184,7 +183,6 @@ REPEAT:
     
     create ttcontrassin.
     buffer-copy contrassin to ttcontrassin.
-    ttcontrassin.linha = vlinha.
 
     vlinha = vlinha + 1.
 
@@ -194,6 +192,9 @@ REPEAT:
 
 
 END.
+
+create tttotal.
+tttotal.linha = vinicial.
 
 /* procura total*/
 if ttentrada.linha = ? and ttentrada.contnum = ? then do:
@@ -219,7 +220,6 @@ if ttentrada.linha = ? and ttentrada.contnum = ? then do:
 
     END.
 
-    create tttotal.
     tttotal.qtdRegistros = string(qtdtotal).
     tttotal.vltotal = trim(string(qtdvltotal,"->>>>>>>>>>>>>>>>>>9.99")). 
 end.

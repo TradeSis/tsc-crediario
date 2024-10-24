@@ -202,8 +202,7 @@ include_once(__DIR__ . '/../header.php');
 
     <script>
         var qtdParam = 10;
-        var prilinha = null;
-        var ultlinha = null;
+        var plinha = null;
 
         $(document).ready(function() {
             var texto = $("#textocontador");
@@ -297,20 +296,19 @@ include_once(__DIR__ . '/../header.php');
                             linha += "</tr>";
                         }
 
-                         $("#dados").html(linha);
+                        $("#dados").html(linha);
 
                         $("#prevPage, #nextPage").show();
-                        prilinha = boletagbol[0].linha;
-                        ultlinha = boletagbol[boletagbol.length - 1].linha;
-
+                    
+                        if (json.total[0].linha == 1) {
+                            plinha = null;
+                            $("#prevPage").hide();
+                        }
                         if (boletagbol.length < qtdParam) {
                             $("#nextPage").hide();
                         }
-                        
-                        if (prilinha == 1) {
-                            prilinha = null;
-                            $("#prevPage").hide();
-                        }
+
+                        plinha = json.total[0].linha + qtdParam;
 
                         if (linhaParam == null) {
                             $("#prevPage").hide();
@@ -341,11 +339,11 @@ include_once(__DIR__ . '/../header.php');
         });
 
         $("#prevPage").click(function () {
-            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), ultlinha, "prev");
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), plinha, "prev");
         });
         
         $("#nextPage").click(function () {
-            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), ultlinha, "next");
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), plinha, "next");
         });
 
         $("#filtroentrada").click(function() {

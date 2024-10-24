@@ -37,15 +37,16 @@ def TEMP-TABLE ttboletagbol  no-undo serialize-name "boletagbol"  /* JSON SAIDA 
     field etbpag    like boletagbol.etbpag
     field cpfcnpj           AS CHAR
     field nomeCliente       AS CHAR
-    field situacaoDescricao      AS CHAR
-    field linha  AS int. 
+    field situacaoDescricao      AS CHAR.
 
 def temp-table ttboletagparcela  no-undo serialize-name "boletagparcela"
     like boletagparcela.
 
 def temp-table tttotal  no-undo serialize-name "total"  /* JSON SAIDA */
     field vltotal   as char
-    field qtdRegistros   as char.
+    field qtdRegistros   as char
+    field linha  AS int. 
+
 
 def dataset conteudoSaida for ttboletagbol, ttboletagparcela, tttotal
     DATA-RELATION for1 FOR ttboletagbol, ttboletagparcela         
@@ -61,6 +62,7 @@ def var vclicod like ttentrada.clifor.
 def query q-leitura for boletagbol scrolling.
 def var vlinha as int.
 def var vqtd as int.
+def var vinicial    as int.
 
 hEntrada = temp-table ttentrada:HANDLE.
 lokJSON = hentrada:READ-JSON("longchar",vlcentrada, "EMPTY") no-error.
@@ -151,20 +153,18 @@ then do:
     if vlinha > 0
     then do:
         reposition q-leitura to row vlinha no-error.
-        get next q-leitura.
-        vlinha = vlinha + 1.
     end.
     else do:
         vlinha = 1.
     end.
+    vinicial = vlinha.
 end.
 else do:
     if vlinha > 1
     then do:
         reposition q-leitura to row vlinha no-error.
-        get next q-leitura.
-        vlinha = vlinha + 1.
     end.
+    vinicial = vlinha.
 end.
 
 REPEAT:
@@ -179,7 +179,6 @@ REPEAT:
     
     create ttboletagbol.
     buffer-copy boletagbol to ttboletagbol.
-    ttboletagbol.linha = vlinha.
 
     vlinha = vlinha + 1.
 
@@ -189,6 +188,9 @@ REPEAT:
 
 
 END.
+
+create tttotal.
+tttotal.linha = vinicial.
 
 /* procura total*/
 if ttentrada.linha = ? and ttentrada.bolcod = ? then do:
@@ -210,7 +212,6 @@ if ttentrada.linha = ? and ttentrada.bolcod = ? then do:
         qtdvltotal = qtdvltotal + boletagbol.VlCobrado.
     END.
 
-    create tttotal.
     tttotal.qtdRegistros = string(qtdtotal).
     tttotal.vltotal = trim(string(qtdvltotal,"->>>>>>>>>>>>>>>>>>9.99")). 
 end. 

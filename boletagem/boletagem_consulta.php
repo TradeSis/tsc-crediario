@@ -205,8 +205,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
 
     <script>
         var qtdParam = 10;
-        var prilinha = null;
-        var ultlinha = null;
+        var plinha = null;
 
         buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
 
@@ -310,17 +309,16 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     $("#dados").html(linha);
 
                     $("#prevPage, #nextPage").show();
-                    prilinha = contrassin[0].linha;
-                    ultlinha = contrassin[contrassin.length - 1].linha;
-
+                    
+                    if (json.total[0].linha == 1) {
+                        plinha = null;
+                        $("#prevPage").hide();
+                    }
                     if (contrassin.length < qtdParam) {
                         $("#nextPage").hide();
                     }
-                    
-                    if (prilinha == 1) {
-                        prilinha = null;
-                        $("#prevPage").hide();
-                    }
+
+                    plinha = json.total[0].linha + qtdParam;
 
                     if (linhaParam == null) {
                         $("#prevPage").hide();
@@ -371,11 +369,11 @@ if (isset($_SESSION['filtro_boletagem'])) {
         });
 
         $("#prevPage").click(function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultlinha, "prev");
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), plinha, "prev");
         });
         
         $("#nextPage").click(function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultlinha, "next");
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), plinha, "next");
         });
         
         $(document).on('click', '.boletar-btn', function () {
