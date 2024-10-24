@@ -110,10 +110,14 @@ $contrassin = "Sim"; //usando no include de zoomEstab
             </table>
         </div>
         <div class="fixed-bottom d-flex justify-content-between align-items-center" style="padding: 10px; background-color: #f8f9fa;">
-            <h6 id="textocontador" style="color: #13216A; margin-right: auto;"></h6>
-            <div class="d-flex justify-content-center w-100">
+            <div class="col-5">
+                <h6 id="textocontador" style="color: #13216A;"></h6>
+            </div>
+            <div class="col-3">
                 <button id="prevPage" class="btn btn-primary mr-2" style="display:none;">Anterior</button>
                 <button id="nextPage" class="btn btn-primary" style="display:none;">Proximo</button>
+            </div>
+            <div class="col-6">
             </div>
         </div>
     </div>
@@ -218,6 +222,15 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                     //alert("segundo alert: " + msg);
                     //console.log(msg);
                     var json = JSON.parse(msg);
+                    if (json === null) {
+                        $("#dadosEstab").html("Erro ao buscar");
+                        return;
+                    }
+                    if (json.status === 400) {
+                        $("#dados").html("Nenhum Contrato foi encontrado");
+                        $("#nextPage").hide();
+                        return;
+                    }
                     var contrassin = json.contrassin; 
                     var linha = "";
                     for (var $i = 0; $i < contrassin.length; $i++) {
@@ -244,15 +257,13 @@ $contrassin = "Sim"; //usando no include de zoomEstab
                     $("#dados").html(linha);
 
                     $("#prevPage, #nextPage").show();
+                    prilinha = contrassin[0].linha;
+                    ultlinha = contrassin[contrassin.length - 1].linha;
                     
                     if (contrassin.length < qtdParam) {
                         $("#nextPage").hide();
                     }
-                    
-                    if (contrassin.length > 0) {
-                        prilinha = contrassin[0].linha;
-                        ultlinha = contrassin[contrassin.length - 1].linha;
-                    }
+
                     if (prilinha == 1) {
                         prilinha = null;
                         $("#prevPage").hide();
@@ -303,7 +314,7 @@ $contrassin = "Sim"; //usando no include de zoomEstab
         });
         
         $("#prevPage").click(function () {
-            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), prilinha, "prev");
+            buscar($("#contnum").val(), $("#dtproc").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultlinha, "prev");
         });
         
         $("#nextPage").click(function () {
@@ -337,18 +348,27 @@ $contrassin = "Sim"; //usando no include de zoomEstab
             $('#csvModal').modal('show');
             var texto = $("#mensagemCSV");
             texto.html("Gerando CSV...");
+
+            var pcontnum = $("#contnum").val(); 
+            var pdtproc = $("#dtproc").val();
+            var petbcod = $("#etbcod").val();
+            var pdtini = $("#dtini").val();
+            var pdtfim = $("#dtfim").val();
+            var pclicod = $("#clicod").val();
+            var pcpfcnpj = $("#cpfcnpj").val(); 
+
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
                 url: "<?php echo URLROOT ?>/crediario/database/crediariocontrato.php?operacao=csvContrassin",
                 data: {
-                    contnum: $("#contnum").val(),
-                    dtproc: $("#dtproc").val(),
-                    etbcod: $("#etbcod").val(),
-                    dtini: $("#dtini").val(),
-                    dtfim: $("#dtfim").val(),
-                    clicod: $("#clicod").val(),
-                    cpfcnpj: $("#cpfcnpj").val()
+                    contnum: pcontnum,
+                    dtproc: pdtproc,
+                    etbcod: petbcod,
+                    dtini: pdtini,
+                    dtfim: pdtfim,
+                    clicod: pclicod,
+                    cpfcnpj: pcpfcnpj
                 },
                 success: function(data) {
                     var json = JSON.parse(data);

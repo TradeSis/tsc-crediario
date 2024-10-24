@@ -25,6 +25,7 @@ def TEMP-TABLE ttboletagbol  no-undo serialize-name "boletagbol"  /* JSON SAIDA 
     field bolcod    like boletagbol.bolcod
     field CliFor    like boletagbol.CliFor
     field Documento    like boletagbol.Documento
+    field NossoNumero  like boletagbol.NossoNumero
     field bancod    like boletagbol.bancod
     field DtEmissao    like boletagbol.DtEmissao
     field DtVencimento    like boletagbol.DtVencimento
@@ -146,10 +147,12 @@ if vlinha = ? or vlinha = 0 then vlinha = 1.
 
 if ttentrada.botao = "prev"
 then do:
-    vlinha = vlinha - vqtd .
+    vlinha = vlinha - vqtd - vqtd .
     if vlinha > 0
     then do:
         reposition q-leitura to row vlinha no-error.
+        get next q-leitura.
+        vlinha = vlinha + 1.
     end.
     else do:
         vlinha = 1.
@@ -187,6 +190,31 @@ REPEAT:
 
 END.
 
+/* procura total*/
+if ttentrada.linha = ? and ttentrada.bolcod = ? then do:
+    def var qtdtotal as int initial 0.
+    def var qtdvltotal as decimal initial 0.
+    
+    reposition q-leitura to row 1 no-error.
+
+    REPEAT:
+        get next q-leitura. 
+        if not avail boletagbol then do:
+            leave.
+        end.
+
+        if ttentrada.bancod <> ? THEN IF boletagbol.bancod <> ttentrada.bancod then next.                
+        if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
+
+        qtdtotal = qtdtotal + 1.
+        qtdvltotal = qtdvltotal + boletagbol.VlCobrado.
+    END.
+
+    create tttotal.
+    tttotal.qtdRegistros = string(qtdtotal).
+    tttotal.vltotal = trim(string(qtdvltotal,"->>>>>>>>>>>>>>>>>>9.99")). 
+end. 
+
 
 
 find first ttboletagbol no-error.
@@ -203,28 +231,6 @@ then do:
     message string(vlcSaida).
     return.
 end.
-
-/* procura total*/
-if ttentrada.linha = ? and ttentrada.bolcod = ? 
-then do:
-    def var qtdtotal as int.
-    def var qtdvltotal as decimal.
-
-    reposition q-leitura to row 1 no-error.
-
-    REPEAT:
-        get next  q-leitura. 
-        if not avail boletagbol then do:
-            leave.
-        end.
-        qtdtotal = qtdtotal + 1.
-        qtdvltotal = qtdvltotal + boletagbol.VlCobrado.
-    END.
-
-    create tttotal.
-    tttotal.qtdRegistros = string(qtdtotal).
-    tttotal.vltotal = trim(string(qtdvltotal,"->>>>>>>>>>>>>>>>>>9.99")). 
-end. 
 
 
 

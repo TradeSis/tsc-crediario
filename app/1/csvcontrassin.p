@@ -15,7 +15,9 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field dtproc like contrassin.dtproc
     field etbcod like contrassin.etbcod
     field dtini like contrassin.dtinclu
-    field dtfim like contrassin.dtinclu.
+    field dtfim like contrassin.dtinclu
+    field clicod  like contrassin.clicod
+    field cpfcnpj  like clien.ciccgc.
 
 def temp-table ttcontrassin  no-undo serialize-name "contrassin"  /* JSON SAIDA */
     like contrassin
@@ -29,6 +31,7 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
     field descricaoStatus      as char.
 
 def VAR vcontnum like ttentrada.contnum.
+def var vclicod like ttentrada.clicod.
 
 def query q-leitura for contrassin scrolling.
 
@@ -61,19 +64,26 @@ else do:
                 string(today,"99999999") + "_" + replace(string(time,"HH:MM:SS"),":","") + ".csv".
 end.
 
+vclicod = ?.
+IF ttentrada.cpfcnpj <> ? 
+THEN DO:
+    FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
+    IF avail clien
+    then vclicod = clien.clicod.
+    
+END.
+IF ttentrada.clicod <> ? 
+THEN DO:
+    vclicod = ttentrada.clicod.
+END.
+
 
 
 
 if ttentrada.acao = "boletagem"
 then do:
-
     IF ttentrada.contnum <> ? THEN DO:
-        find contrassin where contrassin.contnum = ttentrada.contnum NO-LOCK no-error.
-        
-        IF avail contrassin THEN DO:
-            create ttcontrassin.
-            buffer-copy contrassin to ttcontrassin.
-        END.
+        open query q-leitura for each contrassin where contrassin.contnum = ttentrada.contnum NO-LOCK.
     END.
     ELSE DO:
         if ttentrada.dtini <> ? THEN DO:
@@ -84,8 +94,6 @@ then do:
                 contrassin.dtinclu >= ttentrada.dtini AND
                 contrassin.dtinclu <= ttentrada.dtfim
                 no-lock.
-
-           
         end.
         ELSE DO: 
             open query q-leitura for each contrassin where 
@@ -94,23 +102,12 @@ then do:
                 (if ttentrada.etbcod = ? 
                 then true else contrassin.etbcod = ttentrada.etbcod) 
                 no-lock.
-
-            
         end.
     END.
-
-   
-
 end.
 else do:
-
     IF ttentrada.contnum <> ? THEN DO:
-        find contrassin where contrassin.contnum = ttentrada.contnum NO-LOCK no-error.
-        
-        IF avail contrassin THEN DO:
-            create ttcontrassin.
-            buffer-copy contrassin to ttcontrassin.
-        END.
+        open query q-leitura for each contrassin where contrassin.contnum = ttentrada.contnum NO-LOCK.
     END.
     ELSE DO:
         if ttentrada.dtini <> ? THEN DO:
@@ -120,8 +117,6 @@ else do:
                 contrassin.dtinclu >= ttentrada.dtini AND
                 contrassin.dtinclu <= ttentrada.dtfim
                 no-lock.
-
-           
         end.
         ELSE DO: 
             open query q-leitura for each contrassin where 
@@ -129,29 +124,25 @@ else do:
                 (if ttentrada.etbcod = ? 
                 then true else contrassin.etbcod = ttentrada.etbcod) 
                 no-lock.
-
         end.
     END.
+end.   
 
-    
-
-end.    
 
 REPEAT:
-    get next  q-leitura. 
+    get next q-leitura.
     IF NOT avail contrassin THEN LEAVE.
+
+    if vclicod <> ? then if contrassin.clicod <> vclicod then next.
     
     create ttcontrassin.
-    ttcontrassin.etbcod = contrassin.etbcod.
-    ttcontrassin.contnum = contrassin.contnum.
-    ttcontrassin.clicod = contrassin.clicod.
-    ttcontrassin.idBiometria = contrassin.idBiometria.
-    ttcontrassin.dtinclu = contrassin.dtinclu.
-    ttcontrassin.dtproc = contrassin.dtproc.
+    buffer-copy contrassin to ttcontrassin.
 
     run contClien.
 
+
 END.
+    
     
 if ttentrada.acao = "boletagem"
 then do:
@@ -223,13 +214,12 @@ procedure contClien.
             ttcontrassin.idneurotech = contrato.idOperacaoMotor.
         END.
         ELSE NEXT.
-        find clien of contrassin no-lock no-error.
+        FIND clien WHERE clien.clicod = contrassin.clicod NO-LOCK.
         if avail clien
         THEN DO:
-            ttcontrassin.cpfCNPJ = clien.ciccgc.
+            ttcontrassin.cpfcnpj = clien.ciccgc.
             ttcontrassin.nomeCliente = clien.clinom.
         END.
         ELSE NEXT.
 
 end procedure.
-

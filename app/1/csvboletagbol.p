@@ -61,83 +61,36 @@ def var varqcsv as char format "x(65)".
     varqcsv = "/admcom/relat/boletagbol_" + 
                 string(today,"99999999") + "_" + replace(string(time,"HH:MM:SS"),":","") + ".csv".
 
-
+vclicod = ?.
+IF ttentrada.cpfcnpj <> ? 
+THEN DO:
+    FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
+    IF avail clien
+    then vclicod = clien.clicod.
+    
+END.
+IF ttentrada.CliFor <> ? 
+THEN DO:
+    vclicod = ttentrada.CliFor.
+END.
 
 IF ttentrada.bolcod <> ? 
 THEN DO:
-    find boletagbol where 
-        boletagbol.bolcod = ttentrada.bolcod 
-        NO-LOCK no-error.
-    
-    if avail boletagbol
-    then do:
-        create ttboletagbol.
-        BUFFER-COPY boletagbol TO ttboletagbol.
-        IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
-        IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
-        IF(ttboletagbol.situacao = "P") 
-        THEN DO:
-            IF ttboletagbol.ctmcod = "P7" 
-            THEN DO:
-                ttboletagbol.situacaoDescricao = "Pago" + " (" + string(ttboletagbol.etbpag) + ")".
-            END.
-            ELSE DO:
-                ttboletagbol.situacaoDescricao = "Pago" + " (" + ttboletagbol.ctmcod + ")".
-            END.
-            
-        END.
-        
-        
-        FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
-            ttboletagbol.cpfcnpj = clien.ciccgc.
-            ttboletagbol.nomeCliente = clien.clinom.
-    end.
+    open query q-leitura for each boletagbol 
+    where boletagbol.bolcod = ttentrada.bolcod 
+    NO-LOCK.
 END.
 else do:
 
     if ttentrada.NossoNumero <> ? and
        ttentrada.bancod      <> ?
     then do:
-        find boletagbol where boletagbol.bancod = ttentrada.bancod and 
-                              boletagbol.NossoNumero = ttentrada.NossoNumero
-            NO-LOCK no-error.
-        if avail boletagbol
-        then do:
-            create ttboletagbol.
-            BUFFER-COPY boletagbol TO ttboletagbol.
-            IF(ttboletagbol.situacao = "A") THEN ttboletagbol.situacaoDescricao = "Aberto".
-            IF(ttboletagbol.situacao = "B") THEN ttboletagbol.situacaoDescricao = "Baixado".
-            IF(ttboletagbol.situacao = "P") 
-            THEN DO:
-                IF ttboletagbol.ctmcod = "P7" 
-                THEN DO:
-                    ttboletagbol.situacaoDescricao = "Pago" + " (" + string(ttboletagbol.etbpag) + ")".
-                END.
-                ELSE DO:
-                    ttboletagbol.situacaoDescricao = "Pago" + " (" + ttboletagbol.ctmcod + ")".
-                END.
-                
-            END.
-            FIND clien WHERE clien.clicod = boletagbol.clifor NO-LOCK.
-                ttboletagbol.cpfcnpj = clien.ciccgc.
-                ttboletagbol.nomeCliente = clien.clinom.
-        end.
-
+        open query q-leitura for each boletagbol 
+        where boletagbol.bancod = ttentrada.bancod  
+        and   boletagbol.NossoNumero = ttentrada.NossoNumero 
+        NO-LOCK.
     end.
     else do:
-        vclicod = ?.
-        IF ttentrada.cpfcnpj <> ? 
-        THEN DO:
-            FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
-            IF avail clien
-            then vclicod = clien.clicod.
-            
-        END.
-        IF ttentrada.CliFor <> ? 
-        THEN DO:
-            vclicod = ttentrada.CliFor.
-        END.
-              
         if ttentrada.tipodedata = "Emissao"
         then do:
             open query q-leitura for each boletagbol where 
@@ -146,7 +99,6 @@ else do:
                 (if ttentrada.bancod <> ? 
                 then boletagbol.bancod = ttentrada.bancod else TRUE)
                 no-lock.
-
         end.
         if ttentrada.tipodedata = "Pagamento"
         then do:
@@ -155,7 +107,6 @@ else do:
                 boletagbol.dtpagamento >= ttentrada.dtInicial and
                 boletagbol.dtpagamento <= ttentrada.dtFinal
                 no-lock.
-
         end.
         if ttentrada.tipodedata = "Baixa"
         then do:
@@ -164,22 +115,21 @@ else do:
                 boletagbol.dtbaixa >= ttentrada.dtInicial and
                 boletagbol.dtbaixa <= ttentrada.dtFinal
                 no-lock.
-
         end.
-
-        REPEAT:
-            get next  q-leitura. 
-            IF NOT avail boletagbol THEN LEAVE.
-            
-            if ttentrada.bancod <> ? THEN IF boletagbol.bancod <> ttentrada.bancod then next.                
-            if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
-
-            create ttboletagbol.
-            BUFFER-COPY boletagbol TO ttboletagbol.
-            
-            run bolClien.
-        END.
     end.
+END.
+
+REPEAT:
+    get next  q-leitura. 
+    IF NOT avail boletagbol THEN LEAVE.
+    
+    if ttentrada.bancod <> ? THEN IF boletagbol.bancod <> ttentrada.bancod then next.                
+    if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
+
+    create ttboletagbol.
+    BUFFER-COPY boletagbol TO ttboletagbol.
+    
+    run bolClien.
 END.
 
 

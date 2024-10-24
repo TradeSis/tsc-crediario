@@ -156,10 +156,14 @@ include_once(__DIR__ . '/../header.php');
             </table>
         </div>
         <div class="fixed-bottom d-flex justify-content-between align-items-center" style="padding: 10px; background-color: #f8f9fa;">
-            <h6 id="textocontador" style="color: #13216A; margin-right: auto;"></h6>
-            <div class="d-flex justify-content-center w-100">
+            <div class="col-5">
+                <h6 id="textocontador" style="color: #13216A;"></h6>
+            </div>
+            <div class="col-3">
                 <button id="prevPage" class="btn btn-primary mr-2" style="display:none;">Anterior</button>
                 <button id="nextPage" class="btn btn-primary" style="display:none;">Proximo</button>
+            </div>
+            <div class="col-6">
             </div>
         </div>
 
@@ -259,6 +263,15 @@ include_once(__DIR__ . '/../header.php');
                         //alert("segundo alert: " + msg);
                         //console.log(msg);
                         var json = JSON.parse(msg);
+                        if (json === null) {
+                            $("#dadosEstab").html("Erro ao buscar");
+                            return;
+                        }
+                        if (json.status === 400) {
+                            $("#dados").html("Nenhum Boleto foi encontrado");
+                            $("#nextPage").hide();
+                            return;
+                        }
                         var boletagbol = json.boletagbol; 
                         var linha = "";
                         for (var $i = 0; $i < boletagbol.length; $i++) {
@@ -287,14 +300,13 @@ include_once(__DIR__ . '/../header.php');
                          $("#dados").html(linha);
 
                         $("#prevPage, #nextPage").show();
+                        prilinha = boletagbol[0].linha;
+                        ultlinha = boletagbol[boletagbol.length - 1].linha;
+
                         if (boletagbol.length < qtdParam) {
                             $("#nextPage").hide();
                         }
                         
-                        if (boletagbol.length > 0) {
-                            prilinha = boletagbol[0].linha;
-                            ultlinha = boletagbol[boletagbol.length - 1].linha;
-                        }
                         if (prilinha == 1) {
                             prilinha = null;
                             $("#prevPage").hide();
@@ -329,7 +341,7 @@ include_once(__DIR__ . '/../header.php');
         });
 
         $("#prevPage").click(function () {
-            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), prilinha, "prev");
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), ultlinha, "prev");
         });
         
         $("#nextPage").click(function () {
@@ -440,21 +452,30 @@ include_once(__DIR__ . '/../header.php');
             $('#csvModal').modal('show');
             var texto = $("#mensagemCSV");
             texto.html("Gerando CSV...");
-            alert('modal');
+
+            var psituacao = $("#situacao").val();
+            var ptipodedata = $("#tipodedata").val(); 
+            var pdtInicial = $("#dtInicial").val();
+            var pdtFinal = $("#dtFinal").val();
+            var pCliFor = $("#CliFor").val();
+            var pcpfcnpj = $("#cpfcnpj").val();
+            var pbolcod = $("#bolcod").val(); 
+            var pbancod = $("#bancod").val(); 
+            var pNossoNumero = $("#NossoNumero").val(); 
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
                 url: '<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=csvBoletos',
                 data: {
-                    situacao: $("#situacao").val(),
-                    tipodedata: $("#tipodedata").val(),
-                    dtInicial: $("#dtInicial").val(),
-                    dtFinal: $("#dtFinal").val(),
-                    CliFor: $("#CliFor").val(),
-                    cpfcnpj: $("#cpfcnpj").val(),
-                    bolcod: $("#bolcod").val(),
-                    bancod: $("#bancod").val(),
-                    NossoNumero: $("#NossoNumero").val()
+                    situacao: psituacao,
+                    tipodedata: ptipodedata,
+                    dtInicial: pdtInicial,
+                    dtFinal: pdtFinal,
+                    CliFor: pCliFor,
+                    cpfcnpj: pcpfcnpj,
+                    bolcod: pbolcod,
+                    bancod: pbancod,
+                    NossoNumero: pNossoNumero
                 },
                 success: function(data) {
                     var json = JSON.parse(data);

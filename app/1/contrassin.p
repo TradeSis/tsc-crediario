@@ -23,7 +23,27 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field botao  AS char.
 
 def temp-table ttcontrassin  no-undo serialize-name "contrassin"  /* JSON SAIDA */
-    like contrassin
+    field contnum like contrassin.contnum
+    field idBiometria like contrassin.idBiometria
+    field dtinclu like contrassin.dtinclu
+    field dtproc like contrassin.dtproc
+    field hrproc like contrassin.hrproc
+    field urlFoto like contrassin.urlFoto
+    field urlPdf like contrassin.urlPdf
+    field urlPdfAss like contrassin.urlPdfAss
+    field etbcod like contrassin.etbcod
+    field cxacod like contrassin.cxacod
+    field ctmcod like contrassin.ctmcod
+    field nsu like contrassin.nsu
+    field clicod like contrassin.clicod
+    field hash1 like contrassin.hash1
+    field hash2 like contrassin.hash2
+    field HrIncl like contrassin.HrIncl
+    field versaocomponente like contrassin.versaocomponente
+    field nomecomponente like contrassin.nomecomponente
+    field boletavel like contrassin.boletavel
+    field dtboletagem like contrassin.dtboletagem
+    field naoboletavelmotivo like contrassin.naoboletavelmotivo
     field cpfcnpj   as char
     field nomeCliente   as char
     field vltotal   as char
@@ -82,7 +102,6 @@ END.
 
 if ttentrada.acao = "boletagem"
 then do:
-
     IF ttentrada.contnum <> ? THEN DO:
         open query q-leitura for each contrassin where contrassin.contnum = ttentrada.contnum NO-LOCK.
     END.
@@ -105,17 +124,12 @@ then do:
                 no-lock.
         end.
     END.
-
-   
-
 end.
 else do:
-
     IF ttentrada.contnum <> ? THEN DO:
         open query q-leitura for each contrassin where contrassin.contnum = ttentrada.contnum NO-LOCK.
     END.
     ELSE DO:
-
         if ttentrada.dtini <> ? THEN DO:
             open query q-leitura for each contrassin where 
                 (if ttentrada.etbcod = ? 
@@ -132,19 +146,18 @@ else do:
                 no-lock.
         end.
     END.
-
-    
-
 end.
 
 if vlinha = ? or vlinha = 0 then vlinha = 1.
 
 if ttentrada.botao = "prev"
 then do:
-    vlinha = vlinha - vqtd .
+    vlinha = vlinha - vqtd - vqtd .
     if vlinha > 0
     then do:
         reposition q-leitura to row vlinha no-error.
+        get next q-leitura.
+        vlinha = vlinha + 1.
     end.
     else do:
         vlinha = 1.
@@ -182,6 +195,36 @@ REPEAT:
 
 END.
 
+/* procura total*/
+if ttentrada.linha = ? and ttentrada.contnum = ? then do:
+    def var qtdtotal as int initial 0.
+    def var qtdvltotal as decimal initial 0.
+    
+    reposition q-leitura to row 1 no-error.
+
+    REPEAT:
+        get next q-leitura. 
+        if not avail contrassin then do:
+            leave.
+        end.
+
+        if vclicod <> ? then 
+            if contrassin.clicod <> vclicod then next.
+
+        qtdtotal = qtdtotal + 1.
+
+        find contrato where contrato.contnum = contrassin.contnum no-lock no-error.
+        if avail contrato then
+            qtdvltotal = qtdvltotal + contrato.vltotal.
+
+    END.
+
+    create tttotal.
+    tttotal.qtdRegistros = string(qtdtotal).
+    tttotal.vltotal = trim(string(qtdvltotal,"->>>>>>>>>>>>>>>>>>9.99")). 
+end.
+
+
 
 find first ttcontrassin no-error.
 
@@ -197,31 +240,6 @@ then do:
     message string(vlcSaida).
     return.
 end.
-
-/* procura total*/
-if ttentrada.linha = ? and ttentrada.contnum = ? 
-then do:
-    def var qtdtotal as int.
-    def var qtdvltotal as decimal.
-
-    reposition q-leitura to row 1 no-error.
-
-    REPEAT:
-        get next  q-leitura. 
-        if not avail contrassin then do:
-            leave.
-        end.
-        qtdtotal = qtdtotal + 1.
-
-        find contrato of contrassin no-lock no-error.
-        qtdvltotal = qtdvltotal + contrato.vltotal.
-    END.
-
-    create tttotal.
-    tttotal.qtdRegistros = string(qtdtotal).
-    tttotal.vltotal = trim(string(qtdvltotal,"->>>>>>>>>>>>>>>>>>9.99")). 
-end.
-
     
 
 hsaida  = dataset conteudoSaida:handle.

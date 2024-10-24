@@ -114,10 +114,14 @@ if (isset($_SESSION['filtro_boletagem'])) {
             </table>
         </div>
         <div class="fixed-bottom d-flex justify-content-between align-items-center" style="padding: 10px; background-color: #f8f9fa;">
-            <h6 id="textocontador" style="color: #13216A; margin-right: auto;"></h6>
-            <div class="d-flex justify-content-center w-100">
+            <div class="col-5">
+                <h6 id="textocontador" style="color: #13216A;"></h6>
+            </div>
+            <div class="col-3">
                 <button id="prevPage" class="btn btn-primary mr-2" style="display:none;">Anterior</button>
                 <button id="nextPage" class="btn btn-primary" style="display:none;">Proximo</button>
+            </div>
+            <div class="col-6">
             </div>
         </div>
 
@@ -271,6 +275,15 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     //alert("segundo alert: " + msg);
                     //console.log(msg);
                     var json = JSON.parse(msg);
+                    if (json === null) {
+                        $("#dados").html("Erro ao buscar");
+                        return;
+                    }
+                    if (json.status === 400) {
+                        $("#dados").html("Nenhum Contrato foi encontrado");
+                        $("#nextPage").hide();
+                        return;
+                    }
                     var contrassin = json.contrassin; 
                     var linha = "";
                     for (var $i = 0; $i < contrassin.length; $i++) {
@@ -297,14 +310,13 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     $("#dados").html(linha);
 
                     $("#prevPage, #nextPage").show();
+                    prilinha = contrassin[0].linha;
+                    ultlinha = contrassin[contrassin.length - 1].linha;
+
                     if (contrassin.length < qtdParam) {
                         $("#nextPage").hide();
                     }
                     
-                    if (contrassin.length > 0) {
-                        prilinha = contrassin[0].linha;
-                        ultlinha = contrassin[contrassin.length - 1].linha;
-                    }
                     if (prilinha == 1) {
                         prilinha = null;
                         $("#prevPage").hide();
@@ -359,7 +371,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
         });
 
         $("#prevPage").click(function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), prilinha, "prev");
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultlinha, "prev");
         });
         
         $("#nextPage").click(function () {
@@ -391,22 +403,30 @@ if (isset($_SESSION['filtro_boletagem'])) {
 
         document.getElementById("exportCsvButton").addEventListener("click", function() {
             $('#csvModal').modal('show');
-            var boletavel = $("#boletavel").is(':checked');
             var texto = $("#mensagemCSV");
             texto.html("Gerando CSV...");
+            
+            var pboletavel = $("#boletavel").is(':checked');
+            var pdtbol = $("#dtbol").val();
+            var pcontnum = $("#contnum").val(); 
+            var petbcod = $("#etbcod").val();
+            var pdtini = $("#dtini").val();
+            var pdtfim = $("#dtfim").val();
+            var pclicod = $("#clicod").val();
+            var pcpfcnpj = $("#cpfcnpj").val(); 
             $.ajax({
                 type: 'POST',
                 dataType: 'html',
                 url: "<?php echo URLROOT ?>/crediario/database/boletos.php?operacao=csvBoletagem",
                 data: {
-                    boletavel: boletavel,
-                    dtbol: $("#dtbol").val(),
-                    contnum: $("#contnum").val(),
-                    etbcod: $("#etbcod").val(),
-                    dtini: $("#dtini").val(),
-                    dtfim: $("#dtfim").val(),
-                    clicod: $("#clicod").val(),
-                    cpfcnpj: $("#cpfcnpj").val()
+                    boletavel: pboletavel,
+                    dtbol: pdtbol,
+                    contnum: pcontnum,
+                    etbcod: petbcod,
+                    dtini: pdtini,
+                    dtfim: pdtfim,
+                    clicod: pclicod,
+                    cpfcnpj: pcpfcnpj
                 },
                 success: function(data) {
                     var json = JSON.parse(data);
