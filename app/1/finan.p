@@ -45,6 +45,7 @@ then do:
         ttfinan.txjurosmes    = finan.txjurosmes.
         ttfinan.txjurosano    = finan.txjurosano.
         ttfinan.DPriPag    = finan.DPriPag.
+        ttfinan.recorrencia    = finan.recorrencia.
     end.
 end. 
 ELSE DO:
@@ -65,7 +66,7 @@ ELSE DO:
         ttfinan.txjurosmes    = finan.txjurosmes.
         ttfinan.txjurosano    = finan.txjurosano.
         ttfinan.DPriPag    = finan.DPriPag.  
-            
+        ttfinan.recorrencia    = finan.recorrencia.   
     end.
 END.
 
@@ -76,7 +77,7 @@ if not avail ttfinan
 then do:
     create ttsaida.
     ttsaida.tstatus = 400.
-    ttsaida.retorno = "estab nao encontrado".
+    ttsaida.retorno = "plano nao encontrado".
 
     hsaida  = temp-table ttsaida:handle.
 

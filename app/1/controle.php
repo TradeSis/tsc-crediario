@@ -89,6 +89,10 @@ if ($metodo=="GET"){
         include 'financeira/parametrosproduto_inserir.php';
       break;
 
+      case "finan":
+        include 'finan_inserir.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -116,6 +120,10 @@ if ($metodo=="GET"){
         include 'financeira/parametrosproduto_alterar.php';
       break;
 
+      case "finan":
+        include 'finan_alterar.php';
+      break;
+
       default:
         $jsonSaida = json_decode(json_encode(
         array("status" => "400",
@@ -134,6 +142,10 @@ if ($metodo=="GET"){
 
       case "parametrosproduto":
         include 'financeira/parametrosproduto_excluir.php';
+      break;
+
+      case "finan":
+        include 'finan_excluir.php';
       break;
 
       default:

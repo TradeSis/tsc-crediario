@@ -85,8 +85,13 @@ if (
                                 <a class="nav-link <?php if ($tab == "financeira") {echo " active ";} ?>" 
                                 href="?tab=financeira" role="tab">Financeira</a>
                             </li>
-                        <?php }
-                           ?>
+                            <?php }
+                        if ($_SESSION['nivelMenu'] >= 4) { ?>
+                            <li class="nav-item mr-1">
+                                <a class="nav-link <?php if ($tab == "apoio") {echo " active ";} ?>" 
+                                href="?tab=apoio" role="tab" data-toggle="tooltip" data-placement="top" title="Apoio"><i class="bi bi-gear"></i> Apoio</a>
+                            </li>
+                        <?php } ?>
                     </ul>
 
                 </div>
@@ -126,7 +131,11 @@ if (
                         if ($_SESSION['nivelMenu'] >= 2) { ?>
                         <option value="<?php echo URLROOT ?>/crediario/?tab=financeira" 
                         <?php if ($getTab == "financeira") {echo " selected ";} ?>>Financeira</option>
-                        <?php } ?>
+                        <?php } 
+                        if ($_SESSION['nivelMenu'] >= 4) { ?>
+                            <option value="<?php echo URLROOT ?>/crediario/?tab=apoio" 
+                            <?php if ($getTab == "apoio") {echo " selected ";} ?>>Apoio</option>
+                            <?php } ?>
                     </select>
                 </div>
 
@@ -163,6 +172,13 @@ if (
 
             if ($tab == "boletos") {
                 $src = "boletagem/";
+            }
+
+            if ($tab == "apoio") {
+                $src = "apoio/";
+               /*  if (isset($_GET['stab'])) {
+                    $src = $src . "?stab=" . $_GET['stab'];
+                } */
             }
 
             if ($src !== "") {
