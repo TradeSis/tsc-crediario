@@ -20,7 +20,7 @@ $contas = array();
   } else {
     
     $contas = $contas["conteudoSaida"];  
-    $contas = $contas["boletagbol"];  
+    //$contas = $contas["boletagbol"];  
 
   }
 

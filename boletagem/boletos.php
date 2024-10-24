@@ -183,7 +183,7 @@ include_once(__DIR__ . '/../header.php');
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" onClick="fechaModal()" class="btn btn-secondary">Fechar</button>
                     </div>
                 </div>
             </div>
@@ -198,15 +198,15 @@ include_once(__DIR__ . '/../header.php');
 
     <script>
         var qtdParam = 10;
-        var prirecatu = null;
-        var ultrecatu = null;
+        var prilinha = null;
+        var ultlinha = null;
 
         $(document).ready(function() {
             var texto = $("#textocontador");
             texto.html('total: ' + 0);
         });
 
-        function buscar(situacao, tipodedata, dtInicial, dtFinal, CliFor, cpfcnpj, bolcod, bancod, NossoNumero, recatuParam, paginacao) {
+        function buscar(situacao, tipodedata, dtInicial, dtFinal, CliFor, cpfcnpj, bolcod, bancod, NossoNumero, linhaParam, botao) {
             if (dtInicial == '' || dtFinal == '') {
                 alert("Informe um período")
             } else {
@@ -250,21 +250,20 @@ include_once(__DIR__ . '/../header.php');
                         bolcod: bolcod,
                         bancod: bancod,
                         NossoNumero: NossoNumero,
-                        recatu: recatuParam,
+                        linha: linhaParam,
                         qtd: qtdParam,
-                        paginacao: paginacao
+                        botao: botao
 
                     },
                     success: function(msg) {
-                        var contadorItem = 0;
-                        var contadorVlCobrado = 0;
+                        //alert("segundo alert: " + msg);
+                        //console.log(msg);
                         var json = JSON.parse(msg);
+                        var boletagbol = json.boletagbol; 
                         var linha = "";
-                        for (var $i = 0; $i < json.length; $i++) {
-                            var object = json[$i];
+                        for (var $i = 0; $i < boletagbol.length; $i++) {
+                            var object = boletagbol[$i];
 
-                            contadorItem += 1;
-                            contadorVlCobrado += object.VlCobrado;
                             linha += "<tr>";
 
                             linha += "<td>" + object.bolcod + "</td>";
@@ -288,28 +287,28 @@ include_once(__DIR__ . '/../header.php');
                          $("#dados").html(linha);
 
                         $("#prevPage, #nextPage").show();
-                        if (recatuParam == null) {
-                            $("#prevPage").hide();
-                        }
-                        if (json.length < qtdParam) {
+                        if (boletagbol.length < qtdParam) {
                             $("#nextPage").hide();
                         }
                         
-                        if (json.length > 0) {
-                            prirecatu = json[0].recatu;
-                            ultrecatu = json[json.length - 1].recatu;
-                            if (json[0].etbcod == 1) {
-                                prirecatu = null;
-                                $("#prevPage").hide();
-                            }
+                        if (boletagbol.length > 0) {
+                            prilinha = boletagbol[0].linha;
+                            ultlinha = boletagbol[boletagbol.length - 1].linha;
+                        }
+                        if (prilinha == 1) {
+                            prilinha = null;
+                            $("#prevPage").hide();
                         }
 
-                        var texto = $("#textocontador");
-                        var VlCobrado = contadorVlCobrado.toLocaleString('pt-BR', {
-                            style: 'currency',
-                            currency: 'BRL'
-                        });
-                        texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlCobrado);
+                        if (linhaParam == null) {
+                            $("#prevPage").hide();
+
+                            var totalData = json.total[0]; 
+                            var texto = $("#textocontador");
+                            var contadorVlTotal = parseFloat(totalData.vltotal);
+                            var VlTotal = contadorVlTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                            texto.html('Total: ' + totalData.qtdRegistros + ' | Valor Cobrado: ' + VlTotal);
+                        }
                     }
                 });
             }
@@ -330,11 +329,11 @@ include_once(__DIR__ . '/../header.php');
         });
 
         $("#prevPage").click(function () {
-            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), prirecatu, "prev");
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), prilinha, "prev");
         });
         
         $("#nextPage").click(function () {
-            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), ultrecatu, "next");
+            buscar($("#situacao").val(), $("#tipodedata").val(), $("#dtInicial").val(), $("#dtFinal").val(), $("#CliFor").val(), $("#cpfcnpj").val(), $("#bolcod").val(), $("#bancod").val(), $("#NossoNumero").val(), ultlinha, "next");
         });
 
         $("#filtroentrada").click(function() {
@@ -410,6 +409,8 @@ include_once(__DIR__ . '/../header.php');
             });
         });
 
+        
+
         function limparPeriodo() {
             $('#filtroentradaModal').modal('hide');
             $("#CliFor").val('');
@@ -463,7 +464,7 @@ include_once(__DIR__ . '/../header.php');
                         texto.html(json['descricaoStatus']);
                         $('.alertMesg').addClass('alert-danger');
                         $('.alertMesg').removeClass('alert-success');
-                    } else {
+                    } if (json['status'] == 200) {
                         let textocomlink = json['descricaoStatus'].split(" ");
                         let link = textocomlink[3].split("/");
                         var texto = $("#mensagemCSV");
@@ -476,6 +477,12 @@ include_once(__DIR__ . '/../header.php');
                 }
             });
         });
+
+        function fechaModal() {
+            $('.alertMesg').removeClass('alert-danger alert-success').html("");
+            $('#linkContainer').html("");
+            $('#csvModal').modal('hide');
+        }
 
         // Ao iniciar o programa, inseri os valores de data nos inputs. 
         $(document).ready(function() {

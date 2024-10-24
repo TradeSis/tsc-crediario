@@ -17,22 +17,36 @@ def temp-table ttentrada no-undo serialize-name "dadosEntrada"   /* JSON ENTRADA
     field dtFinal    like boletagbol.DtEmissao
     field situacao    like boletagbol.situacao
     field tipodedata    as char
-    field recatu  AS recid
+    field linha  AS int
     field qtd  AS int
-    field paginacao  AS char.
+    field botao  AS char.
 
 def TEMP-TABLE ttboletagbol  no-undo serialize-name "boletagbol"  /* JSON SAIDA */
-    like boletagbol
-    FIELD cpfcnpj           AS CHAR
-    FIELD nomeCliente       AS CHAR
-    FIELD situacaoDescricao      AS CHAR
-    FIELD recatu  AS recid 
-    index bolcod is unique primary bolcod asc.
+    field bolcod    like boletagbol.bolcod
+    field CliFor    like boletagbol.CliFor
+    field Documento    like boletagbol.Documento
+    field bancod    like boletagbol.bancod
+    field DtEmissao    like boletagbol.DtEmissao
+    field DtVencimento    like boletagbol.DtVencimento
+    field VlCobrado    like boletagbol.VlCobrado
+    field DtPagamento    like boletagbol.DtPagamento
+    field DtBaixa    like boletagbol.DtBaixa
+    field situacao    like boletagbol.situacao
+    field ctmcod    like boletagbol.ctmcod
+    field etbpag    like boletagbol.etbpag
+    field cpfcnpj           AS CHAR
+    field nomeCliente       AS CHAR
+    field situacaoDescricao      AS CHAR
+    field linha  AS int. 
 
 def temp-table ttboletagparcela  no-undo serialize-name "boletagparcela"
     like boletagparcela.
 
-def dataset conteudoSaida for ttboletagbol, ttboletagparcela
+def temp-table tttotal  no-undo serialize-name "total"  /* JSON SAIDA */
+    field vltotal   as char
+    field qtdRegistros   as char.
+
+def dataset conteudoSaida for ttboletagbol, ttboletagparcela, tttotal
     DATA-RELATION for1 FOR ttboletagbol, ttboletagparcela         
         RELATION-FIELDS(ttboletagbol.bolcod,ttboletagparcela.bolcod) NESTED.
     
@@ -44,7 +58,7 @@ def temp-table ttsaida  no-undo serialize-name "conteudoSaida"  /* JSON SAIDA CA
 def var vclicod like ttentrada.clifor.
 
 def query q-leitura for boletagbol scrolling.
-def var vrecatu as recid.
+def var vlinha as int.
 def var vqtd as int.
 
 hEntrada = temp-table ttentrada:HANDLE.
@@ -62,55 +76,43 @@ if NOT AVAIL ttentrada then do:
     return.    
 end.
 
-vrecatu = ttentrada.recatu.
+vlinha = ttentrada.linha.
 vqtd = ttentrada.qtd.
+
+
+vclicod = ?.
+IF ttentrada.cpfcnpj <> ? 
+THEN DO:
+    FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
+    IF avail clien
+    then vclicod = clien.clicod.
+    
+END.
+IF ttentrada.CliFor <> ? 
+THEN DO:
+    vclicod = ttentrada.CliFor.
+END.
+
+
 
 
 IF ttentrada.bolcod <> ? 
 THEN DO:
-    find boletagbol where 
-        boletagbol.bolcod = ttentrada.bolcod 
-        NO-LOCK no-error.
-    
-    if avail boletagbol
-    then do:
-        create ttboletagbol.
-        BUFFER-COPY boletagbol TO ttboletagbol.
-        
-        run bolClien.
-    end.
+    open query q-leitura for each boletagbol 
+    where boletagbol.bolcod = ttentrada.bolcod 
+    NO-LOCK.
 END.
 else do:
 
     if ttentrada.NossoNumero <> ? and
        ttentrada.bancod      <> ?
     then do:
-        find boletagbol where boletagbol.bancod = ttentrada.bancod and 
-                              boletagbol.NossoNumero = ttentrada.NossoNumero
-            NO-LOCK no-error.
-        if avail boletagbol
-        then do:
-            create ttboletagbol.
-            BUFFER-COPY boletagbol TO ttboletagbol.
-
-            run bolClien.
-        end.
-
+        open query q-leitura for each boletagbol 
+        where boletagbol.bancod = ttentrada.bancod  
+        and   boletagbol.NossoNumero = ttentrada.NossoNumero 
+        NO-LOCK.
     end.
     else do:
-        vclicod = ?.
-        IF ttentrada.cpfcnpj <> ? 
-        THEN DO:
-            FIND clien WHERE clien.ciccgc = ttentrada.cpfcnpj NO-LOCK NO-ERROR.
-            IF avail clien
-            then vclicod = clien.clicod.
-            
-        END.
-        IF ttentrada.CliFor <> ? 
-        THEN DO:
-            vclicod = ttentrada.CliFor.
-        END.
-              
         if ttentrada.tipodedata = "Emissao"
         then do:
             open query q-leitura for each boletagbol where 
@@ -119,16 +121,6 @@ else do:
                 (if ttentrada.bancod <> ? 
                 then boletagbol.bancod = ttentrada.bancod else TRUE)
                 no-lock.
-
-                IF vrecatu <> ? THEN DO:
-                    reposition q-leitura to recid vrecatu no-error.
-                    get next  q-leitura.  
-                    if not avail boletagbol
-                    then do:
-                        vrecatu = ?.
-                        return.
-                    end.
-                END.
         end.
         if ttentrada.tipodedata = "Pagamento"
         then do:
@@ -137,16 +129,6 @@ else do:
                 boletagbol.dtpagamento >= ttentrada.dtInicial and
                 boletagbol.dtpagamento <= ttentrada.dtFinal
                 no-lock.
-
-                IF vrecatu <> ? THEN DO:
-                    reposition q-leitura to recid vrecatu no-error.
-                    get next  q-leitura.  
-                    if not avail boletagbol
-                    then do:
-                        vrecatu = ?.
-                        return.
-                    end.
-                END.
         end.
         if ttentrada.tipodedata = "Baixa"
         then do:
@@ -155,37 +137,57 @@ else do:
                 boletagbol.dtbaixa >= ttentrada.dtInicial and
                 boletagbol.dtbaixa <= ttentrada.dtFinal
                 no-lock.
-
-                IF vrecatu <> ? THEN DO:
-                    reposition q-leitura to recid vrecatu no-error.
-                    get next  q-leitura.  
-                    if not avail boletagbol
-                    then do:
-                        vrecatu = ?.
-                        return.
-                    end.
-                END.
         end.
-
-        REPEAT:
-            IF ttentrada.paginacao = "prev" THEN
-                get prev  q-leitura. 
-            ELSE
-                get next  q-leitura. 
-            IF NOT avail boletagbol THEN LEAVE.
-            
-            if ttentrada.bancod <> ? THEN IF boletagbol.bancod <> ttentrada.bancod then next.                
-            if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
-
-            create ttboletagbol.
-            BUFFER-COPY boletagbol TO ttboletagbol.
-            
-            run bolClien.
-            vqtd = vqtd - 1.
-            IF vqtd <= 0 THEN LEAVE.
-        END.
     end.
 END.
+
+
+if vlinha = ? or vlinha = 0 then vlinha = 1.
+
+if ttentrada.botao = "prev"
+then do:
+    vlinha = vlinha - vqtd .
+    if vlinha > 0
+    then do:
+        reposition q-leitura to row vlinha no-error.
+    end.
+    else do:
+        vlinha = 1.
+    end.
+end.
+else do:
+    if vlinha > 1
+    then do:
+        reposition q-leitura to row vlinha no-error.
+        get next q-leitura.
+        vlinha = vlinha + 1.
+    end.
+end.
+
+REPEAT:
+    get next q-leitura.
+    if not avail boletagbol then do:
+        vlinha = ?.
+        leave.
+    end.
+
+    if ttentrada.bancod <> ? THEN IF boletagbol.bancod <> ttentrada.bancod then next.                
+    if vclicod <> ? then if boletagbol.clifor <> vclicod then next.
+    
+    create ttboletagbol.
+    buffer-copy boletagbol to ttboletagbol.
+    ttboletagbol.linha = vlinha.
+
+    vlinha = vlinha + 1.
+
+    run bolClien.
+    vqtd = vqtd - 1.
+    IF vqtd <= 0 THEN LEAVE.
+
+
+END.
+
+
 
 find first ttboletagbol no-error.
 
@@ -201,6 +203,30 @@ then do:
     message string(vlcSaida).
     return.
 end.
+
+/* procura total*/
+if ttentrada.linha = ? and ttentrada.bolcod = ? 
+then do:
+    def var qtdtotal as int.
+    def var qtdvltotal as decimal.
+
+    reposition q-leitura to row 1 no-error.
+
+    REPEAT:
+        get next  q-leitura. 
+        if not avail boletagbol then do:
+            leave.
+        end.
+        qtdtotal = qtdtotal + 1.
+        qtdvltotal = qtdvltotal + boletagbol.VlCobrado.
+    END.
+
+    create tttotal.
+    tttotal.qtdRegistros = string(qtdtotal).
+    tttotal.vltotal = trim(string(qtdvltotal,"->>>>>>>>>>>>>>>>>>9.99")). 
+end. 
+
+
 
 hsaida  = dataset conteudoSaida:handle.
 

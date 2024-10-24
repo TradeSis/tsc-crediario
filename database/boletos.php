@@ -45,9 +45,9 @@ if (isset($_GET['operacao'])) {
 		$bolcod = isset($_POST["bolcod"]) && $_POST["bolcod"] !== "" ? $_POST["bolcod"] : null;
 		$bancod = isset($_POST["bancod"]) && $_POST["bancod"] !== "" ? $_POST["bancod"] : null;
 		$NossoNumero = isset($_POST["NossoNumero"]) && $_POST["NossoNumero"] !== "" ? $_POST["NossoNumero"] : null;
-		$recatu = isset($_POST["recatu"])  && $_POST["recatu"] !== "" && $_POST["recatu"] !== "null" ? $_POST["recatu"]  : null;
+		$linha = isset($_POST["linha"])  && $_POST["linha"] !== "" && $_POST["linha"] !== "null" ? $_POST["linha"]  : null;
 		$qtd = isset($_POST["qtd"])  && $_POST["qtd"] !== "" && $_POST["qtd"] !== "null" ? $_POST["qtd"]  : null;
-		$paginacao = isset($_POST["paginacao"])  && $_POST["paginacao"] !== "" && $_POST["paginacao"] !== "null" ? $_POST["paginacao"]  : "next";
+		$botao = isset($_POST["botao"])  && $_POST["botao"] !== "" && $_POST["botao"] !== "null" ? $_POST["botao"]  : "next";
 
 		$apiEntrada = array("dadosEntrada" => array(array(
 			'situacao' => $situacao,
@@ -59,9 +59,9 @@ if (isset($_GET['operacao'])) {
 			'bolcod' => $bolcod,
 			'bancod' => $bancod,
 			'NossoNumero' => $NossoNumero,
-			'recatu' => $recatu,
+			'linha' => $linha,
 			'qtd' => $qtd,
-			'paginacao' => $paginacao
+			'botao' => $botao
 		)));
 		
 		$boletos = chamaAPI(null, '/crediario/boletos', json_encode($apiEntrada), 'GET');
@@ -109,9 +109,9 @@ if (isset($_GET['operacao'])) {
 		$dtfim = isset($_POST["dtfim"]) && $_POST["dtfim"] !== "" ? $_POST["dtfim"] : null;
 		$clicod = isset($_POST["clicod"]) && $_POST["clicod"] !== "" ? $_POST["clicod"] : null;
 		$cpfcnpj = isset($_POST["cpfcnpj"]) && $_POST["cpfcnpj"] !== "" ? $_POST["cpfcnpj"] : null;
-		$recatu = isset($_POST["recatu"])  && $_POST["recatu"] !== "" && $_POST["recatu"] !== "null" ? $_POST["recatu"]  : null;
+		$linha = isset($_POST["linha"])  && $_POST["linha"] !== "" && $_POST["linha"] !== "null" ? $_POST["linha"]  : null;
 		$qtd = isset($_POST["qtd"])  && $_POST["qtd"] !== "" && $_POST["qtd"] !== "null" ? $_POST["qtd"]  : null;
-		$paginacao = isset($_POST["paginacao"])  && $_POST["paginacao"] !== "" && $_POST["paginacao"] !== "null" ? $_POST["paginacao"]  : "next";
+		$botao = isset($_POST["botao"])  && $_POST["botao"] !== "" && $_POST["botao"] !== "null" ? $_POST["botao"]  : "next";
 
 		$apiEntrada = 
 		array("dadosEntrada" => array(
@@ -125,18 +125,13 @@ if (isset($_GET['operacao'])) {
 				'dtfim' => $dtfim,
 				'clicod' => $clicod,
 				'cpfcnpj' => $cpfcnpj,
-				'recatu' => $recatu,
+				'linha' => $linha,
 				'qtd' => $qtd,
-				'paginacao' => $paginacao
+				'botao' => $botao
 			)
 		));
 		$_SESSION['filtro_boletagem'] = $apiEntrada['dadosEntrada'][0];
 		$boletagem = chamaAPI(null, '/crediario/assinatura', json_encode($apiEntrada), 'GET');
-		if (isset ($boletagem["contrassin"])) {
-			if (isset ($boletagem["contrassin"])) {
-				$boletagem = $boletagem["contrassin"]; // TRATAMENTO DO RETORNO
-			}
-		}
 		echo json_encode($boletagem);
 		return $boletagem;
 	}

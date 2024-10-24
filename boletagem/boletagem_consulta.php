@@ -185,7 +185,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" onClick="fechaModal()" class="btn btn-secondary">Fechar</button>
                     </div>
                 </div>
             </div>
@@ -201,8 +201,8 @@ if (isset($_SESSION['filtro_boletagem'])) {
 
     <script>
         var qtdParam = 10;
-        var prirecatu = null;
-        var ultrecatu = null;
+        var prilinha = null;
+        var ultlinha = null;
 
         buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), null, null);
 
@@ -230,7 +230,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
             $('#periodoModal').modal('hide');
         };
 
-        function buscar(contnum, dtbol, etbcod, dtini, dtfim, clicod, cpfcnpj, recatuParam, paginacao) {
+        function buscar(contnum, dtbol, etbcod, dtini, dtfim, clicod, cpfcnpj, linhaParam, botao) {
             var boletavel = $("#boletavel").is(':checked');
             //alert (buscar);
             var h6Element = $("#filtroh6 h6");
@@ -263,24 +263,21 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     dtfim: dtfim,
                     clicod: clicod,
                     cpfcnpj: cpfcnpj,
-                    recatu: recatuParam,
+                    linha: linhaParam,
                     qtd: qtdParam,
-                    paginacao: paginacao
+                    botao: botao
                 },
                 success: function (msg) {
                     //alert("segundo alert: " + msg);
                     //console.log(msg);
-                    var contadorItem = 0;
-                    var contadorVlTotal = 0;
                     var json = JSON.parse(msg);
+                    var contrassin = json.contrassin; 
                     var linha = "";
-                    for (var $i = 0; $i < json.length; $i++) {
-                        var object = json[$i];
-
-                        contadorItem += 1;
-                        contadorVlTotal += parseFloat(object.vltotal);
+                    for (var $i = 0; $i < contrassin.length; $i++) {
+                        var object = contrassin[$i];
 
                         linha = linha + "<tr>";
+                        
                         linha = linha + "<td>" + object.etbcod + "</td>";
                         linha = linha + "<td>" + object.contnum + "</td>";
                         linha = linha + "<td>" + object.clicod + "</td>";
@@ -300,25 +297,28 @@ if (isset($_SESSION['filtro_boletagem'])) {
                     $("#dados").html(linha);
 
                     $("#prevPage, #nextPage").show();
-                    if (recatuParam == null) {
-                        $("#prevPage").hide();
-                    }
-                    if (json.length < qtdParam) {
+                    if (contrassin.length < qtdParam) {
                         $("#nextPage").hide();
                     }
                     
-                    if (json.length > 0) {
-                        prirecatu = json[0].recatu;
-                        ultrecatu = json[json.length - 1].recatu;
-                        if (json[0].etbcod == 1) {
-                            prirecatu = null;
-                            $("#prevPage").hide();
-                        }
+                    if (contrassin.length > 0) {
+                        prilinha = contrassin[0].linha;
+                        ultlinha = contrassin[contrassin.length - 1].linha;
+                    }
+                    if (prilinha == 1) {
+                        prilinha = null;
+                        $("#prevPage").hide();
                     }
 
-                    var texto = $("#textocontador");
-                    var VlTotal = contadorVlTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    texto.html('Total: ' + contadorItem + ' ' + ' | ' + ' ' + 'Valor Cobrado: ' + VlTotal);
+                    if (linhaParam == null) {
+                        $("#prevPage").hide();
+
+                        var totalData = json.total[0]; 
+                        var texto = $("#textocontador");
+                        var contadorVlTotal = parseFloat(totalData.vltotal);
+                        var VlTotal = contadorVlTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                        texto.html('Total: ' + totalData.qtdRegistros + ' | Valor Cobrado: ' + VlTotal);
+                    }
                 }
             });
         }
@@ -359,11 +359,11 @@ if (isset($_SESSION['filtro_boletagem'])) {
         });
 
         $("#prevPage").click(function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), prirecatu, "prev");
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), prilinha, "prev");
         });
         
         $("#nextPage").click(function () {
-            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultrecatu, "next");
+            buscar($("#contnum").val(), $("#dtbol").val(),$("#etbcod").val(), $("#dtini").val(), $("#dtfim").val(), $("#clicod").val(), $("#cpfcnpj").val(), ultlinha, "next");
         });
         
         $(document).on('click', '.boletar-btn', function () {
@@ -416,7 +416,7 @@ if (isset($_SESSION['filtro_boletagem'])) {
                         texto.html(json['descricaoStatus']);
                         $('.alertMesg').addClass('alert-danger');
                         $('.alertMesg').removeClass('alert-success');
-                    } else {
+                    } if (json['status'] == 200) {
                         let textocomlink = json['descricaoStatus'].split(" ");
                         let link = textocomlink[3].split("/");
                         var texto = $("#mensagemCSV");
@@ -430,6 +430,13 @@ if (isset($_SESSION['filtro_boletagem'])) {
             });
         });
 
+
+        function fechaModal() {
+            $('.alertMesg').removeClass('alert-danger alert-success').html("");
+            $('#linkContainer').html("");
+            $('#csvModal').modal('hide');
+        }
+        
         function formatarData(data) {
             var parts = data.split('-');
             var year = parseInt(parts[0], 10);
