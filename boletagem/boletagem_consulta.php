@@ -114,8 +114,8 @@ if (isset($_SESSION['filtro_boletagem'])) {
             </table>
         </div>
         <div class="fixed-bottom d-flex justify-content-between align-items-center" style="padding: 10px; background-color: #f8f9fa;">
-            <h6 id="textocontador" style="color: #13216A;"></h6>
-            <div>
+            <h6 id="textocontador" style="color: #13216A; margin-right: auto;"></h6>
+            <div class="d-flex justify-content-center w-100">
                 <button id="prevPage" class="btn btn-primary mr-2" style="display:none;">Anterior</button>
                 <button id="nextPage" class="btn btn-primary" style="display:none;">Proximo</button>
             </div>
