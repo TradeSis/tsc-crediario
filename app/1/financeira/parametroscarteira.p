@@ -45,14 +45,18 @@ for each cobparam where
     create ttcobparam.
     BUFFER-COPY cobparam TO ttcobparam.
     
-    find cobra of cobparam no-lock no-error.
-    if avail cobra
-    then ttcobparam.cobnom = cobra.cobnom.
-    
-    find clase WHERE clase.clacod = cobparam.clacod no-lock no-error.
-    if avail cobra
-    then ttcobparam.clanome = clase.clanome.
-
+    if cobparam.cobcod <> ?
+    then do:
+        find cobra of cobparam no-lock no-error.
+        if avail cobra
+        then ttcobparam.cobnom = cobra.cobnom.
+    end.
+    if cobparam.clacod <> ?
+    then do:
+        find clase WHERE clase.clacod = cobparam.clacod no-lock no-error.
+        if avail clase
+        then ttcobparam.clanome = clase.clanome.
+    end.
 end. 
 
 
