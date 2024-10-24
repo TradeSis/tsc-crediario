@@ -45,10 +45,10 @@ include_once(__DIR__ . '/../header.php');
                     </div>
                     <div class="modal-body pt-0">
                         <form method="post" id="inserirForm">
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label>Tipo Operação</label>
-                                    <select class="form-control" name="tipoOperacao" required>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">Tipo Operação</label>
+                                    <select class="form-select ts-input" name="tipoOperacao" required>
                                         <option value="">Selecione</option>
                                         <option value="CDC">CDC</option>
                                         <option value="CSLOG">CSLOG</option>
@@ -58,29 +58,29 @@ include_once(__DIR__ . '/../header.php');
                                         <option value="RECORRENCIA">RECORRENCIA</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Carteira</label>
-                                    <input type="number" class="form-control text-end" name="cobcod" required>
+                                <div class="col">
+                                    <label class="form-label ts-label">Carteira</label>
+                                    <input type="number" class="form-control ts-input ts-input text-end" name="cobcod" required>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label>Vlr Parc</label>
-                                    <input type="number" class="form-control text-end" name="valMinParc" step="0.01">
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">Vlr Parc</label>
+                                    <input type="number" class="form-control ts-input text-end" name="valMinParc" step="0.01">
                                 </div>
-                                <div class="form-group col">
-                                    <label>Qtd Parc</label>
-                                    <input type="number" class="form-control text-end" name="qtdMinParc">
+                                <div class="col">
+                                    <label class="form-label ts-label">Qtd Parc</label>
+                                    <input type="number" class="form-control ts-input text-end" name="qtdMinParc">
                                 </div>
-                                <div class="form-group col">
-                                    <label>Valor Acrescismo</label>
-                                    <input type="number" class="form-control text-end" name="valorMinimoAcrescimoTotal" step="0.01">
+                                <div class="col">
+                                    <label class="form-label ts-label">Valor Acrescismo</label>
+                                    <input type="number" class="form-control ts-input text-end" name="valorMinimoAcrescimoTotal" step="0.01">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-4">
-                                    <label>Mercadológico</label>
-                                    <input type="number" class="form-control text-end" name="clacod" value="0">
+                            <div class="row mt-2">
+                                <div class="col-4">
+                                    <label class="form-label ts-label">Mercadológico</label>
+                                    <input type="number" class="form-control ts-input text-end" name="clacod" value="0">
                                 </div>
                             </div>
 
@@ -104,9 +104,9 @@ include_once(__DIR__ . '/../header.php');
                     <div class="modal-body pt-0">
                         <form method="post" id="alterarForm">
                             <div class="row">
-                                <div class="form-group col">
-                                    <label>Tipo Operação</label>
-                                    <select class="form-control ts-displayDisable" name="tipoOperacao" id="tipoOperacao">
+                                <div class="col">
+                                    <label class="form-label ts-label">Tipo Operação</label>
+                                    <select class="form-select ts-input ts-displayDisable" name="tipoOperacao" id="tipoOperacao">
                                         <option value="">Selecione</option>
                                         <option value="CDC">CDC</option>
                                         <option value="CSLOG">CSLOG</option>
@@ -116,29 +116,29 @@ include_once(__DIR__ . '/../header.php');
                                         <option value="RECORRENCIA">RECORRENCIA</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Carteira</label>
-                                    <input type="number" class="form-control text-end" name="cobcod" id="cobcod" readonly>
+                                <div class="col">
+                                    <label class="form-label ts-label">Carteira</label>
+                                    <input type="number" class="form-control ts-input text-end" name="cobcod" id="cobcod" readonly>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col">
-                                    <label>Vlr Parc</label>
-                                    <input type="number" class="form-control text-end" name="valMinParc" id="valMinParc" step="0.01">
+                                <div class="col">
+                                    <label class="form-label ts-label">Vlr Parc</label>
+                                    <input type="number" class="form-control ts-input text-end" name="valMinParc" id="valMinParc" step="0.01">
                                 </div>
-                                <div class="form-group col">
-                                    <label>Qtd Parc</label>
-                                    <input type="number" class="form-control text-end" name="qtdMinParc" id="qtdMinParc">
+                                <div class="col">
+                                    <label class="form-label ts-label">Qtd Parc</label>
+                                    <input type="number" class="form-control ts-input text-end" name="qtdMinParc" id="qtdMinParc">
                                 </div>
-                                <div class="form-group col">
-                                    <label>Valor Acrescismo</label>
-                                    <input type="number" class="form-control text-end" name="valorMinimoAcrescimoTotal" id="valorMinimoAcrescimoTotal" step="0.01">
+                                <div class="col">
+                                    <label class="form-label ts-label">Valor Acrescismo</label>
+                                    <input type="number" class="form-control ts-input text-end" name="valorMinimoAcrescimoTotal" id="valorMinimoAcrescimoTotal" step="0.01">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-4">
-                                    <label>Mercadológico</label>
-                                    <input type="number" class="form-control text-end" name="clacod" id="clacod">
+                                <div class="col-4">
+                                    <label class="form-label ts-label">Mercadológico</label>
+                                    <input type="number" class="form-control ts-input text-end" name="clacod" id="clacod">
                                 </div>
                             </div>
 
@@ -162,13 +162,13 @@ include_once(__DIR__ . '/../header.php');
                     <div class="modal-body pt-0">
                         <form method="post" id="excluirForm">
                             <div class="row">
-                                <div class="form-group col">
-                                    <label>Tipo Operação</label>
-                                    <input type="text" class="form-control text-end" name="tipoOperacao" id="exc_tipoOperacao" readonly>
+                                <div class="col">
+                                    <label class="form-label ts-label">Tipo Operação</label>
+                                    <input type="text" class="form-control ts-input text-end" name="tipoOperacao" id="exc_tipoOperacao" readonly>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Carteira</label>
-                                    <input type="number" class="form-control text-end" name="cobcod" id="exc_cobcod" readonly>
+                                <div class="col">
+                                    <label class="form-label ts-label">Carteira</label>
+                                    <input type="number" class="form-control ts-input text-end" name="cobcod" id="exc_cobcod" readonly>
                                 </div>
                             </div>
 

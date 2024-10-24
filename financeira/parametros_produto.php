@@ -45,10 +45,10 @@ include_once(__DIR__ . '/../header.php');
                     </div>
                     <div class="modal-body pt-0">
                         <form method="post" id="inserirForm">
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label>Tipo Operação</label>
-                                    <select class="form-control" name="tipoOperacao" required>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">Tipo Operação</label>
+                                    <select class="form-select ts-input" name="tipoOperacao" required>
                                         <option value="">Selecione</option>
                                         <option value="CDC">CDC</option>
                                         <option value="NOVACAO">NOVACAO</option>
@@ -57,31 +57,31 @@ include_once(__DIR__ . '/../header.php');
                                         <option value="EP DEPOSITO">EP DEPOSITO</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Código Produto</label>
-                                    <input type="number" class="form-control text-end" name="codpro" required>
+                                <div class="col">
+                                    <label class="form-label ts-label">Código Produto</label>
+                                    <input type="number" class="form-control ts-input text-end" name="codpro" required>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label>Assinado Eletronico</label>
-                                    <select class="form-control" name="assEletronico">
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">Assinado Eletronico</label>
+                                    <select class="form-select ts-input" name="assEletronico">
                                         <option value="SIM">Sim</option>
                                         <option value="NAO">Não</option>
                                         <option value="TODOS">TODOS</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Boletado</label>
-                                    <select class="form-control" name="boletado">
+                                <div class="col">
+                                    <label class="form-label ts-label">Boletado</label>
+                                    <select class="form-select ts-input" name="boletado">
                                         <option value="SIM">Sim</option>
                                         <option value="NAO">Não</option>
                                         <option value="TODOS">TODOS</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Acrescimo</label>
-                                    <input type="number" class="form-control text-end" name="vlrMinAcrescimo" step="0.01">
+                                <div class="col">
+                                    <label class="form-label ts-label">Acrescimo</label>
+                                    <input type="number" class="form-control ts-input text-end" name="vlrMinAcrescimo" step="0.01">
                                 </div>
                             </div>
 
@@ -104,10 +104,10 @@ include_once(__DIR__ . '/../header.php');
                     </div>
                     <div class="modal-body pt-0">
                         <form method="post" id="alterarForm">
-                        <div class="row">
-                                <div class="form-group col">
-                                    <label>Tipo Operação</label>
-                                    <select class="form-control ts-displayDisable" name="tipoOperacao" id="tipoOperacao">
+                        <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">Tipo Operação</label>
+                                    <select class="form-select ts-input ts-displayDisable" name="tipoOperacao" id="tipoOperacao">
                                         <option value="">Selecione</option>
                                         <option value="CDC">CDC</option>
                                         <option value="NOVACAO">NOVACAO</option>
@@ -116,31 +116,31 @@ include_once(__DIR__ . '/../header.php');
                                         <option value="EP DEPOSITO">EP DEPOSITO</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Código Produto</label>
-                                    <input type="number" class="form-control text-end" name="codpro" id="codpro" readonly>
+                                <div class="col">
+                                    <label class="form-label ts-label">Código Produto</label>
+                                    <input type="number" class="form-control ts-input text-end" name="codpro" id="codpro" readonly>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label>Assinado Eletronico</label>
-                                    <select class="form-control" name="assEletronico" id="assEletronico">
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">Assinado Eletronico</label>
+                                    <select class="form-select ts-input" name="assEletronico" id="assEletronico">
                                         <option value="SIM">Sim</option>
                                         <option value="NAO">Não</option>
                                         <option value="TODOS">TODOS</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Boletado</label>
-                                    <select class="form-control" name="boletado" id="boletado">
+                                <div class="col">
+                                    <label class="form-label ts-label">Boletado</label>
+                                    <select class="form-select ts-input" name="boletado" id="boletado">
                                         <option value="SIM">Sim</option>
                                         <option value="NAO">Não</option>
                                         <option value="TODOS">TODOS</option>
                                     </select>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Acrescimo</label>
-                                    <input type="number" class="form-control text-end" name="vlrMinAcrescimo" id="vlrMinAcrescimo" step="0.01">
+                                <div class="col">
+                                    <label class="form-label ts-label">Acrescimo</label>
+                                    <input type="number" class="form-control ts-input text-end" name="vlrMinAcrescimo" id="vlrMinAcrescimo" step="0.01">
                                 </div>
                             </div>
 
@@ -163,14 +163,14 @@ include_once(__DIR__ . '/../header.php');
                     </div>
                     <div class="modal-body pt-0">
                         <form method="post" id="excluirForm">
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label>Tipo Operação</label>
-                                    <input type="text" class="form-control text-end" name="tipoOperacao" id="exc_tipoOperacao" readonly>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <label class="form-label ts-label">Tipo Operação</label>
+                                    <input type="text" class="form-control ts-input text-end" name="tipoOperacao" id="exc_tipoOperacao" readonly>
                                 </div>
-                                <div class="form-group col">
-                                    <label>Código Produto</label>
-                                    <input type="number" class="form-control text-end" name="codpro" id="exc_codpro" readonly>
+                                <div class="col">
+                                    <label class="form-label ts-label">Código Produto</label>
+                                    <input type="number" class="form-control ts-input text-end" name="codpro" id="exc_codpro" readonly>
                                 </div>
                             </div>
 
